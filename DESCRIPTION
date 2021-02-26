@@ -28,7 +28,6 @@ Imports:
     rfishbase,
     rgdal,
     rgeos,
-    rJava,
     rnaturalearth,
     rnaturalearthdata,
     roxygen2,
@@ -36,8 +35,6 @@ Imports:
     shape,
     spatial,
     splines,
-    tabulizer,
-    tabulizerjars,
     tidyverse,
     units,
     usethis,
@@ -54,6 +51,10 @@ Imports:
     utilities,
     FishLife,
     ecodata
+Suggests:
+    rJava,
+    tabulizer,
+    tabulizerjars
 Remotes:
     andybeet/dbutils,
     NOAA-EDAB/assessmentdata,
