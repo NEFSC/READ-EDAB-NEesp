@@ -4,7 +4,8 @@
 #' 
 #' @param data A data frame or tibble
 #' @param species_col The name of the column with species names
-#' @return The data frame, with any instances of "Goosefish" changed to "Monkfish"
+#' @return A tibble
+#' @export
 
 update_species_names <- function(data, species_col){
   
@@ -28,6 +29,7 @@ update_species_names <- function(data, species_col){
 #' @param x A data frame or tibble
 #' @param col_names The column names to display on the output. Defaults to the column names of the data frame.
 #' @return An html table
+#' @export
 
 make_html_table <- function(x, col_names = colnames(x)){
   if(is.null(x) == FALSE){
@@ -56,6 +58,7 @@ make_html_table <- function(x, col_names = colnames(x)){
 #' @param x A data frame or tibble
 #' @param col_names The column names to display on the output. Defaults to the column names of the data frame.
 #' @return An html table
+#' @export
 
 make_html_table_thin <- function(x, col_names){
   if(is.null(x) == FALSE){
@@ -83,7 +86,8 @@ make_html_table_thin <- function(x, col_names){
 #' This function changes `character` columns to class `factor` for better rendering as an html table with the `DT` package.
 #' 
 #' @param x A data frame or tibble
-#' @return The data frame, with `character` columns reclassified as `factor`
+#' @return A data frame
+#' @export
 
 character_to_factor <- function(x){
   if(is.null(x) == FALSE){

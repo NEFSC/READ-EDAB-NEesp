@@ -1,6 +1,14 @@
-#safe_model <- purrr::safely(coef(summary(lm)))
+#' Prepares data for correlation analysis
+#'
+#' This function prepares stock data and `ecodata` data for correlation analysis and returns linear correlation p-values. A helper function for `plot_correlation`, `correlation_data`, and `correlation_summary`.
+#' 
+#' @param stock_data Data about a single stock (one species, one region) subsetted from `assessmentdata::stockAssessmentData`
+#' @param eco_data A data table from `ecodata`. May require pre-processing to standardize format.
+#' @param lag_data The number of years to lag the correlation by. Defaults to 0.
+#' @return A tibble
+#' @export
 
-data_prep <- function(stock_data, eco_data, lag_data){
+data_prep <- function(stock_data, eco_data, lag_data = 0){
   stock2 <- stock_data %>%
     dplyr::mutate(Time = as.numeric(Time) - lag_data,
                   facet = paste(Metric, Description, Units, sep = "\n")) %>% 
@@ -38,7 +46,17 @@ data_prep <- function(stock_data, eco_data, lag_data){
   return(data)
 }
 
-plot_correlation <- function(stock, eco, lag){
+#' Plots correlations between stock data and indicators
+#'
+#' This function plots correlations between stock data and `ecodata` data.
+#' 
+#' @param stock Data about a single stock (one species, one region) subsetted from `assessmentdata::stockAssessmentData`
+#' @param eco A data table from `ecodata`. May require pre-processing to standardize format.
+#' @param lag The number of years to lag the correlation by. Defaults to 0.
+#' @return A ggplot
+#' @export
+
+plot_correlation <- function(stock, eco, lag = 0){
   # both data sets must have a column called "Time"
   # the stock data should be from assessmentdata::stockAssessmentData
   # the eco data numeric values should be in a column called "Val"
@@ -53,30 +71,40 @@ plot_correlation <- function(stock, eco, lag){
     my_colors <- c("black", "#B2292E", "gray")
     names(my_colors) <- c("FALSE", "TRUE", "NA")
     
-    fig <- ggplot(data,
-                  aes(x = Val,
-                      y = Value,
-                      color = sig))+
-      geom_line(lty = 2)+
-      geom_point()+
-      stat_smooth(method = "lm")+
-      facet_grid(rows = vars(facet),
-                 cols = vars(Var),
-                 scales = "free")+
-      scale_color_manual(values = my_colors,
-                         name = "Statistically significant\n(p < 0.05)")+
-      scale_y_continuous(labels = scales::comma)+
-      scale_x_continuous(labels = scales::comma)+
-      theme_bw()+
-      theme(axis.title = element_blank(),
-            legend.position = "bottom")
+    fig <- ggplot2::ggplot(data,
+                           ggplot2::aes(x = Val,
+                                        y = Value,
+                                        color = sig))+
+      ggplot2::geom_line(lty = 2)+
+      ggplot2::geom_point()+
+      ggplot2::stat_smooth(method = "lm")+
+      ggplot2::facet_grid(rows = vars(facet),
+                          cols = vars(Var),
+                          scales = "free")+
+      ggplot2::scale_color_manual(values = my_colors,
+                                  name = "Statistically significant\n(p < 0.05)")+
+      ggplot2::scale_y_continuous(labels = scales::comma)+
+      ggplot2::scale_x_continuous(labels = scales::comma)+
+      ggplot2:: theme_bw()+
+      ggplot2::theme(axis.title = element_blank(),
+                     legend.position = "bottom")
     
     return(fig)
   } else print("No data under conditions selected")
 
 }
 
-correlation_data <- function(stock, eco, lag){
+#' Produces summary tables of correlations
+#'
+#' This function creates summary tables of correlations between stock data and `ecodata` data. Designed for use within a RMarkdown document.
+#' 
+#' @param stock Data about a single stock (one species, one region) subsetted from `assessmentdata::stockAssessmentData`
+#' @param eco A data table from `ecodata`. May require pre-processing to standardize format.
+#' @param lag The number of years to lag the correlation by. Defaults to 0.
+#' @return A data frame
+#' @export
+
+correlation_data <- function(stock, eco, lag = 0){
 
   data <- data_prep(stock_data = stock, 
                     eco_data = eco, 
@@ -124,7 +152,17 @@ correlation_data <- function(stock, eco, lag){
   } else print("No statistically significant data")
 }
 
-correlation_summary <- function(stock, eco, lag){
+#' Produces a summary table of correlations
+#'
+#' This function creates summary table of a correlation between stock data and `ecodata` data. Suggest to use with multiple `ecodata` indicators, and create a master data set by appending results.
+#' 
+#' @param stock Data about a single stock (one species, one region) subsetted from `assessmentdata::stockAssessmentData`
+#' @param eco A data table from `ecodata`. May require pre-processing to standardize format.
+#' @param lag The number of years to lag the correlation by. Defaults to 0.
+#' @return A tibble
+#' @export
+
+correlation_summary <- function(stock, eco, lag = 0){
 
   data <- data_prep(stock_data = stock, 
                     eco_data = eco, 
@@ -165,9 +203,16 @@ correlation_summary <- function(stock, eco, lag){
     }
   }
 
+#' Renders an RMarkdown section
+#'
+#' This function renders an RMarkdown section, including plots and data tables, for stock data and an `ecodata` indicator. Designed for use in an RMarkdown document. Stock data must be pre-defined.
+#' 
+#' @param test A data table from `ecodata` that has been pre-processed to a standardized format.
+#' @return An RMarkdown section
+#' @export
 
 render_indicator <- function(test){
-  res <- knitr::knit_child(here::here("R/regressions", "general-child-doc.Rmd"), 
+  res <- knitr::knit_child("correlation_bookdown_template/_general-child-doc.Rmd", 
                            quiet = TRUE)
   cat(res, sep = '\n')
 }
