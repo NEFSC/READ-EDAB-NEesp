@@ -5,6 +5,7 @@
 #' @param data A data frame or tibble
 #' @param species_col The name of the column with species names
 #' @return A tibble
+#' @importFrom magrittr %>%
 #' @export
 
 update_species_names <- function(data, species_col){
