@@ -1,8 +1,0 @@
-## Trends with time
-```{r, time}
-test <- bluefish %>%
-  dplyr::mutate(Val = Time,
-                Var = "Time") %>%
-  dplyr::select(Time, Val, Var)
-render_indicator(test)
-```
