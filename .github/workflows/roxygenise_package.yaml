@@ -33,6 +33,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+          
+      - name: Reconfigure Java
+        run: |        
+          sudo R CMD javareconf
+        shell: bash
+# openjdk-8-jre           
       
       - name: Cache R packages
         uses: actions/cache@v2
@@ -50,7 +56,7 @@ jobs:
                  
       - name: Roxygenise
         run: |
-          Rscript -e '#install.packages(c("rJava","tabulizer","tabulizerjars"))
+          Rscript -e 'install.packages(c("rJava","tabulizer","tabulizerjars"))
           roxygen2::roxygenise()'
           
       - name: Deploy to Github
