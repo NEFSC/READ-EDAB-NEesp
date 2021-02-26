@@ -1,3 +1,11 @@
+#' Changes "Goosefish" to "Monkfish" in a designated "Species" column
+#'
+#' This function changes any instances of "Goosefish" to "Monkfish" in a designated "Species" column
+#' 
+#' @param data A data frame or tibble
+#' @param species_col Thename of the column with species names
+#' @return The data frame, with any instances of "Goosefish" changed to "Monkfish"
+
 update_species_names <- function(data, species_col){
 
   col_num <- which(colnames(data) == species_col)
