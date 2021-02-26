@@ -20,9 +20,10 @@ jobs:
 
       - name: Install command line packages
         run: |        
-          sudo R CMD javareconf
           sudo apt-get install openjdk-8-jre libgdal-dev libcurl4-gnutls-dev libgit2-dev libudunits2-dev
         shell: bash
+        
+#          sudo R CMD javareconf
         
       - name: Set up R
         uses: r-lib/actions/setup-r@master
@@ -45,7 +46,7 @@ jobs:
                  
       - name: Roxygenise
         run: |
-          Rscript -e 'install.packages(c("rJava","tabulizer","tabulizerjars"))
+          Rscript -e '#install.packages(c("rJava","tabulizer","tabulizerjars"))
           roxygen2::roxygenise()'
           
       - name: Deploy to Github
