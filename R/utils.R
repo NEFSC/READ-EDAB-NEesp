@@ -1,4 +1,4 @@
-#' Changes "Goosefish" to "Monkfish" in a designated "Species" column
+#' Change "Goosefish" to "Monkfish" in a designated "Species" column
 #'
 #' This function changes any instances of "Goosefish" to "Monkfish" in a designated "Species" column
 #' 
@@ -103,3 +103,16 @@ character_to_factor <- function(x){
     }
   }
 }
+
+#' Change the class of a vector to `numeric`
+#'
+#' This function changes a vector to class `int` or `dbl`. Used when numerics are not read in properly.
+#' 
+#' @param x A vector
+#' @return A vector
+#' @export
+
+format_numbers <- function(x) {
+  as.numeric(as.character(unlist(x)))
+  }
+

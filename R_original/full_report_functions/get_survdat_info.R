@@ -1,16 +1,29 @@
+#' Format `survdat` data
+#'
+#' This function formats `survdat` data for subsequent plotting and analysis. Data from unique observations of a stock (species, region) are averaged by year.
+#' 
+#' @param x A data frame or tibble
+#' @param variable The `survdat` measurement of interest. Must be a column name of the `survdat` data set.
+#' @return A tibble
+#' @importFrom magrittr %>%
+#' @export
+
 get_var_data <- function(x, variable){
   # remove NA, zero abundance, length 
-  y <- x %>% dplyr::filter(get(variable) > 0, ABUNDANCE > 0) %>%
+  y <- x %>% 
+    dplyr::filter(get(variable) > 0, ABUNDANCE > 0) %>%
     dplyr::select(YEAR, SEASON, Region, fish_id, date, variable) %>%
     dplyr::distinct() # remove repeated row info
   
   # mean by year
   if(variable == "BIOMASS" | variable == "ABUNDANCE"){
-    y <- y %>% dplyr::group_by(YEAR, SEASON, Region) %>% 
+    y <- y %>% 
+      dplyr::group_by(YEAR, SEASON, Region) %>% 
       dplyr::summarise(variable2 = sum(get(variable))) %>%
       dplyr::select(YEAR, SEASON, Region, variable2)
   } else {
-    y <- y %>% dplyr::group_by(YEAR, SEASON, Region, fish_id, date) %>%
+    y <- y %>% 
+      dplyr::group_by(YEAR, SEASON, Region, fish_id, date) %>%
       dplyr::summarise(variable2 = mean(get(variable))) %>% # mean by day
       dplyr::ungroup() %>%
       dplyr::group_by(YEAR, SEASON, Region) %>%
@@ -25,17 +38,20 @@ get_var_data <- function(x, variable){
 
 get_var_data2 <- function(x, variable){
   # remove NA, zero abundance, length 
-  y <- x %>% dplyr::filter(get(variable) > 0, ABUNDANCE > 0) %>%
+  y <- x %>%
+    dplyr::filter(get(variable) > 0, ABUNDANCE > 0) %>%
     dplyr::select(Species, YEAR, SEASON, Region, fish_id, date, variable) %>%
     dplyr::distinct() # remove repeated row info
   
   # mean by year
   if(variable == "BIOMASS" | variable == "ABUNDANCE"){
-    y <- y %>% dplyr::group_by(Species, YEAR, SEASON, Region) %>% 
+    y <- y %>% 
+      dplyr::group_by(Species, YEAR, SEASON, Region) %>% 
       dplyr::summarise(variable2 = sum(get(variable))) %>%
       dplyr::select(YEAR, SEASON, Species, Region, variable2)
   } else {
-    y <- y %>% dplyr::group_by(Species, YEAR, SEASON, Region, fish_id, date) %>%
+    y <- y %>% 
+      dplyr::group_by(Species, YEAR, SEASON, Region, fish_id, date) %>%
       dplyr::summarise(variable2 = mean(get(variable))) %>% # mean by day
       dplyr::ungroup() %>%
       dplyr::group_by(Species, YEAR, SEASON, Region) %>%
@@ -90,8 +106,6 @@ plot_variable <- function(x, ytitle) {
 
   return(fig)
 }
-
-format_numbers <- function(x) {as.numeric(as.character(unlist(x)))}
 
 data_summary <- function(x){
   table <- x %>% dplyr::group_by(SEASON, Region) %>%
