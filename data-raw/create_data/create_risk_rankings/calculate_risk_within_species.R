@@ -47,7 +47,7 @@ max_len_s <- get_species_risk(data = length %>%
 
 # survey abundance (fall and spring) -----
 abun_survey <- survey %>% 
-  get_var_data2(variable = "ABUNDANCE")
+  get_var_data(variable = "ABUNDANCE")
 abun_survey$YEAR <- as.numeric(abun_survey$YEAR)
 
 abun_f <- get_species_risk(data = abun_survey %>% 
@@ -65,7 +65,7 @@ abun_s <- get_species_risk(data = abun_survey %>%
 
 # survey biomass (fall and spring) ----
 biomass_surv <- survey %>% 
-  get_var_data2(variable = "BIOMASS")
+  get_var_data(variable = "BIOMASS")
 biomass_surv
 biomass_surv$YEAR <- as.numeric(biomass_surv$YEAR)
 
