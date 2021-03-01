@@ -41,7 +41,7 @@ get_var_data <- function(x, variable){
 #'
 #' This function formats `survdat` data for subsequent plotting and analysis. Data from unique observations of a stock (species, region) are averaged by year.
 #' 
-#' @param x A `survdat` data frame or tibble, containing data on one or more species
+#' @param x A `survdat` data frame or tibble, containing data on one or more species.
 #' @param variable The `survdat` measurement of interest. Must be a column name of the `survdat` data set.
 #' @return A tibble
 #' @importFrom magrittr %>%
