@@ -52,7 +52,7 @@ indicators <- c("asmt_catch")
 
 #### Recreational catch
 ```{r, rec}
-get_rec_catch(rec_data)
+plot_rec_catch(rec_data)
 ```
 
 ##### Risk {-}
@@ -82,7 +82,7 @@ indicators <- c("com_catch")
 
 #### Commercial vs recreational catch
 ```{r, comvrec}
-prop_catch(com = com_data, rec = rec_data)
+plot_prop_catch(com = com_data, rec = rec_data)
 ```
 
 ### Data
