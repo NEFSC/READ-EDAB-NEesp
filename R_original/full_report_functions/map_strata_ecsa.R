@@ -7,7 +7,7 @@ map_strata_ecsa <- function(data, species_name){
   data <- data %>%
     dplyr::filter(is.na(stock_season) == FALSE)
   
-  stock_season <- data$stock_season %>% unique
+  stock_season <- data$stock_season %>% unique()
   
   map_strata(stock_name = species_name, 
              common_name = species_name,

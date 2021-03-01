@@ -1,17 +1,19 @@
 files <- list.files(here::here(), pattern = ".R", recursive = TRUE, full.names = TRUE)
 files2 <- list.files(here::here(), pattern = ".Rmd", recursive = TRUE, full.names = TRUE)
 
+all_files <- c(files, files2) %>% unique()
+
 # search files with a loop
 out <- c()
-for(i in 1:length(c(files, files2))){
+for(i in 1:length(all_files)){
   
-  results <- grep("get_len_data2", readLines(c(files, files2)[i]), value = FALSE)
+  results <- grep("get_len_data_risk", readLines(all_files[i]), value = FALSE)
   
   if(length(results) > 0){
     
     results <- paste(results, collapse = ", ")
     
-    this_data <- c(c(files, files2)[i], results)
+    this_data <- c(all_files[i], results)
     
     out <- rbind(out, this_data)
   }
