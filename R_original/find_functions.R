@@ -7,7 +7,7 @@ all_files <- c(files, files2) %>% unique()
 out <- c()
 for(i in 1:length(all_files)){
   
-  results <- grep("get_len_data_risk", readLines(all_files[i]), value = FALSE)
+  results <- grep("plot_recruit", readLines(all_files[i]), value = FALSE)
   
   if(length(results) > 0){
     
