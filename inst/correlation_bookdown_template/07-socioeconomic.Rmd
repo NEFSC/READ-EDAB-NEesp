@@ -13,7 +13,9 @@ days <- ecodata::recdat %>%
   dplyr::rename(Days = Value)
 
 test <- dplyr::left_join(numbers, days, by = c("Time", "EPU")) %>%
-  dplyr::mutate(Val = Number/Days,
-                Var = paste("recreational CPUE", "number of fish caught per day fished (all species)", sep = "\n"))
+  dplyr::mutate(
+    Val = Number / Days,
+    Var = paste("recreational CPUE", "number of fish caught per day fished (all species)", sep = "\n")
+  )
 render_indicator(test)
 ```

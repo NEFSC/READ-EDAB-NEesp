@@ -32,7 +32,7 @@ render_indicator(test)
 
 ### Sea surface temperature anomaly
 ```{r, sst_anom}
-test <- ecodata::seasonal_oisst_anom 
+test <- ecodata::seasonal_oisst_anom
 render_indicator(test)
 ```
 
@@ -74,8 +74,8 @@ render_indicator(test)
 ```{r, gsi}
 test <- ecodata::gsi %>%
   dplyr::mutate(Time = Time %>%
-                  stringr::str_trunc(width = 4, ellipsis = "") %>%
-                  as.numeric())
+    stringr::str_trunc(width = 4, ellipsis = "") %>%
+    as.numeric())
 render_indicator(test)
 ```
 
@@ -89,13 +89,13 @@ render_indicator(test)
 ```{r, chl}
 test <- ecodata::chl_pp %>%
   dplyr::mutate(Var = Var %>%
-                  stringr::str_replace_all("_", "\n") %>%
-                  stringr::str_replace_all(" ", "\n")) %>%
+    stringr::str_replace_all("_", "\n") %>%
+    stringr::str_replace_all(" ", "\n")) %>%
   dplyr::filter(stringr::str_detect(Var, "ANNUAL")) %>% # only annual indices
   dplyr::mutate(Time = Time %>%
-                  stringr::str_replace("A_", "") %>%
-                  as.numeric())
+    stringr::str_replace("A_", "") %>%
+    as.numeric())
 render_indicator(test)
 
-#data_prep(stock, test, lag = params$lag) %>% knitr::kable()
+# data_prep(stock, test, lag = params$lag) %>% knitr::kable()
 ```

@@ -25,44 +25,49 @@ library(ggplot2)
 
 source(here::here("R/regressions", "indicator_functions_general.R"))
 
-if(params$stock == "Monkfish"){
-  stock <- assessmentdata::stockAssessmentData %>% 
-  dplyr::filter(Species == "Goosefish",
-                Region == params$region) %>%
-  dplyr::ungroup() %>%
-  dplyr::mutate(max_year = max(AssessmentYear)) %>%
-  dplyr::filter(AssessmentYear == max_year) %>%
-  dplyr::rename(Time = Year)
+if (params$stock == "Monkfish") {
+  stock <- assessmentdata::stockAssessmentData %>%
+    dplyr::filter(
+      Species == "Goosefish",
+      Region == params$region
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(max_year = max(AssessmentYear)) %>%
+    dplyr::filter(AssessmentYear == max_year) %>%
+    dplyr::rename(Time = Year)
 } else {
-  stock <- assessmentdata::stockAssessmentData %>% 
-  dplyr::filter(Species == params$stock,
-                Region == params$region) %>%
-  dplyr::ungroup() %>%
-  dplyr::mutate(max_year = max(AssessmentYear)) %>%
-  dplyr::filter(AssessmentYear == max_year) %>%
-  dplyr::rename(Time = Year)
+  stock <- assessmentdata::stockAssessmentData %>%
+    dplyr::filter(
+      Species == params$stock,
+      Region == params$region
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(max_year = max(AssessmentYear)) %>%
+    dplyr::filter(AssessmentYear == max_year) %>%
+    dplyr::rename(Time = Year)
 }
 
-if(params$remove_recent){
+if (params$remove_recent) {
   max_year <- max(stock$Time)
   stock <- stock %>%
     dplyr::filter(Time <= (max_year - 10))
-} 
+}
 
 output <- c()
-
 ```
 
 ```{r, setup2, include = FALSE}
-knitr::opts_chunk$set(echo = FALSE, 
-                      message = FALSE,
-                      warning = FALSE, 
-                      eval = nrow(stock) > 0,
-                      cache = params$cache,
-                      results = "asis",
-                      fig.width = 8, 
-                      fig.align = 'center',
-                      fig.path = params$path)
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  eval = nrow(stock) > 0,
+  cache = params$cache,
+  results = "asis",
+  fig.width = 8,
+  fig.align = "center",
+  fig.path = params$path
+)
 ```
 
 # `r params$stock` {-}

@@ -4,9 +4,11 @@
 ```{r, recruit}
 test <- stock %>%
   dplyr::filter(Metric == "Recruitment") %>%
-  dplyr::rename(Var = Metric,
-                Val = Value)
-if(nrow(test) > params$lag){
+  dplyr::rename(
+    Var = Metric,
+    Val = Value
+  )
+if (nrow(test) > params$lag) {
   render_indicator(test)
 } else {
   names <- names[-1]

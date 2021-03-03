@@ -10,11 +10,13 @@ output:
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = FALSE, 
-                      message = FALSE,
-                      warning = FALSE, 
-                      fig.width = 8, 
-                      fig.align = 'center')
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  fig.width = 8,
+  fig.align = "center"
+)
 
 library(ggplot2)
 `%>%` <- dplyr::`%>%`
@@ -27,15 +29,19 @@ guild_data <- read.csv(here::here("data/risk_ranking", "guild_data.csv"))
 guild_info <- read.csv(here::here("data/risk_ranking", "guild_info.csv"))
 indicator_info <- read.csv(here::here("data/risk_ranking", "indicator_key.csv"))
 
-data$category <- factor(data$category, 
-                        c("Socioeconomic", "Biological", "Population", "Habitat", "Management"))
+data$category <- factor(
+  data$category,
+  c("Socioeconomic", "Biological", "Population", "Habitat", "Management")
+)
 
-guild_data$category <- factor(guild_data$category, 
-                        c("Socioeconomic", "Biological", "Population", "Habitat", "Management"))
+guild_data$category <- factor(
+  guild_data$category,
+  c("Socioeconomic", "Biological", "Population", "Habitat", "Management")
+)
 
 # distinguish between 0.5 due to missing data and true 0.5 ranking
-for(i in 1:nrow(data)){
-  if(data$Value[i] %>% is.na()){
+for (i in 1:nrow(data)) {
+  if (data$Value[i] %>% is.na()) {
     data$norm_rank[i] <- NA
   }
 }
@@ -60,11 +66,11 @@ make_html_table_thin(dat, col_names = colnames(dat))
 Guilds were determined from [previous reporting](https://repository.library.noaa.gov/view/noaa/5277). Guilds were further broken into small (<40cm) and large (>=40cm) size classes. To determine guild risk, the risk values for each species were averaged over all stock areas. Then risk values were averaged by guild. Guilds were ranked in each indicator category.
 
 ```{r, guild_info, results = "asis"}
-guild_info <- guild_info %>% 
+guild_info <- guild_info %>%
   dplyr::mutate(Scientific_name = paste(Scientific_name, sep = "")) %>% # figure out how to italicize in html table
   dplyr::rename("Size" = "size") %>%
   dplyr::select(Guild, Size, Species, Scientific_name) %>%
-  dplyr::arrange(Guild, Size) 
+  dplyr::arrange(Guild, Size)
 
 make_html_table(guild_info, col_names = colnames(guild_info))
 ```
@@ -79,71 +85,91 @@ Ranks for all stocks.
 The number following the species name is the total risk (sum of all normalized risk values).
 
 ```{r, regions}
-dat <- data.frame(Abbreviation = c("CC", "GOM", "GB", "NE", "Mid", 
-                                   "E", "N", "S"),
-                  Region = c("Cape Cod", "Gulf of Maine", "Georges Bank", 
-                             "New England", "Mid-Atlantic", "East", "North", 
-                             "South"))
+dat <- data.frame(
+  Abbreviation = c(
+    "CC", "GOM", "GB", "NE", "Mid",
+    "E", "N", "S"
+  ),
+  Region = c(
+    "Cape Cod", "Gulf of Maine", "Georges Bank",
+    "New England", "Mid-Atlantic", "East", "North",
+    "South"
+  )
+)
 
-dat %>% DT::datatable(rownames = FALSE,
-                      extensions = 'Scroller',
-                      caption = "Region abbreviations",
-                      options = list(deferRender = TRUE,
-                                     scrollY = 100,
-                                     scrollX = TRUE,
-                                     scroller = TRUE))
+dat %>% DT::datatable(
+  rownames = FALSE,
+  extensions = "Scroller",
+  caption = "Region abbreviations",
+  options = list(
+    deferRender = TRUE,
+    scrollY = 100,
+    scrollX = TRUE,
+    scroller = TRUE
+  )
+)
 ```
 
 ##### By region
 ```{r plot_region, fig.height = 15}
-data$Region2 <- data$Region %>% 
-    stringr::str_replace("Georges Bank", "GB") %>%
-    stringr::str_replace("Gulf of Maine", "GOM") %>%
-    stringr::str_replace("Northwestern", "NW") %>%
-    stringr::str_replace("Northern", "N") %>%
-    stringr::str_replace("Southern", "S") %>%
-    stringr::str_replace("Eastern", "E") %>%
-    stringr::str_replace("Cape Cod", "CC") %>%
-    stringr::str_replace("New England", "NE") %>%
-    stringr::str_replace(" / ", "/\n") %>%
-    stringr::str_replace("Mid-Atlantic", "Mid") %>%
-    stringr::str_replace("Cape Hatteras", "Cape\nHatteras")
+data$Region2 <- data$Region %>%
+  stringr::str_replace("Georges Bank", "GB") %>%
+  stringr::str_replace("Gulf of Maine", "GOM") %>%
+  stringr::str_replace("Northwestern", "NW") %>%
+  stringr::str_replace("Northern", "N") %>%
+  stringr::str_replace("Southern", "S") %>%
+  stringr::str_replace("Eastern", "E") %>%
+  stringr::str_replace("Cape Cod", "CC") %>%
+  stringr::str_replace("New England", "NE") %>%
+  stringr::str_replace(" / ", "/\n") %>%
+  stringr::str_replace("Mid-Atlantic", "Mid") %>%
+  stringr::str_replace("Cape Hatteras", "Cape\nHatteras")
 
-fig <- ggplot(data,
-                   aes(y = reorder(label, -total_risk),
-                       x = Indicator %>% 
-                              stringr::str_replace_all("_", " "),
-                       fill = norm_rank ))+
-  geom_raster(stat = "identity")+
-  theme_bw()+
-  viridis::scale_fill_viridis(limits = c(0, 1),
-                              breaks = c(0, 0.5, 1),
-                              direction = -1,
-                              na.value = "gray90",
-                              name = "Normalized rank")+
-  theme(axis.text.x = element_text(angle = 90),
-        
-        panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        strip.text.y = element_text(angle = 0),
-        strip.text.x = element_text(angle = 75),
-        legend.position = "top")+
-  facet_grid(rows = vars(Region2),
-             cols = vars(category),
-             scales = "free",
-             space = "free")+
+fig <- ggplot(
+  data,
+  aes(
+    y = reorder(label, -total_risk),
+    x = Indicator %>%
+      stringr::str_replace_all("_", " "),
+    fill = norm_rank
+  )
+) +
+  geom_raster(stat = "identity") +
+  theme_bw() +
+  viridis::scale_fill_viridis(
+    limits = c(0, 1),
+    breaks = c(0, 0.5, 1),
+    direction = -1,
+    na.value = "gray90",
+    name = "Normalized rank"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 90),
+
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    strip.text.y = element_text(angle = 0),
+    strip.text.x = element_text(angle = 75),
+    legend.position = "top"
+  ) +
+  facet_grid(
+    rows = vars(Region2),
+    cols = vars(category),
+    scales = "free",
+    space = "free"
+  ) +
   ylab("") +
   xlab("Indicator")
 
 print(fig)
-
 ```
 
 ##### In order of risk
 ```{r, all_stocks, fig.height = 15}
-new_label <- paste(data$Region, " ", data$Species, ", ", 
-                              data$total_risk %>% round(digits = 2), 
-                              sep = "")
+new_label <- paste(data$Region, " ", data$Species, ", ",
+  data$total_risk %>% round(digits = 2),
+  sep = ""
+)
 
 # shorten labels
 data$new_label <- new_label %>%
@@ -158,25 +184,35 @@ data$new_label <- new_label %>%
   stringr::str_replace("Atlantic mackerel", "Atl mackerel") %>%
   stringr::str_replace(" / ", "/")
 
-fig <- ggplot(data,
-              aes(y = reorder(new_label, -total_risk),
-                  x = Indicator %>% 
-                              stringr::str_replace_all("_", " "),
-                  fill = norm_rank ))+
-  geom_raster(stat = "identity")+
-  facet_grid(cols = vars(category),
-             scales = "free_x",
-             space = "free_x")+
-  theme_bw()+
-  viridis::scale_fill_viridis(limits = c(0, 1),
-                              breaks = c(0, 0.5, 1),
-                              direction = -1,
-                              na.value = "gray90",
-                              name = "Normalized rank")+
-  theme(axis.title.y = element_blank(),
-        axis.text.x = element_text(angle = 90),
-        strip.text.x = element_text(angle = 75),
-        legend.position = "top")+
+fig <- ggplot(
+  data,
+  aes(
+    y = reorder(new_label, -total_risk),
+    x = Indicator %>%
+      stringr::str_replace_all("_", " "),
+    fill = norm_rank
+  )
+) +
+  geom_raster(stat = "identity") +
+  facet_grid(
+    cols = vars(category),
+    scales = "free_x",
+    space = "free_x"
+  ) +
+  theme_bw() +
+  viridis::scale_fill_viridis(
+    limits = c(0, 1),
+    breaks = c(0, 0.5, 1),
+    direction = -1,
+    na.value = "gray90",
+    name = "Normalized rank"
+  ) +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.x = element_text(angle = 90),
+    strip.text.x = element_text(angle = 75),
+    legend.position = "top"
+  ) +
   xlab("Indicator")
 
 print(fig)
@@ -186,15 +222,19 @@ print(fig)
 
 ##### All data
 ```{r, data}
-dat <- data %>% 
-  dplyr::mutate(Value = Value %>%
-                  round(digits = 2) %>%
-                  format(scientific = FALSE,
-                         big.mark = ","),
-                norm_rank = norm_rank %>%
-                  round(digits = 3),
-                total_risk = total_risk %>%
-                  round(digits = 2)) %>%
+dat <- data %>%
+  dplyr::mutate(
+    Value = Value %>%
+      round(digits = 2) %>%
+      format(
+        scientific = FALSE,
+        big.mark = ","
+      ),
+    norm_rank = norm_rank %>%
+      round(digits = 3),
+    total_risk = total_risk %>%
+      round(digits = 2)
+  ) %>%
   dplyr::select(-X, -stock, -label, -Region2, -new_label, -n_stocks_per_region) %>%
   character_to_factor()
 
@@ -206,7 +246,7 @@ make_html_table(dat, col_names = colnames(dat))
 dat <- data %>%
   dplyr::select(Species, Region, total_risk, overall_rank) %>%
   dplyr::mutate(total_risk = total_risk %>%
-                  round(digits = 2)) %>%
+    round(digits = 2)) %>%
   dplyr::distinct() %>%
   character_to_factor()
 
@@ -220,45 +260,64 @@ make_html_table(dat, col_names = colnames(dat))
 The number following the guild name is the total risk (sum of all average normalized risk values).
 
 ```{r guild, fig.height = 8}
-ggplot(guild_data,
-       aes(y = reorder(paste(Guild, "\n", 
-                             size, "\n", 
-                             total_guild_risk %>% round(digits = 2)) %>%
-                         stringr::str_replace("_", "\n"), 
-                       total_guild_risk),
-           x = Indicator %>% 
-             stringr::str_replace_all("_", " "), 
-           fill = avg_guild_risk)) +
-  geom_raster(stat = "identity")+
-  facet_grid(cols = vars(category),
-             scales = "free",
-             space = "free")+
-  viridis::scale_fill_viridis(limits = c(0, 1),
-                              breaks = c(0, 0.5, 1),
-                              direction = -1,
-                              na.value = "gray90",
-                              name = "Average normalized rank")+
-  theme_bw()+
-  ylab("Guild")+
-  xlab("")+
-  theme(legend.position = "top",
-        strip.text.x = element_text(angle = 75),
-        axis.text.x = element_text(angle = 90)
-        )
+ggplot(
+  guild_data,
+  aes(
+    y = reorder(
+      paste(
+        Guild, "\n",
+        size, "\n",
+        total_guild_risk %>% round(digits = 2)
+      ) %>%
+        stringr::str_replace("_", "\n"),
+      total_guild_risk
+    ),
+    x = Indicator %>%
+      stringr::str_replace_all("_", " "),
+    fill = avg_guild_risk
+  )
+) +
+  geom_raster(stat = "identity") +
+  facet_grid(
+    cols = vars(category),
+    scales = "free",
+    space = "free"
+  ) +
+  viridis::scale_fill_viridis(
+    limits = c(0, 1),
+    breaks = c(0, 0.5, 1),
+    direction = -1,
+    na.value = "gray90",
+    name = "Average normalized rank"
+  ) +
+  theme_bw() +
+  ylab("Guild") +
+  xlab("") +
+  theme(
+    legend.position = "top",
+    strip.text.x = element_text(angle = 75),
+    axis.text.x = element_text(angle = 90)
+  )
 ```
 
 #### Data
 ```{r, guild_data}
-dat <- guild_data %>% 
+dat <- guild_data %>%
   dplyr::mutate(Guild = paste(Guild, size)) %>%
-  dplyr::select(Guild, n_guild_species, category, Indicator, avg_guild_risk, 
-                total_guild_risk) %>%
-  dplyr::mutate(avg_guild_risk = avg_guild_risk %>%
-                  round(digits = 2) %>%
-                  format(scientific = FALSE,
-                         big.mark = ","),
-                total_guild_risk = total_guild_risk %>%
-                  round(digits = 2)) %>%
+  dplyr::select(
+    Guild, n_guild_species, category, Indicator, avg_guild_risk,
+    total_guild_risk
+  ) %>%
+  dplyr::mutate(
+    avg_guild_risk = avg_guild_risk %>%
+      round(digits = 2) %>%
+      format(
+        scientific = FALSE,
+        big.mark = ","
+      ),
+    total_guild_risk = total_guild_risk %>%
+      round(digits = 2)
+  ) %>%
   character_to_factor()
 
 make_html_table(dat, col_names = colnames(dat))
