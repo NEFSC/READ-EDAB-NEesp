@@ -3,20 +3,25 @@ files2 <- list.files(here::here(), pattern = ".Rmd", recursive = TRUE, full.name
 
 all_files <- c(files, files2) %>% unique()
 
+find_files(all_files, "plot_recruit")
+
 # search files with a loop
-out <- c()
-for(i in 1:length(all_files)){
-  
-  results <- grep("plot_recruit", readLines(all_files[i]), value = FALSE)
-  
-  if(length(results) > 0){
+find_files <- function(x, text){
+  out <- c()
+  for(i in 1:length(x)){
     
-    results <- paste(results, collapse = ", ")
+    results <- grep(text, readLines(x[i]), value = FALSE) %>% suppressWarnings()
     
-    this_data <- c(all_files[i], results)
+    if(length(results) > 0){
+      
+      results <- paste(results, collapse = ", ")
+      
+      this_data <- c(x[i], results)
+      
+      out <- rbind(out, this_data)
+    }
     
-    out <- rbind(out, this_data)
   }
-  
+  return(out)
 }
-print(out)
+
