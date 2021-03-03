@@ -6,10 +6,10 @@ channel <- dbutils::connect_to_database(
 
 pull <- survdat::get_survdat_data(channel,
   all.season = TRUE,
-  bio = FALSE
+  getBio = FALSE
 ) # problem with bio pull
 
-saveRDS(pull, here::here("data-raw", "survdat_03032021.RDS"))
+saveRDS(pull, here::here("data-raw", "survdat_03032021_bio.RDS"))
 # still too short :(
 
 data <- readRDS(here::here("data-raw", "survdat_03032021.RDS")) # does NOT have bio data
