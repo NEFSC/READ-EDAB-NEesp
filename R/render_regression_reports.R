@@ -10,7 +10,7 @@
 #' @param parent_folder The name of the folder to put the output in. If it does not exist, it will be created.
 #' @param trouble Whether or not to display verbose output. Defaults to FALSE.
 #' @param save_var Whether or not to save the data generated used in report creation. Defaults to TRUE.
-#' @return A bookdown report (html)
+#' @return A bookdown report (html) (saved in a folder called `Regressions` in the root directory)
 #' @importFrom magrittr %>%
 #' @export
 
