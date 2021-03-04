@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{update_species_names}
 \alias{update_species_names}
-\title{Changes "Goosefish" to "Monkfish" in a designated "Species" column}
+\title{Change "Goosefish" to "Monkfish" in a designated "Species" column}
 \usage{
 update_species_names(data, species_col)
 }

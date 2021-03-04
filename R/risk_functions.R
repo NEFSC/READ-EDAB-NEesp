@@ -31,6 +31,7 @@ missing_na <- function(data) {
 #' @param n_run How many years to calculate the running mean over. Defaults to 5.
 #' @return A tibble
 #' @importFrom magrittr %>%
+#' @
 #' @export
 
 get_species_risk <- function(data, year_source, value_source,

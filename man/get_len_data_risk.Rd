@@ -14,5 +14,4 @@ A tibble
 }
 \description{
 This function formats \code{survdat} length data for subsequent risk analysis. Data from unique observations of a stock (species, region) are averaged by year. Returns lengths in a wide format.
-Can probably be deprecated in favor of \code{get_len_data2}.
 }

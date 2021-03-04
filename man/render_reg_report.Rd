@@ -33,7 +33,7 @@ render_reg_report(
 \item{save_var}{Whether or not to save the data generated used in report creation. Defaults to TRUE.}
 }
 \value{
-A bookdown report (html)
+A bookdown report (html) (saved in a folder called \code{Regressions} in the root directory)
 }
 \description{
 This function renders a regression ESP report.
