@@ -1,18 +1,19 @@
-```{r, biomass_functions, cache = params$cache}
-source(here::here("R/full_report_functions", "get_assessment.R"))
-source(here::here("R/full_report_functions", "get_survdat_info.R"))
-source(here::here("R/full_report_functions", "get_swept.R"))
-```
 
 ```{r, biomass_raw_data}
-survey_data <- params$survey_data[params$survey_data$Species == species, ]
+if(!exists("survey_data")){
+  survey_data <- survey[survey$Species == species, ]
+}
 
-asmt_data <- params$asmt_data[params$asmt_data$Species == species, ]
+if(!exists("asmt_data")){
+ asmt_data <- asmt[asmt$Species == species, ] 
+}
 
-swept_data <- params$swept_data[params$swept_data$Species == species, ]
+if(!exists("swept_data")){
+  swept_data <- swept[swept$Species == species, ]
+}
 ```
 
-```{r, child = here::here("bookdown", "_legend-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_legend-child-doc.Rmd", package = "NEesp")}
 ```
 
 ## Biomass
@@ -41,7 +42,7 @@ indicators <- c(
 )
 ```
 
-```{r, child = here::here("bookdown", "_risk-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_risk-child-doc.Rmd", package = "NEesp")}
 ```
 
 #### Survey biomass (swept area estimates)
@@ -81,7 +82,7 @@ See Methods for risk calculation details.
 indicators <- c("asmt_biomass")
 ```
 
-```{r, child = here::here("bookdown", "_risk-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_risk-child-doc.Rmd", package = "NEesp")}
 ```
 
 ### Survey summary

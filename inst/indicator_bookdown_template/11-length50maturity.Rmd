@@ -23,7 +23,8 @@ The relationship between sexual maturity by body size is a well established life
 
 ```{r data wrangling, cache = params$cache, cache.lazy = FALSE}
 
-survdata <- readRDS(here::here("data", "survdat_pull_bio.rds"))
+#survdata <- readRDS(here::here("data", "survdat_pull_bio.rds"))
+survdata <- bio_survey
 
 survdata <- survdata %>% mutate(SVSPP = as.numeric(SVSPP))
 stock_list_all_strata <- read.csv("https://raw.githubusercontent.com/NOAA-EDAB/ECSA/master/data/stock_list.csv")

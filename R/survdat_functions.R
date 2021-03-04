@@ -57,7 +57,7 @@ plot_variable <- function(x, ytitle = "") {
   ) +
     ggplot2::geom_point(cex = 2) +
     ggplot2::geom_line() +
-    ggplot2::facet_grid(rows = vars(Region)) +
+    ggplot2::facet_grid(rows = ggplot2::vars(Region)) +
     nmfspalette::scale_color_nmfs("regional web") +
     ggplot2::scale_y_continuous(labels = scales::comma) +
     ggplot2::theme_bw() +
@@ -293,7 +293,7 @@ plot_len <- function(x) {
     ) +
       ggplot2::geom_line() +
       ggplot2::geom_point(cex = 2) +
-      ggplot2::facet_grid(rows = vars(Region)) +
+      ggplot2::facet_grid(rows = ggplot2::vars(Region)) +
       nmfspalette::scale_color_nmfs("regional web",
         name = "",
         label = c("max", "mean", "min")
@@ -373,7 +373,7 @@ plot_len_hist <- function(x) {
       )
     ) +
       ggplot2::geom_line(cex = 1.5) +
-      ggplot2::facet_grid(rows = vars(Region)) +
+      ggplot2::facet_grid(rows = ggplot2::vars(Region)) +
       ggplot2::scale_color_manual(values = mycolors) +
       ggplot2::scale_y_continuous(
         labels = scales::comma,
@@ -606,5 +606,40 @@ get_len_data_risk <- function(x) {
       max_len = max(LENGTH)
     )
 
+  return(y)
+}
+
+#' Format `survdat` length data for data table
+#'
+#' This function formats `survdat` length data for subsequent plotting and analysis. Data from unique observations of a stock (species, region) are averaged by year. Returns lengths in a wide format.
+#'
+#' @param x A `survdat` data frame or tibble, containing data on one species.
+#' @return A tibble
+#' @importFrom magrittr %>%
+#' @export
+
+get_len_data2 <- function(x) {
+  y <- x %>%
+    dplyr::filter(LENGTH > 0, ABUNDANCE > 0) %>%
+    dplyr::select(YEAR, SEASON, Region, fish_id, LENGTH, NUMLEN) %>%
+    dplyr::distinct() %>% # problem with repeat rows
+    dplyr::group_by(YEAR, SEASON, Region) %>%
+    dplyr::mutate(n_fish = sum(NUMLEN)) %>%
+    dplyr::filter(n_fish > 10) # only year-season-region with >10 fish
+  
+  y <- y %>%
+    dplyr::group_by(YEAR, SEASON, Region, n_fish) %>%
+    dplyr::summarise(
+      mean_len = sum(LENGTH * NUMLEN) / sum(NUMLEN),
+      min_len = min(LENGTH),
+      max_len = max(LENGTH)
+    ) %>%
+    dplyr::mutate(
+      n_fish = n_fish %>%
+        format(big.mark = ","),
+      mean_len = mean_len %>%
+        round(digits = 2)
+    )
+  
   return(y)
 }

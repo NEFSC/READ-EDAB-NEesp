@@ -20,11 +20,6 @@ params:
 ---
 
 ```{r setup, include = FALSE}
-library(ggplot2)
-`%>%` <- dplyr::`%>%`
-
-source(here::here("R/regressions", "indicator_functions_general.R"))
-
 if (params$stock == "Monkfish") {
   stock <- assessmentdata::stockAssessmentData %>%
     dplyr::filter(

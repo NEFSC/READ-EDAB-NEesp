@@ -1,14 +1,12 @@
 ## Recruitment
 
-```{r, recruit_functions, cache = params$cache}
-source(here::here("R/full_report_functions", "get_assessment.R"))
-```
-
 ```{r, recruit_raw_data}
-asmt_data <- params$asmt_data[params$asmt_data$Species == species, ]
+if(!exists("asmt_data")){
+ asmt_data <- asmt[asmt$Species == species, ] 
+}
 ```
 
-```{r, child = here::here("bookdown", "_legend-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_legend-child-doc.Rmd", package = "NEesp")}
 ```
 
 Recruitment data were pulled from ``r params$asmt_source``. Separate geom_gls() functions were fit for each region; trend lines are only shown when the trend was statistically significant, so some plots may have fewer trend lines than regions.
@@ -43,7 +41,7 @@ See Methods for risk calculation details.
 indicators <- c("recruitment")
 ```
 
-```{r, child = here::here("bookdown", "_risk-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_risk-child-doc.Rmd", package = "NEesp")}
 ```
 
 ### Data

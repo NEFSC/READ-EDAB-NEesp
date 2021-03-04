@@ -1,19 +1,15 @@
 ## Catch
 
-```{r, catch_functions, cache = params$cache}
-source(here::here("R/full_report_functions", "get_assessment.R"))
-source(here::here("R/full_report_functions", "get_rec_catch.R"))
-source(here::here("R/full_report_functions", "get_com_catch.R"))
-source(here::here("R/full_report_functions", "compare_rec_com.R"))
-```
-
 ```{r, catch_raw_data_species}
-asmt_data <- params$asmt_data[params$asmt_data$Species == species, ]
-rec_data <- params$rec_data[params$rec_data$Species == species, ]
-com_data <- params$com_data[params$com_data$Species == species, ]
+if(!exists("asmt_data")){
+ asmt_data <- asmt[asmt$Species == species, ] 
+}
+
+rec_data <- rec_catch[rec_catch$Species == species, ]
+com_data <- com_catch[com_catch$Species == species, ]
 ```
 
-```{r, child = here::here("bookdown", "_legend-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_legend-child-doc.Rmd", package = "NEesp")}
 ```
 
 Stock assessment catch data are from ``r params$asmt_source``. Recreational catch data were downloaded from [NOAA MRIP](https://www.st.nmfs.noaa.gov/st1/recreational/MRIP_Estimate_Data/CSV/). Commercial catch data were downloaded from [NOAA FOSS](https://foss.nmfs.noaa.gov/apexfoss/f?p=215:200:4615327020711::NO:::).
@@ -50,7 +46,7 @@ See Methods for risk calculation details.
 indicators <- c("asmt_catch")
 ```
 
-```{r, child = here::here("bookdown", "_risk-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_risk-child-doc.Rmd", package = "NEesp")}
 ```
 
 #### Recreational catch
@@ -65,7 +61,7 @@ See Methods for risk calculation details.
 indicators <- c("rec_catch")
 ```
 
-```{r, child = here::here("bookdown", "_risk-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_risk-child-doc.Rmd", package = "NEesp")}
 ```
 
 #### Commercial catch
@@ -80,7 +76,7 @@ See Methods for risk calculation details.
 indicators <- c("com_catch")
 ```
 
-```{r, child = here::here("bookdown", "_risk-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_risk-child-doc.Rmd", package = "NEesp")}
 ```
 
 #### Commercial vs recreational catch

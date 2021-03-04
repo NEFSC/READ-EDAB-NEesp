@@ -92,8 +92,8 @@ plot_correlation <- function(stock, eco, lag = 0) {
       ggplot2::geom_point() +
       ggplot2::stat_smooth(method = "lm") +
       ggplot2::facet_grid(
-        rows = vars(facet),
-        cols = vars(Var),
+        rows = ggplot2::vars(facet),
+        cols = ggplot2::vars(Var),
         scales = "free"
       ) +
       ggplot2::scale_color_manual(
@@ -104,7 +104,7 @@ plot_correlation <- function(stock, eco, lag = 0) {
       ggplot2::scale_x_continuous(labels = scales::comma) +
       ggplot2::theme_bw() +
       ggplot2::theme(
-        axis.title = element_blank(),
+        axis.title = ggplot2::element_blank(),
         legend.position = "bottom"
       )
 
@@ -245,7 +245,7 @@ correlation_summary <- function(stock, eco, lag = 0) {
 #' @export
 
 render_indicator <- function(test) {
-  res <- knitr::knit_child("correlation_bookdown_template/_general-child-doc.Rmd",
+  res <- knitr::knit_child(system.file("correlation_bookdown_template/_general-child-doc.Rmd", package = "NEesp"),
     quiet = TRUE
   )
   cat(res, sep = "\n")

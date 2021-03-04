@@ -1,11 +1,9 @@
 ## Revenue 
 
-```{r, revenue_functions, cache = params$cache}
-source(here::here("R/full_report_functions", "get_com_money.R"))
-```
-
 ```{r, revenue_raw_data}
-com_data <- params$com_data[params$com_data$Species == species, ]
+if(!exists("com_data")){
+  com_data <- com_catch[com_catch$Species == species, ]
+}
 ```
 
 Commercial catch data were downloaded from [NOAA FOSS](https://foss.nmfs.noaa.gov/apexfoss/f?p=215:200:4615327020711::NO:::).
@@ -22,7 +20,7 @@ See Methods for risk calculation details.
 indicators <- c("revenue")
 ```
 
-```{r, child = here::here("bookdown", "_risk-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_risk-child-doc.Rmd", package = "NEesp")}
 ```
 
 ### Data

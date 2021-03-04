@@ -32,7 +32,7 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
   file.create(here::here(new_dir, ".nojekyll"))
 
   file.copy(
-    from = list.files(here::here("correlation_bookdown_template"),
+      from = list.files(system.file("correlation_bookdown_template", package = "NEesp"),
       full.names = TRUE
     ),
     to = here::here(new_dir),
@@ -101,7 +101,7 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
     stringr::str_subset(".yml") %>%
     file.remove()
 
-  print(paste(i, "Done with", parent_folder, region_var, epus_var, stock_var, "!",
+  print(paste("Done with", parent_folder, region_var, epus_var, stock_var, "!",
     sep = ": "
   ))
 }

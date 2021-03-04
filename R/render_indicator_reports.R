@@ -10,17 +10,17 @@
 
 render_ind_report <- function(x, trouble = FALSE) {
   new_dir <- here::here("action_reports/", x)
-  dir.create(new_dir, recursive = TRUE)
+  dir.create(new_dir, recursive = TRUE) %>% suppressWarnings()
 
   file.create(here::here(new_dir, ".nojekyll")) %>%
     invisible()
 
   bookdown_template <- c(
-    list.files(here::here("correlation_bookdown_template"),
+    list.files(system.file("indicator_bookdown_template", package = "NEesp"),
       full.names = TRUE
     ) %>%
       stringr::str_subset(".Rmd"),
-    list.files(here::here("correlation_bookdown_template"),
+    list.files(system.file("indicator_bookdown_template", package = "NEesp"),
       full.names = TRUE
     ) %>%
       stringr::str_subset(".yml")
@@ -40,37 +40,8 @@ render_ind_report <- function(x, trouble = FALSE) {
       input = ".",
       params = list(
         species_ID = x,
-
         path = here::here(new_dir, "figures//"),
-
-        latlong_data = latlong,
-        shape = shape,
-
-        asmt_sum_data = asmt_sum,
-
-        survey_data = survey_big,
-
-        ricky_survey_data = ricky_survey,
-
-        diet_data = allfh,
-
-        rec_data = rec,
-
-        asmt_data = asmt,
-
-        cond_data = cond,
-
-        risk_data = risk,
-
-        risk_year_hist_data = risk_year_hist,
-
-        risk_year_value_data = risk_year_value,
-
-        risk_species_data = risk_species,
-
-        com_data = com,
-
-        swept_data = swept
+        ricky_survey_data = bio_survey
       ),
       intermediates_dir = new_dir,
       knit_root_dir = new_dir,
@@ -87,37 +58,8 @@ render_ind_report <- function(x, trouble = FALSE) {
       input = ".",
       params = list(
         species_ID = x,
-
         path = here::here(new_dir, "figures//"),
-
-        latlong_data = latlong,
-        shape = shape,
-
-        asmt_sum_data = asmt_sum,
-
-        survey_data = survey_big,
-
-        ricky_survey_data = ricky_survey,
-
-        diet_data = allfh,
-
-        rec_data = rec,
-
-        asmt_data = asmt,
-
-        cond_data = cond,
-
-        risk_data = risk,
-
-        risk_year_hist_data = risk_year_hist,
-
-        risk_year_value_data = risk_year_value,
-
-        risk_species_data = risk_species,
-
-        com_data = com,
-
-        swept_data = swept
+        ricky_survey_data = bio_survey
       ),
       intermediates_dir = new_dir,
       knit_root_dir = new_dir,

@@ -1,8 +1,6 @@
 # Summary of statistically significant indicators
 
 ```{r, output_summary}
-source(here::here("R/full_report_functions", "make_html_table.R"))
-
 summary_table <- function(x) {
   DT::datatable(x,
     rownames = FALSE,

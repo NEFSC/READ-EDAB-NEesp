@@ -1,12 +1,7 @@
 ## Distribution
 
-```{r, geo_functions, cache = params$cache}
-source(here::here("R/full_report_functions", "get_latlong.R"))
-source(here::here("R/full_report_functions", "map_strata_ecsa.R"))
-```
-
 ```{r, geo_data_species}
-latlong_data <- params$latlong_data[params$latlong_data$Species == species, ]
+latlong_data <- latlong[latlong$Species == species, ]
 ```
 
 ### Map of distribution
@@ -21,7 +16,7 @@ map_strata_ecsa(
 ### Latitude and longitude ranges
 Latitude and longitude ranges were calculated from NOAA/EDAB ECSA [seasonal species strata](https://github.com/NOAA-EDAB/ECSA/blob/master/data/seasonal_stock_strata.csv) and [Bottom Trawl Survey (BTS) shapefiles](https://github.com/NOAA-EDAB/ECSA/tree/master/data/strata_shapefiles). The coordinate system is WGS84.
 ```{r, latlong}
-data <- get_latlong(species, latlong_data, shapefile = params$shape) %>%
+data <- get_latlong(species, latlong_data, shapefile = shape) %>%
   character_to_factor()
 
 make_html_table(data, col_names = colnames(data))

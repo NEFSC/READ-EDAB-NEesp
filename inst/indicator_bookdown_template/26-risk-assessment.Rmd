@@ -1,12 +1,5 @@
 # Risk assessment
 
-```{r, risk_functions, cache = params$cache}
-source(here::here("R/full_report_functions/risk_functions", "plot_risk_within_species.R"))
-source(here::here("R/full_report_functions/risk_functions", "plot_risk_by_year.R"))
-
-# risk data read in in index
-```
-
 A preliminary risk analysis was conducted by ranking all species according to their indicator values. A high rank number and a normalized rank near 1 indicates that the species is at risk or of importance based on the measured indicator values. When a species was missing an indicator, it was assigned a normalized rank of 0.5.
 
 ## Figures

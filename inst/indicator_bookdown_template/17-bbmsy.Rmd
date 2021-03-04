@@ -1,11 +1,9 @@
 ## B/Bmsy 
 
-```{r, b_functions, cache = params$cache}
-source(here::here("R/full_report_functions", "get_bf.R"))
-```
-
 ```{r, b_data_species}
-asmt_sum_data <- params$asmt_sum_data[params$asmt_sum_data$Species == species, ]
+if(!exists("asmt_sum_data")){
+  asmt_sum_data <- asmt_sum[asmt_sum$Species == species, ]  
+}
 ```
 
 ```{r, b_status}
@@ -26,7 +24,7 @@ if (length(asmt_sum_data$Species) > 1) {
 }
 ```
 
-```{r, child = here::here("bookdown", "_legend-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_legend-child-doc.Rmd", package = "NEesp")}
 ```
 
 B/Bmsy data were pulled from ``r params$asmt_sum_source``.
@@ -35,7 +33,7 @@ The most recent status of B/Bmsy is: `r bbmsy2`
 
 ### Figure
 ```{r, bbmsy_fig} 
-if ("GOOD" %in% bbmsy2 | "DANGER" %in% bbmsy2) {
+if ("GOOD" %in% bbmsy2 | "CAUTION" %in% bbmsy2 | "DANGER" %in% bbmsy2) {
   plot_msy(asmt_sum_data[which(is.na(asmt_sum_data$`B/Bmsy`) == FALSE), ],
     type = "b",
     ytitle = "B / Bmsy",
@@ -54,7 +52,7 @@ See Methods for risk calculation details.
 indicators <- c("bbmsy")
 ```
 
-```{r, child = here::here("bookdown", "_risk-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_risk-child-doc.Rmd", package = "NEesp")}
 ```
 
 ### Data

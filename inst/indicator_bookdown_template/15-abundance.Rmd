@@ -1,22 +1,22 @@
 ## Abundance
 
-```{r, abun_functions, cache = params$cache}
-source(here::here("R/full_report_functions", "get_assessment.R"))
-source(here::here("R/full_report_functions", "get_survdat_info.R"))
-source(here::here("R/full_report_functions", "get_swept.R"))
-```
-
 ```{r, abun_data_species}
-survey_data <- params$survey_data[params$survey_data$Species == species, ]
+if(!exists("survey_data")){
+  survey_data <- survey[survey$Species == species, ]
+}
 
-asmt_data <- params$asmt_data[params$asmt_data$Species == species, ]
+if(!exists("asmt_data")){
+ asmt_data <- asmt[asmt$Species == species, ] 
+}
 
-asmt_sum_data <- params$asmt_sum_data[params$asmt_sum_data$Species == species, ]
+if(!exists("asmt_sum_data")){
+  asmt_sum_data <- asmt_sum[asmt_sum$Species == species, ]  
+}
 
-swept_data <- params$swept_data[params$swept_data$Species == species, ]
+swept_data <- swept[swept$Species == species, ]
 ```
 
-```{r, child = here::here("bookdown", "_legend-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_legend-child-doc.Rmd", package = "NEesp")}
 ```
 
 Abundance data were pulled from ``r params$survey_source`` and ``r params$asmt_source``. 
@@ -43,7 +43,7 @@ indicators <- c(
 )
 ```
 
-```{r, child = here::here("bookdown", "_risk-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_risk-child-doc.Rmd", package = "NEesp")}
 ```
 
 #### Survey abundance (swept area estimates)
@@ -83,7 +83,7 @@ See Methods for risk calculation details.
 indicators <- c("asmt_abundance")
 ```
 
-```{r, child = here::here("bookdown", "_risk-child-doc.Rmd")}
+```{r, child = system.file("indicator_bookdown_template/_risk-child-doc.Rmd", package = "NEesp")}
 ```
 
 ### Survey summary
