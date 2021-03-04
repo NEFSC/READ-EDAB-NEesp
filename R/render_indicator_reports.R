@@ -9,6 +9,8 @@
 #' @export
 
 render_ind_report <- function(x, trouble = FALSE) {
+  starting_dir <- getwd()
+  
   new_dir <- here::here("action_reports/", x)
   dir.create(new_dir, recursive = TRUE) %>% suppressWarnings()
 
@@ -83,6 +85,8 @@ render_ind_report <- function(x, trouble = FALSE) {
 
   file.remove(clean) %>%
     invisible()
+  
+  setwd(starting_dir)
 
   print(paste("Done with", x, "!"))
 }

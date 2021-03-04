@@ -16,6 +16,8 @@
 
 render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALSE,
                               lag_var = 0, parent_folder, trouble = FALSE, save_var = TRUE) {
+  starting_dir <- getwd()
+  
   new_dir <- here::here(
     "Regressions", parent_folder,
     paste(
@@ -100,6 +102,8 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
   ) %>%
     stringr::str_subset(".yml") %>%
     file.remove()
+  
+  setwd(starting_dir)
 
   print(paste("Done with", parent_folder, region_var, epus_var, stock_var, "!",
     sep = ": "
