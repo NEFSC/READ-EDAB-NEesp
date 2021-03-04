@@ -46,7 +46,13 @@ generate_len_table(survey_data)
 
 ### Data
 ```{r, length_data}
-data <- get_len_data2(survey_data) %>%
+data <- get_len_data_risk(survey_data) %>%
+    dplyr::mutate(
+      n_fish = n_fish %>%
+        format(big.mark = ","),
+      mean_len = mean_len %>%
+        round(digits = 2)
+    ) %>%
   character_to_factor()
 
 make_html_table(data, col_names = c(

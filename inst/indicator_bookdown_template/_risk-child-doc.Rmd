@@ -18,8 +18,9 @@ plot_risk_by_year(risk_year_value_data,
 
 ##### Rank of value (magnitude) within a single stock, compared to all years {-}
 ```{r, fig.height = length(indicators) + 1}
-plot_risk_by_stock(risk_species_data,
+plot_risk_by_year(risk_species_data,
   indicator = indicators,
+  title = "Within-stock risk over time",
   include_legend = "no"
 )
 ```

@@ -5,10 +5,11 @@ all_files <- c(
     stringr::str_subset("\\.Rmd$")
 )
 
-find_files(all_files, "Export_All")
+find_files(all_files, "plot_risk_by_stock")
 
 # search files with a loop
 find_files <- function(x, text) {
+  `%>%` <- magrittr::`%>%`
   out <- c()
   for (i in 1:length(x)) {
     results <- grep(text, readLines(x[i]), value = FALSE) %>% suppressWarnings()
@@ -23,6 +24,7 @@ find_files <- function(x, text) {
 
     percent <- (i / length(x) * 100) %>%
       round(digits = 0)
+    
     print(paste(i, ", ", percent, "%", ".....", sep = ""))
   }
 

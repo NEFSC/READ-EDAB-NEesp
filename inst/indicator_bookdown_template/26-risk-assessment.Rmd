@@ -71,8 +71,9 @@ plot_risk_by_year(risk_year_value_data,
 For each stock, a five-year running mean was calculated for each indicator. Indicator values were then ranked for all years where a value was present. The normalized risk values plotted here reflects the normalized rank of each year compared to all other years.
 
 ```{r, stock_risk}
-plot_risk_by_stock(risk_species_data,
+plot_risk_by_year(risk_species_data,
   indicator = "all",
+    title = "Within-stock risk over time",
   include_legend = "yes"
 )
 ```
