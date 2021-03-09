@@ -85,6 +85,9 @@ climate_data <- NEesp::climate_vulnerability %>%
     stringr::str_to_sentence()) %>%
   dplyr::filter(Species == species) %>%
   dplyr::select(-Species)
+
+# ricky
+bio_survey <- NEesp::bio_survey
 ```
 
 ```{r, save_data, eval = params$save}
