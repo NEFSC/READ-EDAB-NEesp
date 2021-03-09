@@ -172,14 +172,17 @@ map_strata <- function(common_name, stock_season, strata) {
   all_season$STRATA <- all_season$strata
 
   # For plotting
-  strata_plot <- dplyr::full_join(NEesp::shape, all_season, by = "STRATA") %>%
+  new_shape <- NEesp::shape
+  sf::st_crs(new_shape) <- crs
+  
+  strata_plot <- dplyr::full_join(new_shape, all_season, by = "STRATA") %>%
     dplyr::rename(SEASON = label) %>%
     dplyr::select(SEASON, geometry) %>%
     dplyr::filter(!is.na(SEASON))
 
   p1 <- ggplot2::ggplot() +
     ggplot2::geom_sf(
-      data = NEesp::shape, # all trawl shape files (light outlines)
+      data = new_shape, # all trawl shape files (light outlines)
       fill = "white",
       alpha = 0.9,
       size = 0.01,
