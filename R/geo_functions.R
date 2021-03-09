@@ -137,15 +137,18 @@ map_strata <- function(stock_name, common_name, stock_season, strata,
   ## 2) North America layer
   ne_countries <- rnaturalearth::ne_countries(scale = 10,
                                               continent = "North America",
-                                              returnclass = "sf") %>%
-    sf::st_crs(value = crs) %>%
-    sf::st_transform(crs = crs)
+                                              returnclass = "sf")
+  
+  #sf::st_crs(ne_countries) <- crs
+  
+  #ne_countries <- ne_countries %>%
+  #  sf::st_transform(crs = crs)
   
   ## 3) State layer
   ne_states <- rnaturalearth::ne_states(country = "united states of america",
-                                        returnclass = "sf") %>% 
-    sf::st_crs(value = crs) %>%
-    sf::st_transform(crs = crs)
+                                        returnclass = "sf") # %>% 
+    #sf::st_crs(value = crs) %>%
+    #sf::st_transform(crs = crs)
   
   
   strata_spring <- strata %>% dplyr::filter(stock_season == "spring") %>% dplyr::pull(strata)
