@@ -4,12 +4,16 @@
 \alias{render_ind_report}
 \title{Renders an indicator ESP report}
 \usage{
-render_ind_report(x, trouble = FALSE)
+render_ind_report(x, trouble = FALSE, save_data = TRUE, input = "package")
 }
 \arguments{
-\item{x}{The common name of the species}
+\item{x}{The common name of the species.}
 
 \item{trouble}{Whether or not to display verbose output. Defaults to FALSE.}
+
+\item{save_data}{Whether or not to save the data used in report creation. Defaults to TRUE.}
+
+\item{input}{The folder with the bookdown template. Defaults to "package", which calls the template files saved in the package.}
 }
 \value{
 A bookdown report (html) (saved in a folder called \code{action_reports} in the root directory)

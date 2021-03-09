@@ -4,24 +4,10 @@
 \alias{render_all_reg}
 \title{Renders all regression ESP reports}
 \usage{
-render_all_reg()
+render_all_reg(x = "package")
 }
 \arguments{
-\item{stock_var}{The name of the species}
-
-\item{epus_var}{The name of the EPU ("MAB", "GB", or "GOM")}
-
-\item{region_var}{The name of the region the species is found in (must match an option in \code{assessmentdata::stockAssessmentData})}
-
-\item{remove_var}{Whether or not to remove the most recent 10 years of data. Defaults to FALSE.}
-
-\item{lag_var}{How many years to lag the correlations by. Defaults to 0.}
-
-\item{parent_folder}{The name of the folder to put the output in. If it does not exist, it will be created.}
-
-\item{trounle}{Whether or not to display verbose output. Defaults to FALSE.}
-
-\item{save_var}{Whether or not to save the data generated used in report creation. Defaults to TRUE.}
+\item{x}{The folder with the bookdown template. Defaults to "package", which calls the template files saved in the package.}
 }
 \value{
 Multiple bookdown reports (html)

@@ -11,6 +11,7 @@ render_reg_report(
   remove_var = FALSE,
   lag_var = 0,
   parent_folder,
+  input = "package",
   trouble = FALSE,
   save_var = TRUE
 )
@@ -28,9 +29,11 @@ render_reg_report(
 
 \item{parent_folder}{The name of the folder to put the output in. If it does not exist, it will be created.}
 
+\item{input}{The folder with the bookdown template. Defaults to "package", which calls the template files saved in the package.}
+
 \item{trouble}{Whether or not to display verbose output. Defaults to FALSE.}
 
-\item{save_var}{Whether or not to save the data generated used in report creation. Defaults to TRUE.}
+\item{save_var}{Whether or not to save the data used in report creation. Defaults to TRUE.}
 }
 \value{
 A bookdown report (html) (saved in a folder called \code{Regressions} in the root directory)
