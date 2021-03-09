@@ -5,7 +5,7 @@
 #' @param x The common name of the species.
 #' @param input The folder with the bookdown template. Defaults to "package", which calls the template files saved in the package.
 #' @param trouble Whether or not to display verbose output. Defaults to FALSE.
-#' @param save_data Whether or not to save the data generated used in report creation. Defaults to TRUE.
+#' @param save_data Whether or not to save the data used in report creation. Defaults to TRUE.
 #' @return A bookdown report (html) (saved in a folder called `action_reports` in the root directory)
 #' @importFrom magrittr %>%
 #' @export

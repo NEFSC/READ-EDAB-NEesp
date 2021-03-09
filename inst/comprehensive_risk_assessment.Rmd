@@ -18,22 +18,13 @@ knitr::opts_chunk$set(
   fig.align = "center"
 )
 
-library(ggplot2)
-`%>%` <- dplyr::`%>%`
-
-source(here::here("R", "character_to_factor.R"))
-source(here::here("R/full_report_functions", "make_html_table.R"))
-
-data <- read.csv(here::here("data/risk_ranking", "full_risk_data.csv"))
-guild_data <- read.csv(here::here("data/risk_ranking", "guild_data.csv"))
-guild_info <- read.csv(here::here("data/risk_ranking", "guild_info.csv"))
-indicator_info <- read.csv(here::here("data/risk_ranking", "indicator_key.csv"))
-
+data <-NEesp::risk
 data$category <- factor(
   data$category,
   c("Socioeconomic", "Biological", "Population", "Habitat", "Management")
 )
 
+guild_data <- NEesp::guild_risk
 guild_data$category <- factor(
   guild_data$category,
   c("Socioeconomic", "Biological", "Population", "Habitat", "Management")
@@ -56,7 +47,7 @@ for (i in 1:nrow(data)) {
 All stocks were ranked in order of increasing risk. The stock with the highest ranking is the stock determined to be at the highest risk. In this case, high risk has two meanings: (1) high importance (e.g., a stock with a high catch would have a high risk ranking for the catch indicator) or high vulnerability (e.g., a stock with low B/Bmsy would have a high risk ranking for the B/Bmsy indicator). The normalized rank was determined by dividing each stock's rank by the total number of stocks considered for that indicator. Stocks that were missing indicator measurements were assigned a normalized rank of 0.5.
 
 ```{r, indicators}
-dat <- indicator_info %>%
+dat <- NEesp::indicator_info %>%
   dplyr::arrange(Category)
 make_html_table_thin(dat, col_names = colnames(dat))
 ```
@@ -66,7 +57,7 @@ make_html_table_thin(dat, col_names = colnames(dat))
 Guilds were determined from [previous reporting](https://repository.library.noaa.gov/view/noaa/5277). Guilds were further broken into small (<40cm) and large (>=40cm) size classes. To determine guild risk, the risk values for each species were averaged over all stock areas. Then risk values were averaged by guild. Guilds were ranked in each indicator category.
 
 ```{r, guild_info, results = "asis"}
-guild_info <- guild_info %>%
+guild_info <- NEesp::guild_info %>%
   dplyr::mutate(Scientific_name = paste(Scientific_name, sep = "")) %>% # figure out how to italicize in html table
   dplyr::rename("Size" = "size") %>%
   dplyr::select(Guild, Size, Species, Scientific_name) %>%
@@ -125,17 +116,17 @@ data$Region2 <- data$Region %>%
   stringr::str_replace("Mid-Atlantic", "Mid") %>%
   stringr::str_replace("Cape Hatteras", "Cape\nHatteras")
 
-fig <- ggplot(
+ggplot2::ggplot(
   data,
-  aes(
+  ggplot2::aes(
     y = reorder(label, -total_risk),
     x = Indicator %>%
       stringr::str_replace_all("_", " "),
     fill = norm_rank
   )
 ) +
-  geom_raster(stat = "identity") +
-  theme_bw() +
+  ggplot2::geom_raster(stat = "identity") +
+  ggplot2::theme_bw() +
   viridis::scale_fill_viridis(
     limits = c(0, 1),
     breaks = c(0, 0.5, 1),
@@ -143,25 +134,23 @@ fig <- ggplot(
     na.value = "gray90",
     name = "Normalized rank"
   ) +
-  theme(
-    axis.text.x = element_text(angle = 90),
+  ggplot2::theme(
+    axis.text.x = ggplot2::element_text(angle = 90),
 
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor.x = element_blank(),
-    strip.text.y = element_text(angle = 0),
-    strip.text.x = element_text(angle = 75),
+    panel.grid.major.x = ggplot2::element_blank(),
+    panel.grid.minor.x = ggplot2::element_blank(),
+    strip.text.y = ggplot2::element_text(angle = 0),
+    strip.text.x = ggplot2::element_text(angle = 75),
     legend.position = "top"
   ) +
-  facet_grid(
-    rows = vars(Region2),
-    cols = vars(category),
+  ggplot2::facet_grid(
+    rows = ggplot2::vars(Region2),
+    cols = ggplot2::vars(category),
     scales = "free",
     space = "free"
   ) +
-  ylab("") +
-  xlab("Indicator")
-
-print(fig)
+  ggplot2::ylab("") +
+  ggplot2::xlab("Indicator")
 ```
 
 ##### In order of risk
@@ -184,22 +173,22 @@ data$new_label <- new_label %>%
   stringr::str_replace("Atlantic mackerel", "Atl mackerel") %>%
   stringr::str_replace(" / ", "/")
 
-fig <- ggplot(
+ggplot2::ggplot(
   data,
-  aes(
+  ggplot2::aes(
     y = reorder(new_label, -total_risk),
     x = Indicator %>%
       stringr::str_replace_all("_", " "),
     fill = norm_rank
   )
 ) +
-  geom_raster(stat = "identity") +
-  facet_grid(
-    cols = vars(category),
+  ggplot2::geom_raster(stat = "identity") +
+  ggplot2::facet_grid(
+    cols = ggplot2::vars(category),
     scales = "free_x",
     space = "free_x"
   ) +
-  theme_bw() +
+  ggplot2::theme_bw() +
   viridis::scale_fill_viridis(
     limits = c(0, 1),
     breaks = c(0, 0.5, 1),
@@ -207,15 +196,13 @@ fig <- ggplot(
     na.value = "gray90",
     name = "Normalized rank"
   ) +
-  theme(
-    axis.title.y = element_blank(),
-    axis.text.x = element_text(angle = 90),
-    strip.text.x = element_text(angle = 75),
+  ggplot2::theme(
+    axis.title.y = ggplot2::element_blank(),
+    axis.text.x = ggplot2::element_text(angle = 90),
+    strip.text.x = ggplot2::element_text(angle = 75),
     legend.position = "top"
   ) +
-  xlab("Indicator")
-
-print(fig)
+  ggplot2::xlab("Indicator")
 ```
 
 #### Data  {.tabset .tabset-fade}
@@ -235,7 +222,7 @@ dat <- data %>%
     total_risk = total_risk %>%
       round(digits = 2)
   ) %>%
-  dplyr::select(-X, -stock, -label, -Region2, -new_label, -n_stocks_per_region) %>%
+  dplyr::select(-stock, -label, -Region2, -new_label, -n_stocks_per_region) %>%
   character_to_factor()
 
 make_html_table(dat, col_names = colnames(dat))
@@ -260,9 +247,9 @@ make_html_table(dat, col_names = colnames(dat))
 The number following the guild name is the total risk (sum of all average normalized risk values).
 
 ```{r guild, fig.height = 8}
-ggplot(
+ggplot2::ggplot(
   guild_data,
-  aes(
+  ggplot2::aes(
     y = reorder(
       paste(
         Guild, "\n",
@@ -277,9 +264,9 @@ ggplot(
     fill = avg_guild_risk
   )
 ) +
-  geom_raster(stat = "identity") +
-  facet_grid(
-    cols = vars(category),
+  ggplot2::geom_raster(stat = "identity") +
+  ggplot2::facet_grid(
+    cols = ggplot2::vars(category),
     scales = "free",
     space = "free"
   ) +
@@ -290,13 +277,13 @@ ggplot(
     na.value = "gray90",
     name = "Average normalized rank"
   ) +
-  theme_bw() +
-  ylab("Guild") +
-  xlab("") +
-  theme(
+  ggplot2::theme_bw() +
+  ggplot2::ylab("Guild") +
+  ggplot2::xlab("") +
+  ggplot2::theme(
     legend.position = "top",
-    strip.text.x = element_text(angle = 75),
-    axis.text.x = element_text(angle = 90)
+    strip.text.x = ggplot2::element_text(angle = 75),
+    axis.text.x = ggplot2::element_text(angle = 90)
   )
 ```
 

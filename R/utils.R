@@ -135,7 +135,7 @@ format_numbers <- function(x) {
 
 #' Save a data set
 #'
-#' This function saves a data set if it has nrow > 0
+#' This function saves a data set if it has nrow > 0. Data is saved in a folder called `data` in the working directory.
 #'
 #' @param x A data table or tibble
 #' @return A .csv
@@ -147,6 +147,7 @@ save_data <- function(x) {
 
   if(nrow(x) > 0){
     
+    # remove column of row indices
     if("X" %in% colnames(x)){
       x <- x %>%
         dplyr::select(-X)

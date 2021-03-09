@@ -15,7 +15,7 @@ map_strata_ecsa <- function(data, species_name) {
 
   stock_season <- data$stock_season %>% unique()
 
-  map_strata(
+  NEesp::map_strata(
     stock_name = species_name,
     common_name = species_name,
     strata = data,
@@ -115,7 +115,7 @@ map_strata <- function(stock_name, common_name, stock_season, strata,
                        overwrite = FALSE, save_plot, get_sf = F) {
   
   
-  `%>%` <- magrittr::`%>%`
+#  `%>%` <- magrittr::`%>%`
   
   ## General mapping parameters
   xmin = -77

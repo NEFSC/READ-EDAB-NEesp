@@ -11,7 +11,7 @@ Separate geom_gls() functions were fit for fall and spring measurements; trend l
 
 #### Survey biomass (raw measurements)
 ```{r, biomass}
-generate_plot(survey_data,
+NEesp::generate_plot(survey_data,
   variable = "BIOMASS",
   ytitle = "Biomass"
 )
@@ -34,7 +34,7 @@ indicators <- c(
 
 Please note, these estimates are not parsed by region or season. Swept area estimates are based on spring and fall surveys only. The shaded gray region indicates +/- two standard errors.
 ```{r, bio_survey_swept}
-plot_swept(swept_data, var = "biomass")
+NEesp::plot_swept(swept_data, var = "biomass")
 ```
 
 #### Assessment biomass
@@ -52,7 +52,7 @@ if (nrow(asmt_data %>% dplyr::filter(Metric == "Biomass")) > 0) {
 ```
 
 ```{r, biomass_asmt,  fig.height = ndesc * 4 + 1}
-plot_asmt(asmt_data,
+NEesp::plot_asmt(asmt_data,
   metric = "Biomass",
   ytitle = "Biomass",
   lin = lines,
@@ -72,7 +72,7 @@ indicators <- c("asmt_biomass")
 
 ### Survey summary
 ```{r, biomass_summary}
-generate_table(survey_data,
+NEesp::generate_table(survey_data,
   variable = "BIOMASS",
   cap = "Measured biomass"
 )
@@ -83,12 +83,12 @@ generate_table(survey_data,
 #### Survey data (raw measurements)
 ```{r, biomass_data}
 data <- survey_data %>%
-  get_var_data(variable = "BIOMASS") %>%
+  NEesp::get_var_data(variable = "BIOMASS") %>%
   dplyr::mutate(variable = variable %>%
     format(big.mark = ",")) %>%
-  character_to_factor()
+  NEesp::character_to_factor()
 
-make_html_table(data, col_names = c("Year", "Season", "Region", "Biomass"))
+NEesp::make_html_table(data, col_names = c("Year", "Season", "Region", "Biomass"))
 ```
 
 #### Survey data (swept area estimates)
@@ -104,7 +104,7 @@ data <- swept_data %>%
       format(big.mark = ",")
   )
 
-make_html_table(data, col_names = c("Year", "Biomass (kg)", "Standard error"))
+NEesp::make_html_table(data, col_names = c("Year", "Biomass (kg)", "Standard error"))
 ```
 
 #### Assessment data
@@ -116,7 +116,7 @@ data <- asmt_data %>%
     round(digits = 0)) %>%
   dplyr::mutate(Value = Value %>%
     format(big.mark = ",")) %>%
-  character_to_factor()
+  NEesp::character_to_factor()
 
-make_html_table(data, col_names = colnames(data))
+NEesp::make_html_table(data, col_names = colnames(data))
 ```

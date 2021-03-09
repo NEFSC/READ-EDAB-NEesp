@@ -165,10 +165,10 @@ data_summary_5yr <- function(x) {
 #' @export
 
 generate_plot <- function(x, ytitle = "", variable) {
-  data <- get_var_data(x, variable = variable)
+  data <- NEesp::get_var_data(x, variable = variable)
 
   if (nrow(data) > 0) {
-    fig <- plot_variable(data, ytitle = ytitle)
+    fig <- NEesp::plot_variable(data, ytitle = ytitle)
 
     return(fig)
   }
@@ -190,14 +190,14 @@ generate_plot <- function(x, ytitle = "", variable) {
 #' @export
 
 generate_table <- function(x, variable, cap = "") {
-  data <- get_var_data(x, variable = variable)
+  data <- NEesp::get_var_data(x, variable = variable)
 
   if (nrow(data) > 0) {
-    table <- data_summary(data)
+    table <- NEesp::data_summary(data)
     table[, 4:7] <- table[, 4:7] %>%
       round(digits = 2)
 
-    table_5yr <- data_summary_5yr(data)
+    table_5yr <- NEesp::data_summary_5yr(data)
     table_5yr[, 3:6] <- table_5yr[, 3:6] %>%
       round(digits = 2)
 
@@ -415,10 +415,10 @@ plot_len_hist <- function(x) {
 #' @export
 
 generate_len_plot <- function(x) {
-  data <- get_len_data(x)
+  data <- NEesp::get_len_data(x)
 
   if (nrow(data) > 0) {
-    plot_len(data)
+    NEesp::plot_len(data)
   } else {
     print("NO DATA")
   }
@@ -553,11 +553,11 @@ len_tbl_data_5yr <- function(x) {
 #' @export
 
 generate_len_table <- function(x) {
-  tbl_data <- get_len_data_tbl(x)
+  tbl_data <- NEesp::get_len_data_tbl(x)
 
-  table <- len_tbl_data(tbl_data)
+  table <- NEesp::len_tbl_data(tbl_data)
 
-  table_5yr <- len_tbl_data_5yr(tbl_data)
+  table_5yr <- NEesp::len_tbl_data_5yr(tbl_data)
 
   total_table <- cbind(
     table[, 1:3],

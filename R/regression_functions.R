@@ -70,7 +70,7 @@ plot_correlation <- function(stock, eco, lag = 0) {
   # the eco data numeric values should be in a column called "Val"
   # the eco data category values should be in a column called "Var"
 
-  data <- data_prep(
+  data <- NEesp::data_prep(
     stock_data = stock,
     eco_data = eco,
     lag_data = lag
@@ -126,7 +126,7 @@ plot_correlation <- function(stock, eco, lag = 0) {
 #' @export
 
 correlation_data <- function(stock, eco, lag = 0) {
-  data <- data_prep(
+  data <- NEesp::data_prep(
     stock_data = stock,
     eco_data = eco,
     lag_data = lag
@@ -193,7 +193,7 @@ correlation_data <- function(stock, eco, lag = 0) {
 #' @export
 
 correlation_summary <- function(stock, eco, lag = 0) {
-  data <- data_prep(
+  data <- NEesp::data_prep(
     stock_data = stock,
     eco_data = eco,
     lag_data = lag

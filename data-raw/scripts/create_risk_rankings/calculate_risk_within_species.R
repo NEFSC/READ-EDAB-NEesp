@@ -1,24 +1,17 @@
 
-source(here::here("R/full_report_functions", "get_length.R"))
-source(here::here("R/full_report_functions", "get_survdat_info.R"))
-source(here::here("R/full_report_functions/risk_functions", "get_risk_within_species.R"))
-`%>%` <- dplyr::`%>%`
-
-# read in data from spreadsheets
-source(here::here("R/full_report_functions", "read_data.R"))
+`%>%` <- magrittr::`%>%`
 
 # remove survey data outside stock areas
-survey <- survey %>%
+survey <- NEesp::survey %>%
   dplyr::filter(Region != "Outside stock area")
 
 # risk within each stock ----
 
 # avg & max lengths of past 5 years compared to mean of all years previous (fall and spring) ----
-source(here::here("R/full_report_functions/", "get_length.R"))
 length <- survey %>% get_len_data_risk()
 length$YEAR <- as.numeric(length$YEAR)
 
-avg_len_f <- get_species_risk(
+avg_len_f <- NEesp::get_species_risk(
   data = length %>%
     dplyr::filter(SEASON == "FALL", Region != "Outside stock area"),
   n_run = 5,
@@ -27,7 +20,7 @@ avg_len_f <- get_species_risk(
   high = "low_risk",
   indicator_name = "avg_length_fall"
 )
-avg_len_s <- get_species_risk(
+avg_len_s <- NEesp::get_species_risk(
   data = length %>%
     dplyr::filter(SEASON == "SPRING", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -36,7 +29,7 @@ avg_len_s <- get_species_risk(
   indicator_name = "avg_length_spring"
 )
 
-max_len_f <- get_species_risk(
+max_len_f <- NEesp::get_species_risk(
   data = length %>%
     dplyr::filter(SEASON == "FALL", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -44,7 +37,7 @@ max_len_f <- get_species_risk(
   high = "low_risk",
   indicator_name = "max_length_fall"
 )
-max_len_s <- get_species_risk(
+max_len_s <- NEesp::get_species_risk(
   data = length %>%
     dplyr::filter(SEASON == "SPRING", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -58,7 +51,7 @@ abun_survey <- survey %>%
   get_var_data(variable = "ABUNDANCE")
 abun_survey$YEAR <- as.numeric(abun_survey$YEAR)
 
-abun_f <- get_species_risk(
+abun_f <- NEesp::get_species_risk(
   data = abun_survey %>%
     dplyr::filter(SEASON == "FALL", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -66,7 +59,7 @@ abun_f <- get_species_risk(
   high = "low_risk",
   indicator_name = "abundance_fall"
 )
-abun_s <- get_species_risk(
+abun_s <- NEesp::get_species_risk(
   data = abun_survey %>%
     dplyr::filter(SEASON == "SPRING", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -77,11 +70,11 @@ abun_s <- get_species_risk(
 
 # survey biomass (fall and spring) ----
 biomass_surv <- survey %>%
-  get_var_data(variable = "BIOMASS")
+  NEesp::get_var_data(variable = "BIOMASS")
 biomass_surv
 biomass_surv$YEAR <- as.numeric(biomass_surv$YEAR)
 
-biomass_f <- get_species_risk(
+biomass_f <- NEesp::get_species_risk(
   data = biomass_surv %>%
     dplyr::filter(SEASON == "FALL", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -89,7 +82,7 @@ biomass_f <- get_species_risk(
   high = "low_risk",
   indicator_name = "biomass_fall"
 )
-biomass_s <- get_species_risk(
+biomass_s <- NEesp::get_species_risk(
   data = biomass_surv %>%
     dplyr::filter(SEASON == "SPRING", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -98,10 +91,9 @@ biomass_s <- get_species_risk(
   indicator_name = "biomass_spring"
 )
 
-
 # asmt recruitment ----
-dat <- asmt %>% dplyr::filter(Metric == "Recruitment")
-recruit <- get_species_risk(
+dat <- NEesp::asmt %>% dplyr::filter(Metric == "Recruitment")
+recruit <- NEesp::get_species_risk(
   data = dat,
   year_source = "Year",
   value_source = "Value",
@@ -110,8 +102,8 @@ recruit <- get_species_risk(
 )
 
 # asmt abundance ----
-dat <- asmt %>% dplyr::filter(Metric == "Abundance")
-abun <- get_species_risk(
+dat <- NEesp::asmt %>% dplyr::filter(Metric == "Abundance")
+abun <- NEesp::get_species_risk(
   data = dat,
   year_source = "Year",
   value_source = "Value",
@@ -120,8 +112,8 @@ abun <- get_species_risk(
 )
 
 # asmt biomass  ----
-dat <- asmt %>% dplyr::filter(Metric == "Biomass")
-biomass <- get_species_risk(
+dat <- NEesp::asmt %>% dplyr::filter(Metric == "Biomass")
+biomass <- NEesp::get_species_risk(
   data = dat,
   year_source = "Year",
   value_source = "Value",
@@ -130,11 +122,11 @@ biomass <- get_species_risk(
 )
 
 # asmt catch ----
-dat <- asmt %>% dplyr::filter(
+dat <- NEesp::asmt %>% dplyr::filter(
   Metric == "Catch",
   Units == "Metric Tons"
 )
-catch <- get_species_risk(
+catch <- NEesp::get_species_risk(
   data = dat,
   year_source = "Year",
   value_source = "Value",
@@ -143,15 +135,15 @@ catch <- get_species_risk(
 )
 
 # com catch & revenue ----
-com$Region <- NA
-com_sum <- com %>%
-  dplyr::group_by(Species, Region, Year) %>%
+com_sum <- NEesp::com_catch %>%
+  dplyr::group_by(Species, Year) %>%
   dplyr::summarise(
     total_catch = sum(Pounds),
     total_dollars = sum(Dollars_adj)
   )
+com_sum$Region <- NA
 
-com_run <- get_species_risk(
+com_run <- NEesp::get_species_risk(
   data = com_sum,
   year_source = "Year",
   value_source = "total_catch",
@@ -159,7 +151,7 @@ com_run <- get_species_risk(
   indicator_name = "com_catch"
 )
 
-rev_run <- get_species_risk(
+rev_run <- NEesp::get_species_risk(
   data = com_sum,
   year_source = "Year",
   value_source = "total_dollars",
@@ -168,12 +160,12 @@ rev_run <- get_species_risk(
 )
 
 # rec catch ----
-rec$Region <- NA
-rec_sum <- rec %>%
-  dplyr::group_by(Species, Region, year) %>%
+rec_sum <- NEesp::rec_catch %>%
+  dplyr::group_by(Species, year) %>%
   dplyr::summarise(total_catch = sum(lbs_ab1))
+rec_sum$Region <- NA
 
-rec <- get_species_risk(
+rec <- NEesp::get_species_risk(
   data = rec_sum,
   year_source = "year",
   value_source = "total_catch",
@@ -182,7 +174,7 @@ rec <- get_species_risk(
 )
 
 # bbmsy ----
-b <- get_species_risk(
+b <- NEesp::get_species_risk(
   data = asmt_sum,
   year_source = "Assessment Year",
   value_source = "B/Bmsy",
@@ -191,7 +183,7 @@ b <- get_species_risk(
 )
 
 # ffmsy ----
-f <- get_species_risk(
+f <- NEesp::get_species_risk(
   data = asmt_sum,
   year_source = "Assessment Year",
   value_source = "F/Fmsy",
@@ -200,7 +192,6 @@ f <- get_species_risk(
 )
 
 # * merge everything except rec and com ----
-
 all_ind <- rbind(
   b, f, catch, recruit, abun, biomass, biomass_f, biomass_s,
   abun_f, abun_s, avg_len_f, avg_len_s, max_len_f, max_len_s
@@ -348,5 +339,8 @@ new_data <- dplyr::full_join(data, fixed_data,
 new_data
 
 write.csv(new_data,
-  file = here::here("data/risk_ranking", "full_risk_data_by_species.csv")
+  file = here::here("data-raw/risk_ranking", "full_risk_data_by_species.csv")
 )
+
+risk_species <- new_data
+usethis::use_data(risk_species, overwrite = TRUE)

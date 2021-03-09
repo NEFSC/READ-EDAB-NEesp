@@ -1,23 +1,18 @@
 # risk over time
 
-source(here::here("R/full_report_functions/risk_functions", "get_running_historical_risk.R"))
-`%>%` <- dplyr::`%>%`
-
-# read in data from spreadsheets
-source(here::here("R/full_report_functions", "read_data.R"))
+`%>%` <- magrittr::`%>%`
 
 # remove survey data outside stock areas
-survey <- survey %>%
+survey <- NEesp::survey %>%
   dplyr::filter(Region != "Outside stock area")
 
 # calculate running risks ----
 
-# avg & max lengths of past 5 years compared to mean of all years previous (fall and spring)
-source(here::here("R/full_report_functions/", "get_length.R"))
+# avg & max lengths of past 5 years compared to mean of all years previous (fall and spring) ----
 length <- survey %>% get_len_data_risk()
 length$YEAR <- as.numeric(length$YEAR)
 
-avg_len_f <- get_running_risk(
+avg_len_f <- NEesp::get_running_risk(
   data = length %>%
     dplyr::filter(SEASON == "FALL", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -26,7 +21,7 @@ avg_len_f <- get_running_risk(
   indicator_name = "avg_length_fall",
   n_run = 5
 )
-avg_len_s <- get_running_risk(
+avg_len_s <- NEesp::get_running_risk(
   data = length %>%
     dplyr::filter(SEASON == "SPRING", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -36,7 +31,7 @@ avg_len_s <- get_running_risk(
   n_run = 5
 )
 
-max_len_f <- get_running_risk(
+max_len_f <- NEesp::get_running_risk(
   data = length %>%
     dplyr::filter(SEASON == "FALL", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -45,7 +40,7 @@ max_len_f <- get_running_risk(
   indicator_name = "max_length_fall",
   n_run = 5
 )
-max_len_s <- get_running_risk(
+max_len_s <- NEesp::get_running_risk(
   data = length %>%
     dplyr::filter(SEASON == "SPRING", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -55,13 +50,13 @@ max_len_s <- get_running_risk(
   n_run = 5
 )
 
-# survey abundance of past 5 years compared to mean of all years previous (fall and spring)
+# survey abundance of past 5 years compared to mean of all years previous (fall and spring) ----
 abun_survey <- survey %>%
   dplyr::select(Species, Region, YEAR, SEASON, ABUNDANCE, fish_id) %>%
   dplyr::distinct()
 abun_survey$YEAR <- as.numeric(abun_survey$YEAR)
 
-abun_f <- get_running_risk(
+abun_f <- NEesp::get_running_risk(
   data = abun_survey %>%
     dplyr::filter(SEASON == "FALL", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -70,7 +65,7 @@ abun_f <- get_running_risk(
   indicator_name = "abundance_fall",
   n_run = 5
 )
-abun_s <- get_running_risk(
+abun_s <- NEesp::get_running_risk(
   data = abun_survey %>%
     dplyr::filter(SEASON == "SPRING", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -80,13 +75,13 @@ abun_s <- get_running_risk(
   n_run = 5
 )
 
-# survey biomass of past 5 years compared to mean of all years previous (fall and spring)
+# survey biomass of past 5 years compared to mean of all years previous (fall and spring) ----
 biomass_surv <- survey %>%
   dplyr::select(Species, Region, YEAR, SEASON, BIOMASS, fish_id) %>%
   dplyr::distinct()
 biomass_surv$YEAR <- as.numeric(biomass_surv$YEAR)
 
-biomass_f <- get_running_risk(
+biomass_f <- NEesp::get_running_risk(
   data = biomass_surv %>%
     dplyr::filter(SEASON == "FALL", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -95,7 +90,7 @@ biomass_f <- get_running_risk(
   indicator_name = "biomass_fall",
   n_run = 5
 )
-biomass_s <- get_running_risk(
+biomass_s <- NEesp::get_running_risk(
   data = biomass_surv %>%
     dplyr::filter(SEASON == "SPRING", Region != "Outside stock area"),
   year_source = "YEAR",
@@ -105,10 +100,9 @@ biomass_s <- get_running_risk(
   n_run = 5
 )
 
-
-# asmt recruitment of past 5 years compared to mean of all years previous
-dat <- asmt %>% dplyr::filter(Metric == "Recruitment")
-recruit <- get_running_risk(
+# asmt recruitment of past 5 years compared to mean of all years previous ----
+dat <- NEesp::asmt %>% dplyr::filter(Metric == "Recruitment")
+recruit <- NEesp::get_running_risk(
   data = dat,
   year_source = "Year",
   value_source = "Value",
@@ -117,9 +111,9 @@ recruit <- get_running_risk(
   n_run = 5
 )
 
-# asmt abundance of past 5 years compared to mean of all years previous
-dat <- asmt %>% dplyr::filter(Metric == "Abundance")
-abun <- get_running_risk(
+# asmt abundance of past 5 years compared to mean of all years previous ----
+dat <- NEesp::asmt %>% dplyr::filter(Metric == "Abundance")
+abun <- NEesp::get_running_risk(
   data = dat,
   year_source = "Year",
   value_source = "Value",
@@ -128,9 +122,9 @@ abun <- get_running_risk(
   n_run = 5
 )
 
-# asmt biomass of past 5 years compared to mean of all years previous
-dat <- asmt %>% dplyr::filter(Metric == "Biomass")
-biomass <- get_running_risk(
+# asmt biomass of past 5 years compared to mean of all years previous ----
+dat <- NEesp::asmt %>% dplyr::filter(Metric == "Biomass")
+biomass <- NEesp::get_running_risk(
   data = dat,
   year_source = "Year",
   value_source = "Value",
@@ -139,12 +133,12 @@ biomass <- get_running_risk(
   n_run = 5
 )
 
-# asmt catch of past 5 years compared to mean of all years previous
-dat <- asmt %>% dplyr::filter(
+# asmt catch of past 5 years compared to mean of all years previous ----
+dat <- NEesp::asmt %>% dplyr::filter(
   Metric == "Catch",
   Units == "Metric Tons"
 )
-catch <- get_running_risk(
+catch <- NEesp::get_running_risk(
   data = dat,
   year_source = "Year",
   value_source = "Value",
@@ -153,16 +147,16 @@ catch <- get_running_risk(
   n_run = 5
 )
 
-# com catch & revenue of past 5 years compared to mean of all years previous
-com$Region <- NA
-com_sum <- com %>%
-  dplyr::group_by(Species, Region, Year) %>%
+# com catch & revenue of past 5 years compared to mean of all years previous ----
+com_sum <- NEesp::com_catch %>%
+  dplyr::group_by(Species, Year) %>%
   dplyr::summarise(
     total_catch = sum(Pounds),
     total_dollars = sum(Dollars_adj)
   )
+com_sum$Region <- NA
 
-com_run <- get_running_risk(
+com_run <- NEesp::get_running_risk(
   data = com_sum,
   year_source = "Year",
   value_source = "total_catch",
@@ -171,7 +165,7 @@ com_run <- get_running_risk(
   n_run = 5
 )
 
-rev_run <- get_running_risk(
+rev_run <- NEesp::get_running_risk(
   data = com_sum,
   year_source = "Year",
   value_source = "total_dollars",
@@ -180,13 +174,13 @@ rev_run <- get_running_risk(
   n_run = 5
 )
 
-# rec catch of past 5 years compared to mean of all years previous
-rec$Region <- NA
-rec_sum <- rec %>%
-  dplyr::group_by(Species, Region, year) %>%
+# rec catch of past 5 years compared to mean of all years previous ----
+rec_sum <- NEesp::rec_catch %>%
+  dplyr::group_by(Species, year) %>%
   dplyr::summarise(total_catch = sum(lbs_ab1))
+rec_sum$Region <- NA
 
-rec <- get_running_risk(
+rec <- NEesp::get_running_risk(
   data = rec_sum,
   year_source = "year",
   value_source = "total_catch",
@@ -195,9 +189,9 @@ rec <- get_running_risk(
   n_run = 5
 )
 
-# bbmsy compared to mean of all years previous
-b <- get_running_risk(
-  data = asmt_sum,
+# bbmsy compared to mean of all years previous ----
+b <- NEesp::get_running_risk(
+  data = NEesp::asmt_sum,
   year_source = "Assessment Year",
   value_source = "B/Bmsy",
   high = "low_risk",
@@ -205,9 +199,9 @@ b <- get_running_risk(
   n_run = 5
 )
 
-# ffmsy compared to mean of all years previous
-f <- get_running_risk(
-  data = asmt_sum,
+# ffmsy compared to mean of all years previous ----
+f <- NEesp::get_running_risk(
+  data = NEesp::asmt_sum,
   year_source = "Assessment Year",
   value_source = "F/Fmsy",
   high = "high_risk",
@@ -306,6 +300,7 @@ data <- data %>% tidyr::pivot_longer(
   names_to = "Indicator",
   values_to = "norm_rank"
 )
+
 info <- stringr::str_split_fixed(data$Indicator, "_break ", n = 2)
 data$Indicator <- info[, 2]
 data$Year <- info[, 1]
@@ -371,5 +366,9 @@ new_data <- dplyr::full_join(data, fixed_data,
 new_data
 
 write.csv(new_data,
-  file = here::here("data/risk_ranking", "full_historical_risk_data_over_time.csv")
+  file = here::here("data-raw/risk_ranking", "full_historical_risk_data_over_time.csv")
 )
+
+risk_year_hist <- new_data
+
+usethis::use_data(risk_year_hist, overwrite = TRUE)

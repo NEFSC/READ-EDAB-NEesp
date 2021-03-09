@@ -22,7 +22,7 @@ Stock assessment and data quality information were pulled from ``r params$asmt_s
 ```{r, quality}
 data <- ad_rating_data %>%
   dplyr::filter(Species == species) %>%
-  character_to_factor()
+  NEesp::character_to_factor()
 
-make_html_table(data, col_names = colnames(data))
+NEesp::make_html_table(data, col_names = colnames(data))
 ```

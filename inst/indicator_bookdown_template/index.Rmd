@@ -47,31 +47,31 @@ knitr::opts_chunk$set(
 species <- params$species_ID
 
 # risk data
-risk_data <- risk[risk$Species == species, ] %>%
+risk_data <- NEesp::risk[NEesp::risk$Species == species, ] %>%
   missing_na()
 
-risk_year_hist_data <- risk_year_hist[risk_year_hist$Species == species, ] %>%
+risk_year_hist_data <- NEesp::risk_year_hist[NEesp::risk_year_hist$Species == species, ] %>%
   missing_na()
 
-risk_year_value_data <- risk_year_value[risk_year_value$Species == species, ] %>%
+risk_year_value_data <- NEesp::risk_year_value[NEesp::risk_year_value$Species == species, ] %>%
   missing_na()
 
-risk_species_data <- risk_species[risk_species$Species == species, ] %>%
+risk_species_data <- NEesp::risk_species[NEesp::risk_species$Species == species, ] %>%
   missing_na()
 
 # data
-latlong_data <- latlong[latlong$Species == species, ]
+latlong_data <- NEesp::latlong[NEesp::latlong$Species == species, ]
 
-survey_data <- survey[survey$Species == species, ]
-cond_data <- cond[cond$Species == species, ]
-diet_data <- allfh[allfh$Species == species, ]
+survey_data <- NEesp::survey[NEesp::survey$Species == species, ]
+cond_data <- NEesp::cond[NEesp::cond$Species == species, ]
+diet_data <- NEesp::allfh[NEesp::allfh$Species == species, ]
 
-asmt_data <- asmt[asmt$Species == species, ]
-asmt_sum_data <- asmt_sum[asmt_sum$Species == species, ]
-swept_data <- swept[swept$Species == species, ]
+asmt_data <- NEesp::asmt[NEesp::asmt$Species == species, ]
+asmt_sum_data <- NEesp::asmt_sum[NEesp::asmt_sum$Species == species, ]
+swept_data <- NEesp::swept[NEesp::swept$Species == species, ]
 
-rec_data <- rec_catch[rec_catch$Species == species, ]
-com_data <- com_catch[com_catch$Species == species, ]
+rec_data <- NEesp::rec_catch[NEesp::rec_catch$Species == species, ]
+com_data <- NEesp::com_catch[NEesp::com_catch$Species == species, ]
 
 # habitat vulnerability
 hab_data <- ecodata::habitat_vulnerability %>%
@@ -80,7 +80,7 @@ hab_data <- ecodata::habitat_vulnerability %>%
 hab_data <- hab_data[, c(8, 1:7)]
 
 # climate vulnerability
-climate_data <- climate_vulnerability %>%
+climate_data <- NEesp::climate_vulnerability %>%
   dplyr::mutate(Species = Species %>%
     stringr::str_to_sentence()) %>%
   dplyr::filter(Species == species) %>%
@@ -91,39 +91,35 @@ climate_data <- climate_vulnerability %>%
 
 dir.create("data")
 
-save_data(latlong_data)
+NEesp::save_data(latlong_data)
 
-```
+NEesp::save_data(survey_data, name = "survey_data")
 
-```{r, eval = FALSE}
+NEesp::save_data(cond_data, name = "cond_data")
 
-save_data(survey_data, name = "survey_data")
+NEesp::save_data(diet_data, name = "diet_data")
 
-save_data(cond_data, name = "cond_data")
+NEesp::save_data(asmt_data, name = "asmt_data")
 
-save_data(diet_data, name = "diet_data")
+NEesp::save_data(asmt_sum_data, name = "asmt_sum_data")
 
-save_data(asmt_data, name = "asmt_data")
+NEesp::save_data(swept_data, name = "swept_data")
 
-save_data(asmt_sum_data, name = "asmt_sum_data")
+NEesp::save_data(rec_data, name = "rec_data")
 
-save_data(swept_data, name = "swept_data")
+NEesp::save_data(com_data, name = "com_data")
 
-save_data(rec_data, name = "rec_data")
+NEesp::save_data(hab_data, name = "hab_data")
 
-save_data(com_data, name = "com_data")
+NEesp::save_data(climate_data, name = "climate_data")
 
-save_data(hab_data, name = "hab_data")
+NEesp::save_data(risk_data, name = "risk_data")
 
-save_data(climate_data, name = "climate_data")
+NEesp::save_data(risk_year_hist_data, name = "risk_year_hist_data")
 
-save_data(risk_data, name = "risk_data")
+NEesp::save_data(risk_year_value_data, name = "risk_year_value_data")
 
-save_data(risk_year_hist_data, name = "risk_year_hist_data")
-
-save_data(risk_year_value_data, name = "risk_year_value_data")
-
-save_data(risk_species_data, name = "risk_species_data")
+NEesp::save_data(risk_species_data, name = "risk_species_data")
 ```
 
 This is a preliminary report of previously collected data. This report is pulling information on all Northeast `r species` stocks.

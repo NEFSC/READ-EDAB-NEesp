@@ -276,7 +276,7 @@ get_running_value_risk <- function(data, year_source, value_source,
   data <- data %>%
     dplyr::select(Species, Region, Value, Year) %>%
     dplyr::filter(
-      Species %in% key2$Species,
+      Species %in% species_key$Species,
       is.na(Value) == FALSE,
       is.na(Year) == FALSE
     )

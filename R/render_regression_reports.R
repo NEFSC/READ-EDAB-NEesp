@@ -10,7 +10,7 @@
 #' @param parent_folder The name of the folder to put the output in. If it does not exist, it will be created.
 #' @param input The folder with the bookdown template. Defaults to "package", which calls the template files saved in the package.
 #' @param trouble Whether or not to display verbose output. Defaults to FALSE.
-#' @param save_var Whether or not to save the data generated used in report creation. Defaults to TRUE.
+#' @param save_var Whether or not to save the data used in report creation. Defaults to TRUE.
 #' @return A bookdown report (html) (saved in a folder called `Regressions` in the root directory)
 #' @importFrom magrittr %>%
 #' @export
@@ -29,6 +29,7 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
     )
   ) %>%
     stringr::str_replace_all(" ", "_")
+  
   dir.create(new_dir,
     recursive = TRUE
   )
@@ -58,9 +59,11 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
 
   setwd(here::here(new_dir))
 
-  dir.create("data",
-    recursive = TRUE
-  )
+  if(save_var){
+    dir.create("data",
+               recursive = TRUE
+    )
+  }
 
   if (trouble == FALSE) {
     bookdown::render_book(
@@ -103,7 +106,6 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
       quiet = FALSE
     )
   }
-
 
   # clean up files
   list.files(here::here(new_dir),
@@ -149,7 +151,7 @@ render_all_reg <- function(x = "package") {
   for (i in 1:nrow(info)
   ) {
     # make 0 lag reports
-    render_reg_report(
+    NEesp::render_reg_report(
       stock_var = info[i, 1],
       epus_var = info[i, 3],
       region_var = info[i, 2],
@@ -162,7 +164,7 @@ render_all_reg <- function(x = "package") {
     )
 
     # make 1 year lag reports
-    render_reg_report(
+    NEesp::render_reg_report(
       stock_var = info[i, 1],
       epus_var = info[i, 3],
       region_var = info[i, 2],
@@ -175,7 +177,7 @@ render_all_reg <- function(x = "package") {
     )
 
     # make 1 year lag, minus 10 recent years reports
-    render_reg_report(
+    NEesp::render_reg_report(
       stock_var = info[i, 1],
       epus_var = info[i, 3],
       region_var = info[i, 2],

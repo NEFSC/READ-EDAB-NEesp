@@ -1,38 +1,19 @@
 
-`%>%` <- dplyr::`%>%`
-
-names <- read.csv("https://raw.githubusercontent.com/NOAA-EDAB/ECSA/master/data/seasonal_stock_strata.csv")
-
-all_species <- names$COMNAME %>%
-  unique() %>%
-  stringr::str_to_sentence()
-
-# write.csv(all_species,
-#          file = here::here("data", "species_guilds.csv"))
-
-guilds <- read.csv(here::here("data", "species_guilds.csv"))
-head(guilds)
-
-risk <- read.csv(here::here("data/risk_ranking", "full_risk_data.csv"))
-head(risk)
+`%>%` <- magrittr::`%>%`
 
 # remove 0.5 due to missing data
+risk <- NEesp::risk
 for (i in 1:nrow(risk)) {
   if (risk$Value[i] %>% is.na()) {
     risk$norm_rank[i] <- NA
   }
 }
 
-guild_risk <- dplyr::left_join(guilds, risk, by = "Species")
+guild_risk <- dplyr::left_join(NEesp::species_guilds, risk, by = "Species")
 head(guild_risk)
 
 # add length classes
-survey <- readRDS(here::here("data", "survey_data.RDS")) %>%
-  dplyr::mutate(Species = Species %>%
-    stringr::str_replace("Goosefish", "Monkfish"))
-head(survey)
-
-survey2 <- survey %>%
+survey2 <- NEesp::survey %>%
   dplyr::filter(LENGTH > 0, ABUNDANCE > 0) %>%
   dplyr::group_by(Species, YEAR, SEASON, Region) %>%
   dplyr::mutate(n_fish = sum(NUMLEN)) %>%
@@ -85,11 +66,16 @@ dat <- guild_risk3 %>%
   dplyr::mutate(label_y = total_guild_risk - cumsum(avg_guild_risk))
 
 write.csv(dat,
-  file = here::here("data/risk_ranking", "guild_data.csv")
+  file = here::here("data-raw/risk_ranking", "guild_data.csv")
 )
+
+guild_risk <- dat
+usethis::use_data(guild_risk)
 
 # save guild info
 guild_info <- guild_risk2 %>%
   dplyr::select(Species, Scientific_name, Guild, size) %>%
   dplyr::distinct()
-write.csv(guild_info, file = here::here("data/risk_ranking", "guild_info.csv"))
+write.csv(guild_info, file = here::here("data-raw/risk_ranking", "guild_info.csv"))
+
+usethis::use_data(guild_info)

@@ -22,7 +22,7 @@ if (nrow(asmt_data %>% dplyr::filter(Metric == "Catch")) > 0) {
 #### Stock assessment catch
 ```{r, catch}
 #  fig.height = ndesc * 10
-plot_asmt(asmt_data,
+NEesp::plot_asmt(asmt_data,
   metric = "Catch",
   ytitle = "Catch",
   lin = lines,
@@ -42,7 +42,7 @@ indicators <- c("asmt_catch")
 
 #### Recreational catch
 ```{r, rec}
-plot_rec_catch(rec_data)
+NEesp::plot_rec_catch(rec_data)
 ```
 
 ##### Risk {-}
@@ -57,7 +57,7 @@ indicators <- c("rec_catch")
 
 #### Commercial catch
 ```{r, com}
-plot_com(com_data)
+NEesp::plot_com(com_data)
 ```
 
 ##### Risk {-}
@@ -72,7 +72,7 @@ indicators <- c("com_catch")
 
 #### Commercial vs recreational catch
 ```{r, comvrec}
-plot_prop_catch(com = com_data, rec = rec_data)
+NEesp::plot_prop_catch(com = com_data, rec = rec_data)
 ```
 
 ### Data
@@ -86,9 +86,9 @@ data <- asmt_data %>%
     round(digits = 0)) %>%
   dplyr::mutate(Value = Value %>%
     format(big.mark = ",")) %>%
-  character_to_factor()
+  NEesp::character_to_factor()
 
-make_html_table(data, col_names = colnames(data))
+NEesp::make_html_table(data, col_names = colnames(data))
 ```
 
 #### Recreational catch
@@ -104,7 +104,7 @@ data <- rec_data %>%
       format(big.mark = ",")
   ) %>%
   dplyr::select(year, State, Method, Catch_pounds) %>%
-  character_to_factor()
+  NEesp::character_to_factor()
 
 make_html_table(data, col_names = c("Year", "State", "Method", "Catch (lb)"))
 ```
@@ -126,17 +126,17 @@ data <- com_data %>%
     "Revenue (2019 dollars)" = "Dollars_adj",
     "Commercial catch (lb)" = "Pounds"
   ) %>%
-  character_to_factor()
+  NEesp::character_to_factor()
 
-make_html_table(data, col_names = colnames(data))
+NEesp::make_html_table(data, col_names = colnames(data))
 ```
 
 #### Commercial vs recreational catch
 ```{r, comvrec_data}
-data <- prop_catch_data(rec = rec_data, com = com_data) %>%
-  character_to_factor()
+data <- NEesp::prop_catch_data(rec = rec_data, com = com_data) %>%
+  NEesp::character_to_factor()
 
-make_html_table(data, col_names = c(
+NEesp::make_html_table(data, col_names = c(
   "Year", "Recreational catch",
   "Commercial catch", "Total catch",
   "Proportion recreational",
@@ -207,7 +207,7 @@ sum_test <- sum(test == 0)
 if (sum_test >= 2) {
   print("NO DATA")
 } else {
-  make_html_table(all_catch, col_names = colnames(all_catch))
+  NEesp::make_html_table(all_catch, col_names = colnames(all_catch))
 }
 ```
 
