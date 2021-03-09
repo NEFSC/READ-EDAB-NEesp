@@ -8,6 +8,7 @@
 #' @param remove_var Whether or not to remove the most recent 10 years of data. Defaults to FALSE.
 #' @param lag_var How many years to lag the correlations by. Defaults to 0.
 #' @param parent_folder The name of the folder to put the output in. If it does not exist, it will be created.
+#' @param input The folder with the bookdown template. Defaults to "package", which calls the template files saved in the package.
 #' @param trouble Whether or not to display verbose output. Defaults to FALSE.
 #' @param save_var Whether or not to save the data generated used in report creation. Defaults to TRUE.
 #' @return A bookdown report (html) (saved in a folder called `Regressions` in the root directory)
@@ -15,7 +16,8 @@
 #' @export
 
 render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALSE,
-                              lag_var = 0, parent_folder, trouble = FALSE, save_var = TRUE) {
+                              lag_var = 0, parent_folder, input = "package",
+                              trouble = FALSE, save_var = TRUE) {
   starting_dir <- getwd()
   
   new_dir <- here::here(
@@ -33,13 +35,26 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
 
   file.create(here::here(new_dir, ".nojekyll"))
 
-  file.copy(
+  if(input == "package"){
+    file.copy(
       from = list.files(system.file("correlation_bookdown_template", package = "NEesp"),
-      full.names = TRUE
-    ),
-    to = here::here(new_dir),
-    overwrite = TRUE
-  )
+                        full.names = TRUE
+      ),
+      to = here::here(new_dir),
+      overwrite = TRUE
+    ) %>%
+      invisible()
+  } else {
+    file.copy(
+      from = list.files(input,
+                        full.names = TRUE
+      ),
+      to = here::here(new_dir),
+      overwrite = TRUE
+    ) %>%
+      invisible()
+  }
+
 
   setwd(here::here(new_dir))
 
@@ -114,14 +129,7 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
 #'
 #' This function renders all regression ESP reports.
 #'
-#' @param stock_var The name of the species
-#' @param epus_var The name of the EPU ("MAB", "GB", or "GOM")
-#' @param region_var The name of the region the species is found in (must match an option in `assessmentdata::stockAssessmentData`)
-#' @param remove_var Whether or not to remove the most recent 10 years of data. Defaults to FALSE.
-#' @param lag_var How many years to lag the correlations by. Defaults to 0.
-#' @param parent_folder The name of the folder to put the output in. If it does not exist, it will be created.
-#' @param trounle Whether or not to display verbose output. Defaults to FALSE.
-#' @param save_var Whether or not to save the data generated used in report creation. Defaults to TRUE.
+#' @param x The folder with the bookdown template. Defaults to "package", which calls the template files saved in the package.
 #' @return Multiple bookdown reports (html)
 #' @export
 
@@ -135,7 +143,7 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
 
 # info <- read.csv(here::here("R/regressions", "regression_species_regions.csv"))
 
-render_all_reg <- function() {
+render_all_reg <- function(x = "package") {
   info <- regression_species_regions
 
   for (i in 1:nrow(info)
@@ -148,6 +156,7 @@ render_all_reg <- function() {
       lag_var = 0,
       remove_var = FALSE,
       save_var = TRUE,
+      input = x,
       parent_folder = "zero_lag",
       trouble = TRUE
     )
@@ -160,6 +169,7 @@ render_all_reg <- function() {
       lag_var = 1,
       remove_var = FALSE,
       save_var = FALSE,
+      input = x,
       parent_folder = "one_year_lag",
       trouble = FALSE
     )
@@ -172,6 +182,7 @@ render_all_reg <- function() {
       lag_var = 1,
       remove_var = TRUE,
       save_var = FALSE,
+      input = x,
       parent_folder = "one_year_lag_remove_recent",
       trouble = FALSE
     )

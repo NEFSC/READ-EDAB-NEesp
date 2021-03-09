@@ -1,11 +1,5 @@
 ## Recruitment
 
-```{r, recruit_raw_data}
-if(!exists("asmt_data")){
- asmt_data <- asmt[asmt$Species == species, ] 
-}
-```
-
 ```{r, child = system.file("indicator_bookdown_template/_legend-child-doc.Rmd", package = "NEesp")}
 ```
 

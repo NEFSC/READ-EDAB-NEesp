@@ -1,11 +1,5 @@
 ## Salinity
 
-```{r,sal_data}
-if(!exists("survey_data")){
-  survey_data <- survey[survey$Species == species, ]
-}
-```
-
 Surface and bottom salinity data were pulled from ``r params$survey_source``. 
 
 ### Figures

@@ -132,3 +132,24 @@ character_to_factor <- function(x) {
 format_numbers <- function(x) {
   as.numeric(as.character(unlist(x)))
 }
+
+#' Save a data set
+#'
+#' This function saves a data set if it has nrow > 0
+#'
+#' @param x A data table or tibble
+#' @return A .csv
+#' @export
+
+save_data <- function(x, name) {
+  if(nrow(x) > 0){
+    
+    if("X" %in% colnames(x)){
+      x <- x %>%
+        dplyr::select(-X)
+    }
+
+    filename <- paste("data/", name, ".csv", sep = "")
+    write.csv(x, file = filename, row.names = FALSE)
+  }
+}

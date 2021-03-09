@@ -1,11 +1,5 @@
 ## B/Bmsy 
 
-```{r, b_data_species}
-if(!exists("asmt_sum_data")){
-  asmt_sum_data <- asmt_sum[asmt_sum$Species == species, ]  
-}
-```
-
 ```{r, b_status}
 if (length(asmt_sum_data$Species) > 1) {
   list_regions <- split(unique(asmt_sum_data$Region),

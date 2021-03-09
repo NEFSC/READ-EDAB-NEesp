@@ -1,22 +1,7 @@
-
-```{r, biomass_raw_data}
-if(!exists("survey_data")){
-  survey_data <- survey[survey$Species == species, ]
-}
-
-if(!exists("asmt_data")){
- asmt_data <- asmt[asmt$Species == species, ] 
-}
-
-if(!exists("swept_data")){
-  swept_data <- swept[swept$Species == species, ]
-}
-```
+## Biomass
 
 ```{r, child = system.file("indicator_bookdown_template/_legend-child-doc.Rmd", package = "NEesp")}
 ```
-
-## Biomass
 
 Biomass data were pulled from ``r params$survey_source``. 
 

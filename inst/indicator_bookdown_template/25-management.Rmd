@@ -1,10 +1,6 @@
 # Management information
 
 ```{r, management_data, cache = params$cache}
-if(!exists("asmt_sum_data")){
-  asmt_sum_data <- asmt_sum[asmt_sum$Species == species, ]  
-}
-
 ad_rating_data <- asmt_sum_data %>%
   dplyr::select(
     Species, Region, `Assessment Year`, `Last Data Year`,

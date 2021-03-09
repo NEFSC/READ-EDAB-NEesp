@@ -1,14 +1,5 @@
 ## Catch
 
-```{r, catch_raw_data_species}
-if(!exists("asmt_data")){
- asmt_data <- asmt[asmt$Species == species, ] 
-}
-
-rec_data <- rec_catch[rec_catch$Species == species, ]
-com_data <- com_catch[com_catch$Species == species, ]
-```
-
 ```{r, child = system.file("indicator_bookdown_template/_legend-child-doc.Rmd", package = "NEesp")}
 ```
 

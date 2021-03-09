@@ -1,9 +1,5 @@
 ## Temperature
 
-```{r, tempe_data_species}
-survey_data <- survey[survey$Species == species, ]
-```
-
 Surface and bottom temperature data were pulled from ``r params$survey_source``. 
 
 ### Figures

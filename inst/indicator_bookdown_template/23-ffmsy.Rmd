@@ -1,11 +1,5 @@
 ## F/Fmsy 
 
-```{r, f_data}
-if(!exists("asmt_sum_data")){
-  asmt_sum_data <- asmt_sum[asmt_sum$Species == species, ]  
-}
-```
-
 ```{r, f_status}
 if (length(asmt_sum_data$Species) > 1) {
   list_regions <- split(unique(asmt_sum_data$Region),

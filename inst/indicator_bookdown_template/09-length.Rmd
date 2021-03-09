@@ -1,11 +1,5 @@
 ## Length
 
-```{r, len_data}
-if(!exists("survey_data")){
-  survey_data <- survey[survey$Species == species, ]
-}
-```
-
 Length data were pulled from ``r params$survey_source``. Only years with more than 10 fish lengths were considered for analysis. 
 
 ### Figures
