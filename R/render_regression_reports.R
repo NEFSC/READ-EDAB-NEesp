@@ -160,7 +160,7 @@ render_all_reg <- function(x = "package") {
       save_var = TRUE,
       input = x,
       parent_folder = "zero_lag",
-      trouble = TRUE
+      trouble = FALSE
     )
 
     # make 1 year lag reports

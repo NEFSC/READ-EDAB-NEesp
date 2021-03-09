@@ -47,7 +47,7 @@ render_ind_report <- function(x, trouble = FALSE, save_data = TRUE, input = "pac
       params = list(
         species_ID = x,
         path = here::here(new_dir, "figures//"),
-        ricky_survey_data = bio_survey,
+        ricky_survey_data = NEesp::bio_survey,
         save = save_data
       ),
       intermediates_dir = new_dir,
@@ -66,7 +66,7 @@ render_ind_report <- function(x, trouble = FALSE, save_data = TRUE, input = "pac
       params = list(
         species_ID = x,
         path = here::here(new_dir, "figures//"),
-        ricky_survey_data = bio_survey,
+        ricky_survey_data = NEesp::bio_survey,
         save = save_data
       ),
       intermediates_dir = new_dir,

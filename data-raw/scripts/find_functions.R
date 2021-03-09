@@ -5,7 +5,7 @@ all_files <- c(
     stringr::str_subset("\\.Rmd$")
 )
 
-find_files(all_files, "plot_risk_by_stock")
+find_files(all_files, "bio_survey")
 
 # search files with a loop
 find_files <- function(x, text) {
