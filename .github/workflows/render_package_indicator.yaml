@@ -52,7 +52,7 @@ jobs:
           
       - name: Render reports
         run: |
-          Rscript -e 'NEesp::render_ind_report(NEesp::species_key$Species[1])'
+          Rscript -e 'NEesp::render_ind_report(NEesp::species_key$Species[1], trouble = TRUE)'
           
           #lapply(NEesp::species_key$Species, 
           #       NEesp::render_ind_report)'
