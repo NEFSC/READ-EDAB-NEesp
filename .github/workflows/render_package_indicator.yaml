@@ -44,11 +44,15 @@ jobs:
           Rscript -e 'install.packages("devtools")
           devtools::install_deps(dependencies = TRUE)'
                  
+      - name: Install more packages
+        run: |
+          Rscript -e 'remove.packages("sf")
+          install.packages(c("papeR", "sf"))
+          devtools::install_github("NOAA-EDAB/esp_data_aggregation@package", dependencies = FALSE)'
+          
       - name: Render reports
         run: |
-          Rscript -e 'install.packages("papeR")
-          devtools::install_github("NOAA-EDAB/esp_data_aggregation@package", dependencies = FALSE)
-          NEesp::render_ind_report(NEesp::species_key$Species[1])'
+          Rscript -e 'NEesp::render_ind_report(NEesp::species_key$Species[1])'
           
           #lapply(NEesp::species_key$Species, 
           #       NEesp::render_ind_report)'
