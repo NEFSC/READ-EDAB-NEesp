@@ -45,7 +45,8 @@ jobs:
                  
       - name: Render reports
         run: |
-          Rscript -e 'devtools::install_github("NOAA-EDAB/esp_data_aggregation@package", dependencies = FALSE)
+          Rscript -e 'install.packages("papeR")
+          devtools::install_github("NOAA-EDAB/esp_data_aggregation@package", dependencies = FALSE)
           NEesp::render_all_reg()'
           
       - name: Deploy to Github
