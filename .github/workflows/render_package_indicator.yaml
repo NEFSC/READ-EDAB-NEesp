@@ -46,7 +46,8 @@ jobs:
                  
       - name: Render reports
         run: |
-          Rscript -e 'devtools::install_github("NOAA-EDAB/esp_data_aggregation@package")
+          Rscript -e 'install.packages("papeR")
+          devtools::install_github("NOAA-EDAB/esp_data_aggregation@package", dependencies = FALSE)
           lapply(NEesp::species_key$Species, 
                  NEesp::render_ind_report)'
           
