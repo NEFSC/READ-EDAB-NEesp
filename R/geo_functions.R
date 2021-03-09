@@ -176,7 +176,7 @@ map_strata <- function(stock_name, common_name, stock_season, strata,
   ### BTS species 
   #strata_int <- sf::st_read(here::here("data/strata_shapefiles/BTS_Strata.shp"),
   #                          quiet = TRUE) %>%
-  strata_int <- shape %>%
+  strata_int <- NEesp::shape %>%
     dplyr::mutate(both = dplyr::case_when(STRATA %in% strata_both ~ "spring and fall", TRUE ~ NA_character_),
                   spring = dplyr::case_when(STRATA %in% strata_spring ~ "spring", TRUE ~ NA_character_),
                   fall = dplyr::case_when(STRATA %in% strata_fall ~ "fall" ,TRUE ~ NA_character_),
