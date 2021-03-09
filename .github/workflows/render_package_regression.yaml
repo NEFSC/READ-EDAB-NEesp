@@ -40,7 +40,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           sudo R CMD javareconf
-          Rscript -e 'install.packages(c("devtools", "papeR"))
+          Rscript -e 'install.packages("devtools")
           devtools::install_deps(dependencies = TRUE)'
                  
       - name: Render reports
