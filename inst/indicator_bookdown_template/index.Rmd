@@ -91,7 +91,7 @@ climate_data <- climate_vulnerability %>%
 
 dir.create("data")
 
-save_data(latlong_data, name = "latlong_data")
+save_data(latlong_data)
 
 ```
 

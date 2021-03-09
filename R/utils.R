@@ -141,7 +141,10 @@ format_numbers <- function(x) {
 #' @return A .csv
 #' @export
 
-save_data <- function(x, name) {
+save_data <- function(x) {
+  
+  name <- substitute(x)
+
   if(nrow(x) > 0){
     
     if("X" %in% colnames(x)){
@@ -153,3 +156,4 @@ save_data <- function(x, name) {
     write.csv(x, file = filename, row.names = FALSE)
   }
 }
+
