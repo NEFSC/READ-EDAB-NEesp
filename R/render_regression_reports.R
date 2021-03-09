@@ -146,7 +146,7 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
 # info <- read.csv(here::here("R/regressions", "regression_species_regions.csv"))
 
 render_all_reg <- function(x = "package") {
-  info <- regression_species_regions
+  info <- NEesp::regression_species_regions
 
   for (i in 1:nrow(info)
   ) {
