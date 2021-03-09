@@ -170,7 +170,9 @@ map_strata <- function(common_name, stock_season, strata) {
   all_season$STRATA <- all_season$strata
 
   # For plotting
-  new_shape <- NEesp::shape
+  new_shape <- NEesp::shape %>%
+    sf::st_transform()
+  
   sf::st_crs(new_shape) <- crs
 
   strata_plot <- dplyr::full_join(new_shape, all_season, by = "STRATA") %>%
