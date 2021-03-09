@@ -59,4 +59,4 @@ latlong <- read.csv(here::here("data-raw", "geo_range_data.csv")) %>%
   dplyr::rename(stock_season = season_) %>%
   update_species_names(species_col = "Species")
 
-usethis::use_data(latlong)
+usethis::use_data(latlong, overwrite = TRUE)
