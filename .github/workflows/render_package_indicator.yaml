@@ -46,8 +46,9 @@ jobs:
                  
       - name: Install more packages
         run: |
-          Rscript -e 'remove.packages("sf")
-          install.packages(c("papeR", "sf"))
+          Rscript -e 'remove.packages("rnaturalearth")
+          install.packages("papeR")
+          install.packages("rnaturalearth", dependencies = TRUE)
           devtools::install_github("NOAA-EDAB/esp_data_aggregation@package", dependencies = FALSE)'
           
       - name: Render reports
