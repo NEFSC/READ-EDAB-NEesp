@@ -20,7 +20,7 @@ params:
   asmt_source: "assessmentdata::stockAssessmentData"
   survey_source: "survdat"
   
-  ricky_survey_data: bio_survey # ricky survey data
+  ricky_survey_data: NEesp::bio_survey # ricky survey data
   
   save: TRUE
 
@@ -48,16 +48,16 @@ species <- params$species_ID
 
 # risk data
 risk_data <- NEesp::risk[NEesp::risk$Species == species, ] %>%
-  missing_na()
+  NEesp::missing_na()
 
 risk_year_hist_data <- NEesp::risk_year_hist[NEesp::risk_year_hist$Species == species, ] %>%
-  missing_na()
+  NEesp::missing_na()
 
 risk_year_value_data <- NEesp::risk_year_value[NEesp::risk_year_value$Species == species, ] %>%
-  missing_na()
+  NEesp::missing_na()
 
 risk_species_data <- NEesp::risk_species[NEesp::risk_species$Species == species, ] %>%
-  missing_na()
+  NEesp::missing_na()
 
 # data
 latlong_data <- NEesp::latlong[NEesp::latlong$Species == species, ]
