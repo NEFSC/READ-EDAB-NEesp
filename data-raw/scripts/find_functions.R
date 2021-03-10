@@ -5,7 +5,7 @@ all_files <- c(
     stringr::str_subset("\\.Rmd$")
 )
 
-find_files(all_files, "sf")
+find_files(all_files, "com_palette")
 
 # search files with a loop
 find_files <- function(x, text) {
