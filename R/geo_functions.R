@@ -9,14 +9,14 @@
 #' @export
 
 map_strata_ecsa <- function(data, species_name) {
-  data <- data %>%
-    dplyr::filter(stock_season == "spring" | stock_season == "fall")
+#  data <- data %>%
+#    dplyr::filter(stock_season == "spring" | stock_season == "fall")
 
   stock_season <- data$stock_season %>% unique()
 
-  if (length(stock_season) > 1) {
-    stock_season <- "all"
-  }
+#  if (length(stock_season) > 1) {
+#    stock_season <- "all"
+#  }
 
   NEesp::map_strata(
     common_name = species_name,
@@ -116,7 +116,7 @@ map_strata <- function(common_name, stock_season, strata) {
     continent = "North America",
     returnclass = "sf"
   ) %>%
-    sf::st_transform()
+    sf::st_transform(crs = crs)
 
   #  sf::st_crs(ne_countries) <- crs
 
@@ -128,7 +128,7 @@ map_strata <- function(common_name, stock_season, strata) {
     country = "united states of america",
     returnclass = "sf"
   ) %>%
-    sf::st_transform()
+    sf::st_transform(crs = crs)
 
   #  sf::st_crs(ne_states) <- crs
 
@@ -138,23 +138,25 @@ map_strata <- function(common_name, stock_season, strata) {
   # strata
   strata_spring <- strata %>%
     dplyr::filter(stock_season == "spring") %>%
-    dplyr::pull(strata)
-
+    dplyr::select(strata, stock_season) %>%
+    dplyr::rename(spring = stock_season)
+  
   strata_fall <- strata %>%
     dplyr::filter(stock_season == "fall") %>%
-    dplyr::pull(strata)
-
+    dplyr::select(strata, stock_season) %>%
+    dplyr::rename(fall = stock_season)
+  
   strata_winter <- strata %>%
     dplyr::filter(stock_season == "winter") %>%
-    dplyr::pull(strata)
+    dplyr::select(strata, stock_season) %>%
+    dplyr::rename(winter = stock_season)
 
   # overlapping strata
   all_season <- dplyr::full_join(strata_spring, strata_fall,
-    by = "strata",
-    suffix = c("_spring", "_fall")
+    by = "strata"
   )
-  all_season <- dplyr::full_join(all_season, strata_winter, by = "strata") %>%
-    dplyr::rename(stock_season_winter = stock_season)
+  
+  all_season <- dplyr::full_join(all_season, strata_winter, by = "strata")
 
   all_season <- all_season[, colSums(is.na(all_season)) < nrow(all_season)] # Remove rows with NA only
 
@@ -167,17 +169,26 @@ map_strata <- function(common_name, stock_season, strata) {
   }
 
   all_season$label <- labelv
-  all_season$STRATA <- all_season$strata
-
+  
+  all_season <- all_season %>%
+    dplyr::select(strata, label) %>%
+    dplyr::rename(STRATA = strata) %>%
+    tibble::as_tibble()
+  
   # For plotting
   new_shape <- NEesp::shape %>%
-    sf::st_transform()
+    dplyr::select(STRATA, geometry) %>%
+    sf::st_transform(crs = crs)
   
-  sf::st_crs(new_shape) <- crs
+#  sf::st_crs(new_shape) <- crs
 
+#  print(new_shape)
+  
+#  print(all_season)
+  
   strata_plot <- dplyr::full_join(new_shape, all_season, by = "STRATA") %>%
     dplyr::rename(SEASON = label) %>%
-    dplyr::select(SEASON, geometry) %>%
+ #   dplyr::select(SEASON, geometry) %>%
     dplyr::filter(!is.na(SEASON))
 
   p1 <- ggplot2::ggplot() +
@@ -212,8 +223,7 @@ map_strata <- function(common_name, stock_season, strata) {
     ) +
     ggthemes::theme_map() +
     ggplot2::labs(
-      title = sprintf("%s", common_name),
-
+      title = common_name,
       fill = "Season"
     ) +
     ggplot2::theme(
