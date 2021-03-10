@@ -116,7 +116,7 @@ map_strata <- function(common_name, stock_season, strata) {
     continent = "North America",
     returnclass = "sf"
   ) %>%
-    sf::st_transform(crs = crs)
+    sf::st_transform()
 
   #  sf::st_crs(ne_countries) <- crs
 
@@ -128,7 +128,7 @@ map_strata <- function(common_name, stock_season, strata) {
     country = "united states of america",
     returnclass = "sf"
   ) %>%
-    sf::st_transform(crs = crs)
+    sf::st_transform()
 
   #  sf::st_crs(ne_states) <- crs
 
@@ -178,7 +178,9 @@ map_strata <- function(common_name, stock_season, strata) {
   # For plotting
   new_shape <- NEesp::shape %>%
     dplyr::select(STRATA, geometry) %>%
-    sf::st_transform(crs = crs)
+    sf::st_transform()
+  
+  sf::st_crs(new_shape) <- crs
   
 #  sf::st_crs(new_shape) <- crs
 
