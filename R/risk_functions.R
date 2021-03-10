@@ -361,7 +361,7 @@ plot_risk_by_year <- function(data, indicator, title = "", include_legend) {
   # filter data
   if (indicator[1] != "all") {
     data <- data %>%
-      dplyr::filter(Indicator %in% indicators)
+      dplyr::filter(Indicator %in% indicator)
   }
 
   if (nrow(data) > 0) {

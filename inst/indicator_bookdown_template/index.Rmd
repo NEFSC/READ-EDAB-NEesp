@@ -47,16 +47,20 @@ knitr::opts_chunk$set(
 species <- params$species_ID
 
 # risk data
-risk_data <- NEesp::risk[NEesp::risk$Species == species, ] %>%
+risk_data <- NEesp::risk %>%
+  dplyr::filter(Species == species) %>%
   NEesp::missing_na()
 
-risk_year_hist_data <- NEesp::risk_year_hist[NEesp::risk_year_hist$Species == species, ] %>%
+risk_year_hist_data <- NEesp::risk_year_hist %>%
+  dplyr::filter(Species == species) %>%
   NEesp::missing_na()
 
-risk_year_value_data <- NEesp::risk_year_value[NEesp::risk_year_value$Species == species, ] %>%
+risk_year_value_data <- NEesp::risk_year_value %>%
+  dplyr::filter(Species == species) %>%
   NEesp::missing_na()
 
-risk_species_data <- NEesp::risk_species[NEesp::risk_species$Species == species, ] %>%
+risk_species_data <- NEesp::risk_species %>%
+  dplyr::filter(Species == species) %>%
   NEesp::missing_na()
 
 # data
