@@ -121,8 +121,8 @@ plot_com <- function(data) {
     )
 
     # assign colors based on nmfs color palette
-    plot_colors <- com_palette$color
-    names(plot_colors) <- com_palette$state_id
+    plot_colors <- NEesp::com_palette$color
+    names(plot_colors) <- NEesp::com_palette$state_id
 
     # plot
     fig <- ggplot2::ggplot(
