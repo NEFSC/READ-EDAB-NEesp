@@ -76,8 +76,8 @@ get_diet_plot <- function(data) {
       )
 
       # assign colors based on nmfs color palette
-      plot_colors <- prey_palette$color
-      names(plot_colors) <- prey_palette$prey_id
+      plot_colors <- NEesp::prey_palette$color
+      names(plot_colors) <- NEesp::prey_palette$prey_id
 
       # plot
       fig <- ggplot2::ggplot(

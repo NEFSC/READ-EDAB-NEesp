@@ -64,18 +64,27 @@ risk_species_data <- NEesp::risk_species %>%
   NEesp::missing_na()
 
 # data
-latlong_data <- NEesp::latlong[NEesp::latlong$Species == species, ]
+latlong_data <- NEesp::latlong %>%
+  dplyr::filter(Species == species)
 
-survey_data <- NEesp::survey[NEesp::survey$Species == species, ]
-cond_data <- NEesp::cond[NEesp::cond$Species == species, ]
-diet_data <- NEesp::allfh[NEesp::allfh$Species == species, ]
+survey_data <- NEesp::survey %>%
+  dplyr::filter(Species == species)
+cond_data <- NEesp::cond %>%
+  dplyr::filter(Species == species)
+diet_data <- NEesp::allfh %>%
+  dplyr::filter(Species == species)
 
-asmt_data <- NEesp::asmt[NEesp::asmt$Species == species, ]
-asmt_sum_data <- NEesp::asmt_sum[NEesp::asmt_sum$Species == species, ]
-swept_data <- NEesp::swept[NEesp::swept$Species == species, ]
+asmt_data <- NEesp::asmt %>%
+  dplyr::filter(Species == species)
+asmt_sum_data <- NEesp::asmt_sum %>%
+  dplyr::filter(Species == species)
+swept_data <- NEesp::swept %>%
+  dplyr::filter(Species == species)
 
-rec_data <- NEesp::rec_catch[NEesp::rec_catch$Species == species, ]
-com_data <- NEesp::com_catch[NEesp::com_catch$Species == species, ]
+rec_data <- NEesp::rec_catch %>%
+  dplyr::filter(Species == species)
+com_data <- NEesp::com_catch %>%
+  dplyr::filter(Species == species)
 
 # habitat vulnerability
 hab_data <- ecodata::habitat_vulnerability %>%
