@@ -94,7 +94,7 @@ render_ind_report <- function(x, input = "package", params_to_use,
                full.names = TRUE
     ),
     list.files(here::here(new_dir),
-               pattern = ".yml"
+               pattern = ".yml",
                full.names = TRUE
     )
   )
