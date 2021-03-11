@@ -2,16 +2,21 @@
 #'
 #' This function renders an indicator ESP report.
 #'
-#' @param x The common name of the species.
-#' @param input The folder with the bookdown template. Defaults to "package", which calls the template files saved in the package.
+#' @param x The common name of the species. 
+#' @param input The folder with the bookdown template (include full file path, e.g. use `here::here`). Defaults to "package", which calls the template files saved in the package.
+#' @param params_to_use A list of parameters to use in the markdown report. Do not set if using `input = "package"`.
 #' @param trouble Whether or not to display verbose output. Defaults to FALSE.
-#' @param save_data Whether or not to save the data used in report creation. Defaults to TRUE.
+#' @param save_data Whether or not to save the data used in report creation. Only relevant when using `input = "package"`. Defaults to TRUE.
 #' @return A bookdown report (html) (saved in a folder called `action_reports` in the root directory)
 #' @importFrom magrittr %>%
 #' @export
 
-render_ind_report <- function(x, trouble = FALSE, save_data = TRUE, input = "package") {
+render_ind_report <- function(x, input = "package", params_to_use,
+                              trouble = FALSE, save_data = TRUE) {
   starting_dir <- getwd()
+  
+  # fix capitalization if necessary
+  x <- stringr::str_to_sentence(x)
   
   new_dir <- here::here("action_reports/", x)
   dir.create(new_dir, recursive = TRUE) %>% suppressWarnings()
@@ -28,7 +33,22 @@ render_ind_report <- function(x, trouble = FALSE, save_data = TRUE, input = "pac
       overwrite = TRUE
     ) %>%
       invisible()
+    
+    params_list <- list(
+      species_ID = x,
+      path = here::here(new_dir, "figures//"),
+      ricky_survey_data = NEesp::bio_survey,
+      save = save_data
+    )
+    
   } else {
+    
+    if(class(params_to_use)[1] != "list") {
+      stop("Please add your parameters as a list!")
+    } 
+    
+    params_list <- params_to_use
+    
     file.copy(
       from = list.files(input,
                         full.names = TRUE
@@ -44,12 +64,7 @@ render_ind_report <- function(x, trouble = FALSE, save_data = TRUE, input = "pac
   if (trouble == FALSE) {
     bookdown::render_book(
       input = ".",
-      params = list(
-        species_ID = x,
-        path = here::here(new_dir, "figures//"),
-        ricky_survey_data = NEesp::bio_survey,
-        save = save_data
-      ),
+      params = params_list,
       intermediates_dir = new_dir,
       knit_root_dir = new_dir,
       output_dir = new_dir,
@@ -63,12 +78,7 @@ render_ind_report <- function(x, trouble = FALSE, save_data = TRUE, input = "pac
   if (trouble == TRUE) {
     bookdown::render_book(
       input = ".",
-      params = list(
-        species_ID = x,
-        path = here::here(new_dir, "figures//"),
-        ricky_survey_data = NEesp::bio_survey,
-        save = save_data
-      ),
+      params = params_list, 
       intermediates_dir = new_dir,
       knit_root_dir = new_dir,
       output_dir = new_dir,
@@ -80,13 +90,13 @@ render_ind_report <- function(x, trouble = FALSE, save_data = TRUE, input = "pac
   # clean up files
   clean <- c(
     list.files(here::here(new_dir),
-      full.names = TRUE
-    ) %>%
-      stringr::str_subset(".Rmd"),
+               pattern = ".Rmd",
+               full.names = TRUE
+    ),
     list.files(here::here(new_dir),
-      full.names = TRUE
-    ) %>%
-      stringr::str_subset(".yml")
+               pattern = ".yml"
+               full.names = TRUE
+    )
   )
 
   file.remove(clean) %>%
@@ -94,5 +104,5 @@ render_ind_report <- function(x, trouble = FALSE, save_data = TRUE, input = "pac
   
   setwd(starting_dir)
 
-  print(paste("Done with", x, "!"))
+  print(paste("Done with ", x, "!", sep = ""))
 }
