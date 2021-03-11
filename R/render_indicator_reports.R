@@ -2,7 +2,7 @@
 #'
 #' This function renders an indicator ESP report.
 #'
-#' @param x The common name of the species. 
+#' @param x The common name of the species. `NEesp::species_key$Species` shows all available options.
 #' @param input The folder with the bookdown template (include full file path, e.g. use `here::here`). Defaults to "package", which calls the template files saved in the package.
 #' @param params_to_use A list of parameters to use in the markdown report. Do not set if using `input = "package"`.
 #' @param trouble Whether or not to display verbose output. Defaults to FALSE.
