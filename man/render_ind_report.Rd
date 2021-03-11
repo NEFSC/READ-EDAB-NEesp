@@ -4,16 +4,24 @@
 \alias{render_ind_report}
 \title{Renders an indicator ESP report}
 \usage{
-render_ind_report(x, trouble = FALSE, save_data = TRUE, input = "package")
+render_ind_report(
+  x,
+  input = "package",
+  params_to_use,
+  trouble = FALSE,
+  save_data = TRUE
+)
 }
 \arguments{
-\item{x}{The common name of the species.}
+\item{x}{The common name of the species. \code{NEesp::species_key$Species} shows all available options.}
+
+\item{input}{The folder with the bookdown template (include full file path, e.g. use \code{here::here}). Defaults to "package", which calls the template files saved in the package.}
+
+\item{params_to_use}{A list of parameters to use in the markdown report. Do not set if using \code{input = "package"}.}
 
 \item{trouble}{Whether or not to display verbose output. Defaults to FALSE.}
 
-\item{save_data}{Whether or not to save the data used in report creation. Defaults to TRUE.}
-
-\item{input}{The folder with the bookdown template. Defaults to "package", which calls the template files saved in the package.}
+\item{save_data}{Whether or not to save the data used in report creation. Only relevant when using \code{input = "package"}. Defaults to TRUE.}
 }
 \value{
 A bookdown report (html) (saved in a folder called \code{action_reports} in the root directory)
