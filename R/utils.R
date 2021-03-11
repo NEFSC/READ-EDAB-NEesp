@@ -142,13 +142,12 @@ format_numbers <- function(x) {
 #' @export
 
 save_data <- function(x) {
-  
   name <- substitute(x)
 
-  if(nrow(x) > 0){
-    
+  if (nrow(x) > 0) {
+
     # remove column of row indices
-    if("X" %in% colnames(x)){
+    if ("X" %in% colnames(x)) {
       x <- x %>%
         dplyr::select(-X)
     }
@@ -158,3 +157,46 @@ save_data <- function(x) {
   }
 }
 
+#' Locate files containing a text string
+#'
+#' This function locates all .R and .Rmd files that contain a text string.
+#'
+#' @param text A text string to search for.
+#' @return A vector of names of files that contain the string.
+#'
+#' @importFrom magrittr %>%
+#' @export
+
+find_files <- function(text) {
+  all_files <- c(
+    list.files(here::here(), recursive = TRUE, full.names = TRUE) %>%
+      stringr::str_subset("\\.R$"),
+    list.files(here::here(), recursive = TRUE, full.names = TRUE) %>%
+      stringr::str_subset("\\.Rmd$")
+  )
+
+  out <- c()
+
+  for (i in 1:length(all_files)) {
+    results <- grep(text, readLines(all_files[i]), value = FALSE) %>% suppressWarnings()
+
+    if (length(results) > 0) {
+      results <- paste(results, collapse = ", ")
+
+      this_data <- c(all_files[i], results)
+
+      out <- rbind(out, this_data)
+    }
+
+    percent <- (i / length(all_files) * 100) %>%
+      round(digits = 0)
+
+    print(paste(i, ", ", percent, "%", ".....", sep = ""))
+  }
+
+  if (is.null(out)) {
+    print("Not found")
+  } else {
+    return(out)
+  }
+}
