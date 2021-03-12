@@ -81,7 +81,7 @@ get_latlong <- function(x, data, shapefile) {
 
 #' Map strata
 #'
-#' Copied from `NOAA-EDAB/ECSA` but with shapefile input modified.
+#' Derived from `NOAA-EDAB/ECSA`.
 #'
 #' @param common_name
 #' @param spring_strata
@@ -173,7 +173,10 @@ map_strata <- function(common_name, stock_season, strata) {
   all_season <- all_season %>%
     dplyr::select(strata, label) %>%
     dplyr::rename(STRATA = strata) %>%
-    tibble::as_tibble()
+    tibble::as_tibble() %>%
+    dplyr::mutate(label = label %>%
+                    stringr::str_replace_all(", NA", "") %>%
+                    stringr::str_replace_all("NA, ", ""))
   
   # For plotting
   new_shape <- NEesp::shape %>%

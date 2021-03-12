@@ -151,9 +151,16 @@ save_data <- function(x) {
       x <- x %>%
         dplyr::select(-X)
     }
-
-    filename <- paste("data/", name, ".csv", sep = "")
-    write.csv(x, file = filename, row.names = FALSE)
+    
+    objsize <- object.size(x)
+    
+    if(objsize/10^6 < 100){
+      filename <- paste("data/", name, ".csv", sep = "")
+      write.csv(x, file = filename, row.names = FALSE)
+    } else {
+      filename <- paste("data/", name, ".RDS", sep = "")
+      saveRDS(x, file = filename)
+    }
   }
 }
 

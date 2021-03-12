@@ -3,10 +3,9 @@ Title: Generate Preliminary ESP Reports for the Northeast
 Version: 0.0.0.9000
 Description: Generates preliminary Ecosystem and Socioeconomic Profiles for Northeast and Mid-Atlantic USA fishery stocks.
 License: file LICENSE
-Authors@R: person("Abigail", "Tyrell", email = "abigail.tyrell@noaa.gov",
-  role = c("aut", "cre"),
-  person("Ricky", "Tabandera", email = "ricky.tabandera@noaa.gov",
-  role = c("aut"))
+Authors@R: c(person("Abigail", "Tyrell", email = "abigail.tyrell@noaa.gov", role = c("aut", "cre")),
+	     person("Ricky", "Tabandera", email = "ricky.tabandera@noaa.gov", role = "aut"))
+Imports:
     bookdown,
     DT,
     FSA,
