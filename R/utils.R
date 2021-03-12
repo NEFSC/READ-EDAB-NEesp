@@ -137,8 +137,8 @@ format_numbers <- function(x) {
 #'
 #' This function saves a data set if it has nrow > 0. Data is saved in a folder called `data` in the working directory.
 #'
-#' @param x A data table or tibble
-#' @return A .csv
+#' @param x A data table or tibble 
+#' @return A .csv (small files), or a .RDS (large files)
 #' @export
 
 save_data <- function(x) {

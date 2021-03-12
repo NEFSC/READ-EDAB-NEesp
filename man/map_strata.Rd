@@ -2,18 +2,18 @@
 % Please edit documentation in R/geo_functions.R
 \name{map_strata}
 \alias{map_strata}
-\title{Map strata}
+\title{Create a map of seasonal species distribution}
 \usage{
-map_strata(common_name, stock_season, strata)
+map_strata(common_name, strata)
 }
 \arguments{
-\item{stock_season}{A vector of season names (fall, winter, and/or spring)}
+\item{common_name}{The common name of the species.}
 
-\item{save_plot}{}
+\item{strata}{A data frame or tibble, containing data on one species. Must contain season and strata information.}
 }
 \value{
-a ggplot2 object
+A ggplot
 }
 \description{
-Copied from \code{NOAA-EDAB/ECSA} but with shapefile input modified.
+This function creates a map of species distribution. Built from the \code{ecodata} function \code{map_strata}.
 }

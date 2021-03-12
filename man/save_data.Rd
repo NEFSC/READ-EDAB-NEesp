@@ -10,7 +10,7 @@ save_data(x)
 \item{x}{A data table or tibble}
 }
 \value{
-A .csv
+A .csv (small files), or a .RDS (large files)
 }
 \description{
 This function saves a data set if it has nrow > 0. Data is saved in a folder called \code{data} in the working directory.
