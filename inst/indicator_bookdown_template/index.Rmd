@@ -6,6 +6,7 @@ site: bookdown::bookdown_site
 output: 
   bookdown::gitbook:
     split_by: section
+    fig_caption: yes
 documentclass: book
 github-repo: NOAA-EDAB/esp_data_aggregation
 
@@ -29,7 +30,7 @@ params:
   path: "" # figure path
 ---
 
-# `r params$species` {-}
+# `r params$species_ID` {-}
 
 ```{r, setup, include = FALSE}
 knitr::opts_chunk$set(
@@ -38,7 +39,6 @@ knitr::opts_chunk$set(
   warning = FALSE,
   fig.width = 8,
   fig.align = "center",
-  fig.cap = params$species,
   fig.path = params$path
 )
 ```

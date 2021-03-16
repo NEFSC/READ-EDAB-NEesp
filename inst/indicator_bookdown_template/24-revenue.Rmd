@@ -3,7 +3,7 @@
 Commercial catch data were downloaded from [NOAA FOSS](https://foss.nmfs.noaa.gov/apexfoss/f?p=215:200:4615327020711::NO:::).
 
 ### Figure
-```{r, revenue}
+```{r, revenue, fig.cap = paste(species, "revenue")}
 NEesp::plot_com_money(com_data)
 ```
 

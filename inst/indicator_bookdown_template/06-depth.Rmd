@@ -56,7 +56,7 @@ has_data <- nrow(selected.spp.sum) > 0
 
 ### Figures
 
-```{r, depth_fig, eval = has_data}
+```{r, depth-fig, eval = has_data, fig.cap = paste(species, "depth")}
 
 selected.spp.sum %>%
   ggplot(aes(
@@ -79,7 +79,7 @@ selected.spp.sum %>%
   theme(axis.text.x = element_text(angle = 90))
 ```
 
-```{r, depth_fig2, eval = has_data}
+```{r, depth-fig2, eval = has_data, fig.cap = paste(species, "temperature at depth")}
 
 selected.spp.sum %>%
   ggplot(aes(

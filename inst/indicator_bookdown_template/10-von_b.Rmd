@@ -65,7 +65,7 @@ The predicted von Bertalanffy growth curve for NMFS managed fish species. Growth
 
 `r if(params$species == "Monkfish"){"The age determination method for monkfish has not been validated, and the anatomic structure used has changed through time. In addition these stocks display a high degree of sexual dimorphisms making fitting of single growth curves unreliable.  This results a high degree of uncertainty in assessing the age structure of the stock and the effects of fishing pressure."}`
 
-```{r single_growth_curve}
+```{r single-growth-curve, fig.cap = paste(species, "length at age growth curve")}
 # palette
 if (nrow(selected.surv.clean) > 0) {
   fig <- ggplot(

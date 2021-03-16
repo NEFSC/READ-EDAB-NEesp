@@ -26,7 +26,7 @@ B/Bmsy data were pulled from ``r params$asmt_sum_source``.
 The most recent status of B/Bmsy is: `r bbmsy2`
 
 ### Figure
-```{r, bbmsy_fig} 
+```{r, bbmsy-fig, fig.cap = paste(species, "B/Bmsy")} 
 if ("GOOD" %in% bbmsy2 | "CAUTION" %in% bbmsy2 | "DANGER" %in% bbmsy2) {
   NEesp::plot_msy(asmt_sum_data[which(is.na(asmt_sum_data$`B/Bmsy`) == FALSE), ],
     type = "b",

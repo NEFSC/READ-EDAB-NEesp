@@ -9,7 +9,7 @@ A preliminary risk analysis was conducted by ranking all species according to th
 Risk was calculated over time for all indicators that were documented for five or more species in a given year. Risk was calculated as the average of the past 5 years, as a percent of the historical average. The normalized risk value plotted here reflects the normalized rank of this stock compared to all other stocks in that year.
 
 #### Comprehensive risk assessment {-}
-```{r, comp_risk_plot}
+```{r, comp-risk-plot, fig.cap = paste(species, "comprehensive risk assessment")}
 ggplot2::ggplot(
   risk_data,
   ggplot2::aes(
@@ -42,7 +42,7 @@ ggplot2::ggplot(
 ```
 
 #### Normalized rank of magnitude of change compared to historical value by year {-}
-```{r, year_risk_hist}
+```{r, year-risk-hist, fig.cap = paste(species, "normalized rank of magnitude of change compared to historical value by year")}
 NEesp::plot_risk_by_year(risk_year_hist_data,
   indicator = "all",
   title = "Change compared to historical",
@@ -51,7 +51,7 @@ NEesp::plot_risk_by_year(risk_year_hist_data,
 ```
 
 #### Normalized rank of value in each year {-}
-```{r,year_risk_value}
+```{r, year-risk-value, fig.cap = paste(species, "normalized rank of value in each year")}
 NEesp::plot_risk_by_year(risk_year_value_data,
   indicator = "all",
   title = "Value compared to other stocks",
@@ -63,7 +63,7 @@ NEesp::plot_risk_by_year(risk_year_value_data,
 
 For each stock, a five-year running mean was calculated for each indicator. Indicator values were then ranked for all years where a value was present. The normalized risk values plotted here reflects the normalized rank of each year compared to all other years.
 
-```{r, stock_risk}
+```{r, stock-risk,  fig.cap = paste(species, "within-stock risk over time")}
 NEesp::plot_risk_by_year(risk_species_data,
   indicator = "all",
     title = "Within-stock risk over time",

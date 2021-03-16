@@ -5,12 +5,14 @@ Surface and bottom salinity data were pulled from ``r params$survey_source``.
 ### Figures
 
 Separate geom_gls() functions were fit for fall and spring measurements; trend lines are only shown when the trend was statistically significant, so some plots may have fewer than two trend lines. Fall has solid trend lines, and spring has dashed trend lines. Please note, sometimes the survey observed a small number of fish outside of the defined stock area.
-```{r, surfsalin}
+```{r, s-salin, fig.cap = paste(species, "surface salinity")}
 NEesp::generate_plot(survey_data,
   variable = "SURFSALIN",
   ytitle = "Surface salinity"
 )
+```
 
+```{r, b-salin, fig.cap = paste(species, "bottom salinity")}
 NEesp::generate_plot(survey_data,
   variable = "BOTSALIN",
   ytitle = "Bottom salinity"

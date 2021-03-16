@@ -10,7 +10,7 @@ Abundance data were pulled from ``r params$survey_source`` and ``r params$asmt_s
 Separate geom_gls() functions were fit for fall and spring measurements; trend lines are only shown when the trend was statistically significant, so some plots may have fewer than two trend lines. Fall has solid trend lines, and spring has dashed trend lines. Please note, sometimes the survey observed a small number of fish outside of the defined stock area.
 
 #### Survey abundance (raw measurements)
-```{r, abun_survey}
+```{r, abun-survey, fig.cap = paste(species, "survey abundance")}
 NEesp::generate_plot(survey_data,
   variable = "ABUNDANCE",
   ytitle = "Abundance"
@@ -33,7 +33,7 @@ indicators <- c(
 #### Survey abundance (swept area estimates)
 
 Please note, these estimates are not parsed by region or season. Swept area estimates are based on spring and fall surveys only. The shaded gray region indicates +/- two standard errors.
-```{r, abun_survey_swept}
+```{r, abun-survey-swept, fig.cap = paste(species, "swept area estimate from survey abundance")}
 NEesp::plot_swept(swept_data, var = "abundance")
 ```
 
@@ -51,7 +51,7 @@ if (nrow(asmt_data %>% dplyr::filter(Metric == "Abundance")) > 0) {
 }
 ```
 
-```{r, abun_asmt, fig.height = ndesc * 4}
+```{r, abun-asmt, fig.height = ndesc * 4, fig.cap = paste(species, "assessment abundance")}
 NEesp::plot_asmt(asmt_data,
   metric = "Abundance",
   ytitle = "Abundance",
