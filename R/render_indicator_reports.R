@@ -12,7 +12,7 @@
 #' @export
 
 render_ind_report <- function(x, input = "package", params_to_use,
-                              trouble = FALSE, save_data = TRUE) {
+                              trouble = FALSE, save_data = TRUE, out = bookdown::gitbook(split_by = "section", fig_caption = TRUE)) {
   starting_dir <- getwd()
   
   # fix capitalization if necessary
@@ -68,6 +68,7 @@ render_ind_report <- function(x, input = "package", params_to_use,
       intermediates_dir = new_dir,
       knit_root_dir = new_dir,
       output_dir = new_dir,
+      output_format = out,
       clean = TRUE,
       quiet = TRUE
     ) %>%
@@ -82,6 +83,7 @@ render_ind_report <- function(x, input = "package", params_to_use,
       intermediates_dir = new_dir,
       knit_root_dir = new_dir,
       output_dir = new_dir,
+      output_format = out,
       clean = TRUE,
       quiet = FALSE
     )

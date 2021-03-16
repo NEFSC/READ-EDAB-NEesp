@@ -71,7 +71,7 @@ indicators <- c("com_catch")
 ```
 
 #### Commercial vs recreational catch
-```{r, comvrec, fig.cap = paste(species, "proportional commercial and recreational catch)}
+```{r, comvrec, fig.cap = paste(species, "proportional commercial and recreational catch")}
 NEesp::plot_prop_catch(com = com_data, rec = rec_data)
 ```
 
