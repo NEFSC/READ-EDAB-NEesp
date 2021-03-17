@@ -46,7 +46,8 @@ jobs:
                  
       - name: Install more packages
         run: |
-          Rscript -e 'devtools::install_github("NOAA-EDAB/esp_data_aggregation@package", dependencies = TRUE)'
+          Rscript -e 'install.packages("devtools")
+          devtools::install_github("NOAA-EDAB/esp_data_aggregation@package", dependencies = TRUE)'
           
       - name: Render reports
         run: |
