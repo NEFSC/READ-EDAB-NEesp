@@ -40,10 +40,6 @@ knitr::opts_chunk$set(
   warning = FALSE,
   fig.width = 8,
   fig.align = "center",
-<<<<<<< HEAD
-=======
-  fig.cap = params$species_ID,
->>>>>>> 21cac4f44f025dd95939c9be01a7cab7e0c4d70b
   fig.path = params$path
 )
 ```

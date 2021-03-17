@@ -26,6 +26,8 @@ F/Fmsy data were pulled from ``r params$asmt_sum_source``.
 The most recent status of F/Fmsy is: `r ffmsy2`
 
 ### Figure
+
+
 ```{r, ffmsy, fig.cap = paste(species, "F/Fmsy")}
 if ("GOOD" %in% ffmsy2 | "DANGER" %in% ffmsy2) {
   NEesp::plot_msy(asmt_sum_data[which(is.na(asmt_sum_data$`F/Fmsy`) == FALSE), ],
@@ -38,6 +40,7 @@ if ("GOOD" %in% ffmsy2 | "DANGER" %in% ffmsy2) {
   print("NO DATA")
 }
 ```
+
 
 ##### Risk {-}
 

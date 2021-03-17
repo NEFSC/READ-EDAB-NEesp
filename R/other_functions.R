@@ -331,5 +331,7 @@ plot_climate_vulnerability <- function(data) {
       ggplot2::theme(legend.position = "none")
 
     print(fig)
+    
+    cat("\n\n")
   }
 }

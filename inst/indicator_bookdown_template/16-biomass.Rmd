@@ -10,12 +10,15 @@ Biomass data were pulled from ``r params$survey_source``.
 Separate geom_gls() functions were fit for fall and spring measurements; trend lines are only shown when the trend was statistically significant, so some plots may have fewer than two trend lines. Fall has solid trend lines, and spring has dashed trend lines. Please note, sometimes the survey observed a small number of fish outside of the defined stock area.
 
 #### Survey biomass (raw measurements)
+
+
 ```{r, biomass, fig.cap = paste(species, "survey biomass")}
 NEesp::generate_plot(survey_data,
   variable = "BIOMASS",
   ytitle = "Biomass"
 )
 ```
+
 
 ##### Risk {-}
 
@@ -33,9 +36,12 @@ indicators <- c(
 #### Survey biomass (swept area estimates)
 
 Please note, these estimates are not parsed by region or season. Swept area estimates are based on spring and fall surveys only. The shaded gray region indicates +/- two standard errors.
+
+
 ```{r, bio-survey-swept, fig.cap = paste(species, "swept area estimate from survey biomass")}
 NEesp::plot_swept(swept_data, var = "biomass")
 ```
+
 
 #### Assessment biomass
 ```{r}
@@ -51,6 +57,7 @@ if (nrow(asmt_data %>% dplyr::filter(Metric == "Biomass")) > 0) {
 }
 ```
 
+
 ```{r, biomass-asmt,  fig.height = ndesc * 4 + 1, fig.cap = paste(species, "assessment biomass")}
 NEesp::plot_asmt(asmt_data,
   metric = "Biomass",
@@ -59,6 +66,7 @@ NEesp::plot_asmt(asmt_data,
   col = colors
 )
 ```
+
 
 ##### Risk {-}
 

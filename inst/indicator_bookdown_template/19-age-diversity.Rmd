@@ -1,7 +1,5 @@
 ## Age diversity
 
-Ricky Tabandera
-
 ```{r setup_age_diversity,  cache = params$cache}
 # knitr::opts_chunk$set(echo = TRUE)
 
@@ -10,7 +8,6 @@ suppressPackageStartupMessages(library(here))
 suppressPackageStartupMessages(library(survdat))
 suppressPackageStartupMessages(library(dbutils))
 ```
-
 
 ```{r data_wrangling_age, cache = params$cache, cache.lazy = FALSE}
 # load survdat
@@ -38,6 +35,7 @@ Diversity in age measurements of a stock is a useful indicator of several factor
 #### Age diversity {-}
 
 `r if(params$species == "Monkfish"){"The age determination method for monkfish has not been validated, and the anatomic structure used has changed through time. In addition these stocks display a high degree of sexual dimorphisms making fitting of single growth curves unreliable.  This results a high degree of uncertainty in assessing the age structure of the stock and the effects of fishing pressure."}`
+
 
 ```{r, age-diversity-calculations, fig.cap = paste(species, "age diversity")}
 
@@ -77,9 +75,11 @@ if (nrow(age.freq) > 0) {
 }
 ```
 
+
 #### Density plots of age {-}
 
 Age distribution across years of survey data of `r params$species`. These plots can help identify strong year classes of recruits and how these classes persist in the fishery.  
+
 
 ```{r age-density, fig.height = 12, fig.cap = paste(species, "age density")}
 

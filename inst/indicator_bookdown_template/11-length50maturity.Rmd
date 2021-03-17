@@ -1,6 +1,4 @@
-
 ## Length at first maturity
-Ricky Tabandera
 
 ```{r L50 setup, include=FALSE, eval = FALSE}
 # knitr::opts_chunk$set(echo = TRUE)
@@ -117,6 +115,7 @@ selected_surv_mat_clean$MATURITY <- recode(selected_surv_mat_clean$MATURITY, "D"
 ### Maturity classification 
 The gonadal development stage can vary between immature and mature. Once mature, there are several stages that represent phases in the spawning sequence. These stages and phases can vary across body length and the proportion of the population in each of these categories can help identify spawning size and what seasonal effects there are on development. 
 
+
 ```{r, maturity-classification-plot, fig.cap = paste(species, "maturity classification")}
 
 if (nrow(selected_surv_mat_clean > 5)) {
@@ -150,6 +149,7 @@ if (nrow(selected_surv_mat_clean > 5)) {
 }
 ```
 
+
 ### Model results
 
 `r if(nrow(selected.surv.f)>3){"If the overall model is significant, there is support for the relationship between sexual maturity and body size. This model can predict the size where there are 50% odds of the indevidual is sexually mature. The results table below displays the L50 for Male and female indeviduals. "}` 
@@ -182,6 +182,7 @@ if (eval_model) {
   ("Non-significant")
 }
 ```
+
 
 ```{r, probability-plot, fig.cap = paste(species, "probability of maturity")}
 

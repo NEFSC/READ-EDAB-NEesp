@@ -7,12 +7,14 @@
 #' @param params_to_use A list of parameters to use in the markdown report. Do not set if using `input = "package"`.
 #' @param trouble Whether or not to display verbose output. Defaults to FALSE.
 #' @param save_data Whether or not to save the data used in report creation. Only relevant when using `input = "package"`. Defaults to TRUE.
+#' @param out The `output_format` to be passed to the `bookdown::render_book` call. Defaults to `bookdown::gitbook(split_by = "section", fig_caption = TRUE)`. For experimental purposes only: most alternative outputs have not been tested.
 #' @return A bookdown report (html) (saved in a folder called `action_reports` in the root directory)
 #' @importFrom magrittr %>%
 #' @export
 
 render_ind_report <- function(x, input = "package", params_to_use,
-                              trouble = FALSE, save_data = TRUE, out = bookdown::gitbook(split_by = "section", fig_caption = TRUE)) {
+                              trouble = FALSE, save_data = TRUE, 
+                              out = bookdown::gitbook(split_by = "section", fig_caption = TRUE)) {
   starting_dir <- getwd()
   
   # fix capitalization if necessary

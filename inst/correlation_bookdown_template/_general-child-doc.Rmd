@@ -64,9 +64,7 @@ if (nrow(data) > 0) {
     sep = "_"
   ) %>%
     stringr::str_replace_all("/", "-")
-  # print(file_name)
   write.csv(data, paste("data/", file_name, sep = ""))
-  # file = paste("data/", file_name, sep = ""))
 }
 ```
 

@@ -19,6 +19,7 @@ if (nrow(asmt_data %>% dplyr::filter(Metric == "Recruitment")) > 0) {
 }
 ```
 
+
 ```{r, recruitment, fig.height = ndesc * 4 + 1, fig.cap = paste(species, "recruitment")}
 NEesp::plot_asmt(asmt_data,
   metric = "Recruitment",
@@ -27,6 +28,7 @@ NEesp::plot_asmt(asmt_data,
   col = colors
 )
 ```
+
 
 ##### Risk {-}
 

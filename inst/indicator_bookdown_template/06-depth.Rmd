@@ -1,5 +1,4 @@
 ## Depth
-Ricky Tabandera
 
 ```{r, cache = params$cache}
 suppressPackageStartupMessages(library(tidyverse))
@@ -56,6 +55,7 @@ has_data <- nrow(selected.spp.sum) > 0
 
 ### Figures
 
+
 ```{r, depth-fig, eval = has_data, fig.cap = paste(species, "depth")}
 
 selected.spp.sum %>%
@@ -78,6 +78,7 @@ selected.spp.sum %>%
   ) +
   theme(axis.text.x = element_text(angle = 90))
 ```
+
 
 ```{r, depth-fig2, eval = has_data, fig.cap = paste(species, "temperature at depth")}
 
@@ -102,7 +103,7 @@ selected.spp.sum %>%
   theme(axis.text.x = element_text(angle = 90))
 ```
 
+
 ```{r, no_data, eval = has_data == FALSE}
 print("NO DATA")
 ```
-

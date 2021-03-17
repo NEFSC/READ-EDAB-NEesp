@@ -20,6 +20,8 @@ if (nrow(asmt_data %>% dplyr::filter(Metric == "Catch")) > 0) {
 ```
 
 #### Stock assessment catch
+
+
 ```{r, catch, fig.cap = paste(species, "assessment catch")}
 #  fig.height = ndesc * 10
 NEesp::plot_asmt(asmt_data,
@@ -29,6 +31,7 @@ NEesp::plot_asmt(asmt_data,
   col = colors
 )
 ```
+
 
 ##### Risk {-}
 
@@ -41,9 +44,12 @@ indicators <- c("asmt_catch")
 ```
 
 #### Recreational catch
+
+
 ```{r, rec, fig.cap = paste(species, "recreational catch")}
 NEesp::plot_rec_catch(rec_data)
 ```
+
 
 ##### Risk {-}
 
@@ -56,9 +62,12 @@ indicators <- c("rec_catch")
 ```
 
 #### Commercial catch
+
+
 ```{r, com, fig.cap = paste(species, "commercial catch")}
 NEesp::plot_com(com_data)
 ```
+
 
 ##### Risk {-}
 
@@ -71,9 +80,12 @@ indicators <- c("com_catch")
 ```
 
 #### Commercial vs recreational catch
+
+
 ```{r, comvrec, fig.cap = paste(species, "proportional commercial and recreational catch")}
 NEesp::plot_prop_catch(com = com_data, rec = rec_data)
 ```
+
 
 ### Data
 

@@ -1,7 +1,5 @@
 ## von Bertalanffy growth curve
 
-Ricky Tabandera
-
 ```{r setup_vonb, cache = params$cache}
 # install.packages("ggrepel")
 # install.packages("ggpubr")
@@ -64,6 +62,7 @@ if (selected.surv.clean$AGE %>% unique() %>% length() >= 3) {
 The predicted von Bertalanffy growth curve for NMFS managed fish species. Growth parameters of `Linf` (Length infinty), `K` (growth coefficient), and `t0` (size at time 0) were estimated using non-linear least square model. The starting point for model building is accomplished using `FSA::vbStarts`. Age and length data sourced from `survdat` and spans all years and survey areas. 
 
 `r if(params$species == "Monkfish"){"The age determination method for monkfish has not been validated, and the anatomic structure used has changed through time. In addition these stocks display a high degree of sexual dimorphisms making fitting of single growth curves unreliable.  This results a high degree of uncertainty in assessing the age structure of the stock and the effects of fishing pressure."}`
+
 
 ```{r single-growth-curve, fig.cap = paste(species, "length at age growth curve")}
 # palette

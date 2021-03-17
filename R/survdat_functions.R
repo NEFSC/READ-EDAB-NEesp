@@ -323,6 +323,8 @@ plot_len <- function(x) {
     }
 
     print(fig)
+    
+    cat("\n\n")
   }
 }
 
@@ -403,6 +405,8 @@ plot_len_hist <- function(x) {
     ) %>%
       ggpubr::annotate_figure(top = i) %>%
       print()
+    
+    cat("\n\n")
   }
 }
 
