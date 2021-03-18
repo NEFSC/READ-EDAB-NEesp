@@ -188,7 +188,7 @@
 "asmt_sum"
 
 #' @title NEFSC Bottom Trawl Data with Bio Data
-#' @description This data was is NEFSC bottom trawl data with bio data.
+#' @description This data is NEFSC bottom trawl data with bio data.
 #' @format A data frame with 1103575 rows and 28 variables:
 #' \describe{
 #'   \item{\code{CRUISE6}}{character COLUMN_DESCRIPTION}
@@ -223,34 +223,36 @@
 #' @details DETAILS
 "bio_survey"
 
-#' @title DATASET_TITLE
-#' @description DATASET_DESCRIPTION
+#' @title Overall Climate Risk
+#' @description This is the overall climate risk score data from Hare et al. 2016.
 #' @format A data frame with 82 rows and 3 variables:
 #' \describe{
-#'   \item{\code{Species}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Overall_climate_vulnerability}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Certainty}}{character COLUMN_DESCRIPTION} 
+#'   \item{\code{Species}}{character Species' common name}
+#'   \item{\code{Overall_climate_vulnerability}}{character Overall climate vulnerability score}
+#'   \item{\code{Certainty}}{character Certainty score} 
 #'}
+#' @source \url{https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0146756}
 #' @details DETAILS
 "climate_risk"
 
-#' @title DATASET_TITLE
-#' @description DATASET_DESCRIPTION
+#' @title Climate Vulnerability
+#' @description This is the climate vulnerability data from Hare et al. 2016.
 #' @format A data frame with 1968 rows and 8 variables:
 #' \describe{
-#'   \item{\code{Species}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Functional.Group}}{character COLUMN_DESCRIPTION}
+#'   \item{\code{Species}}{character Species' common name}
+#'   \item{\code{Functional.Group}}{character Species guild}
 #'   \item{\code{Attribute}}{character COLUMN_DESCRIPTION}
 #'   \item{\code{Attribute.Category}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Low}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Moderate}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{High}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Very.High}}{integer COLUMN_DESCRIPTION} 
+#'   \item{\code{Low}}{integer Number of experts ranking attribute risk as low}
+#'   \item{\code{Moderate}}{integer Number of experts ranking attribute risk as moderate}
+#'   \item{\code{High}}{integer Number of experts ranking attribute risk as high}
+#'   \item{\code{Very.High}}{integer Number of experts ranking attribute risk as very high} 
 #'}
+#' @source \url{https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0146756}
 #' @details DETAILS
 "climate_vulnerability"
 
-#' @title DATASET_TITLE
+#' @title Commercial Catch and Revenue Data
 #' @description DATASET_DESCRIPTION
 #' @format A data frame with 31637 rows and 9 variables:
 #' \describe{
@@ -567,7 +569,7 @@
 #' @details DETAILS
 "species_key"
 
-#' @title DATASET_TITLE
+#' @title NEFSC Bottom Trawl Data
 #' @description DATASET_DESCRIPTION
 #' @format A data frame with 3937953 rows and 27 variables:
 #' \describe{
@@ -599,7 +601,11 @@
 #'   \item{\code{date}}{character COLUMN_DESCRIPTION}
 #'   \item{\code{fish_id}}{character COLUMN_DESCRIPTION} 
 #'}
-#' @details DETAILS
+#' @source Oracle query of `svdbs` using the `survdat` package. 
+#' @details \itemize{
+#'     \item Function call: survdat::get_survdat_data(channel = channel, filterByYear = NA, all.season = TRUE, shg.check = T, conversion.factor = T, use.SAD = F, getBio = FALSE, getLengths = T)
+#'     \item Pull date: Wed Mar 03 10:56:23 2021
+#' }
 "survey"
 
 #' @title DATASET_TITLE
