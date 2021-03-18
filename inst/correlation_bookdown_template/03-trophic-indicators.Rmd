@@ -28,10 +28,10 @@ render_indicator(test)
 
 ### Abundance of Calanus CV and adults
 ```{r, calanus}
-test <- ecodata::CalanusStage %>%
+test <- ecodata::calanus_stage %>%
   dplyr::rename(Time = Year) %>%
   dplyr::filter(
-    Var == "Adt" | Var == "CV",
+    Var == "adt" | Var == "c5",
     Units == "No. per 100m^-3"
   ) %>%
   dplyr::group_by(Time, EPU, season) %>%

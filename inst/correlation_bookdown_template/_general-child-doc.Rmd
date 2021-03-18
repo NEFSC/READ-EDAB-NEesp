@@ -72,7 +72,7 @@ if (nrow(data) > 0) {
 names <- names[-1]
 ```
 #### Figures {-}
-```{r, fig.height = 10, eval = eval_epu}
+```{r, eval = eval_epu, fig.height = 10}
 plot_correlation(
   stock = stock,
   eco = test,
@@ -80,7 +80,7 @@ plot_correlation(
 )
 ```
 
-```{r, , eval = (eval_epu == FALSE)}
+```{r, eval = (eval_epu == FALSE)}
 print("No data for the EPU selected")
 ```
 
@@ -93,6 +93,6 @@ correlation_data(
 )
 ```
 
-```{r, , eval = (eval_epu == FALSE)}
+```{r, eval = (eval_epu == FALSE)}
 print("No data for the EPU selected")
 ```
