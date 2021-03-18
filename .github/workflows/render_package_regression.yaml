@@ -55,5 +55,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: Regressions # The folder the action should deploy.
-          TARGET_FOLDER: Regression_Reports
+          TARGET_FOLDER: Regression_Reports_pkg
           CLEAN: false # Automatically remove deleted files from the deploy branch

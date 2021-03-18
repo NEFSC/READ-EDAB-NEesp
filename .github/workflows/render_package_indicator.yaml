@@ -30,26 +30,26 @@ jobs:
         with: 
           r-version: '4.0.3' # problem with using 4.0.4        
       
-      - name: Cache R packages
-        uses: actions/cache@v2
-        id: cache
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: big-cache-DESCRIPTION-02172021-2
+#      - name: Cache R packages
+#        uses: actions/cache@v2
+#        id: cache
+#        with:
+#          path: ${{ env.R_LIBS_USER }}
+#          key: big-cache-DESCRIPTION-02172021-2
 
-      - name: Load R packages (if not cached)
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          sudo R CMD javareconf
-          Rscript -e 'install.packages("devtools")
-          devtools::install_deps(dependencies = TRUE)'
+#      - name: Load R packages (if not cached)
+#        if: steps.cache.outputs.cache-hit != 'true'
+#        run: |
+#          sudo R CMD javareconf
+#          Rscript -e 'install.packages("devtools")
+#          devtools::install_deps(dependencies = TRUE)'
                  
       - name: Install more packages
         run: |
-          Rscript -e 'remove.packages("rnaturalearth")
-          install.packages("papeR")
-          install.packages("rnaturalearth", dependencies = TRUE)
-          devtools::install_github("NOAA-EDAB/esp_data_aggregation@package", dependencies = FALSE)'
+          Rscript -e 'install.packages("devtools")
+          devtools::install_github("NOAA-EDAB/esp_data_aggregation@package", dependencies = TRUE)
+          devtools::install_github("ropensci/rnaturalearth", dependencies = TRUE)
+          install.packages("ggthemes")'
           
       - name: Render reports
         run: |
@@ -62,5 +62,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: action_reports # The folder the action should deploy.
-          TARGET_FOLDER: Indicator_Reports
+          TARGET_FOLDER: Indicator_Reports_pkg
           CLEAN: false # Automatically remove deleted files from the deploy branch
