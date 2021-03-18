@@ -48,7 +48,8 @@ jobs:
         run: |
           Rscript -e 'install.packages("devtools")
           devtools::install_github("NOAA-EDAB/esp_data_aggregation@package", dependencies = TRUE)
-          devtools::install_github("ropensci/rnaturalearth", dependencies = TRUE)'
+          devtools::install_github("ropensci/rnaturalearth", dependencies = TRUE)
+          install.packages("ggthemes")'
           
       - name: Render reports
         run: |
