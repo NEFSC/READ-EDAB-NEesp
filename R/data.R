@@ -341,8 +341,8 @@
 #' @details DETAILS
 "risk"
 
-#' @title Risk assessment within species
-#' @description DATASET_DESCRIPTION
+#' @title Risk assessment within stock
+#' @description Risk assessment: years ranked within a single stock
 #' @format A data frame with 50880 rows and 12 variables:
 #' \describe{
 #'   \item{\code{Species}}{character Species common name}
@@ -351,7 +351,7 @@
 #'   \item{\code{category}}{character Indicator category}
 #'   \item{\code{Year}}{character Window of years}
 #'   \item{\code{Value}}{double Value}
-#'   \item{\code{rank}}{double Stock's indicator rank for the given year relative to all other years of the same species}
+#'   \item{\code{rank}}{double Stock's indicator rank for the given year relative to all other years of the same stock}
 #'   \item{\code{n_years_per_indicator}}{double Number of years ranked for the stock}
 #'   \item{\code{n_stocks_per_region}}{integer NUmber of stocks in the stock region}
 #'   \item{\code{norm_rank}}{double Normalized rank}
@@ -361,64 +361,64 @@
 #' @details DETAILS
 "risk_species"
 
-#' @title DATASET_TITLE
-#' @description DATASET_DESCRIPTION
+#' @title Risk assessment of change compared to historical value
+#' @description Risk assessment: present year value compared to historical value compared among stocks
 #' @format A data frame with 41658 rows and 15 variables:
 #' \describe{
-#'   \item{\code{Species}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Region}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Indicator}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{category}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Year}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Value}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{rank}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{n_stocks_per_indicator}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{n_stocks_per_region}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{norm_rank}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{total_risk}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{overall_rank}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{overall_stocks}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{stock}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{label}}{character COLUMN_DESCRIPTION} 
+#'   \item{\code{Species}}{character Species common name}
+#'   \item{\code{Region}}{character Stock region}
+#'   \item{\code{Indicator}}{character Indicator}
+#'   \item{\code{category}}{character Indicator category}
+#'   \item{\code{Year}}{character Window of years}
+#'   \item{\code{Value}}{double Value (change compared to historical)}
+#'   \item{\code{rank}}{double Stock's indicator rank for the given year relative to all other stocks in the same year}
+#'   \item{\code{n_stocks_per_indicator}}{double Number of stocks ranked for the indicator}
+#'   \item{\code{n_stocks_per_region}}{integer NUmber of stocks in the stock region}
+#'   \item{\code{norm_rank}}{double Normalized rank}
+#'   \item{\code{total_risk}}{double  Stock's total risk (sum of normalized ranks for all indicators)}
+#'   \item{\code{overall_rank}}{integer Stock's rank of total risk, compared to all other stocks}
+#'   \item{\code{overall_stocks}}{integer Total number of stocks}
+#'   \item{\code{stock}}{character Species and region}
+#'   \item{\code{label}}{character Label (for plotting)} 
 #'}
 #' @details DETAILS
 "risk_year_hist"
 
-#' @title DATASET_TITLE
-#' @description DATASET_DESCRIPTION
+#' @title Risk assessment of magnitude of value compared to other stocks
+#' @description Risk assessment: present year value compared among stocks
 #' @format A data frame with 42559 rows and 15 variables:
 #' \describe{
-#'   \item{\code{Species}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Region}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Indicator}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{category}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Year}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Value}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{rank}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{n_stocks_per_indicator}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{n_stocks_per_region}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{norm_rank}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{total_risk}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{overall_rank}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{overall_stocks}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{stock}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{label}}{character COLUMN_DESCRIPTION} 
+#'   \item{\code{Species}}{character Species common name}
+#'   \item{\code{Region}}{character Stock region}
+#'   \item{\code{Indicator}}{character Indicator}
+#'   \item{\code{category}}{character Indicator category}
+#'   \item{\code{Year}}{character Window of years}
+#'   \item{\code{Value}}{double Value}
+#'   \item{\code{rank}}{double Stock's indicator rank for the given year relative to all other stocks in the same year}
+#'   \item{\code{n_stocks_per_indicator}}{double Number of stocks ranked for the indicator}
+#'   \item{\code{n_stocks_per_region}}{integer NUmber of stocks in the stock region}
+#'   \item{\code{norm_rank}}{double Normalized rank}
+#'   \item{\code{total_risk}}{double  Stock's total risk (sum of normalized ranks for all indicators)}
+#'   \item{\code{overall_rank}}{integer Stock's rank of total risk, compared to all other stocks}
+#'   \item{\code{overall_stocks}}{integer Total number of stocks}
+#'   \item{\code{stock}}{character Species and region}
+#'   \item{\code{label}}{character Label (for plotting)} 
 #'}
 #' @details DETAILS
 "risk_year_value"
 
-#' @title DATASET_TITLE
-#' @description DATASET_DESCRIPTION
+#' @title Northeast strata shapefile
+#' @description Shapefile containing geometries for NE stock strata
 #' @format A data frame with 185 rows and 8 variables:
 #' \describe{
 #'   \item{\code{FINSTR_ID}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{STRATA}}{integer COLUMN_DESCRIPTION}
+#'   \item{\code{STRATA}}{integer Strata ID}
 #'   \item{\code{A2}}{integer COLUMN_DESCRIPTION}
 #'   \item{\code{STR2}}{integer COLUMN_DESCRIPTION}
 #'   \item{\code{SET_}}{integer COLUMN_DESCRIPTION}
 #'   \item{\code{STRATUMA}}{character COLUMN_DESCRIPTION}
 #'   \item{\code{STR3}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{geometry}}{list COLUMN_DESCRIPTION} 
+#'   \item{\code{geometry}}{list Geometry} 
 #'}
 #' @details DETAILS
 "shape"
