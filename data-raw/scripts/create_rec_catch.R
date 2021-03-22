@@ -31,3 +31,11 @@ rec_catch <- read.csv(here::here("data-raw/MRIP", "all_MRIP_catch_year.csv")) %>
   update_species_names(species_col = "Species")
 
 usethis::use_data(rec_catch)
+
+rec_catch_small <- NEesp::rec_catch %>%
+  dplyr::select(-X, -status, -wave, -wave_f, -sub_reg, -st, -sp_code, -common,
+                -mode_fx, -area_x, -area_x_f, -estclaim, -estclvar, -estharv,
+                -landing, -land_var, -estrel, -estrlvar, -var_lbs, -wgt_ab1,
+                -var_wab1, -miss_fish, -ALT_FLAG, -esthvar)
+
+usethis::use_data(rec_catch_small)

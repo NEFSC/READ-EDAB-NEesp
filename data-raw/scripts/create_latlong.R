@@ -60,3 +60,7 @@ latlong <- read.csv(here::here("data-raw", "geo_range_data.csv")) %>%
   update_species_names(species_col = "Species")
 
 usethis::use_data(latlong, overwrite = TRUE)
+
+latlong <- NEesp::latlong %>%
+  dplyr::select(-X, -COMNAME, -sixcode, -stock_area)
+usethis::use_data(latlong, overwrite = TRUE)

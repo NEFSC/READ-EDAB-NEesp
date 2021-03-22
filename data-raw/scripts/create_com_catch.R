@@ -32,3 +32,8 @@ com$Species <- com$Species %>%
 
 com_catch <- com
 usethis::use_data(com_catch)
+
+com_catch <- NEesp::com_catch %>%
+  dplyr::select(-X, -rowname, -CPIAUCSL)
+
+usethis::use_data(com_catch, overwrite = TRUE)
