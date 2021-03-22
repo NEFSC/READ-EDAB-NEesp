@@ -2,96 +2,22 @@
 #' @description This data was derived from NEFSC bottom trawl data. It contains stomach content information and length-weight information.
 #' @format A data frame with 1423676 rows and 90 variables:
 #' \describe{
-#'   \item{\code{obs}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{pynam}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{pyspp}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{pyabbr}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{modcat}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{gencat}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{gensci}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{analcat}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{analsci}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{collcat}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{collsci}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{station}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{pdsex}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{pdlen}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{pdid}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{fhmat}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{pdmat}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{pdwgt}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{pdsvol}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{pdswgt}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{fhdat}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{cruise}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{cruise6}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{svspp}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{catsex}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{cf}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{sizecat}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{len10cat}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{len5cat}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{pdgutw}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{pdgutv}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{stratum}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{ttime}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{towdur}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{setdepth}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{airtemp}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{surftemp}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{bottemp}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{svgear}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{tow}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{beglat}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{beglon}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{hour}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{minute}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{month}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{day}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{year}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{haul}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{gearcond}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{area}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{statype}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{towtime}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{purcode}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{status_code}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{season}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{yr2block}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{yr3block}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{yr5block}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{decade}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{garea}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{geoarea}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{declat}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{declon}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{catwgt}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{catnum}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{numlen}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{pynum}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{pyperi}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{pywgti}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{pyvoli}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{pylen}}{logical COLUMN_DESCRIPTION}
-#'   \item{\code{pyamtw}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{pyamtv}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{perpyv}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{perpyw}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{pdscinam}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{pdcomnam}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{tot_tows_spp_stratum}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{tot_catnum_stratum}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{tot_catwgt_stratum}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{stratum_area}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{pycomnam2}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{gencom2}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{analcom3}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{collcom3}}{logical COLUMN_DESCRIPTION}
-#'   \item{\code{Species}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{spst}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{stock_area}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Region}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{fish_id}}{character COLUMN_DESCRIPTION} 
+#'   \item{\code{pynam}}{character Prey scientific name}
+#'   \item{\code{gencat}}{character Prey general category (shortened)}
+#'   \item{\code{gensci}}{character Prey general category (full)}
+#'   \item{\code{analcat}}{character Prey analytical category (shortened)}
+#'   \item{\code{analsci}}{character Prey analytical category (full)}
+#'   \item{\code{pdlen}}{double Predtaor length}
+#'   \item{\code{pdwgt}}{integer Predator weight}
+#'   \item{\code{stratum}}{integer Stratum}
+#'   \item{\code{surftemp}}{double Surface water temperature}
+#'   \item{\code{bottemp}}{double Bottom water temperature}
+#'   \item{\code{year}}{integer Year}
+#'   \item{\code{season}}{integer Season}
+#'   \item{\code{pyamtw}}{double Prey weight}
+#'   \item{\code{Species}}{character Predator species}
+#'   \item{\code{Region}}{character Predator region}
+#'   \item{\code{fish_id}}{character Predator ID number} 
 #'}
 #'
 #' @source \url{https://github.com/Laurels1/Condition/blob/master/data/allfh.RData}
@@ -121,65 +47,17 @@
 #' @description This data set contains summary stock assessment metrics on several US stocks.
 #' @format A data frame with 337 rows and 61 variables:
 #' \describe{
-#'   \item{\code{Stock Name}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Jurisdiction}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{FMP}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Science Center}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Regional Ecosystem}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{FSSI Stock?}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{ITIS Taxon Serial Number}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Scientific Name}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Common Name}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Stock Area}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Assessment Year}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Assessment Month}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Last Data Year}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Update Type}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Review Result}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Assessment Model}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Model Version}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Lead Lab}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Citation}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Final Assessment Report 1}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Final Assessment Report 2}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Point of Contact}}{character COLUMN_DESCRIPTION}
+
+#'   \item{\code{FSSI Stock?}}{character Is the stock included in the Fish Stock Sustainability Index?}
+#'   \item{\code{Assessment Year}}{integer Assessment year}
+#'   \item{\code{Last Data Year}}{integer Last data year used in assessment}
+#'   \item{\code{Review Result}}{character Results of assessment review by the Council}
 #'   \item{\code{Life History Data}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Abundance Data}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Catch Data}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Assessment Level}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Assessment Frequency}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Assessment Type}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Model Category}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Catch Input Data}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Abundance Input Data}}{integer COLUMN_DESCRIPTION}
 #'   \item{\code{Biological Input Data}}{logical COLUMN_DESCRIPTION}
 #'   \item{\code{Ecosystem Linkage}}{integer COLUMN_DESCRIPTION}
 #'   \item{\code{Composition Input Data}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{F Year}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Estimated F}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{F Unit}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{F Basis}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Flimit}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{Flimit Basis}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Fmsy}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{Fmsy Basis}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{F/Flimit}}{double COLUMN_DESCRIPTION}
 #'   \item{\code{F/Fmsy}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{Ftarget}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{Ftarget Basis}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{F/Ftarget}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{B Year}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Estimated B}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{B Unit}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{B Basis}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Blimit}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{Blimit Basis}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Bmsy}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{Bmsy Basis}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{B/Blimit}}{double COLUMN_DESCRIPTION}
 #'   \item{\code{B/Bmsy}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{MSY}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{MSY Unit}}{character COLUMN_DESCRIPTION}
 #'   \item{\code{Species}}{character COLUMN_DESCRIPTION}
 #'   \item{\code{Region}}{character COLUMN_DESCRIPTION} 
 #'}

@@ -55,3 +55,10 @@ allfh <- allfh %>%
   update_species_names(species_col = "Species")
 
 usethis::use_data(allfh)
+
+allfh_small <- allfh %>%
+  dplyr::select(pynam, gencat, gensci, analcat, analsci, pyamtw, pdlen, 
+                pdwgt, stratum, surftemp, bottemp, Species, Region, fish_id, 
+                season, year)
+
+usethis::use_data(allfh_small)

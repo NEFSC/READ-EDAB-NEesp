@@ -27,3 +27,11 @@ asmt_sum <- asmt_sum %>%
   update_species_names(species_col = "Species")
 
 usethis::use_data(asmt_sum)
+
+asmt_sum_small <- asmt_sum %>%
+  dplyr::select(Species, Region, `Assessment Year`, `Last Data Year`,
+                `Biological Input Data`, `Life History Data`,
+                `Composition Input Data`, `Ecosystem Linkage`, `FSSI Stock?`,
+                `Review Result`, `B/Bmsy`, `F/Fmsy`)
+
+usethis::use_data(asmt_sum_small)
