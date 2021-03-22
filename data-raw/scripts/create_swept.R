@@ -65,6 +65,11 @@ swept <- read.csv(here::here("data-raw", "swept_area_info.csv")) %>%
 
 usethis::use_data(swept, overwrite = TRUE)
 
+swept <- NEesp::swept %>%
+  dplyr::select(-X.1, -X)
+
+usethis::use_data(swept, overwrite = TRUE)
+
 # no regions - figure out how to retain regions
 # cut data into regions (by species??)
 # can the pull be parsed or will that mess up survdat functions?

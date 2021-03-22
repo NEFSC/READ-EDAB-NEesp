@@ -423,23 +423,23 @@
 #' @details DETAILS
 "shape"
 
-#' @title DATASET_TITLE
-#' @description DATASET_DESCRIPTION
+#' @title Species guild key
+#' @description Species guild key
 #' @format A data frame with 37 rows and 3 variables:
 #' \describe{
-#'   \item{\code{Species}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Scientific_name}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Guild}}{character COLUMN_DESCRIPTION} 
+#'   \item{\code{Species}}{character Species common name}
+#'   \item{\code{Scientific_name}}{character Species scientific name}
+#'   \item{\code{Guild}}{character Guild} 
 #'}
-#' @details DETAILS
+#' @details Can probably be deprecated in favor of `guild_info`
 "species_guilds"
 
-#' @title DATASET_TITLE
-#' @description DATASET_DESCRIPTION
+#' @title Species SVSPP key
+#' @description A key to connect species common names and SVSPP (Northeast Resource Surveys Species code)
 #' @format A data frame with 37 rows and 2 variables:
 #' \describe{
-#'   \item{\code{SVSPP}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Species}}{character COLUMN_DESCRIPTION} 
+#'   \item{\code{SVSPP}}{integer Northeast Resource Surveys Species code}
+#'   \item{\code{Species}}{character Species common name} 
 #'}
 #' @details DETAILS
 "species_key"
@@ -448,33 +448,34 @@
 #' @description DATASET_DESCRIPTION
 #' @format A data frame with 3937953 rows and 27 variables:
 #' \describe{
-#'   \item{\code{CRUISE6}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{STATION}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{STRATUM}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{TOW}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{SVSPP}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{CATCHSEX}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{SVVESSEL}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{YEAR}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{SEASON}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{LAT}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{LON}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{EST_TOWDATE}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{DEPTH}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{SURFTEMP}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{SURFSALIN}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{BOTTEMP}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{BOTSALIN}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{ABUNDANCE}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{BIOMASS}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{LENGTH}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{NUMLEN}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{Species}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{spst}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{stock_area}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Region}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{date}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{fish_id}}{character COLUMN_DESCRIPTION} 
+#' 
+#'   \item{\code{CRUISE6}}{character Cruise ID}
+#'   \item{\code{STATION}}{character Station ID}
+#'   \item{\code{STRATUM}}{character Stratum}
+#'   \item{\code{TOW}}{character Tow ID}
+#'   \item{\code{SVSPP}}{character Northeast Resource Surveys Species code}
+#'   \item{\code{CATCHSEX}}{character Species-specific numeric sex code}
+#'   \item{\code{SVVESSEL}}{character Vessel ID}
+#'   \item{\code{YEAR}}{double Year}
+#'   \item{\code{SEASON}}{character Season}
+#'   \item{\code{LAT}}{double Latitude}
+#'   \item{\code{LON}}{double Longitude}
+#'   \item{\code{EST_TOWDATE}}{double Date with estimated time}
+#'   \item{\code{DEPTH}}{double Depth}
+#'   \item{\code{SURFTEMP}}{double Surface water temperature}
+#'   \item{\code{SURFSALIN}}{double Surface salinity}
+#'   \item{\code{BOTTEMP}}{double Bottom water temperature}
+#'   \item{\code{BOTSALIN}}{double Bottom salinity}
+#'   \item{\code{ABUNDANCE}}{double Abundance (number of fish caught on a single tow; redundant for rows with the same CRUISE6, STATION, and TOW)}
+#'   \item{\code{BIOMASS}}{double Biomass (biomass caught on a single tow; redundant for rows with the same SVSPP, CRUISE6, STATION, and TOW)}
+#'   \item{\code{LENGTH}}{double Length}
+#'   \item{\code{NUMLEN}}{double Number of fish at the specified length (redundant for rows with the same SVSPP, CRUISE6, STATION, TOW, and LENGTH)}
+#'   \item{\code{Species}}{character Species common name}
+#'   \item{\code{spst}}{character Species and strata}
+#'   \item{\code{stock_area}}{character Stock region}
+#'   \item{\code{Region}}{character Stock region}
+#'   \item{\code{date}}{character Date}
+#'   \item{\code{fish_id}}{character Unique fish ID} 
 #'}
 #' @source Oracle query of `svdbs` using the `survdat` package. 
 #' @details \itemize{
@@ -483,29 +484,27 @@
 #' }
 "survey"
 
-#' @title DATASET_TITLE
-#' @description DATASET_DESCRIPTION
-#' @format A data frame with 4009 rows and 19 variables:
+#' @title Swept area estimates
+#' @description Swept area estimates
+#' @format A data frame with 4009 rows and 17 variables:
 #' \describe{
-#'   \item{\code{X.1}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{X}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{YEAR}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{SVSPP}}{integer COLUMN_DESCRIPTION}
+#'   \item{\code{YEAR}}{integer Year}
+#'   \item{\code{SVSPP}}{integer Northeast Resource Surveys Species code}
 #'   \item{\code{N}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{strat.biomass}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{biomass.var}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{biomass.SE}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{strat.abund}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{abund.var}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{abund.SE}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{tot.biomass}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{tot.bio.var}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{tot.bio.SE}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{tot.abundance}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{tot.abund.var}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{tot.abund.SE}}{double COLUMN_DESCRIPTION}
-#'   \item{\code{Species}}{character COLUMN_DESCRIPTION}
-#'   \item{\code{Season}}{character COLUMN_DESCRIPTION} 
+#'   \item{\code{strat.biomass}}{double Stratified mean biomass}
+#'   \item{\code{biomass.var}}{double Stratified mean biomass variance}
+#'   \item{\code{biomass.SE}}{double Stratified mean biomass standard error}
+#'   \item{\code{strat.abund}}{double Stratified mean abundance}
+#'   \item{\code{abund.var}}{double Stratified mean abundance variance}
+#'   \item{\code{abund.SE}}{double Stratified mean abundance standard error}
+#'   \item{\code{tot.biomass}}{double Swept area biomass}
+#'   \item{\code{tot.bio.var}}{double Biomass variance}
+#'   \item{\code{tot.bio.SE}}{double Biomass standard error}
+#'   \item{\code{tot.abundance}}{double Swept area abundance}
+#'   \item{\code{tot.abund.var}}{double Abundance variance}
+#'   \item{\code{tot.abund.SE}}{double Abundance standard error}
+#'   \item{\code{Species}}{character Species common name}
+#'   \item{\code{Season}}{character Season} 
 #'}
-#' @details DETAILS
+#' @details See `survdat::swept_area`
 "swept"
