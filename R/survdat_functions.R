@@ -393,7 +393,7 @@ plot_len_hist <- function(x) {
       )
     ) +
       ggplot2::geom_line(cex = 1.5) +
-      ggplot2::facet_grid(rows = vars(Region)) +
+      ggplot2::facet_grid(rows = ggplot2::vars(Region)) +
       ggplot2::scale_color_manual(values = mycolors) +
       ggplot2::scale_y_continuous(limits = c(0, max(x$Proportion))) +
       ggplot2::theme_bw() +
