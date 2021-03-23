@@ -22,7 +22,7 @@
 #'
 #' @source \url{https://github.com/Laurels1/Condition/blob/master/data/allfh.RData}
 #' @details DETAILS
-"allfh"
+#' "allfh"
 
 #' @title Stock Assessment Data
 #' @description This data set contains stock assessment data on several US stocks.
@@ -63,7 +63,7 @@
 #'}
 #' @source \url{https://github.com/NOAA-EDAB/assessmentdata}
 #' @details For more details see \url{https://www.st.nmfs.noaa.gov/stocksmart/StockSMART_DataDictionary.pdf}
-"asmt_sum"
+#' "asmt_sum"
 
 #' @title NEFSC Bottom Trawl Data with Bio Data
 #' @description This data is NEFSC bottom trawl data with bio data.
@@ -295,7 +295,7 @@
 #'}
 #' @source \url{https://www.st.nmfs.noaa.gov/st1/recreational/MRIP_Survey_Data/CSV/}
 #' @details DETAILS
-"rec_catch"
+#' "rec_catch"
 
 #' @title Recreational landings data color palette
 #' @description A color palette to use with recreational landings dat

@@ -3,21 +3,64 @@
 \docType{data}
 \name{rec_palette}
 \alias{rec_palette}
-\title{Recreational landings data color palette}
+\title{Recreational landings}
 \format{
+A data frame with 63710 rows and 31 variables:
+\describe{
+\item{\code{X}}{integer COLUMN_DESCRIPTION}
+\item{\code{status}}{character COLUMN_DESCRIPTION}
+\item{\code{year}}{integer Year}
+\item{\code{wave}}{integer COLUMN_DESCRIPTION}
+\item{\code{wave_f}}{character COLUMN_DESCRIPTION}
+\item{\code{sub_reg}}{integer COLUMN_DESCRIPTION}
+\item{\code{sub_reg_f}}{character Ocean region}
+\item{\code{st}}{integer COLUMN_DESCRIPTION}
+\item{\code{st_f}}{character State}
+\item{\code{sp_code}}{double COLUMN_DESCRIPTION}
+\item{\code{common}}{character COLUMN_DESCRIPTION}
+\item{\code{mode_fx}}{integer COLUMN_DESCRIPTION}
+\item{\code{mode_fx_f}}{character Fishing mode}
+\item{\code{area_x}}{integer COLUMN_DESCRIPTION}
+\item{\code{area_x_f}}{character COLUMN_DESCRIPTION}
+\item{\code{estclaim}}{character COLUMN_DESCRIPTION}
+\item{\code{estclvar}}{character COLUMN_DESCRIPTION}
+\item{\code{estharv}}{character COLUMN_DESCRIPTION}
+\item{\code{esthvar}}{character COLUMN_DESCRIPTION}
+\item{\code{landing}}{character COLUMN_DESCRIPTION}
+\item{\code{land_var}}{character COLUMN_DESCRIPTION}
+\item{\code{estrel}}{character COLUMN_DESCRIPTION}
+\item{\code{estrlvar}}{character COLUMN_DESCRIPTION}
+\item{\code{tot_cat}}{integer Total catch (number of fish)}
+\item{\code{lbs_ab1}}{double Pounds landed}
+\item{\code{var_lbs}}{character COLUMN_DESCRIPTION}
+\item{\code{wgt_ab1}}{character COLUMN_DESCRIPTION}
+\item{\code{var_wab1}}{character COLUMN_DESCRIPTION}
+\item{\code{miss_fish}}{character COLUMN_DESCRIPTION}
+\item{\code{ALT_FLAG}}{integer COLUMN_DESCRIPTION}
+\item{\code{Species}}{character Species common name}
+}
+
 A data frame with 5 rows and 2 variables:
 \describe{
 \item{\code{rec_mode}}{character Fishing mode}
 \item{\code{color}}{character Color (hex code)}
 }
 }
+\source{
+\url{https://www.st.nmfs.noaa.gov/st1/recreational/MRIP_Survey_Data/CSV/}
+}
 \usage{
 rec_palette
 }
 \description{
+Recreational landings data from MRIP.
+
 A color palette to use with recreational landings dat
 }
 \details{
+DETAILS
+"rec_catch"
+
 Created from \code{nmfspalette} package
 }
 \keyword{datasets}

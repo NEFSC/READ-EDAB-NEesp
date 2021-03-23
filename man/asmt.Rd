@@ -3,8 +3,28 @@
 \docType{data}
 \name{asmt}
 \alias{asmt}
-\title{Stock Assessment Data}
+\title{Diet and Condition Data}
 \format{
+A data frame with 1423676 rows and 16 variables:
+\describe{
+\item{\code{pynam}}{character Prey scientific name}
+\item{\code{gencat}}{character Prey general category (shortened)}
+\item{\code{gensci}}{character Prey general category (full)}
+\item{\code{analcat}}{character Prey analytical category (shortened)}
+\item{\code{analsci}}{character Prey analytical category (full)}
+\item{\code{pdlen}}{double Predtaor length}
+\item{\code{pdwgt}}{integer Predator weight}
+\item{\code{stratum}}{integer Stratum}
+\item{\code{surftemp}}{double Surface water temperature}
+\item{\code{bottemp}}{double Bottom water temperature}
+\item{\code{year}}{integer Year}
+\item{\code{season}}{integer Season}
+\item{\code{pyamtw}}{double Prey weight}
+\item{\code{Species}}{character Predator species}
+\item{\code{Region}}{character Predator region}
+\item{\code{fish_id}}{character Predator ID number}
+}
+
 A data frame with 35636 rows and 10 variables:
 \describe{
 \item{\code{Species}}{character The species' common name}
@@ -20,15 +40,22 @@ A data frame with 35636 rows and 10 variables:
 }
 }
 \source{
+\url{https://github.com/Laurels1/Condition/blob/master/data/allfh.RData}
+
 \url{https://github.com/NOAA-EDAB/assessmentdata}
 }
 \usage{
 asmt
 }
 \description{
+This data was derived from NEFSC bottom trawl data. It contains stomach content information and length-weight information.
+
 This data set contains stock assessment data on several US stocks.
 }
 \details{
+DETAILS
+"allfh"
+
 DETAILS
 }
 \keyword{datasets}
