@@ -50,7 +50,7 @@ output <- rbind(output, correlation_summary(
 ```
 
 ```{r, eval = params$save & eval_epu}
-data <- data_prep(
+data <- NEesp::data_prep(
   stock = stock,
   eco = test,
   lag = params$lag
@@ -63,16 +63,7 @@ if (nrow(data) > 0) {
     ".csv",
     sep = "_"
   ) %>%
-    stringr::str_replace_all("/", "-") %>%
-    stringr::str_replace_all("Georges Bank", "GB") %>%
-    stringr::str_replace_all("Gulf of Maine", "GOM") %>%
-    stringr::str_replace_all("Northern", "N") %>%
-    stringr::str_replace_all("Southern", "S") %>%
-    stringr::str_replace_all("Northwestern", "NW") %>%
-    stringr::str_replace_all(" - ", "-") %>%
-    stringr::str_replace_all("_.csv", ".csv") %>%
-    stringr::str_replace_all(" ", "_")
-  
+    stringr::str_replace_all("/", "-")
   write.csv(data, paste("data/", file_name, sep = ""))
 }
 ```
@@ -82,7 +73,7 @@ names <- names[-1]
 ```
 #### Figures {-}
 ```{r, eval = eval_epu, fig.height = 10}
-plot_correlation(
+NEesp::plot_correlation(
   stock = stock,
   eco = test,
   lag = params$lag
@@ -95,7 +86,7 @@ print("No data for the EPU selected")
 
 #### Regression statistics {-}
 ```{r, results = "asis", eval = eval_epu}
-correlation_data(
+NEesp::correlation_data(
   stock = stock,
   eco = test,
   lag = params$lag
