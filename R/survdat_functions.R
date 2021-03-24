@@ -189,7 +189,7 @@ generate_plot <- function(x, ytitle = "", variable) {
 #' @importFrom magrittr %>%
 #' @export
 
-generate_table <- function(x, variable, cap = "") {
+generate_table <- function(x, variable, cap = "", type = "html") {
   data <- NEesp::get_var_data(x, variable = variable)
 
   if (nrow(data) > 0) {
@@ -204,32 +204,44 @@ generate_table <- function(x, variable, cap = "") {
     total_table <- cbind(
       table,
       table_5yr[, -(1:2)]
-    ) %>%
-      DT::datatable(
-        rownames = FALSE,
-        colnames = c(
-          "Season", "Region", "Total years", "Mean",
-          "Standard deviation", "Minimum", "Maximum",
-          "Mean (past 5 years)",
-          "Standard deviation (past 5 years)",
-          "Minimum (past 5 years)",
-          "Maximum (past 5 years)"
-        ),
-        filter = list(
-          position = "top",
-          clear = FALSE
-        ),
-        extensions = "Scroller",
-        caption = cap,
-        options = list(
-          search = list(regex = TRUE),
-          deferRender = TRUE,
-          scrollY = 200,
-          scrollX = TRUE,
-          scroller = TRUE,
-          language = list(thousands = ",")
+    ) 
+    
+    cnames <- c(
+      "Season", "Region", "Total years", "Mean",
+      "Standard deviation", "Minimum", "Maximum",
+      "Mean (past 5 years)",
+      "Standard deviation (past 5 years)",
+      "Minimum (past 5 years)",
+      "Maximum (past 5 years)"
+    )
+    
+    if(type == "html"){
+      total_table <- total_table %>%
+        DT::datatable(
+          rownames = FALSE,
+          colnames = cnames,
+          filter = list(
+            position = "top",
+            clear = FALSE
+          ),
+          extensions = "Scroller",
+          caption = cap,
+          options = list(
+            search = list(regex = TRUE),
+            deferRender = TRUE,
+            scrollY = 200,
+            scrollX = TRUE,
+            scroller = TRUE,
+            language = list(thousands = ",")
+          )
         )
-      )
+    }
+    
+    if(type = "word"){
+      total_table <- total_table %>%
+        knitr::kable(col.names = cnames)
+    }
+     
 
     return(total_table)
   }
