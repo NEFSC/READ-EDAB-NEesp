@@ -237,7 +237,7 @@ generate_table <- function(x, variable, cap = "", type = "html") {
         )
     }
     
-    if(type = "word"){
+    if(type == "word"){
       total_table <- total_table %>%
         knitr::kable(col.names = cnames)
     }
