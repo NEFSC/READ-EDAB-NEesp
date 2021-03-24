@@ -138,7 +138,7 @@ get_diet_plot <- function(data) {
 #' @importFrom magrittr %>%
 #' @export
 
-get_diet_table <- function(data) {
+get_diet_table <- function(data, type = "html") {
   if (nrow(data) > 0) {
     normalized <- data %>%
       dplyr::filter(pyamtw > 0) %>%
@@ -196,6 +196,7 @@ get_diet_table <- function(data) {
         )
 
       make_html_table(table,
+                      type = type,
         col_names = c(
           "Prey category", "Season", "Region",
           "Mean proportion +- SD (n years)",
