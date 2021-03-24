@@ -30,6 +30,8 @@ barplot(
 
 # save palette
 # write.csv(prey_palette, here::here("data", "prey_color_palette.csv"))
+
+prey_palette <- read.csv(here::here("data-raw", "prey_color_palette.csv"))
 usethis::use_data(prey_palette, overwrite = TRUE)
 
 
@@ -77,3 +79,7 @@ com_palette <- data.frame(
 # save palette
 # write.csv(com_palette, here::here("data", "com_color_palette.csv"))
 usethis::use_data(com_palette, overwrite = TRUE)
+
+com_palette <- read.csv(here::here("data-raw", "com_color_palette.csv"))
+usethis::use_data(prey_palette, overwrite = TRUE)
+
