@@ -31,27 +31,36 @@ update_species_names <- function(data, species_col) {
 #' @return An html table
 #' @export
 
-make_html_table <- function(x, col_names = colnames(x)) {
+make_html_table <- function(x, col_names = colnames(x), type = "html") {
   if (is.null(x) == FALSE) {
     if (nrow(x) > 0) {
-      output <- DT::datatable(x,
-        rownames = FALSE,
-        colnames = col_names,
-        filter = list(
-          position = "top",
-          clear = FALSE
-        ),
-        extensions = "Scroller",
-        options = list(
-          search = list(regex = TRUE),
-          deferRender = TRUE,
-          scrollY = 200,
-          scrollX = TRUE,
-          scroller = TRUE,
-          language = list(thousands = ",")
+      
+      if (type == "html") {
+        output <- DT::datatable(x,
+          rownames = FALSE,
+          colnames = col_names,
+          filter = list(
+            position = "top",
+            clear = FALSE
+          ),
+          extensions = "Scroller",
+          options = list(
+            search = list(regex = TRUE),
+            deferRender = TRUE,
+            scrollY = 200,
+            scrollX = TRUE,
+            scroller = TRUE,
+            language = list(thousands = ",")
+          )
         )
-      )
+      }
+
+      if (type == "word") {
+        output <- knitr::kable(x, col.names = col_names)
+      }
+
       return(output)
+      
     } else {
       print("NO DATA")
     }
@@ -137,7 +146,7 @@ format_numbers <- function(x) {
 #'
 #' This function saves a data set if it has nrow > 0. Data is saved in a folder called `data` in the working directory.
 #'
-#' @param x A data table or tibble 
+#' @param x A data table or tibble
 #' @return A .csv (small files), or a .RDS (large files)
 #' @export
 
@@ -151,10 +160,10 @@ save_data <- function(x) {
       x <- x %>%
         dplyr::select(-X)
     }
-    
+
     objsize <- object.size(x)
-    
-    if(objsize/10^6 < 100){
+
+    if (objsize / 10^6 < 100) {
       filename <- paste("data/", name, ".csv", sep = "")
       write.csv(x, file = filename, row.names = FALSE)
     } else {
