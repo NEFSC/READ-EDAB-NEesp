@@ -56,7 +56,12 @@ make_html_table <- function(x, col_names = colnames(x), type = "html") {
       }
 
       if (type == "word") {
-        output <- knitr::kable(x, col.names = col_names)
+        if(nrow(x) <= 60) {
+          output <- knitr::kable(x, col.names = col_names)
+        } else {
+          output <- "More than 60 rows of data! Please see `data` folder."
+        }
+        
       }
 
       return(output)
