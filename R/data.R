@@ -98,7 +98,10 @@
 #'   \item{\code{STOM_VOLUME}}{double Stomach volume}
 #'   \item{\code{STOM_WGT}}{double Stomach weight} 
 #'}
-#' @details DETAILS
+#' @details \itemize{
+#'     \item Function call: survdat::get_survdat_data(channel = channel, filterByYear = NA, all.season = TRUE, shg.check = T, conversion.factor = T, use.SAD = F, getBio = TRUE, getLengths = T)
+#'     \item Pull date: Tue Mar 02 16:12:40 2021
+#' }
 "bio_survey"
 
 #' @title Overall Climate Risk
