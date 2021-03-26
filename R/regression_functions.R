@@ -39,7 +39,8 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
     dplyr::filter(n_data_points >= 3) %>%
     dplyr::ungroup() %>%
     dplyr::group_by(Metric, Var) %>%
-    dplyr::mutate(pval = summary(lm(Value ~ Val))$coefficients[2, 4]) %>%
+    dplyr::mutate(pval = summary(glm(Value ~ Val,
+                                     family = poisson()))$coefficients[2, 4]) %>%
     dplyr::mutate(sig = pval < 0.05)
 
   data_no_model <- data2 %>%
@@ -90,7 +91,8 @@ plot_correlation <- function(stock, eco, lag = 0) {
     ) +
       ggplot2::geom_line(lty = 2) +
       ggplot2::geom_point() +
-      ggplot2::stat_smooth(method = "lm") +
+      ggplot2::stat_smooth(method = "glm",
+                           method.args = list(family = poisson())) +
       ggplot2::facet_grid(
         rows = ggplot2::vars(facet),
         cols = ggplot2::vars(Var),
@@ -142,7 +144,8 @@ correlation_data <- function(stock, eco, lag = 0) {
           dplyr::filter(Metric == i, Var == j)
 
         if (nrow(dat) > 0) {
-          results <- lm(Value ~ Val,
+          results <- glm(Value ~ Val,
+                         family = poisson(),
             data = dat
           ) %>%
             summary()
@@ -211,7 +214,8 @@ correlation_summary <- function(stock, eco, lag = 0) {
           dplyr::filter(Metric == i, Var == j)
 
         if (nrow(dat) > 0) {
-          results <- lm(Value ~ Val,
+          results <- glm(Value ~ Val,
+                         family = poisson(),
             data = dat
           ) %>%
             summary()
