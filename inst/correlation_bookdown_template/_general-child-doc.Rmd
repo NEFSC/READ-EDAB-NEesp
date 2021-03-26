@@ -59,21 +59,11 @@ data <- NEesp::data_prep(
 if (nrow(data) > 0) {
   file_name <- paste(params$stock, params$region, params$epu[1],
     params$lag, "lag",
-    params$remove_recent, "rr", names[1],
+    params$remove_recent, "remove_recent", names[1],
     ".csv",
     sep = "_"
   ) %>%
-    stringr::str_replace_all("/", "-") %>%
-    stringr::str_replace_all("Georges Bank", "GB") %>%
-    stringr::str_replace_all("Gulf of Maine", "GOM") %>%
-    stringr::str_replace_all("Northern", "N") %>%
-    stringr::str_replace_all("Southern", "S") %>%
-    stringr::str_replace_all("Northwestern", "NW") %>%
-    stringr::str_replace_all(" - ", "-") %>%
-    stringr::str_replace_all("_.csv", ".csv") %>%
-    stringr::str_replace_all(" ", "_")
-    
-  file.path(paste("data/", file_name, sep = ""))
+    stringr::str_replace_all("/", "-")
   write.csv(data, paste("data/", file_name, sep = ""))
 }
 ```
@@ -105,4 +95,26 @@ NEesp::correlation_data(
 
 ```{r, eval = (eval_epu == FALSE)}
 print("No data for the EPU selected")
+```
+
+#### Regression data
+```{r, eval = eval_epu}
+this_recruit <- data %>%
+  dplyr::filter(stringr::str_detect(facet, "Recruit"),
+                sig == TRUE) %>%
+  dplyr::select(Species, Region, Time, Value, Metric, Var, Val, pval)
+
+if(nrow(this_recruit) > 0){
+  recruit_data <- rbind(recruit_data, this_recruit)
+}
+
+this_abun <- data %>%
+  dplyr::filter(stringr::str_detect(facet, "Abundance"),
+                sig == TRUE) %>%
+  dplyr::select(Species, Region, Time, Value, Metric, Var, Val, pval)
+
+if(nrow(this_abun) > 0){
+  abun_data <- rbind(abun_data, this_abun)
+}
+
 ```
