@@ -251,3 +251,28 @@ render_indicator <- function(test) {
   )
   cat(res, sep = "\n")
 }
+
+#' Calculate a pseudo-R2 for Poisson regressions
+#'
+#' This function calculates a pseudo-R2 for Poisson regressions.
+#'
+#' @param model A Poisson GLM model fit to the data
+#' @param data The data used to fit the model
+#' @param respv_colname The response variable column name
+#' @return A pseudo-R2 value
+#' @importFrom magrittr %>%
+#' @export
+
+pseudoR2 <- function(model, data, respv_colname){
+  
+  data <- data %>%
+    dplyr::rename(Measured = respv_colname)
+  
+  data$Predicted <- predict(model, newdata = data) %>% exp()
+  
+  pseudoR2 <- 1 - 
+    sum((data$Measured - data$Predicted)^2) / 
+    sum((data$Measured - mean(data$Measured))^2)  
+  
+  return(pseudoR2)
+}
