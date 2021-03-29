@@ -16,11 +16,11 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
       facet = paste(Metric, Description, Units, sep = "\n")
     ) %>%
     dplyr::ungroup()
-
+  
   eco_data$Time <- as.numeric(eco_data$Time)
-
+  
   data <- dplyr::full_join(stock2, eco_data,
-    by = "Time"
+                           by = "Time"
   ) %>%
     dplyr::filter(
       Var %>% stringr::str_detect(Metric) == FALSE, # remove self-correlations
@@ -30,27 +30,27 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
       is.na(Val) == FALSE
     ) %>%
     dplyr::ungroup()
-
+  
   data2 <- data %>%
     dplyr::group_by(Metric, Var) %>%
     dplyr::mutate(n_data_points = length(Time))
-
+  
   data_model <- data2 %>%
     dplyr::filter(n_data_points >= 3) %>%
     dplyr::ungroup() %>%
     dplyr::group_by(Metric, Var) %>%
     dplyr::mutate(pval = summary(lm(Value ~ Val))$coefficients[2, 4]) %>%
     dplyr::mutate(sig = pval < 0.05)
-
+  
   data_no_model <- data2 %>%
     dplyr::filter(n_data_points < 3) %>%
     dplyr::mutate(
       pval = NA,
       sig = NA
     )
-
+  
   data <- rbind(data_model, data_no_model)
-
+  
   return(data)
 }
 
@@ -69,17 +69,17 @@ plot_correlation <- function(stock, eco, lag = 0) {
   # the stock data should be from assessmentdata::stockAssessmentData
   # the eco data numeric values should be in a column called "Val"
   # the eco data category values should be in a column called "Var"
-
+  
   data <- NEesp::data_prep(
     stock_data = stock,
     eco_data = eco,
     lag_data = lag
   )
-
+  
   if (nrow(data) > 0) {
     my_colors <- c("black", "#B2292E", "gray")
     names(my_colors) <- c("FALSE", "TRUE", "NA")
-
+    
     fig <- ggplot2::ggplot(
       data,
       ggplot2::aes(
@@ -108,7 +108,7 @@ plot_correlation <- function(stock, eco, lag = 0) {
         axis.title = ggplot2::element_blank(),
         legend.position = "bottom"
       )
-
+    
     return(fig)
   } else {
     print("No data under conditions selected")
@@ -133,23 +133,23 @@ correlation_data <- function(stock, eco, lag = 0) {
     lag_data = lag
   ) %>%
     dplyr::filter(sig == TRUE) # only statistically significant data
-
+  
   # test correlations
-
+  
   if (nrow(data) > 0) {
     for (i in unique(data$Metric)) {
       for (j in unique(data$Var)) {
         dat <- data %>%
           dplyr::filter(Metric == i, Var == j)
-
+        
         if (nrow(dat) > 0) {
           results <- lm(Value ~ Val,
-            data = dat
+                        data = dat
           ) %>%
             summary()
-
+          
           cat("\n\n<!-- -->\n\n")
-
+          
           knitr::kable(
             list(
               results$coefficients %>%
@@ -160,7 +160,7 @@ correlation_data <- function(stock, eco, lag = 0) {
                   results$fstatistic[1] %>%
                     round(digits = 2),
                   paste(results$fstatistic[2:3],
-                    collapse = ", "
+                        collapse = ", "
                   ),
                   results$r.squared %>%
                     round(digits = 2),
@@ -172,7 +172,7 @@ correlation_data <- function(stock, eco, lag = 0) {
             caption = paste(i, j, sep = " vs "),
             booktabs = TRUE
           ) %>% print()
-
+          
           cat("\n\n<!-- -->\n\n")
         }
       }
@@ -200,23 +200,23 @@ correlation_summary <- function(stock, eco, lag = 0) {
     lag_data = lag
   ) %>%
     dplyr::filter(sig == TRUE) # only statistically significant data
-
+  
   # test correlations
-
+  
   if (nrow(data) > 0) {
     output <- c()
-
+    
     for (i in unique(data$Metric)) {
       for (j in unique(data$Var)) {
         dat <- data %>%
           dplyr::filter(Metric == i, Var == j)
-
+        
         if (nrow(dat) > 0) {
           results <- lm(Value ~ Val,
-            data = dat
+                        data = dat
           ) %>%
             summary()
-
+          
           output <- rbind(output, c(
             i,
             j,
@@ -231,7 +231,7 @@ correlation_summary <- function(stock, eco, lag = 0) {
         }
       }
     }
-
+    
     return(output)
   }
 }
@@ -247,7 +247,7 @@ correlation_summary <- function(stock, eco, lag = 0) {
 
 render_indicator <- function(test) {
   res <- knitr::knit_child(system.file("correlation_bookdown_template/_general-child-doc.Rmd", package = "NEesp"),
-    quiet = TRUE
+                           quiet = TRUE
   )
   cat(res, sep = "\n")
 }
