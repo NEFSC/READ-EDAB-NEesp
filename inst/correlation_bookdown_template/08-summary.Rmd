@@ -1,6 +1,6 @@
 # Summary of statistically significant indicators
 
-```{r, output_summary}
+```{r, output_summary_html, eval = (params$out == "html")}
 summary_table <- function(x) {
   DT::datatable(x,
     rownames = FALSE,
@@ -14,7 +14,15 @@ summary_table <- function(x) {
     )
   )
 }
+```
 
+```{r, output_summary_word, eval = (params$out == "word")}
+summary_table <- function(x) {
+  knitr::kable(x)
+}
+```
+
+```{r}
 colnames(output) <- c(
   "Response_variable", "Indicator",
   "Number of data points", "Slope",
@@ -50,7 +58,7 @@ abun_data <- abun_data %>%
   stringr::str_replace_all("-", "_") %>%
   stringr::str_replace_all("/", "_") %>%
   stringr::str_replace_all("[:^:]", "_") %>%
-  stringr::str_replace("\n", "_")
+  stringr::str_replace_all("\n", "_")
   ) %>%
   dplyr::filter(pval < bonf_p,
                 Var != "Time") %>%
@@ -69,6 +77,8 @@ full_mod <- paste(colnames(abun_data)[6:ncol(abun_data)],
                   collapse = " + ")
 full_mod <- paste("~", full_mod)
 
+#write.csv(abun_data, file = "abun_data.csv")
+
 ```
 
 ```{r, new-model-abun}
@@ -77,7 +87,9 @@ new_mod <- MASS::stepAIC(start_model,
               trace = FALSE,
               scope = list(lower = ~1,
                            upper = full_mod))
+```
 
+```{r, summary-mod}
 summary(new_mod)$coefficients %>% 
   signif(digits = 3) %>%
   knitr::kable(format.args = list(scientific = FALSE,
