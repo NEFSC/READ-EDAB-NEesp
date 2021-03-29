@@ -18,7 +18,6 @@ params:
   region: "" # the stock region
   path: "" # figure path
   save: FALSE
-  out: "html"
 ---
 
 ```{r setup, include = FALSE}
