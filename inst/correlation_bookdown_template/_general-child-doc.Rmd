@@ -106,8 +106,9 @@ NEesp::correlation_data(
 print("No data for the EPU selected")
 ```
 
-#### Regression data
 ```{r, eval = eval_epu}
+# regression data
+
 this_recruit <- data %>%
   dplyr::filter(stringr::str_detect(facet, "Recruit"),
                 sig == TRUE) %>%
