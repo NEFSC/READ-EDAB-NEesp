@@ -47,6 +47,9 @@ output <- rbind(output, correlation_summary(
   eco = test,
   lag = params$lag
 ))
+
+# count number of regressions for bonferroni correction
+bonf_n <- bonf_n + 1
 ```
 
 ```{r, eval = params$save & eval_epu}
@@ -80,10 +83,7 @@ if (nrow(data) > 0) {
 ```{r}
 names <- names[-1]
 ```
-
 #### Figures {-}
-
-
 ```{r, eval = eval_epu, fig.height = 10}
 NEesp::plot_correlation(
   stock = stock,
@@ -91,7 +91,6 @@ NEesp::plot_correlation(
   lag = params$lag
 )
 ```
-
 
 ```{r, eval = (eval_epu == FALSE)}
 print("No data for the EPU selected")
