@@ -90,8 +90,7 @@ plot_correlation <- function(stock, eco, lag = 0) {
     ) +
       ggplot2::geom_line(lty = 2) +
       ggplot2::geom_point() +
-      ggplot2::stat_smooth(method = "glm",
-                           method.args = list(family = gaussian())) +
+      ggplot2::stat_smooth(method = "lm") +
       ggplot2::facet_grid(
         rows = ggplot2::vars(facet),
         cols = ggplot2::vars(Var),
