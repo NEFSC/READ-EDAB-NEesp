@@ -80,7 +80,10 @@ if (nrow(data) > 0) {
 ```{r}
 names <- names[-1]
 ```
+
 #### Figures {-}
+
+
 ```{r, eval = eval_epu, fig.height = 10}
 NEesp::plot_correlation(
   stock = stock,
@@ -88,6 +91,7 @@ NEesp::plot_correlation(
   lag = params$lag
 )
 ```
+
 
 ```{r, eval = (eval_epu == FALSE)}
 print("No data for the EPU selected")
@@ -107,10 +111,9 @@ print("No data for the EPU selected")
 ```
 
 ```{r, eval = eval_epu}
-# regression data
-
+#### Regression data
 this_recruit <- data %>%
-  dplyr::filter(stringr::str_detect(facet, "Recruit"),
+  dplyr::filter(Metric == "Recruitment",
                 sig == TRUE) %>%
   dplyr::select(Species, Region, Time, Value, Metric, Var, Val, pval)
 
@@ -119,7 +122,7 @@ if(nrow(this_recruit) > 0){
 }
 
 this_abun <- data %>%
-  dplyr::filter(stringr::str_detect(facet, "Abundance"),
+  dplyr::filter(Metric == "Abundance",
                 sig == TRUE) %>%
   dplyr::select(Species, Region, Time, Value, Metric, Var, Val, pval)
 
