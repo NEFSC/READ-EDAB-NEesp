@@ -14,6 +14,7 @@
 
 render_ind_report <- function(x, input = "package", params_to_use,
                               trouble = FALSE, save_data = TRUE, 
+                              config = "_bookdown.yml",
                               out = bookdown::gitbook(split_by = "section", fig_caption = TRUE)) {
   starting_dir <- getwd()
   
@@ -66,6 +67,7 @@ render_ind_report <- function(x, input = "package", params_to_use,
   if (trouble == FALSE) {
     bookdown::render_book(
       input = ".",
+      config_file = config,
       params = params_list,
       intermediates_dir = new_dir,
       knit_root_dir = new_dir,
@@ -81,6 +83,7 @@ render_ind_report <- function(x, input = "package", params_to_use,
   if (trouble == TRUE) {
     bookdown::render_book(
       input = ".",
+      config_file = config,
       params = params_list, 
       intermediates_dir = new_dir,
       knit_root_dir = new_dir,
