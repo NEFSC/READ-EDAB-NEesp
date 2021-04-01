@@ -149,7 +149,7 @@ plot_com <- function(data) {
         name = "State",
         values = plot_colors
       ) +
-      ggplot2::guides(fill = guide_legend(
+      ggplot2::guides(fill = ggplot2::guide_legend(
         nrow = 2,
         byrow = TRUE,
         title = "State"
@@ -208,7 +208,7 @@ plot_com_money <- function(data) {
         name = "State",
         values = plot_colors
       ) +
-      ggplot2::guides(fill = guide_legend(
+      ggplot2::guides(fill = ggplot2::guide_legend(
         nrow = 2,
         byrow = TRUE,
         title = "State"
@@ -290,7 +290,7 @@ plot_rec_catch <- function(data) {
         name = "Category",
         values = plot_colors
       ) +
-      ggplot2::guides(fill = guide_legend(
+      ggplot2::guides(fill = ggplot2::guide_legend(
         nrow = 2,
         byrow = TRUE,
         title = "Category"
