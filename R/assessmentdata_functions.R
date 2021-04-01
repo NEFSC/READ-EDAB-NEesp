@@ -52,7 +52,7 @@ plot_asmt <- function(x, metric, ytitle = "", lin = lines, col = colors) {
         # label.hjust = 1 # try next time
       ) +
       ggplot2::guides(
-        shape = guide_legend(
+        shape = ggplot2::guide_legend(
           ncol = 2,
           title = "Description, units (assessment year)"
         ),
