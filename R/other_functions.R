@@ -251,7 +251,7 @@ plot_swept <- function(x, var) {
       ),
       alpha = 0.5
       ) +
-      ggplot2::geom_line(aes(
+      ggplot2::geom_line(ggplot2::aes(
         x = YEAR,
         y = value,
         color = Season
