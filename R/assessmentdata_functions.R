@@ -66,7 +66,7 @@ plot_asmt <- function(x, metric, ytitle = "", lin = lines, col = colors) {
         length() <= 2) {
       fig <- fig +
         ggplot2::facet_grid(
-          rows = vars(Age),
+          rows = ggplot2::vars(Age),
           scales = "free_y"
         )
     }
@@ -77,7 +77,7 @@ plot_asmt <- function(x, metric, ytitle = "", lin = lines, col = colors) {
         length() > 2) {
       fig <- fig +
         ggplot2::facet_grid(
-          rows = vars(Category),
+          rows = ggplot2::vars(Category),
           scales = "free_y"
         )
     }
@@ -95,7 +95,7 @@ plot_asmt <- function(x, metric, ytitle = "", lin = lines, col = colors) {
         ecodata::geom_gls(
           inherit.aes = FALSE,
           data = ecodat,
-          mapping = aes(
+          mapping = ggplot2::aes(
             x = Year,
             y = Value,
             lty = Region,
@@ -176,7 +176,7 @@ plot_msy <- function(x, ytitle = "", lin = lines, col = colors, type) {
       ecodata::geom_gls(
         inherit.aes = FALSE,
         data = ecodat,
-        mapping = aes(
+        mapping = ggplot2::aes(
           x = year,
           y = value,
           lty = Region
