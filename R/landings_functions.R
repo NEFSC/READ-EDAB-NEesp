@@ -138,7 +138,7 @@ plot_com <- function(data) {
       ggplot2::scale_y_continuous(
         name = "Total catch (lb)",
         labels = scales::comma,
-        sec.axis = sec_axis(
+        sec.axis = ggplot2::sec_axis(
           trans = ~ . / 2204.6,
           name = "Total catch (metric tons)",
           labels = scales::comma
@@ -279,7 +279,7 @@ plot_rec_catch <- function(data) {
       ggplot2::scale_y_continuous(
         name = "Total catch (lb)",
         labels = scales::comma,
-        sec.axis = sec_axis(
+        sec.axis = ggplot2::sec_axis(
           trans = ~ . / 2204.6,
           name = "Total catch (metric tons)",
           labels = scales::comma
