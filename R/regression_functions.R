@@ -244,9 +244,13 @@ correlation_summary <- function(stock, eco, lag = 0) {
 #' @importFrom magrittr %>%
 #' @export
 
-render_indicator <- function(test) {
-  res <- knitr::knit_child(system.file("correlation_bookdown_template/_general-child-doc.Rmd", package = "NEesp"),
-                           quiet = TRUE
+render_indicator <- function(test, lab = "no-name") {
+  res <- knitr::knit_child(
+    text = knitr::knit_expand(
+      system.file("correlation_bookdown_template/_general-child-doc.Rmd", package = "NEesp"),
+      label = lab
+      ),
+  quiet = TRUE
   )
   cat(res, sep = "\n")
 }
