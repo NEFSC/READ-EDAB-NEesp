@@ -1,0 +1,25 @@
+"Functional.Group","Attribute","Attribute.Category","Low","Moderate","High","Very.High"
+"Coastal Fish","Adult Mobility","Sensitivity Attribute",12,13,0,0
+"Coastal Fish","Air Temperature (Proxy for Nearshore Ocean Temp)","Exposure Factor",0,0,0,20
+"Coastal Fish","Complexity in Reproductive Strategy","Sensitivity Attribute",18,7,0,0
+"Coastal Fish","Currents","Exposure Factor",7,8,3,2
+"Coastal Fish","Dispersal of Early Life Stages","Sensitivity Attribute",2,15,7,1
+"Coastal Fish","Early Life History Survival and Settlement Requirements","Sensitivity Attribute",0,13,12,0
+"Coastal Fish","Habitat Specificity","Sensitivity Attribute",15,10,0,0
+"Coastal Fish","Mean Precipitation","Exposure Factor",16,4,0,0
+"Coastal Fish","Mean Sea Surface Salinity","Exposure Factor",3,7,6,4
+"Coastal Fish","Mean Sea Surface Temperature","Exposure Factor",0,0,1,19
+"Coastal Fish","Ocean Acidification","Exposure Factor",0,0,0,20
+"Coastal Fish","Other Stressors","Sensitivity Attribute",10,11,4,0
+"Coastal Fish","Population Growth Rate","Sensitivity Attribute",4,8,10,3
+"Coastal Fish","Prey Specificity","Sensitivity Attribute",17,8,0,0
+"Coastal Fish","Sea Level Rise","Exposure Factor",11,8,1,0
+"Coastal Fish","Sensitivity to Ocean Acidification","Sensitivity Attribute",17,8,0,0
+"Coastal Fish","Sensitivity to Temperature","Sensitivity Attribute",12,12,1,0
+"Coastal Fish","Spawning Cycle","Sensitivity Attribute",0,4,13,8
+"Coastal Fish","Stock Size/Status","Sensitivity Attribute",24,1,0,0
+"Coastal Fish","Variability in Air Temperature","Exposure Factor",20,0,0,0
+"Coastal Fish","Variability in Ocean Acidification","Exposure Factor",20,0,0,0
+"Coastal Fish","Variability in Precipitation","Exposure Factor",14,6,0,0
+"Coastal Fish","Variability in Sea Surface Salinity","Exposure Factor",16,4,0,0
+"Coastal Fish","Variability in Sea Surface Temperature","Exposure Factor",19,1,0,0
