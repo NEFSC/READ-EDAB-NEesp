@@ -659,3 +659,36 @@ get_len_data2 <- function(x) {
   
   return(y)
 }
+
+#' Format `survdat` to add common names 
+#'
+#' This function appends `survdat` with common names for easier manipulation. By default returns all survdata that is not constrained by biological information. If provided "bio" will return a limited dataset containing only records with biological information such as age and sex.
+#'
+#' @param survdat_pull_type A desired dataset either all records or a set containing only records with biological information.
+#' @return A tibble
+#' @importFrom magrittr %>%
+#' @export
+
+common_names_survdat<-function(survdat_pull_type="all"){
+  #returns all survdata by defult, if survdat_pull_type= bio returns bio pulls
+  if(survdat_pull_type=="bio"){
+    survdata<-NEesp::bio_survey
+    sp_key<-NEesp::species_key
+    
+    survdata.bio.w.codes<-dplyr::inner_join(survdata, sp_key, by= "SVSPP" )%>%
+      dplyr::rename("common_name"="Species")
+    
+    #print("bio survdata")
+    return(survdata.bio.w.codes)
+    
+    
+  }else{
+    
+    survdata<-NEesp::survey %>%
+      dplyr::rename("common_name"="Species")
+    #print("all survdata")
+    return(survdata)
+    
+  }
+  
+}

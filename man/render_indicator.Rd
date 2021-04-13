@@ -4,7 +4,7 @@
 \alias{render_indicator}
 \title{Renders an RMarkdown section}
 \usage{
-render_indicator(test)
+render_indicator(test, lab = "no-name")
 }
 \arguments{
 \item{test}{A data table from \code{ecodata} that has been pre-processed to a standardized format.}

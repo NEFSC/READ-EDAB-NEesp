@@ -4,7 +4,7 @@
 \alias{generate_table}
 \title{A wrapper function to summarise \code{survdat} data}
 \usage{
-generate_table(x, variable, cap = "")
+generate_table(x, variable, cap = "", type = "html")
 }
 \arguments{
 \item{x}{A \code{survdat} data frame or tibble, containing data on one species.}

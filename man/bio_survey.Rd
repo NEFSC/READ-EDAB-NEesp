@@ -68,6 +68,9 @@ This data is NEFSC bottom trawl data with bio data.
 For more details see \url{https://www.st.nmfs.noaa.gov/stocksmart/StockSMART_DataDictionary.pdf}
 "asmt_sum"
 
-DETAILS
+\itemize{
+\item Function call: survdat::get_survdat_data(channel = channel, filterByYear = NA, all.season = TRUE, shg.check = T, conversion.factor = T, use.SAD = F, getBio = TRUE, getLengths = T)
+\item Pull date: Tue Mar 02 16:12:40 2021
+}
 }
 \keyword{datasets}

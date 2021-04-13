@@ -4,7 +4,7 @@
 \alias{make_html_table}
 \title{Wrapper function for \code{DT::datatable}}
 \usage{
-make_html_table(x, col_names = colnames(x))
+make_html_table(x, col_names = colnames(x), type = "html")
 }
 \arguments{
 \item{x}{A data frame or tibble}

@@ -10,7 +10,7 @@ render_ind_report(
   params_to_use,
   trouble = FALSE,
   save_data = TRUE,
-  out = bookdown::gitbook(split_by = "section", fig_caption = TRUE)
+  config = "_bookdown.yml"
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ render_ind_report(
 
 \item{save_data}{Whether or not to save the data used in report creation. Only relevant when using \code{input = "package"}. Defaults to TRUE.}
 
-\item{out}{The \code{output_format} to be passed to the \code{bookdown::render_book} call. Defaults to \code{bookdown::gitbook(split_by = "section", fig_caption = TRUE)}. For experimental purposes only: most alternative outputs have not been tested.}
+\item{out}{Deprecated. The \code{output_format} to be passed to the \code{bookdown::render_book} call. Defaults to \code{bookdown::gitbook(split_by = "section", fig_caption = TRUE)}. For experimental purposes only: most alternative outputs have not been tested.}
 }
 \value{
 A bookdown report (html) (saved in a folder called \code{action_reports} in the root directory)

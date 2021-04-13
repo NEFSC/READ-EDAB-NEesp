@@ -4,7 +4,7 @@
 \alias{get_diet_table}
 \title{Create a table of diet data}
 \usage{
-get_diet_table(data)
+get_diet_table(data, type = "html")
 }
 \arguments{
 \item{x}{A data frame or tibble, containing data on one species. Data from \code{allfh}.}
