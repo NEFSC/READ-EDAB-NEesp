@@ -3,10 +3,6 @@ title: "`r params$species_ID`"
 author: "Abigail Tyrell & Ricky Tabandera"
 date: "`r format(Sys.time(), '%d %b %Y')`"
 site: bookdown::bookdown_site
-output: 
-  bookdown::gitbook:
-    split_by: section
-    fig_caption: yes
 documentclass: book
 always_allow_html: true
 github-repo: NOAA-EDAB/esp_data_aggregation
@@ -29,6 +25,8 @@ params:
   cache: FALSE
   
   path: "" # figure path
+  
+  file: "html"
 ---
 
 # `r params$species_ID` {-}
@@ -40,7 +38,8 @@ knitr::opts_chunk$set(
   warning = FALSE,
   fig.width = 8,
   fig.align = "center",
-  fig.path = params$path
+  fig.path = params$path,
+  dev = "png"
 )
 ```
 
@@ -102,6 +101,14 @@ climate_data <- NEesp::climate_vulnerability %>%
 
 # ricky
 bio_survey <- NEesp::bio_survey
+
+# ecodata (temp anomaly)
+ecodat_tanom <- ecodata::ESP_seasonal_oisst_anom %>%
+  dplyr::mutate(Pattern_check = ESP %>%
+                  stringr::str_replace_all("_", " ") %>%
+                  stringr::str_to_sentence()) %>%
+  dplyr::filter(stringr::str_detect(Pattern_check, species))  %>%
+  dplyr::distinct()
 ```
 
 ```{r, save_data, eval = params$save}
@@ -137,6 +144,9 @@ NEesp::save_data(risk_year_hist_data)
 NEesp::save_data(risk_year_value_data)
 
 NEesp::save_data(risk_species_data)
+
+NEesp::save_data(ecodat_tanom)
+                 
 ```
 
 This is a preliminary report of previously collected data. This report is pulling information on all Northeast `r species` stocks.
