@@ -88,17 +88,24 @@ plot_correlation <- function(stock, eco, lag = 0) {
         color = sig
       )
     ) +
-      ggplot2::geom_line(lty = 2) +
-      ggplot2::geom_point() +
+      ggplot2::scale_color_manual(
+        values = my_colors,
+        name = "Statistically significant\n(p < 0.05)"
+      ) +
       ggplot2::stat_smooth(method = "lm") +
+      ggnewscale::new_scale_color() +
+      ggplot2::scale_color_gradient(
+        low = "#7F7FFF",
+        high = "#575195",
+        breaks = seq(1950, 2020, by = 10)
+      ) +
+      ggplot2::geom_path(ggplot2::aes(color = Time)) +
+      ggplot2::geom_point(ggplot2::aes(color = Time)) +
+      
       ggplot2::facet_grid(
         rows = ggplot2::vars(facet),
         cols = ggplot2::vars(Var),
         scales = "free"
-      ) +
-      ggplot2::scale_color_manual(
-        values = my_colors,
-        name = "Statistically significant\n(p < 0.05)"
       ) +
       ggplot2::scale_y_continuous(labels = scales::comma) +
       ggplot2::scale_x_continuous(labels = scales::comma) +
