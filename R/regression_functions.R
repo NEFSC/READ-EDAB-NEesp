@@ -84,16 +84,9 @@ plot_correlation <- function(stock, eco, lag = 0) {
       data,
       ggplot2::aes(
         x = Val,
-        y = Value,
-        color = sig
-      )
+        y = Value)
     ) +
-      ggplot2::scale_color_manual(
-        values = my_colors,
-        name = "Statistically significant\n(p < 0.05)"
-      ) +
-      ggplot2::stat_smooth(method = "lm") +
-      ggnewscale::new_scale_color() +
+
       ggplot2::scale_color_gradient(
         low = "#7F7FFF",
         high = "#575195",
@@ -102,6 +95,14 @@ plot_correlation <- function(stock, eco, lag = 0) {
       ggplot2::geom_path(ggplot2::aes(color = Time)) +
       ggplot2::geom_point(ggplot2::aes(color = Time)) +
       
+      ggnewscale::new_scale_color() +
+      ggplot2::scale_color_manual(
+        values = my_colors,
+        name = "Statistically significant\n(p < 0.05)"
+      ) +
+      ggplot2::stat_smooth(ggplot2::aes(color = sig,
+                                        method = "lm") +
+                           
       ggplot2::facet_grid(
         rows = ggplot2::vars(facet),
         cols = ggplot2::vars(Var),
