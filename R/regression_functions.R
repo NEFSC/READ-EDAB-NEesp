@@ -100,7 +100,7 @@ plot_correlation <- function(stock, eco, lag = 0) {
         values = my_colors,
         name = "Statistically significant\n(p < 0.05)"
       ) +
-      ggplot2::stat_smooth(ggplot2::aes(color = sig,
+      ggplot2::stat_smooth(ggplot2::aes(color = sig),
                                         method = "lm") +
                            
       ggplot2::facet_grid(
@@ -114,9 +114,10 @@ plot_correlation <- function(stock, eco, lag = 0) {
       ggplot2::theme(
         axis.title = ggplot2::element_blank(),
         legend.position = "bottom"
-      )
+      ) 
     
     return(fig)
+    
   } else {
     print("No data under conditions selected")
   }
