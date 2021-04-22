@@ -1,4 +1,4 @@
-`%>%` <- dplyr::`%>%`
+`%>%` <- magrittr::`%>%`
 
 ## swept area ----
 
@@ -11,8 +11,8 @@ og_pull$survdat$STRATUM <- as.numeric(og_pull$survdat$STRATUM)
 
 mod_data <- survdat::strat_prep(
   surveyData = og_pull$survdat %>%
-    dplyr::filter(SEASON == "FALL"),
-  # dplyr::filter(SEASON == "SPRING"),
+  #  dplyr::filter(SEASON == "FALL"),
+   dplyr::filter(SEASON == "SPRING"),
   areaPolygon = shape,
   areaDescription = "STRATA"
 )
@@ -46,8 +46,8 @@ for (i in 1:length(data$SVSPP)) {
 
 data$Species <- species_name
 
-# write.csv(data, here::here("data-raw", "swept_area_info_spring.csv"))
-write.csv(data, here::here("data-raw", "swept_area_info_fall.csv"))
+write.csv(data, here::here("data-raw", "swept_area_info_spring.csv"))
+#write.csv(data, here::here("data-raw", "swept_area_info_fall.csv"))
 
 spring <- read.csv(here::here("data-raw", "swept_area_info_spring.csv"))
 fall <- read.csv(here::here("data-raw", "swept_area_info_fall.csv"))
@@ -61,11 +61,9 @@ all <- rbind(spring, fall)
 write.csv(all, here::here("data-raw", "swept_area_info.csv"))
 
 swept <- read.csv(here::here("data-raw", "swept_area_info.csv")) %>%
-  update_species_names(species_col = "Species")
+  NEesp::update_species_names(species_col = "Species")
 
-usethis::use_data(swept, overwrite = TRUE)
-
-swept <- NEesp::swept %>%
+swept <- swept %>%
   dplyr::select(-X.1, -X)
 
 usethis::use_data(swept, overwrite = TRUE)
