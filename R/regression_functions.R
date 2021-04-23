@@ -23,17 +23,14 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
                            by = "Time"
   ) %>%
     dplyr::filter(
-      Var %>% stringr::str_detect(Metric) == FALSE, # remove self-correlations
-      is.na(Var) == FALSE,
-      is.na(Metric) == FALSE,
-      is.na(Value) == FALSE,
-      is.na(Val) == FALSE
+      Var %>% stringr::str_detect(Metric) == FALSE # remove self-correlations
     ) %>%
     dplyr::ungroup()
   
   data2 <- data %>%
+    dplyr::mutate(missing = (is.na(Value) | is.na(Val))) %>%
     dplyr::group_by(Metric, Var) %>%
-    dplyr::mutate(n_data_points = length(Time))
+    dplyr::mutate(n_data_points = length(Time) - sum(as.numeric(missing)))
   
   data_model <- data2 %>%
     dplyr::filter(n_data_points >= 3) %>%
