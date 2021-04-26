@@ -23,7 +23,8 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
                            by = "Time"
   ) %>%
     dplyr::filter(
-      Var %>% stringr::str_detect(Metric) == FALSE # remove self-correlations
+        stringr::str_detect(Var, Metric, negate = TRUE) | # remove self-correlations
+        is.na(Metric)
     ) %>%
     dplyr::ungroup()
   
