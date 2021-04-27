@@ -193,7 +193,7 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species") {
 #'
 #' This function prepares data for plotting with `plot_corr_only`.
 #' 
-#' @param data A data frame containing stock and indicator time series. Data from a spreadsheet outputted by a `NEespShiny` or `NEesp` regression report. 
+#' @param data A data frame containing stock and indicator time series, or a file path to a .csv containg the data. Data from a spreadsheet outputted by a `NEespShiny` or `NEesp` regression report. 
 #' @param metric The stock assessment metric to assess - c("Recruitmetn", "Abundance", "Catch", "Fmort")
 #' @param pattern Optional. A pattern to detect in the `Var` row, for example if you do not want to plot all levels of `Var`. Can be a vector.
 #' @param remove Optional. If the pattern should be removed (`TRUE`) or retained (`FALSE`). Can be a vector.
@@ -205,8 +205,13 @@ prep_data <- function(data,
                       metric = "Recruitment",
                       pattern = NULL,
                       remove = NULL) {
+  
+  if(class(data) == "character"){
+    data <- data %>%
+      read.csv()
+  }
+  
   data <- data %>%
-    read.csv() %>%
     dplyr::filter(
       Metric == metric | is.na(Metric)) %>%
     dplyr::mutate(Var = Var %>% stringr::str_replace_all("\n", " "))
