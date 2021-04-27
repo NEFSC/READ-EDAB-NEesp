@@ -324,6 +324,8 @@ wrap_analysis <- function(file_path,
               pattern = pattern,
               remove = remove)
   
+  data$Time <- as.numeric(data$Time)
+  
   for (i in unique(data$Var)) {
     this_data <- data %>%
       dplyr::filter(Var == i)
