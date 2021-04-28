@@ -150,9 +150,12 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
     
     # change font size for shiny
     if(mode == "shiny"){
-      fig <- fig + ggplot2::theme(text = ggplot2::element_text(size = 20))
-      bsb_fig <- bsb_fig + ggplot2::theme(text = ggplot2::element_text(size = 20))
-      ind_fig <- ind_fig + ggplot2::theme(text = ggplot2::element_text(size = 20))
+      fig <- fig + ggplot2::theme(text = ggplot2::element_text(size = 20),
+                                  legend.text = ggplot2::element_text(size = 14))
+      bsb_fig <- bsb_fig + ggplot2::theme(text = ggplot2::element_text(size = 20),
+                                          legend.text = ggplot2::element_text(size = 14))
+      ind_fig <- ind_fig + ggplot2::theme(text = ggplot2::element_text(size = 20),
+                                          legend.text = ggplot2::element_text(size = 14))
     }
     
     big_fig <- ggpubr::ggarrange(
@@ -165,7 +168,8 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
       labels = c(NA, "C"),
       common.legend = TRUE,
       legend = "top",
-      nrow = 2
+      nrow = 2,
+      font.label = list(size = 20, color = "black", face = "bold", family = NULL),
     )
     
     big_fig <- big_fig +
