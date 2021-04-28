@@ -7,13 +7,17 @@
 #' @param title Optional. Title for the suite of plots. Defaults to blank.
 #' @param lag The number of years by which the stock-indicator correlation was lagged. Required to correct the stock time series. Defaults to 0.
 #' @param species The species name to add to plots. Defaults to "species".
+#' @param mode If set to "shiny", plots will be displayed but no other functionality will be triggered (ex, saving figures or showing a report card)
 #' @return 3 ggplots arranged with `ggpubr::ggarrange`
 #' @importFrom magrittr %>%
 #' @export
 
-plot_corr_only <- function(data, title = "", lag = 0, species = "species") {
+plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode = "") {
   if (nrow(data) > 0) {
-    dir.create("figures")
+    
+    if(mode != "shiny"){
+      dir.create("figures")
+    }
     
     my_colors <- c("black", "#B2292E")
     names(my_colors) <- c("FALSE", "TRUE")
@@ -144,6 +148,13 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species") {
     #  nrow = 2
     # )
     
+    # change font size for shiny
+    if(mode == "shiny"){
+      fig <- fig + ggplot2::theme(text = ggplot2::element_text(size = 20))
+      bsb_fig <- bsb_fig + ggplot2::theme(text = ggplot2::element_text(size = 20))
+      ind_fig <- ind_fig + ggplot2::theme(text = ggplot2::element_text(size = 20))
+    }
+    
     big_fig <- ggpubr::ggarrange(
       ggpubr::ggarrange(bsb_fig, ind_fig,
                         ncol = 2,
@@ -164,24 +175,26 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species") {
       )
     
     # save
-    file <- paste("figures/",
-                  unique(data$Metric)[!is.na(unique(data$Metric))],
-                  "_",
-                  unique(data$Var),
-                  ".png",
-                  sep = ""
-    ) %>%
-      stringr::str_replace_all(" ", "_") %>%
-      stringr::str_replace_all("\n", "_")
-    
-    ggplot2::ggsave(
-      filename = file,
-      width = 6.5,
-      height = 6.5,
-      units = "in",
-      device = "png"
-    )
-    
+    if(mode != "shiny"){
+      file <- paste("figures/",
+                    unique(data$Metric)[!is.na(unique(data$Metric))],
+                    "_",
+                    unique(data$Var),
+                    ".png",
+                    sep = ""
+      ) %>%
+        stringr::str_replace_all(" ", "_") %>%
+        stringr::str_replace_all("\n", "_")
+      
+      ggplot2::ggsave(
+        filename = file,
+        width = 6.5,
+        height = 6.5,
+        units = "in",
+        device = "png"
+      )
+    }
+
     return(big_fig)
   }
   else {
@@ -308,6 +321,7 @@ time_rpt <- function(data, out_name = "unnamed", min_year = 2016) {
 #' @param lag Passed to `plot_corr_only`. The number of years by which the stock-indicator correlation was lagged. Required to correct the stock time series. Defaults to 0.
 #' @param min_year Passed to `time_rpt`. The minimum year to consider for the recent time-series average. Defaults to 2016.
 #' @param species Passed to `plot_corr_only`. The species name to add to plots. Defaults to "species".
+#' @param mode If set to "shiny", plots will be displayed but no other functionality will be triggered (ex, saving figures or showing a report card). Also passed to `plot_corr_only`. 
 #' @return A tibble
 #' @importFrom magrittr %>%
 #' @export
@@ -318,7 +332,8 @@ wrap_analysis <- function(file_path,
                           remove = NULL,
                           lag = 0,
                           min_year = 2016,
-                          species = "species"){
+                          species = "species",
+                          mode = "download"){
   data <- file_path %>%
     prep_data(metric = metric,
               pattern = pattern,
@@ -330,19 +345,21 @@ wrap_analysis <- function(file_path,
     this_data <- data %>%
       dplyr::filter(Var == i)
     
-    plt <- plot_corr_only(this_data, lag = lag, species = species)
+    plt <- plot_corr_only(this_data, lag = lag, species = species, mode = mode)
     print(plt)
     cat("\n\n")
     
-    i <- i %>%
-      stringr::str_replace_all("\n", " ")
-    
-    if(exists("rpt_card_time")){
-      rpt_card_time <<- dplyr::full_join(rpt_card_time,
-                                         time_rpt(data, out_name = i, min_year = min_year),
-                                         by = "Time")
-    } else {
-      rpt_card_time <<- time_rpt(data, out_name = i, min_year = min_year)
+    if(mode != "shiny"){
+      i <- i %>%
+        stringr::str_replace_all("\n", " ")
+      
+      if(exists("rpt_card_time")){
+        rpt_card_time <<- dplyr::full_join(rpt_card_time,
+                                           time_rpt(data, out_name = i, min_year = min_year),
+                                           by = "Time")
+      } else {
+        rpt_card_time <<- time_rpt(data, out_name = i, min_year = min_year)
+      }
     }
   }
 }

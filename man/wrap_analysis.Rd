@@ -11,7 +11,8 @@ wrap_analysis(
   remove = NULL,
   lag = 0,
   min_year = 2016,
-  species = "species"
+  species = "species",
+  mode = "download"
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ wrap_analysis(
 \item{min_year}{Passed to \code{time_rpt}. The minimum year to consider for the recent time-series average. Defaults to 2016.}
 
 \item{species}{Passed to \code{plot_corr_only}. The species name to add to plots. Defaults to "species".}
+
+\item{mode}{If set to "shiny", plots will be displayed but no other functionality will be triggered (ex, saving figures or showing a report card). Also passed to \code{plot_corr_only}.}
 }
 \value{
 A tibble

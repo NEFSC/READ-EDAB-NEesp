@@ -7,7 +7,7 @@
 prep_data(data, metric = "Recruitment", pattern = NULL, remove = NULL)
 }
 \arguments{
-\item{data}{A data frame containing stock and indicator time series. Data from a spreadsheet outputted by a \code{NEespShiny} or \code{NEesp} regression report.}
+\item{data}{A data frame containing stock and indicator time series, or a file path to a .csv containg the data. Data from a spreadsheet outputted by a \code{NEespShiny} or \code{NEesp} regression report.}
 
 \item{metric}{The stock assessment metric to assess - c("Recruitmetn", "Abundance", "Catch", "Fmort")}
 

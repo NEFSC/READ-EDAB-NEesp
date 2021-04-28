@@ -4,7 +4,7 @@
 \alias{plot_corr_only}
 \title{Plot stock-time, indicator-time, and stock-indicator correlations}
 \usage{
-plot_corr_only(data, title = "", lag = 0, species = "species")
+plot_corr_only(data, title = "", lag = 0, species = "species", mode = "")
 }
 \arguments{
 \item{data}{A data frame containing stock and indicator time series. Data from a spreadsheet outputted by a \code{NEespShiny} or \code{NEesp} regression report. Must pre-process with \code{NEesp::prep_data}, or do your own pre-processing.}
@@ -14,6 +14,8 @@ plot_corr_only(data, title = "", lag = 0, species = "species")
 \item{lag}{The number of years by which the stock-indicator correlation was lagged. Required to correct the stock time series. Defaults to 0.}
 
 \item{species}{The species name to add to plots. Defaults to "species".}
+
+\item{mode}{If set to "shiny", plots will be displayed but no other functionality will be triggered (ex, saving figures or showing a report card)}
 }
 \value{
 3 ggplots arranged with \code{ggpubr::ggarrange}
