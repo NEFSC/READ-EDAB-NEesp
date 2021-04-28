@@ -162,14 +162,15 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
       ggpubr::ggarrange(bsb_fig, ind_fig,
                         ncol = 2,
                         legend = "none",
-                        labels = c("A", "B")
+                        labels = c("A", "B"),
+                        font.label = list(size = 20, color = "black", face = "bold", family = NULL)
       ),
       fig,
       labels = c(NA, "C"),
       common.legend = TRUE,
       legend = "top",
       nrow = 2,
-      font.label = list(size = 20, color = "black", face = "bold", family = NULL),
+      font.label = list(size = 20, color = "black", face = "bold", family = NULL)
     )
     
     big_fig <- big_fig +
