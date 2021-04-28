@@ -151,11 +151,11 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
     # change font size for shiny
     if(mode == "shiny"){
       fig <- fig + ggplot2::theme(text = ggplot2::element_text(size = 20),
-                                  legend.text = ggplot2::element_text(size = 14))
+                                  legend.text = ggplot2::element_text(size = 10))
       bsb_fig <- bsb_fig + ggplot2::theme(text = ggplot2::element_text(size = 20),
-                                          legend.text = ggplot2::element_text(size = 14))
+                                          legend.text = ggplot2::element_text(size = 10))
       ind_fig <- ind_fig + ggplot2::theme(text = ggplot2::element_text(size = 20),
-                                          legend.text = ggplot2::element_text(size = 14))
+                                          legend.text = ggplot2::element_text(size = 10))
     }
     
     big_fig <- ggpubr::ggarrange(
@@ -350,11 +350,13 @@ wrap_analysis <- function(file_path,
     this_data <- data %>%
       dplyr::filter(Var == i)
     
+    eval <- (unique(data$sig) == "TRUE")
+    
     plt <- plot_corr_only(this_data, lag = lag, species = species, mode = mode)
     print(plt)
     cat("\n\n")
     
-    if(mode != "shiny"){
+    if(mode != "shiny" & eval){ # only add to report card if relationship is sig
       i <- i %>%
         stringr::str_replace_all("\n", " ")
       
