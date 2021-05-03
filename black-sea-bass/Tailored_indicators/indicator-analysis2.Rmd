@@ -21,16 +21,16 @@ knitr::opts_chunk$set(
 `%>%` <- magrittr::`%>%`
 
 devtools::load_all()
-
 ```
 
 ## Recruitment 
 
 ### Winter SST anomaly
 ```{r, winter-sst}
-wrap_analysis(file_path = here::here(
-  "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
-  "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_sst-anom-stock.csv"
+wrap_analysis(
+  file_path = here::here(
+    "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
+    "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_sst-anom-stock.csv"
   ),
   pattern = c("north", "south", "winter"),
   remove = c(TRUE, TRUE, FALSE),
@@ -40,9 +40,10 @@ wrap_analysis(file_path = here::here(
 
 ### Fall SST anomaly (prior year)
 ```{r, fall-sst}
-wrap_analysis(file_path = here::here(
-  "black-sea-bass", "Black sea bass_regression_report_1lag", "data",
-  "Black_sea_bass_Mid_MAB_1_lag_FALSE_remove_recent_sst-anom-stock.csv"
+wrap_analysis(
+  file_path = here::here(
+    "black-sea-bass", "Black sea bass_regression_report_1lag", "data",
+    "Black_sea_bass_Mid_MAB_1_lag_FALSE_remove_recent_sst-anom-stock.csv"
   ),
   pattern = c("north", "south", "fall"),
   remove = c(TRUE, TRUE, FALSE),
@@ -53,9 +54,10 @@ wrap_analysis(file_path = here::here(
 
 ### Winter primary production
 ```{r, winter-pp}
-wrap_analysis(file_path = here::here(
-  "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
-  "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_pp-stock.csv"
+wrap_analysis(
+  file_path = here::here(
+    "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
+    "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_pp-stock.csv"
   ),
   pattern = c("north", "south", "winter"),
   remove = c(TRUE, TRUE, FALSE),
@@ -65,9 +67,10 @@ wrap_analysis(file_path = here::here(
 
 ### Fall primary production (prior year)
 ```{r, fall-pp}
-wrap_analysis(file_path = here::here(
-  "black-sea-bass", "Black sea bass_regression_report_1lag", "data",
-  "Black_sea_bass_Mid_MAB_1_lag_FALSE_remove_recent_pp-stock.csv"
+wrap_analysis(
+  file_path = here::here(
+    "black-sea-bass", "Black sea bass_regression_report_1lag", "data",
+    "Black_sea_bass_Mid_MAB_1_lag_FALSE_remove_recent_pp-stock.csv"
   ),
   pattern = c("north", "south", "fall"),
   remove = c(TRUE, TRUE, FALSE),
@@ -78,9 +81,10 @@ wrap_analysis(file_path = here::here(
 
 ### Cold pool index (prior year)
 ```{r, cold-pool}
-wrap_analysis(file_path = here::here(
-  "black-sea-bass", "Black sea bass_regression_report_1lag", "data",
-  "Black_sea_bass_Mid_MAB_1_lag_FALSE_remove_recent_cold-pool.csv"
+wrap_analysis(
+  file_path = here::here(
+    "black-sea-bass", "Black sea bass_regression_report_1lag", "data",
+    "Black_sea_bass_Mid_MAB_1_lag_FALSE_remove_recent_cold-pool.csv"
   ),
   lag = 1,
   species = params$species
@@ -96,9 +100,10 @@ wrap_analysis(file_path = here::here(
 
 #### Recruitment
 ```{r, sst-rec}
-wrap_analysis(file_path = here::here(
-  "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
-  "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_sst.csv"
+wrap_analysis(
+  file_path = here::here(
+    "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
+    "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_sst.csv"
   ),
   species = params$species
 )
@@ -106,9 +111,10 @@ wrap_analysis(file_path = here::here(
 
 #### Abundance
 ```{r, sst-abun}
-wrap_analysis(file_path = here::here(
-  "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
-  "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_sst.csv"
+wrap_analysis(
+  file_path = here::here(
+    "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
+    "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_sst.csv"
   ),
   metric = "Abundance",
   species = params$species
@@ -119,9 +125,10 @@ wrap_analysis(file_path = here::here(
 
 #### Recruitment
 ```{r, heat-rec}
-wrap_analysis(file_path = here::here(
-  "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
-  "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_heatwave.csv"
+wrap_analysis(
+  file_path = here::here(
+    "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
+    "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_heatwave.csv"
   ),
   species = params$species
 )
@@ -129,9 +136,10 @@ wrap_analysis(file_path = here::here(
 
 #### Abundance
 ```{r, heat-abun}
-wrap_analysis(file_path = here::here(
-  "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
-  "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_heatwave.csv"
+wrap_analysis(
+  file_path = here::here(
+    "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
+    "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_heatwave.csv"
   ),
   metric = "Abundance",
   species = params$species
@@ -218,9 +226,10 @@ Northernmost survey observation in each year.
 
 
 ```{r, north}
-wrap_analysis(file_path = here::here(
-  "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
-  "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_northern-bound.csv"
+wrap_analysis(
+  file_path = here::here(
+    "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
+    "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_northern-bound.csv"
   ),
   metric = "Catch",
   species = params$species
@@ -233,9 +242,10 @@ Southernmost survey observation in each year.
 
 
 ```{r, south}
-wrap_analysis(file_path = here::here(
-  "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
-  "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_southern-bound.csv"
+wrap_analysis(
+  file_path = here::here(
+    "black-sea-bass", "Black sea bass_regression_report_0lag", "data",
+    "Black_sea_bass_Mid_MAB_0_lag_FALSE_remove_recent_southern-bound.csv"
   ),
   metric = "Catch",
   species = params$species
@@ -245,54 +255,101 @@ wrap_analysis(file_path = here::here(
 ### Center of mass
 
 ## Report card
-```{r, rpt-card}
+
+```{r, rpt-card-gg, eval = FALSE}
 # create textural table
+
 # color based on ecosystem favorability
+index <- matrix(
+  nrow = nrow(rpt_card_time),
+  ncol = ncol(rpt_card_time)
+)
 
-# kable for comparison
-knitr::kable(rpt_card_time)
-cat("\n\n")
+for (i in 1:nrow(rpt_card_time)) {
+  for (j in 1:ncol(rpt_card_time)) {
 
-#rpt_card_time <- sapply(rpt_card_time, stringr::str_wrap, width = 20)
+    # make matrix for color setting later
+    eval <- stringr::str_detect(toString(rpt_card_time[i, j]), ", high")
 
-tab <- ggpubr::ggtexttable(rpt_card_time, 
-                           rows = NULL,
-                           cols = 1:length(colnames(rpt_card_time)),
-                  theme = ggpubr::ttheme("classic"))
-
-index <- matrix(nrow = nrow(rpt_card_time),
-                ncol = ncol(rpt_card_time))
-
-for(i in 1:nrow(rpt_card_time)){
-  for(j in 1:ncol(rpt_card_time)){
-    eval <- stringr::str_detect(toString(rpt_card_time[i,j]), ", high")
-    if(eval == TRUE){
-      index[i,j] <- 1
+    if (eval == TRUE) {
+      index[i, j] <- 1
     } else {
-      index[i,j] <- 0
+      index[i, j] <- 0
     }
+
+    # remove words
+    rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", high")
+    rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", neutral")
+    rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", low")
   }
 }
 
 index2 <- which(index == 1, arr.ind = TRUE)
 
-rpt_card_time <- sapply(rpt_card_time, stringr::str_remove_all, pattern = ", high")
-rpt_card_time <- sapply(rpt_card_time, stringr::str_remove_all, pattern = ", neutral")
-rpt_card_time <- sapply(rpt_card_time, stringr::str_remove_all, pattern = ", low")
+# format table entries
+names <- colnames(rpt_card_time)
+names <- sapply(names, stringr::str_wrap, width = 5)
+names <- sapply(names, stringr::str_replace_all, pattern = "_", replacement = "\n")
 
-for(i in 1:nrow(index2)
-    ){
-  r <- as.numeric(index2[i,1]) + 1 # rows are off by 1
-  
-   c <- as.numeric(index2[i,2])
-  
+last_row <- nrow(rpt_card_time)
+rpt_card_time[c(last_row - 1, last_row), ] <- sapply(rpt_card_time[c(last_row - 1, last_row), ],
+  stringr::str_wrap,
+  width = 5
+)
+
+# make table
+tab <- ggpubr::ggtexttable(rpt_card_time,
+  rows = NULL,
+  cols = names,
+  theme = ggpubr::ttheme("classic")
+)
+
+for (i in 1:nrow(index2)
+) {
+  r <- as.numeric(index2[i, 1]) + 1 # rows are off by 1
+
+  c <- as.numeric(index2[i, 2])
+
   # CANNOT have row = 1
-  if(r != 1){
-      tab <- ggpubr::table_cell_bg(tab, row = r, column = c, linewidth = 5,
-                    fill="darkolivegreen1", color = "darkolivegreen4")
+  if (r != 1) {
+    tab <- ggpubr::table_cell_bg(tab,
+      row = r, column = c, linewidth = 5,
+      fill = "darkolivegreen1", color = "darkolivegreen4"
+    )
   }
 }
 
-  
 tab
+```
+
+```{r, rpt-card-flex}
+# format colnames
+colnames(rpt_card_time) <- sapply(colnames(rpt_card_time), 
+                                  stringr::str_replace_all, 
+                                  pattern = "_", 
+                                  replacement = "\n")
+
+ft <- flextable::flextable(rpt_card_time)
+
+for (i in 1:nrow(rpt_card_time)) {
+  for (j in 1:ncol(rpt_card_time)) {
+    
+    # color based on ecosystem favorability
+    if(stringr::str_detect(toString(rpt_card_time[i, j]), ", high")){
+      ft <- flextable::bg(ft, i = i, j = j, bg = "darkolivegreen1")
+    }
+    
+     if(stringr::str_detect(toString(rpt_card_time[i, j]), ", high")){
+      ft <- flextable::bg(ft, i = i, j = j, bg = "red")
+     }
+    
+        # remove words
+    rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", high")
+    rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", neutral")
+    rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", low")
+    
+  }
+}
+
+ft
 ```
