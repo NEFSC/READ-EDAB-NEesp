@@ -350,7 +350,10 @@ wrap_analysis <- function(file_path,
     this_data <- data %>%
       dplyr::filter(Var == i)
     
-    eval <- (unique(this_data$sig) == "TRUE")
+    eval <- ((this_data %>% 
+                dplyr::select(sig) %>% 
+                tidyr::drop_na() %>% 
+                dplyr::distinct()) == "TRUE")
     
     plt <- plot_corr_only(this_data, lag = lag, species = species, mode = mode)
     print(plt)
