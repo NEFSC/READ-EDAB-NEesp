@@ -366,7 +366,9 @@ wrap_analysis <- function(file_path,
         stringr::str_replace_all("\n", " ")
       
       if(exists("rpt_card_time")){
-        if ("FALSE" %in% stringr::str_detect(colnames(rpt_card_time), i, negate = TRUE) # only add if not in rpt card already
+        test <- stringr::str_detect(colnames(rpt_card_time), i) # is the var already in the rpt card
+        dont_eval <- "TRUE" %in% test
+        if (dont_eval == FALSE # only add if not in rpt card already
             ) {
           print(colnames(rpt_card_time))
         rpt_card_time <<- dplyr::full_join(rpt_card_time,
