@@ -8,17 +8,19 @@ Authors@R: c(person("Abigail", "Tyrell", email = "abigail.tyrell@noaa.gov", role
 Imports:
     bookdown,
     DT,
+    ecodata
     FSA,
     ggpubr,
     ggrepel,
     ggridges,
     here,
-    papeR,
-    rnaturalearth,
-    viridis,
-    rnaturalearthhires,
     nmfspalette,
-    ecodata
+    papeR,
+    priceR,
+    rgeos,
+    rnaturalearth,
+    rnaturalearthhires,    
+    viridis
 Remotes:
     ropensci/rnaturalearthhires,
     nmfs-general-modeling-tools/nmfspalette,
