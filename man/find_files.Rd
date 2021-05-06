@@ -4,10 +4,12 @@
 \alias{find_files}
 \title{Locate files containing a text string}
 \usage{
-find_files(text)
+find_files(text, path = here::here())
 }
 \arguments{
 \item{text}{A text string to search for.}
+
+\item{path}{The folder to search (searches recursively). Defaults to the project root.}
 }
 \value{
 A vector of names of files that contain the string.
