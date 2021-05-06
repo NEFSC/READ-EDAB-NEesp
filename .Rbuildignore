@@ -1,6 +1,7 @@
-^\.github$
+^\.github
 ^LICENSE\.txt$
 ^README\.md$
 ^\.Rproj\.user$
 ^.*\.Rproj$
-^\data-raw$
+^\data-raw
+^\black-sea-bass
