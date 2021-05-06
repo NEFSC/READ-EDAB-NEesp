@@ -329,25 +329,30 @@ colnames(rpt_card_time) <- sapply(colnames(rpt_card_time),
                                   pattern = "_", 
                                   replacement = "\n")
 
+orig <- rpt_card_time
+
+# remove words
+for (i in 1:nrow(rpt_card_time)) {
+  for (j in 1:ncol(rpt_card_time)) {
+rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", high")
+rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", neutral")
+rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", low")
+  }
+}
+    
 ft <- flextable::flextable(rpt_card_time)
 
 for (i in 1:nrow(rpt_card_time)) {
   for (j in 1:ncol(rpt_card_time)) {
     
     # color based on ecosystem favorability
-    if(stringr::str_detect(toString(rpt_card_time[i, j]), ", high")){
+    if(stringr::str_detect(toString(orig[i, j]), ", high")){
       ft <- flextable::bg(ft, i = i, j = j, bg = "darkolivegreen1")
     }
     
-     if(stringr::str_detect(toString(rpt_card_time[i, j]), ", high")){
+     if(stringr::str_detect(toString(orig[i, j]), ", low")){
       ft <- flextable::bg(ft, i = i, j = j, bg = "red")
      }
-    
-        # remove words
-    rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", high")
-    rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", neutral")
-    rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", low")
-    
   }
 }
 
