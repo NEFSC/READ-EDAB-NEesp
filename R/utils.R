@@ -183,16 +183,17 @@ save_data <- function(x) {
 #' This function locates all .R and .Rmd files that contain a text string.
 #'
 #' @param text A text string to search for.
+#' @param path The folder to search (searches recursively). Defaults to the project root.
 #' @return A vector of names of files that contain the string.
 #'
 #' @importFrom magrittr %>%
 #' @export
 
-find_files <- function(text) {
+find_files <- function(text, path = here::here()) {
   all_files <- c(
-    list.files(here::here(), recursive = TRUE, full.names = TRUE) %>%
+    list.files(path, recursive = TRUE, full.names = TRUE) %>%
       stringr::str_subset("\\.R$"),
-    list.files(here::here(), recursive = TRUE, full.names = TRUE) %>%
+    list.files(path, recursive = TRUE, full.names = TRUE) %>%
       stringr::str_subset("\\.Rmd$")
   )
 
@@ -212,12 +213,16 @@ find_files <- function(text) {
     percent <- (i / length(all_files) * 100) %>%
       round(digits = 0)
 
-    print(paste(i, ", ", percent, "%", ".....", sep = ""))
+    if((i %% 10) == 0){
+      print(paste(i, " files searched, ", percent, "% done", ".....", sep = ""))
+    }
+    
   }
 
   if (is.null(out)) {
     print("Not found")
   } else {
+    colnames(out) <- c("file", "line(s)")
     return(out)
   }
 }

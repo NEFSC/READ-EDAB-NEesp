@@ -8,7 +8,7 @@ Authors@R: c(person("Abigail", "Tyrell", email = "abigail.tyrell@noaa.gov", role
 Imports:
     bookdown,
     DT,
-    ecodata
+    ecodata,
     FSA,
     ggpubr,
     ggrepel,
