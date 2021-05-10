@@ -38,7 +38,7 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
     dplyr::ungroup() %>%
     dplyr::group_by(Metric, Var) %>%
     dplyr::mutate(pval = summary(lm(Value ~ Val))$coefficients[2, 4],
-                  slope = coef(lm(Value ~ Val))$coefficients[2]) %>%
+                  slope = coef(lm(Value ~ Val))[2]) %>%
     dplyr::mutate(sig = pval < 0.05)
   
   data_no_model <- data2 %>%
