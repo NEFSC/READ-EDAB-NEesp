@@ -1,6 +1,6 @@
 #' Prepares data for correlation analysis
 #'
-#' This function prepares stock data and `ecodata` data for correlation analysis and returns linear correlation p-values. A helper function for `plot_correlation`, `correlation_data`, and `correlation_summary`.
+#' This function prepares stock data and `ecodata` data for correlation analysis and returns linear correlation p-values and slopes. A helper function for `plot_correlation`, `correlation_data`, and `correlation_summary`.
 #'
 #' @param stock_data Data about a single stock (one species, one region) subsetted from `assessmentdata::stockAssessmentData`
 #' @param eco_data A data table from `ecodata`. May require pre-processing to standardize format.
@@ -37,7 +37,8 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
     dplyr::filter(n_data_points >= 3) %>%
     dplyr::ungroup() %>%
     dplyr::group_by(Metric, Var) %>%
-    dplyr::mutate(pval = summary(lm(Value ~ Val))$coefficients[2, 4]) %>%
+    dplyr::mutate(pval = summary(lm(Value ~ Val))$coefficients[2, 4],
+                  slope = coef(lm(Value ~ Val))$coefficients[2]) %>%
     dplyr::mutate(sig = pval < 0.05)
   
   data_no_model <- data2 %>%

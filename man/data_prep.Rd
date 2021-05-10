@@ -17,5 +17,5 @@ data_prep(stock_data, eco_data, lag_data = 0)
 A tibble
 }
 \description{
-This function prepares stock data and \code{ecodata} data for correlation analysis and returns linear correlation p-values. A helper function for \code{plot_correlation}, \code{correlation_data}, and \code{correlation_summary}.
+This function prepares stock data and \code{ecodata} data for correlation analysis and returns linear correlation p-values and slopes. A helper function for \code{plot_correlation}, \code{correlation_data}, and \code{correlation_summary}.
 }

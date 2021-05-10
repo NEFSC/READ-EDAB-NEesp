@@ -254,107 +254,15 @@ wrap_analysis(
 
 ### Center of mass
 
-## Report card
+## Report cards
 
-```{r, rpt-card-gg, eval = FALSE}
-# create textural table
-
-# color based on ecosystem favorability
-index <- matrix(
-  nrow = nrow(rpt_card_time),
-  ncol = ncol(rpt_card_time)
-)
-
-for (i in 1:nrow(rpt_card_time)) {
-  for (j in 1:ncol(rpt_card_time)) {
-
-    # make matrix for color setting later
-    eval <- stringr::str_detect(toString(rpt_card_time[i, j]), ", high")
-
-    if (eval == TRUE) {
-      index[i, j] <- 1
-    } else {
-      index[i, j] <- 0
-    }
-
-    # remove words
-    rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", high")
-    rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", neutral")
-    rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", low")
-  }
-}
-
-index2 <- which(index == 1, arr.ind = TRUE)
-
-# format table entries
-names <- colnames(rpt_card_time)
-names <- sapply(names, stringr::str_wrap, width = 5)
-names <- sapply(names, stringr::str_replace_all, pattern = "_", replacement = "\n")
-
-last_row <- nrow(rpt_card_time)
-rpt_card_time[c(last_row - 1, last_row), ] <- sapply(rpt_card_time[c(last_row - 1, last_row), ],
-  stringr::str_wrap,
-  width = 5
-)
-
-# make table
-tab <- ggpubr::ggtexttable(rpt_card_time,
-  rows = NULL,
-  cols = names,
-  theme = ggpubr::ttheme("classic")
-)
-
-for (i in 1:nrow(index2)
-) {
-  r <- as.numeric(index2[i, 1]) + 1 # rows are off by 1
-
-  c <- as.numeric(index2[i, 2])
-
-  # CANNOT have row = 1
-  if (r != 1) {
-    tab <- ggpubr::table_cell_bg(tab,
-      row = r, column = c, linewidth = 5,
-      fill = "darkolivegreen1", color = "darkolivegreen4"
-    )
-  }
-}
-
-tab
+### Indicator report card
+```{r, rpt-ind}
+knitr::kable(rpt_card_ind)
 ```
 
-```{r, rpt-card-flex}
-# format colnames
-colnames(rpt_card_time) <- sapply(colnames(rpt_card_time), 
-                                  stringr::str_replace_all, 
-                                  pattern = "_", 
-                                  replacement = "\n")
+### Time series report card
 
-orig <- rpt_card_time
-
-# remove words
-for (i in 1:nrow(rpt_card_time)) {
-  for (j in 1:ncol(rpt_card_time)) {
-rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", high")
-rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", neutral")
-rpt_card_time[i, j] <- stringr::str_remove_all(rpt_card_time[i, j], pattern = ", low")
-  }
-}
-    
-ft <- flextable::flextable(rpt_card_time)
-
-for (i in 1:nrow(rpt_card_time)) {
-  for (j in 1:ncol(rpt_card_time)) {
-    
-    # color based on ecosystem favorability
-    if(stringr::str_detect(toString(orig[i, j]), ", high")){
-      ft <- flextable::bg(ft, i = i, j = j, bg = "darkolivegreen1")
-    }
-    
-     if(stringr::str_detect(toString(orig[i, j]), ", low")){
-      ft <- flextable::bg(ft, i = i, j = j, bg = "red")
-     }
-  }
-}
-
-ft
+```{r, fxn-rpt}
+make_time_rpt(rpt_card_time)
 ```
