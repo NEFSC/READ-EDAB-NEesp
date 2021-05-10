@@ -257,8 +257,21 @@ wrap_analysis(
 ## Report cards
 
 ### Indicator report card
-```{r, rpt-ind}
+
+```{r, eval = FALSE}
+rpt_card_ind <- rpt_card_ind %>%
+    tibble::as_tibble() %>%
+  dplyr::mutate(Pattern = Pattern %>%
+                  stringr::str_replace("No ", "No")) %>%
+  dplyr::distinct() %>%
+  tidyr::pivot_wider(names_from = "Trend_with", 
+                                   values_from = "Pattern",
+                                   values_fill = "Not tested")
 knitr::kable(rpt_card_ind)
+```
+
+```{r}
+make_ind_rpt(rpt_card_ind)
 ```
 
 ### Time series report card

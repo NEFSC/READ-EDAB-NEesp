@@ -419,11 +419,14 @@ wrap_analysis <- function(file_path,
         rname <- paste("Trend with", metric %>% stringr::str_to_lower())
         
         # indicator trend
-       # sig <- this_data %>%
-      #    dplyr::filter(!is.na(sig)) %>%
-      #    dplyr::select(sig, slope)
-      #  if(sig[1] == "TRUE") {trend <- "Yes,"} else {trend <- "No"}
-      #  if(slope[1] > 0) {dir <- "positive"} else {dir <- "negative"}
+        lil_dat <- this_data %>%
+          dplyr::filter(!is.na(sig)) %>%
+          dplyr::select(sig, slope)
+        if(lil_dat$sig[1] == "TRUE") {trend <- "Yes,"} else {trend <- "No"}
+        if(lil_dat$sig[1] == "TRUE") {
+          if(lil_dat$slope[1] > 0) {dir <- "positive"} else {dir <- "negative"}
+        } else {dir <- ""}
+        
         
         # time trend
         model <- lm(Val ~ Time, data = this_data)
@@ -438,24 +441,17 @@ wrap_analysis <- function(file_path,
         } else {dir2 <- ""}
 
         
-        # make tibble
-        tib <- tibble::tibble(Indicator = i,
-                              `Trend with time` = paste(trend2, dir2)#,
-                              #METRIC = paste(trend, dir)
-                              )
-        colnames(tib)[3] <- rname
+        # make data frame
+        tib <- rbind(c(i, "Trend with time", paste(trend2, dir2)),
+                     c(i, rname, paste(trend, dir)))
         
-        # make empty tibble if needed
+        # make empty vector if needed
         if (!exists("rpt_card_ind")) {
-          rpt_card_ind <<- tibble::tibble(Indicator = character(),
-                         `Trend with time` = character(),
-                         `Trend with recruitment` = character(),
-                         `Trend with abundance` = character(),
-                         `Trend with catch` = character())
+          rpt_card_ind <<- c()
         }
 
-        rpt_card_ind <<- dplyr::full_join(rpt_card_ind,
-                                            tib)
+        rpt_card_ind <<- rbind(rpt_card_ind, tib)
+        colnames(rpt_card_ind) <- c("Indicator", "Trend_with", "Pattern")
       }
     }
   }
@@ -463,9 +459,9 @@ wrap_analysis <- function(file_path,
 
 #' Create time report card
 #'
-#' This function creates a time series report card for selected indicators.
+#' This function creates a time series report card for select indicators.
 #'
-#' @param data A time series of indicator(s) of interest.
+#' @param data A summary of indicator(s) of interest.
 #' @return A flextable
 #' @importFrom magrittr %>%
 #' @export
@@ -505,5 +501,53 @@ make_time_rpt <- function(data) {
     }
   }
 
+  return(ft)
+}
+
+#' Create indicator report card
+#'
+#' This function creates an indicator report card for select indicators.
+#'
+#' @param data A summary of indicator(s) of interest.
+#' @return A flextable
+#' @importFrom magrittr %>%
+#' @export
+
+make_ind_rpt <- function(data) {
+  data <- data %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(Pattern = Pattern %>%
+                    stringr::str_replace("No ", "No"),
+                  Indicator = Indicator %>%
+                    stringr::str_replace_all("\n", " ") %>%
+                    stringr::str_wrap(20)) %>%
+    dplyr::distinct() %>%
+    tidyr::pivot_wider(names_from = "Trend_with", 
+                       values_from = "Pattern",
+                       values_fill = "Not tested")
+  
+  ft <- flextable::flextable(data)
+  
+  for (i in 1:nrow(data)) {
+    for (j in 1:ncol(data)) {
+      
+      # make gray if not correlated
+      if (stringr::str_detect(toString(data[i, j]), "^No$")) {
+        ft <- flextable::bg(ft, i = i, j = j, bg = "gray90")
+      }
+      
+      # make yellow if pos correlated
+      if (stringr::str_detect(toString(data[i, j]), "Yes, positive")) {
+        ft <- flextable::bg(ft, i = i, j = j, bg = "lightgoldenrod1")
+      }
+      
+      # make purple if neg correlated
+      if (stringr::str_detect(toString(data[i, j]), "Yes, negative")) {
+        ft <- flextable::bg(ft, i = i, j = j, bg = "plum2")
+      }
+      
+    }
+  }
+  
   return(ft)
 }
