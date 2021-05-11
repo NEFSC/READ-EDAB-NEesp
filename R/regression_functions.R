@@ -73,7 +73,8 @@ plot_correlation <- function(stock, eco, lag = 0) {
     stock_data = stock,
     eco_data = eco,
     lag_data = lag
-  )
+  ) %>%
+    tidyr::drop_na()
   
   if (nrow(data) > 0) {
     my_colors <- c("black", "#B2292E", "gray")
