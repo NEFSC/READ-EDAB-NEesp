@@ -4,14 +4,14 @@
 
 ```{r}
 # rpt_card_ind created from wrap_analysis()
-make_ind_rpt(rpt_card_ind)
+NEesp::make_ind_rpt(rpt_card_ind)
 ```
 
 ### Time series report card
 
 ```{r, fxn-rpt}
 # rpt_card_time created from wrap_analysis()
-make_time_rpt(rpt_card_time)
+NEesp::make_time_rpt(rpt_card_time)
 ```
 
 ## Appendix
@@ -27,6 +27,6 @@ packageDescription("NEesp")
 ```
 
 ### `NEespShiny` information
-```{r, NEesp-info}
+```{r, NEespShiny-info}
 packageDescription("NEespShiny")
 ```
