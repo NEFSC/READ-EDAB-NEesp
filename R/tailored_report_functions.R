@@ -129,24 +129,6 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
       ggplot2::xlab("Year") +
       ggplot2::ylab(unique(data$Var))
 
-    # version with summary table
-    # tbl <- ggpubr::ggtexttable(tab_data, theme = ggpubr::ttheme("blank"), rows = NULL)  %>%
-    #  ggpubr::tbody_add_border() %>%
-    #  ggpubr::thead_add_border()
-
-    # big_fig <- ggpubr::ggarrange(
-    #  ggpubr::ggarrange(bsb_fig, ind_fig, tbl,
-    #    ncol = 3,
-    #    legend = "none",
-    #    labels = c("A", "B", "C")
-    #  ),
-    #  fig,
-    #  labels = c(NA, "D"),
-    #  common.legend = TRUE,
-    #  legend = "top",
-    #  nrow = 2
-    # )
-
     # change font size for shiny
     if (mode == "shiny") {
       fig <- fig + ggplot2::theme(

@@ -1,0 +1,32 @@
+## Report cards
+
+### Indicator report card
+
+```{r}
+# rpt_card_ind created from wrap_analysis()
+make_ind_rpt(rpt_card_ind)
+```
+
+### Time series report card
+
+```{r, fxn-rpt}
+# rpt_card_time created from wrap_analysis()
+make_time_rpt(rpt_card_time)
+```
+
+## Appendix
+
+### R session information
+```{r, session-info}
+sessionInfo()
+```
+
+### `NEesp` information
+```{r, NEesp-info}
+packageDescription("NEesp")
+```
+
+### `NEespShiny` information
+```{r, NEesp-info}
+packageDescription("NEespShiny")
+```
