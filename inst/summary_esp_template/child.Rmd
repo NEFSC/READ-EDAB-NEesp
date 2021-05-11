@@ -1,4 +1,4 @@
-### `r file`
+### `r file_name`
 ```{r}
 # must set file path, pattern (or null), remove (or null), metric, and lag
 NEesp::wrap_analysis(
