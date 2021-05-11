@@ -496,6 +496,7 @@ make_time_rpt <- function(data) {
 #' @export
 
 make_ind_rpt <- function(data) {
+  colnames(data) <- c("Indicator", "Trend_with", "Pattern")
   data <- data %>%
     tibble::as_tibble() %>%
     dplyr::mutate(Pattern = Pattern %>%
