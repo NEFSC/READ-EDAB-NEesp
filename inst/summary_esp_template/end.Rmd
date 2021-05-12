@@ -11,22 +11,27 @@ NEesp::make_ind_rpt(rpt_card_ind)
 
 ```{r, fxn-rpt}
 # rpt_card_time created from wrap_analysis()
+# make sure rows go by year, then recent mean, then long-temr mean
+lev <- sort(rpt_card_time$Time)[c(1:5, 7, 6)]
+rpt_card_time <- rpt_card_time %>%
+dplyr::arrange(factor(Time, levels = lev))
+
 NEesp::make_time_rpt(rpt_card_time)
 ```
 
 ## Appendix
 
 ### R session information
-```{r, session-info}
+```{r, session-info, results = "markup"}
 sessionInfo()
 ```
 
 ### `NEesp` information
-```{r, NEesp-info}
+```{r, NEesp-info, results = "markup"}
 packageDescription("NEesp")
 ```
 
 ### `NEespShiny` information
-```{r, NEespShiny-info}
+```{r, NEespShiny-info, results = "markup"}
 packageDescription("NEespShiny")
 ```
