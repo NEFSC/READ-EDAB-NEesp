@@ -377,8 +377,10 @@ wrap_analysis <- function(file_path,
       # put all plots into a ggarrange for shiny output
       if (mode == "shiny") {
         if (exists("all_fig")) {
-          all_fig <- ggpubr::ggarrange(all_fig, plt, ncol = 1)
+          n <- n + 1
+          all_fig <- ggpubr::ggarrange(all_fig, plt, ncol = 1, heights = c(n, 1)
         } else {
+          n <- 0
           all_fig <- plt
         }
       }
