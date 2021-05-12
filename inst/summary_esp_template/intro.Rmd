@@ -18,6 +18,12 @@ knitr::opts_chunk$set(
   fig.width = params$fig_size,
   dpi = 200 # not sure why default 72 dpi looks worse in word output compared to saved figs
 )
+
+# make a clean figures folder
+if(dir.exists("figures")){
+  unlink("figures")
+}
+dir.create("figures")
 ```
 
 ## Indicator data
