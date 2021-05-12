@@ -11,12 +11,17 @@ NEesp::make_ind_rpt(rpt_card_ind)
 
 ```{r, fxn-rpt}
 # rpt_card_time created from wrap_analysis()
-# make sure rows go by year, then recent mean, then long-temr mean
+# only created for indicators correlated with stock
+# may not exist
+
+if(exists("rpt_card_time"){
+# make sure rows go by year, then recent mean, then long-term mean
 lev <- sort(rpt_card_time$Time)[c(1:5, 7, 6)]
 rpt_card_time <- rpt_card_time %>%
 dplyr::arrange(factor(Time, levels = lev))
 
 NEesp::make_time_rpt(rpt_card_time)
+} else "Not created because no indicators were correlated with the stock"
 ```
 
 ## Appendix
