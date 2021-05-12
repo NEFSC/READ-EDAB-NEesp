@@ -1,5 +1,5 @@
 ### `r file_name`
-```{r, results = "asis"}
+```{r}
 # must set file path, pattern (or null), remove (or null), metric, and lag
 NEesp::wrap_analysis(
   file_path = file,
