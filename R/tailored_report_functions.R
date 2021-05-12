@@ -368,8 +368,20 @@ wrap_analysis <- function(file_path,
         dplyr::distinct()) == "TRUE")
 
       plt <- plot_corr_only(this_data, lag = lag, species = species, mode = mode)
-      print(plt)
-      cat("\n\n")
+
+      if (mode != "shiny") {
+        print(plt)
+        cat("\n\n")
+      }
+
+      # put all plots into a ggarrange for shiny output
+      if (mode == "shiny") {
+        if (exists(all_fig)) {
+          all_fig <- ggpubr::ggarrange(all_fig, plt, ncol = 1)
+        } else {
+          all_fig <- plt
+        }
+      }
 
       # time series report card
       if (mode != "shiny" &
@@ -392,41 +404,63 @@ wrap_analysis <- function(file_path,
           rpt_card_time <<- time_rpt(this_data, out_name = i, min_year = min_year)
         }
       }
-      
+
       # indicator regression report card
       if (mode != "shiny") {
         i <- i %>%
           stringr::str_replace_all("\n", " ")
-        
+
         rname <- paste("Trend with", metric %>% stringr::str_to_lower())
-        
+
         # indicator trend
         lil_dat <- this_data %>%
           dplyr::filter(!is.na(sig)) %>%
           dplyr::select(sig, slope)
-        if(lil_dat$sig[1] == "TRUE") {trend <- "Yes,"} else {trend <- "No"}
-        if(lil_dat$sig[1] == "TRUE") {
-          if(lil_dat$slope[1] > 0) {dir <- "positive"} else {dir <- "negative"}
-        } else {dir <- ""}
-        
-        
+        if (lil_dat$sig[1] == "TRUE") {
+          trend <- "Yes,"
+        } else {
+          trend <- "No"
+        }
+        if (lil_dat$sig[1] == "TRUE") {
+          if (lil_dat$slope[1] > 0) {
+            dir <- "positive"
+          } else {
+            dir <- "negative"
+          }
+        } else {
+          dir <- ""
+        }
+
+
         # time trend
         model <- lm(Val ~ Time, data = this_data)
-        
+
         sig <- summary(model)$coefficients[2, 4] < 0.05
         slope <- coef(model)[2]
-        
-        
-        if(sig == TRUE) {trend2 <- "Yes,"} else {trend2 <- "No"}
-        if(sig == TRUE) {
-          if(slope > 0) {dir2 <- "positive"} else {dir2 <- "negative"}
-        } else {dir2 <- ""}
 
-        
+
+        if (sig == TRUE) {
+          trend2 <- "Yes,"
+        } else {
+          trend2 <- "No"
+        }
+        if (sig == TRUE) {
+          if (slope > 0) {
+            dir2 <- "positive"
+          } else {
+            dir2 <- "negative"
+          }
+        } else {
+          dir2 <- ""
+        }
+
+
         # make data frame
-        tib <- rbind(c(i, "Trend with time", paste(trend2, dir2)),
-                     c(i, rname, paste(trend, dir)))
-        
+        tib <- rbind(
+          c(i, "Trend with time", paste(trend2, dir2)),
+          c(i, rname, paste(trend, dir))
+        )
+
         # make empty vector if needed
         if (!exists("rpt_card_ind")) {
           rpt_card_ind <<- c()
@@ -436,6 +470,10 @@ wrap_analysis <- function(file_path,
         colnames(rpt_card_ind) <- c("Indicator", "Trend_with", "Pattern")
       }
     }
+  }
+
+  if (mode == "shiny") {
+    print(all_fig)
   }
 }
 
@@ -499,38 +537,41 @@ make_ind_rpt <- function(data) {
   colnames(data) <- c("Indicator", "Trend_with", "Pattern")
   data <- data %>%
     tibble::as_tibble() %>%
-    dplyr::mutate(Pattern = Pattern %>%
-                    stringr::str_replace("No ", "No"),
-                  Indicator = Indicator %>%
-                    stringr::str_replace_all("\n", " ") %>%
-                    stringr::str_wrap(20)) %>%
+    dplyr::mutate(
+      Pattern = Pattern %>%
+        stringr::str_replace("No ", "No"),
+      Indicator = Indicator %>%
+        stringr::str_replace_all("\n", " ") %>%
+        stringr::str_wrap(20)
+    ) %>%
     dplyr::distinct() %>%
-    tidyr::pivot_wider(names_from = "Trend_with", 
-                       values_from = "Pattern",
-                       values_fill = "Not tested")
-  
+    tidyr::pivot_wider(
+      names_from = "Trend_with",
+      values_from = "Pattern",
+      values_fill = "Not tested"
+    )
+
   ft <- flextable::flextable(data)
-  
+
   for (i in 1:nrow(data)) {
     for (j in 1:ncol(data)) {
-      
+
       # make gray if not correlated
       if (stringr::str_detect(toString(data[i, j]), "^No$")) {
         ft <- flextable::bg(ft, i = i, j = j, bg = "gray90")
       }
-      
+
       # make yellow if pos correlated
       if (stringr::str_detect(toString(data[i, j]), "Yes, positive")) {
         ft <- flextable::bg(ft, i = i, j = j, bg = "lightgoldenrod1")
       }
-      
+
       # make purple if neg correlated
       if (stringr::str_detect(toString(data[i, j]), "Yes, negative")) {
         ft <- flextable::bg(ft, i = i, j = j, bg = "plum2")
       }
-      
     }
   }
-  
+
   return(ft)
 }
