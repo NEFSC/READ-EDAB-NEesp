@@ -176,7 +176,9 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
         sep = ""
       ) %>%
         stringr::str_replace_all(" ", "_") %>%
-        stringr::str_replace_all("\n", "_")
+        stringr::str_replace_all("\n", "_") %>%
+        stringr:str_remove_all("/") %>%
+        stringr::str_remove_all("\\\\")
 
       ggplot2::ggsave(
         filename = file,
