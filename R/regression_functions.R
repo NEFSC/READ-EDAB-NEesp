@@ -87,9 +87,7 @@ plot_correlation <- function(stock, eco, lag = 0) {
         y = Value)
     ) +
 
-      ggplot2::scale_color_gradient(
-        low = "#7F7FFF",
-        high = "#575195",
+      viridis::scale_color_viridis(
         breaks = seq(1950, 2020, by = 10)
       ) +
       ggplot2::geom_path(ggplot2::aes(color = Time)) +
