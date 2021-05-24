@@ -21,7 +21,7 @@ jobs:
       - name: Install command line packages
         run: |        
           sudo apt update
-          sudo apt-get install  libgdal-dev libcurl4-gnutls-dev libgit2-dev libudunits2-dev
+          sudo apt-get install  libgdal-dev libcurl4-gnutls-dev libgit2-dev libudunits2-dev libharfbuzz-dev libfribidi-dev
         shell: bash
         
       - name: Set up R
@@ -42,6 +42,10 @@ jobs:
           sudo R CMD javareconf
           Rscript -e 'install.packages(c("pkgdown", "stringi", "car", "devtools"), dependencies = TRUE)
           devtools::install_github("NOAA-EDAB/NEespShiny", ref = "v0.1.0", upgrade = "never")'
+          
+      - name: Load more R packages
+        run: |
+         Rscript -e 'install.packages(c("textshaping", "ragg", "pkgdown"))'
           
       - name: Render pkgdown
         run: |
