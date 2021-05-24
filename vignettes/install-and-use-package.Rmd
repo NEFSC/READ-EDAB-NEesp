@@ -1,0 +1,71 @@
+---
+title: "Install and use package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Install and use package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  eval = FALSE
+)
+```
+
+## Install the `NEesp` package
+```{r}
+remotes::install_github("NOAA-EDAB/NEesp", ref = v0.1.0)
+```
+
+## Using the `NEesp` package
+
+### Run a report using package data and package template
+```{r, eval = FALSE}
+NEesp::render_ind_report("Black sea bass")
+```
+
+### Run a report using package data and a local template (from "bookdown" folder)
+```{r, eval = FALSE}
+# first source scripts if needed
+
+NEesp::render_ind_report("Black sea bass", 
+                         input = here::here("bookdown"),
+                         params_to_use = list(
+                           species_ID = "Black sea bass",
+                           ricky_survey_data = NEesp::bio_survey,
+                           path = here::here("action_reports/Black sea bass", "figures//"),
+                           save = TRUE
+                         ), 
+                         trouble = TRUE)
+```
+
+### Regression reports
+
+#### Run a report using package data and package template
+```{r, eval = FALSE}
+NEesp::render_reg_report(stock_var = "Black sea bass",
+                         epus_var = "MAB",
+                         region_var = "Mid",
+                         remove_var = FALSE,
+                         lag_var = 0,
+                         parent_folder = "zero_lag")
+```
+
+#### Run a report using package data and a local template (from "correlation_bookdown_template-dev" folder)
+```{r, eval = FALSE}
+NEesp::render_reg_report(stock_var = "Black sea bass",
+                         epus_var = "MAB",
+                         region_var = "Mid",
+                         remove_var = FALSE,
+                         lag_var = 0,
+                         parent_folder = "zero_lag",
+                         input = here::here("correlation_bookdown_template-dev"),
+                         trouble = TRUE)
+```
+
+
+
