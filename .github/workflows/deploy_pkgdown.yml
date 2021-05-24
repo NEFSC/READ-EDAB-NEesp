@@ -34,13 +34,14 @@ jobs:
         id: cache
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: big-cache-DESCRIPTION-02172021-2
+          key: pkgdown-cache-05172021-AT
 
-      - name: Load R packages (if not cached)
+      - name: Load R packages
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           sudo R CMD javareconf
-          Rscript -e 'install.packages(c("pkgdown", "stringi", "car"))
+          Rscript -e 'install.packages(c("pkgdown", "stringi", "car", "devtools"), dependencies = TRUE)
+          devtools::install_github("NOAA-EDAB/NEespShiny", ref = "v0.1.0", upgrade = "never")'
           
       - name: Render pkgdown
         run: |
