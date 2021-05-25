@@ -50,11 +50,11 @@ for(i in species){
 
 ## Advanced R Markdown
 
-The examples above are minimal examples. More complex reports can be created with more parameters and more rendering options. 
+The examples above are minimal examples. More complex reports can be created with more parameters and more rendering options. There are also additional technical tools that can be used to enhance R Markdown reports. 
 
 ### Bookdown
 
-The [`bookdown` package](https://bookdown.org/yihui/bookdown/) offers many extensions of the functionality of R Markdown. Most notably, documents created with `bookdown` are saved in a series of separate files ("chapters" or "sections"), allowing long reports to be broken up into more manageable chunks. Sections can easily be inserted and removed from the report. 
+The [`bookdown` package](https://bookdown.org/yihui/bookdown/) offers many useful extensions of the functionality of R Markdown. Most notably, documents created with `bookdown` are saved in a series of separate files ("chapters" or "sections"), allowing long reports to be broken up into more manageable chunks. Sections can easily be inserted and removed from the report. 
 
 ### Child documents
 

@@ -1,0 +1,29 @@
+---
+title: "Data in NEesp"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data in NEesp}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  eval = FALSE
+)
+```
+
+## Types of data
+
+This package contains mostly species-level data that comes from public sources and has been minimally processed. Current data sources include the `assessementdata` package, the `survdat` package (`svdbs` database), and MRIP recreational catch data. 
+
+## Data structure
+
+Data is in a tidy format. At a minimum, all data have columns to specify species and time. Most data also have a column specifying stock region; some data may only be parsed at the species (not stock) level.
+
+## `ecodata`
+
+The [`ecodata` package](https://github.com/NOAA-EDAB/ecodata) is another product created by the Ecosystem Dynamics and Assessment Branch of the Northeast Fisheries Science Center. It houses ecosystem data for the annual State of the Ecosystem Report (SOE). There is an ongoing ESP-SOE collaboration to re-assess SOE data at stock-specific regional scales.
