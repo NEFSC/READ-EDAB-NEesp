@@ -1,6 +1,6 @@
 Package: NEesp
 Title: Generate Preliminary ESP Reports for the Northeast
-Version: 0.0.0.9000
+Version: 0.1.0
 Description: Generates preliminary Ecosystem and Socioeconomic Profiles for Northeast and Mid-Atlantic USA fishery stocks.
 License: file LICENSE
 Authors@R: c(person("Abigail", "Tyrell", email = "abigail.tyrell@noaa.gov", role = c("aut", "cre")),
