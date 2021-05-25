@@ -2,7 +2,8 @@ pandoc: '2.13'
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
+  data: data.html
   install-and-use-package: install-and-use-package.html
   rmarkdown-intro: rmarkdown-intro.html
-last_built: 2021-05-25T17:06Z
+last_built: 2021-05-25T17:59Z
 
