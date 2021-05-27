@@ -59,8 +59,6 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
 #' This function plots correlations between stock data and `ecodata` data.
 #'
 #' @param data The output of `data_prep()`.
-#' @param stock Data about a single stock (one species, one region) subsetted from `assessmentdata::stockAssessmentData`
-#' @param eco A data table from `ecodata`. May require pre-processing to standardize format.
 #' @param lag The number of years to lag the correlation by. Defaults to 0.
 #' @return A ggplot
 #' @export
