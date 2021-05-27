@@ -49,7 +49,8 @@ output <- rbind(output, NEesp::correlation_summary(
 ))
 
 # count number of regressions for bonferroni correction
-bonf_n <- bonf_n + 1
+nvar <- length(unique(test$Var))
+bonf_n <- bonf_n + nvar
 
 # make name for figure
 knitr::opts_knit$set(unnamed.chunk.label = names[1])
@@ -85,11 +86,32 @@ if (nrow(data) > 0) {
 
 #### Figures {-}
 ```{r, {{label}}-fig, eval = eval_epu, fig.height = 10}
-NEesp::plot_correlation(
+if(nvar > 6){ # break up into multiple graphs
+  var_names <- unique(test$Var)
+  # print(var_names)
+  for(i in 1:round(nvar/6)){
+   # print(var_names[((i - 1) * 6 + 1):(i * 6)])
+      dat <- test %>%
+        dplyr::filter(Var %in% var_names[((i - 1) * 6 + 1):(i * 6)])
+      
+      fig <- try(NEesp::plot_correlation(
+        stock = stock,
+        eco = dat,
+        lag = params$lag
+        ))
+        
+      print(fig)
+        cat("\n\n")
+  }
+
+  
+} else {
+  NEesp::plot_correlation(
   stock = stock,
   eco = test,
   lag = params$lag
 )
+}
 ```
 
 ```{r, eval = (eval_epu == FALSE)}
