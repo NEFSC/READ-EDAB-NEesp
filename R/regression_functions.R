@@ -34,7 +34,8 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
     dplyr::mutate(n_data_points = length(Time) - sum(as.numeric(missing)))
   
   data_model <- data2 %>%
-    dplyr::filter(n_data_points >= 3) %>%
+    dplyr::filter(n_data_points >= 3,
+                  missing == FALSE) %>%
     dplyr::ungroup() %>%
     dplyr::group_by(Metric, Var) %>%
     dplyr::mutate(pval = summary(lm(Value ~ Val))$coefficients[2, 4],
@@ -42,7 +43,7 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
     dplyr::mutate(sig = pval < 0.05)
   
   data_no_model <- data2 %>%
-    dplyr::filter(n_data_points < 3) %>%
+    dplyr::filter(n_data_points < 3 | missing == TRUE) %>%
     dplyr::mutate(
       pval = NA,
       sig = NA
@@ -114,7 +115,7 @@ plot_correlation <- function(stock, eco, lag = 0) {
         legend.position = "bottom"
       ) 
     
-    return(fig)
+    print(fig)
     
   } else {
     print("No data under conditions selected")
