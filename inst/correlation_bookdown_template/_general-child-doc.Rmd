@@ -48,10 +48,6 @@ output <- rbind(output, NEesp::correlation_summary(
   lag = params$lag
 ))
 
-# count number of regressions for bonferroni correction
-nvar <- length(unique(test$Var))
-bonf_n <- bonf_n + nvar
-
 # make name for figure
 knitr::opts_knit$set(unnamed.chunk.label = names[1])
 ```
@@ -81,13 +77,21 @@ if (nrow(data) > 0) {
     stringr::str_replace_all(" ", "_")
   
   write.csv(data, paste("data/", file_name, sep = ""))
-}
+  
+  # remove na's,
+  # count number of regressions for bonferroni correction
+  data <- data %>%
+    tidyr::drop_na()
+  var_names <- unique(test$Var)
+  nvar <- length(var_names)
+  bonf_n <- bonf_n + nvar
+} 
 ```
 
 #### Figures {-}
 ```{r, {{label}}-fig, eval = eval_epu, fig.height = 10}
 if(nvar > 6){ # break up into multiple graphs
-  var_names <- unique(test$Var)
+ # var_names <- unique(test$Var)
   # print(var_names)
   for(i in 1:round(nvar/6)){
    # print(var_names[((i - 1) * 6 + 1):(i * 6)])

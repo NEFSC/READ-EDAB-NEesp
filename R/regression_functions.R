@@ -58,23 +58,28 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
 #'
 #' This function plots correlations between stock data and `ecodata` data.
 #'
+#' @param data The output of `data_prep()`.
 #' @param stock Data about a single stock (one species, one region) subsetted from `assessmentdata::stockAssessmentData`
 #' @param eco A data table from `ecodata`. May require pre-processing to standardize format.
 #' @param lag The number of years to lag the correlation by. Defaults to 0.
 #' @return A ggplot
 #' @export
 
-plot_correlation <- function(stock, eco, lag = 0) {
+plot_correlation <- function(data, # data that has already been processed
+                             #stock, eco, 
+                             lag = 0) {
   # both data sets must have a column called "Time"
   # the stock data should be from assessmentdata::stockAssessmentData
   # the eco data numeric values should be in a column called "Val"
   # the eco data category values should be in a column called "Var"
   
-  data <- NEesp::data_prep(
-    stock_data = stock,
-    eco_data = eco,
-    lag_data = lag
-  ) %>%
+#  data <- NEesp::data_prep(
+#    stock_data = stock,
+#    eco_data = eco,
+#    lag_data = lag
+#  ) %>%
+  
+  data <- data %>%
     tidyr::drop_na()
   
   if (nrow(data) > 0) {
