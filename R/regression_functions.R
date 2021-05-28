@@ -78,7 +78,7 @@ plot_correlation <- function(data, # data that has already been processed
 #  ) %>%
   
   data <- data %>%
-    tidyr::drop_na()
+    tibble::as_tibble()
   
   if (nrow(data) > 0) {
     my_colors <- c("black", "#B2292E", "gray")
@@ -129,19 +129,14 @@ plot_correlation <- function(data, # data that has already been processed
 #'
 #' This function creates summary tables of correlations between stock data and `ecodata` data. Designed for use within a RMarkdown document.
 #'
-#' @param stock Data about a single stock (one species, one region) subsetted from `assessmentdata::stockAssessmentData`
-#' @param eco A data table from `ecodata`. May require pre-processing to standardize format.
+#' @param data The output of `data_prep()`.
 #' @param lag The number of years to lag the correlation by. Defaults to 0.
 #' @return A data frame
 #' @importFrom magrittr %>%
 #' @export
 
-correlation_data <- function(stock, eco, lag = 0) {
-  data <- NEesp::data_prep(
-    stock_data = stock,
-    eco_data = eco,
-    lag_data = lag
-  ) %>%
+correlation_data <- function(data, lag = 0) {
+  data <- data %>%
     dplyr::filter(sig == TRUE) # only statistically significant data
   
   # test correlations
@@ -196,19 +191,14 @@ correlation_data <- function(stock, eco, lag = 0) {
 #'
 #' This function creates summary table of a correlation between stock data and `ecodata` data. Suggest to use with multiple `ecodata` indicators, and create a master data set by appending results.
 #'
-#' @param stock Data about a single stock (one species, one region) subsetted from `assessmentdata::stockAssessmentData`
-#' @param eco A data table from `ecodata`. May require pre-processing to standardize format.
+#' @param data The output of `data_prep()`.
 #' @param lag The number of years to lag the correlation by. Defaults to 0.
 #' @return A tibble
 #' @importFrom magrittr %>%
 #' @export
 
-correlation_summary <- function(stock, eco, lag = 0) {
-  data <- NEesp::data_prep(
-    stock_data = stock,
-    eco_data = eco,
-    lag_data = lag
-  ) %>%
+correlation_summary <- function(data, lag = 0) {
+  data <- data %>%
     dplyr::filter(sig == TRUE) # only statistically significant data
   
   # test correlations

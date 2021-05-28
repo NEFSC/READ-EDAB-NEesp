@@ -4,12 +4,10 @@
 \alias{correlation_data}
 \title{Produces summary tables of correlations}
 \usage{
-correlation_data(stock, eco, lag = 0)
+correlation_data(data, lag = 0)
 }
 \arguments{
-\item{stock}{Data about a single stock (one species, one region) subsetted from \code{assessmentdata::stockAssessmentData}}
-
-\item{eco}{A data table from \code{ecodata}. May require pre-processing to standardize format.}
+\item{data}{The output of \code{data_prep()}.}
 
 \item{lag}{The number of years to lag the correlation by. Defaults to 0.}
 }

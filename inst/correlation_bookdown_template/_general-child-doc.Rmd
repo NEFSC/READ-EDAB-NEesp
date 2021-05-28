@@ -1,4 +1,5 @@
 ```{r}
+# test if data even exists
 if ("EPU" %in% colnames(test)) {
   eval_epu <- sum(test$EPU %in% params$epu) > 0 # only evaluate if the selected epu is in the indicator data set
 } else {
@@ -7,6 +8,8 @@ if ("EPU" %in% colnames(test)) {
 ```
 
 ````{r, eval = eval_epu}
+# check data structure and average if necessary
+
 # make sure test data has the right structure
 if ("EPU" %in% colnames(test)) {
   test <- test %>%
@@ -41,25 +44,34 @@ if (n_measurements > n_years * n_var &
     dplyr::mutate(Var = paste(Var, "(annual mean)", sep = "\n"))
 }
 
-# correlation summary
-output <- rbind(output, NEesp::correlation_summary(
-  stock = stock,
-  eco = test,
-  lag = params$lag
-))
-
 # make name for figure
 knitr::opts_knit$set(unnamed.chunk.label = names[1])
 ```
 
-```{r, eval = params$save & eval_epu}
-data <- NEesp::data_prep(
-  stock = stock,
-  eco = test,
-  lag = params$lag
-)
+```{r, eval = eval_epu}
+# process data
+data <- try(NEesp::data_prep(
+  stock_data = stock,
+  eco_data = test,
+  lag_data = params$lag
+))
+```
 
-if (nrow(data) > 0) {
+```{r, eval = eval_epu, results = "asis"}
+if(class(data) == "try-error") {
+  print("There was a problem with this data!!")
+  cat("\n\n")
+  traceback()
+  cat("\n\n")
+  knitr::kable(head(test))
+  cat("\n\n")
+  knitr::kable(head(stock))
+  eval_epu <- FALSE
+}
+```
+
+```{r, eval = params$save & eval_epu}
+  if (nrow(data) > 0) {
   file_name <- paste(params$stock, params$region, params$epu[1],
     params$lag, "lag",
     params$remove_recent, "remove_recent", names[1],
@@ -82,8 +94,9 @@ if (nrow(data) > 0) {
   # remove na's,
   # count number of regressions for bonferroni correction
   data <- data %>%
+    tibble::as_tibble() %>%
     tidyr::drop_na()
-  var_names <- unique(test$Var)
+  var_names <- unique(data$Var)
   nvar <- length(var_names)
   bonf_n <- bonf_n + nvar
 }
@@ -97,22 +110,18 @@ if (nvar > 6) { # break up into multiple graphs
     dat <- data %>%
       dplyr::filter(Var %in% var_names[index])
 
-    fig <- try(NEesp::plot_correlation(
+    NEesp::plot_correlation(
       data = dat,
       lag = params$lag
-    ))
-
-    if (class(fig) == "try-error") {
-      print(fig)
-    }
+    )
 
     cat("\n\n")
   }
 } else {
-  NEesp::plot_correlation(
-    data = data,
-    lag = params$lag
-  )
+    fig <- NEesp::plot_correlation(
+      data = data,
+      lag = params$lag
+    )
 }
 ```
 
@@ -122,15 +131,17 @@ print("No data for the EPU selected")
 
 #### Regression statistics {-}
 ```{r, results = "asis", eval = eval_epu}
+# correlation tables
 NEesp::correlation_data(
-  stock = stock,
-  eco = test,
+  data = data,
   lag = params$lag
 )
-```
 
-```{r, eval = (eval_epu == FALSE)}
-print("No data for the EPU selected")
+# correlation summary (to go at end of report)
+output <- rbind(output, NEesp::correlation_summary(
+  data = data,
+  lag = params$lag
+))
 ```
 
 ```{r, eval = eval_epu}
@@ -156,6 +167,10 @@ this_abun <- data %>%
 if (nrow(this_abun) > 0) {
   abun_data <- rbind(abun_data, this_abun)
 }
+```
+
+```{r, eval = (eval_epu == FALSE)}
+print("No data for the EPU selected")
 ```
 
 ```{r}

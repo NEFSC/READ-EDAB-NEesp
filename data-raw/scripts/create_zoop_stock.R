@@ -14,15 +14,18 @@ head(fall)
 
 annual <- annual %>%
   dplyr::mutate(Species = "Black sea bass",
-                Season = "Annual")
+                Season = "Annual",
+                Time = rownames(annual))
 
 spring <- spring %>%
   dplyr::mutate(Species = "Black sea bass",
-                Season = "Spring")
+                Season = "Spring",
+                Time = rownames(spring))
 
 fall <- fall %>%
   dplyr::mutate(Species = "Black sea bass",
-                Season = "Fall")
+                Season = "Fall",
+                Time = rownames(fall))
 
 zoop_stock <- rbind(annual, spring, fall)
-usethis::use_data(zoop_stock)
+usethis::use_data(zoop_stock, overwrite = TRUE)
