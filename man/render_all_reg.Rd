@@ -4,10 +4,12 @@
 \alias{render_all_reg}
 \title{Renders all regression ESP reports}
 \usage{
-render_all_reg(x = "package")
+render_all_reg(x = "package", species = NEesp::regression_species_regions)
 }
 \arguments{
 \item{x}{The folder with the bookdown template. Defaults to "package", which calls the template files saved in the package.}
+
+\item{species}{A dataframe of the species, region, and EPU combinations to use. Suggest to use \code{NEesp::regression_species_regions} or a subset thereof.}
 }
 \value{
 Multiple bookdown reports (html)

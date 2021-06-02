@@ -132,6 +132,7 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
 #' This function renders all regression ESP reports.
 #'
 #' @param x The folder with the bookdown template. Defaults to "package", which calls the template files saved in the package.
+#' @param species A dataframe of the species, region, and EPU combinations to use. Suggest to use `NEesp::regression_species_regions` or a subset thereof.
 #' @return Multiple bookdown reports (html)
 #' @export
 
@@ -145,16 +146,15 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
 
 # info <- read.csv(here::here("R/regressions", "regression_species_regions.csv"))
 
-render_all_reg <- function(x = "package") {
-  info <- NEesp::regression_species_regions
+render_all_reg <- function(x = "package", species = NEesp::regression_species_regions) {
 
-  for (i in 1:nrow(info)
+  for (i in 1:nrow(species)
   ) {
     # make 0 lag reports
     NEesp::render_reg_report(
-      stock_var = info[i, 1],
-      epus_var = info[i, 3],
-      region_var = info[i, 2],
+      stock_var = species[i, 1],
+      epus_var = species[i, 3],
+      region_var = species[i, 2],
       lag_var = 0,
       remove_var = FALSE,
       save_var = TRUE,
@@ -165,9 +165,9 @@ render_all_reg <- function(x = "package") {
 
     # make 1 year lag reports
     NEesp::render_reg_report(
-      stock_var = info[i, 1],
-      epus_var = info[i, 3],
-      region_var = info[i, 2],
+      stock_var = species[i, 1],
+      epus_var = species[i, 3],
+      region_var = species[i, 2],
       lag_var = 1,
       remove_var = FALSE,
       save_var = TRUE,
@@ -178,9 +178,9 @@ render_all_reg <- function(x = "package") {
 
     # make 1 year lag, minus 10 recent years reports
     NEesp::render_reg_report(
-      stock_var = info[i, 1],
-      epus_var = info[i, 3],
-      region_var = info[i, 2],
+      stock_var = species[i, 1],
+      epus_var = species[i, 3],
+      region_var = species[i, 2],
       lag_var = 1,
       remove_var = TRUE,
       save_var = TRUE,
