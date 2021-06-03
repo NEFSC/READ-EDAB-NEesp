@@ -2,7 +2,7 @@
 % Please edit documentation in R/tailored_report_functions.R
 \name{time_rpt}
 \alias{time_rpt}
-\title{Create an indicator report card}
+\title{Create an indicator report card rating for one indicator}
 \usage{
 time_rpt(data, out_name = "unnamed", min_year = 2016)
 }

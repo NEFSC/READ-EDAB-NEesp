@@ -6,3 +6,6 @@
 ^data-raw$
 ^black-sea-bass$
 ^Ricky$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

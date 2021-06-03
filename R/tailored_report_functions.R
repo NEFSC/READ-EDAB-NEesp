@@ -237,7 +237,7 @@ prep_data <- function(data,
   return(data)
 }
 
-#' Create an indicator report card
+#' Create an indicator report card rating for one indicator
 #'
 #' This function creates an indicator report card. The report card assesses ecosystem/socioeconomic favorability for the stock, NOT overall ecosystem/socioeconomic favorability.
 #'

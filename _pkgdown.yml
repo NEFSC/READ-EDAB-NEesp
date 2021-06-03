@@ -1,0 +1,175 @@
+url: https://noaa-edab.github.io/NEesp/
+
+news:
+  one_page: true
+
+navbar:
+  left:
+    - text: "Vignettes"
+      menu:
+      -  text: "Install and use package"
+         href: articles/install-and-use-package.html
+      -  text: "Date in NEesp"
+         href: articles/data.html
+      -  text: "Intro to RMarkdown for report writing"
+         href: articles/rmarkdown-into.html
+
+    - text: "Functions"
+      href: reference/index.html
+    - text: "News"
+      icon: fas fa-bullhorn fa-lg
+      href: news/index.html
+  right:
+    - icon: fas fa-paper-plane fa-lg
+      href: mailto:abigail.tyrell@noaa.gov
+    - icon: fas fa-question-circle fa-lg
+      href: https://github.com/NOAA-EDAB/NEesp/issues/
+    - icon: fab fa-github fa-lg
+      href: https://github.com/NOAA-EDAB/NEes
+    - icon: fa-fish
+      href: https://nmfs-general-modeling-tools.github.io/
+
+articles:
+  - title: "NEesp Vignettes"
+    desc: >
+      These vignettes provide an introduction to how to use the
+      **NEesp** package. <br/>
+      <br/>
+    contents:
+      - install-and-use-package
+      - data
+      - rmarkdown-into
+
+reference:
+  - title: Stock reports suite of functions
+    desc: >
+      Functions to create stock reports, prepare, manipulate, analyze, and summarise data for reports, and plot data for reports.
+    contents:
+      - '`render_ind_report`'
+      
+      - '`common_names_survdat`'
+      - '`indicator_info`'
+      - '`data_summary`'
+      - '`data_summary_5yr`'
+      - '`generate_len_table`'
+      - '`generate_table`'
+      - '`get_diet_table`'
+      - '`get_latlong`'
+      - '`get_len_data`'
+      - '`get_var_data`'
+      - '`len_tbl_data`'
+      - '`len_tbl_data_5yr`'
+      - '`prop_catch_data`'
+      - '`status`'
+      - '`update_species_names`'
+      
+      - '`plot_age_density`'
+      - '`plot_age_diversity`'
+      - '`plot_asmt`'
+      - '`plot_climate_vulnerability`'
+      - '`plot_com`'
+      - '`plot_com_money`'
+      - '`plot_cond`'
+      - '`plot_depth`'
+      - '`plot_ecodata`'
+      - '`plot_len`'
+      - '`plot_len_hist`'
+      - '`plot_lw`'
+      - '`plot_msy`'
+      - '`plot_prop_catch`'
+      - '`plot_rec_catch`'
+      - '`plot_relw`'
+      - '`plot_swept`'
+      - '`plot_temp_depth`'
+      - '`plot_variable`'
+      - '`plot_rec_catch`'
+      - '`plot_rec_catch`'
+      
+  - title: Stock regression reports suite of functions
+    desc: >
+      Functions to create stock-indicator regression reports, prepare, manipulate, analyze, and summarise data for stock-indicator regression reports, and plot data for stock-indicator regression reports.
+    contents:      
+      - '`render_reg_report`'
+      - '`render_all_reg`'
+
+      - '`correlation_data`' 
+      - '`correlation_summary`' 
+      - '`data_prep`' 
+      - '`prep_data`'
+      
+      - '`plot_correlation`'
+      - '`render_indicator'
+      
+  - title: Risk data suite of functions
+    desc: >
+      Functions to prepare, manipulate, analyze, and summarise risk data
+    contents:      
+      - '`render_comp_risk`'
+      - '`get_len_data2`'
+      - '`get_len_data_risk`'
+      - '`get_risk`'
+      - '`get_running_risk`'
+      - '`get_running_value_risk`'
+      - '`get_species_risk`'
+      - '`missing_na`'
+
+      - '`plot_risk_by_year`'
+
+  - title: "Report card" suite of functions
+    desc: >
+      Functions to prepare, manipulate, analyze, and summarise data and create an ecosystem and socioeconomics status "report card" with graphs and summary tables
+    contents:
+      - '`plot_corr_only`'
+      - '`prep_data`'
+      - '`wrap_analysis`'
+      - '`time_rpt`'
+      - '`make_time_rpt`'     
+      - '`make_ind_rpt`'
+      
+  - title: Miscellaneous functions
+    contents:
+      - '`common_names_survdat`'
+      - '`character_to_factor`'
+      - '`find_files`'
+      - '`format_numbers`'
+      - '`pseudoR2`'
+      - '`save_data`'
+      
+  - title: Data
+    contents:
+      - '`asmt`'
+      - '`bio_survey`'
+      - '`climate_risk`'
+      - '`climate_vulnerability`'
+      - '`com_catch`'
+      - '`cond`'
+      - '`latlong`'      
+      - '`nrcc`'
+      - '`shape`'      
+      - '`survey`'
+      - '`swept`'      
+
+  - title: Risk data
+    contents:
+      - '`guild_risk`'
+      - '`risk`'      
+      - '`risk_species`'
+      - '`risk_year_hist`'      
+      - '`risk_year_value`'    
+  - title: Data keys
+    contents:
+      - '`guild_info`'
+      - '`species_guilds`'
+      - '`species_key`' 
+      - '`regression_species_regions`'
+
+  - title: Color palettes
+    contents:
+      - '`com_palette`'
+      - '`prey_palette`' 
+      - '`rec_palette`' 
+      - '`indicator_info`'
+
+template:
+  params:
+    bootswatch: sandstone

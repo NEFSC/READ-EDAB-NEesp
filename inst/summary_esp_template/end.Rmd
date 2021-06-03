@@ -14,7 +14,7 @@ NEesp::make_ind_rpt(rpt_card_ind)
 # only created for indicators correlated with stock
 # may not exist
 
-if(exists("rpt_card_time"){
+if(exists("rpt_card_time")){
 # make sure rows go by year, then recent mean, then long-term mean
 lev <- sort(rpt_card_time$Time)[c(1:5, 7, 6)]
 rpt_card_time <- rpt_card_time %>%
