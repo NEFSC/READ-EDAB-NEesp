@@ -115,7 +115,7 @@ reference:
 
       - '`plot_risk_by_year`'
 
-  - title: "Report card" suite of functions
+  - title: Report card suite of functions
     desc: >
       Functions to prepare, manipulate, analyze, and summarise data and create an ecosystem and socioeconomics status "report card" with graphs and summary tables
     contents:
