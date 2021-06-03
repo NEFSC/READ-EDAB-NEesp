@@ -17,7 +17,6 @@ navbar:
     - text: "Functions"
       href: reference/index.html
     - text: "News"
-      icon: fas fa-bullhorn fa-lg
       href: news/index.html
   right:
     - icon: fas fa-paper-plane fa-lg
@@ -25,7 +24,7 @@ navbar:
     - icon: fas fa-question-circle fa-lg
       href: https://github.com/NOAA-EDAB/NEesp/issues/
     - icon: fab fa-github fa-lg
-      href: https://github.com/NOAA-EDAB/NEes
+      href: https://github.com/NOAA-EDAB/NEesp
     - icon: fa-fish
       href: https://nmfs-general-modeling-tools.github.io/
 
@@ -42,13 +41,12 @@ articles:
 
 reference:
   - title: Stock reports suite of functions
-    desc: >
-      Functions to create stock reports, prepare, manipulate, analyze, and summarise data for reports, and plot data for reports.
+    desc: Functions to create stock reports, prepare, manipulate, analyze, and summarise data for reports, and plot data for reports.
+  - subtitle: Create a report
     contents:
       - '`render_ind_report`'
-      
-      - '`common_names_survdat`'
-      - '`indicator_info`'
+  - subtitle: Prepare, manipulate, analyze, and summarise data  
+    contents:
       - '`data_summary`'
       - '`data_summary_5yr`'
       - '`generate_len_table`'
@@ -56,13 +54,18 @@ reference:
       - '`get_diet_table`'
       - '`get_latlong`'
       - '`get_len_data`'
+      - '`get_len_data2`'
       - '`get_var_data`'
       - '`len_tbl_data`'
       - '`len_tbl_data_5yr`'
       - '`prop_catch_data`'
+  - subtitle: Miscellaneous data processing
+    contents:
       - '`status`'
       - '`update_species_names`'
-      
+      - '`common_names_survdat`'
+  - subtitle: Plot data
+    contents:
       - '`plot_age_density`'
       - '`plot_age_diversity`'
       - '`plot_asmt`'
@@ -86,43 +89,59 @@ reference:
       - '`plot_rec_catch`'
       
   - title: Stock regression reports suite of functions
-    desc: >
-      Functions to create stock-indicator regression reports, prepare, manipulate, analyze, and summarise data for stock-indicator regression reports, and plot data for stock-indicator regression reports.
+    desc: Functions to create stock-indicator regression reports, prepare, manipulate, analyze, and summarise data for stock-indicator regression reports, and plot data for stock-indicator regression reports.
+    subtitle: Create reports
     contents:      
       - '`render_reg_report`'
       - '`render_all_reg`'
-
+  - subtitle: Prepare, manipulate, analyze, and summarise data
+    contents:
       - '`correlation_data`' 
       - '`correlation_summary`' 
       - '`data_prep`' 
       - '`prep_data`'
-      
+  - subtitle: Plot data
+    contents:        
       - '`plot_correlation`'
-      - '`render_indicator'
+  - subtitle: Create report section
+    contents:        
+      - '`render_indicator`'
       
   - title: Risk data suite of functions
-    desc: >
-      Functions to prepare, manipulate, analyze, and summarise risk data
+    desc: Functions to prepare, manipulate, analyze, and summarise risk data
+  - subtitle: Create a risk report
     contents:      
       - '`render_comp_risk`'
-      - '`get_len_data2`'
+  - subtitle: Calculate risks
+    contents:  
       - '`get_len_data_risk`'
       - '`get_risk`'
       - '`get_running_risk`'
       - '`get_running_value_risk`'
       - '`get_species_risk`'
+  - subtitle: Process data
+    contents:    
       - '`missing_na`'
-
+  - subtitle: Plot data
+    contents:
       - '`plot_risk_by_year`'
 
   - title: Report card suite of functions
-    desc: >
-      Functions to prepare, manipulate, analyze, and summarise data and create an ecosystem and socioeconomics status "report card" with graphs and summary tables
+    desc: Functions to prepare, manipulate, analyze, and summarise data and create an ecosystem and socioeconomics status "report card" with graphs and summary tables. Primarily used by the `NEespShiny` package, not run directly.
+  - subtitle: Wrapper function for all report card analysis
+    contents:
+      - '`wrap_analysis`'    
+  - subtitle: Data pre-processing
+    contents:
+      - '`prep_data`'    
+  - subtitle: Plot data
     contents:
       - '`plot_corr_only`'
-      - '`prep_data`'
-      - '`wrap_analysis`'
+  - subtitle: Create report card data
+    contents:
       - '`time_rpt`'
+  - subtitle: Create report cards
+    contents:
       - '`make_time_rpt`'     
       - '`make_ind_rpt`'
       
@@ -136,6 +155,7 @@ reference:
       - '`save_data`'
       
   - title: Data
+  - subtitle: Stock data
     contents:
       - '`asmt`'
       - '`bio_survey`'
@@ -147,23 +167,22 @@ reference:
       - '`nrcc`'
       - '`shape`'      
       - '`survey`'
-      - '`swept`'      
-
-  - title: Risk data
+      - '`swept`'  
+  - subtitle: Risk data
     contents:
       - '`guild_risk`'
       - '`risk`'      
       - '`risk_species`'
       - '`risk_year_hist`'      
       - '`risk_year_value`'    
-  - title: Data keys
+  - subtitle: Data keys
     contents:
       - '`guild_info`'
       - '`species_guilds`'
       - '`species_key`' 
       - '`regression_species_regions`'
-
-  - title: Color palettes
+      - '`indicator_info`'
+  - subtitle: Color palettes
     contents:
       - '`com_palette`'
       - '`prey_palette`' 
