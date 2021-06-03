@@ -28,5 +28,8 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           sudo R CMD javareconf
-          Rscript -e 'install.packages(c("stringi", "car", "devtools", "textshaping", "ragg", "pkgdown"), dependencies = TRUE)
+          Rscript -e 'install.packages(c("usethis", "httr", "rversions",
+          "stringi", "car", "devtools", 
+          "textshaping", "ragg", "pkgdown"), 
+          dependencies = TRUE)
           devtools::install_github("NOAA-EDAB/NEesp", ref = "v0.1.0", upgrade = "never")'
