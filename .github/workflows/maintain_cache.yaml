@@ -13,7 +13,7 @@ jobs:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
     
     steps:
-
+       
       - name: Setup R
         uses: r-lib/actions/setup-r@master
         
@@ -23,7 +23,15 @@ jobs:
         with:
           path: ${{ env.R_LIBS_USER }}
           key: pkgdown-cache-05172021-AT
-          
+
+
+      - name: Install command line packages
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |        
+          sudo apt update
+          sudo apt-get install  libgdal-dev libcurl4-gnutls-dev libgit2-dev libudunits2-dev libharfbuzz-dev libfribidi-dev
+        shell: bash
+        
       - name: Load R packages
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
