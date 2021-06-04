@@ -5,9 +5,26 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Install and use package • NEesp</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<!-- Inform modern browsers that this page supports both dark and light color schemes,
+  and the page author prefers light. --><meta name="color-scheme" content="dark light">
+<script>
+  // If `prefers-color-scheme` is not supported, fall back to light mode.
+  // i.e. In this case, inject the `light` CSS before the others, with
+  // no media filter so that it will be downloaded with highest priority.
+  if (window.matchMedia("(prefers-color-scheme: dark)").media === "not all") {
+    document.documentElement.style.display = "none";
+    document.head.insertAdjacentHTML(
+      "beforeend",
+      "<link id=\"css\" rel=\"stylesheet\" href=\"https://bootswatch.com/3/flatly/bootstrap.css\" onload=\"document.documentElement.style.display = ''\">"
+    );
+  }
+</script><title>Install and use package • NEesp</title>
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- Flatly Theme - Light  --><link id="css-light" rel="stylesheet" href="https://bootswatch.com/3/flatly/bootstrap.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+<!-- Darkly Theme - Dark --><link id="css-dark" rel="stylesheet" href="https://bootswatch.com/3/darkly/bootstrap.css" media="(prefers-color-scheme: dark)">
+<!-- preferably CSS --><link rel="stylesheet" href="../preferably.css">
+<link id="css-code-light" rel="stylesheet" href="../code-color-scheme-light.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+<link id="css-code-dark" rel="stylesheet" href="../code-color-scheme-dark.css" media="(prefers-color-scheme: dark)">
+<!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
@@ -31,41 +48,70 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">NEesp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Vignettes
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/data.html">Data in NEesp</a>
-    </li>
-    <li>
       <a href="../articles/install-and-use-package.html">Install and use package</a>
     </li>
     <li>
-      <a href="../articles/rmarkdown-intro.html">Intro to R Markdown templates</a>
+      <a href="../articles/data.html">Data in NEesp</a>
+    </li>
+    <li>
+      <a href="../articles/rmarkdown-intro.html">Intro to RMarkdown for report writing</a>
+    </li>
+    <li>
+      <a href="../articles/general-workflow.html">General report creation workflow</a>
     </li>
   </ul>
 </li>
+<li>
+  <a href="../reference/index.html">Functions</a>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
+</li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="../mailto:abigail.tyrell@noaa.gov">
+    <span class="fas fa-paper-plane fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/NOAA-EDAB/NEesp/issues/">
+    <span class="fas fa-question-circle fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/NOAA-EDAB/NEesp">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://nmfs-general-modeling-tools.github.io/">
+    <span class="fas fa-fish"></span>
+     
+  </a>
+</li>
+        
+        
+
+
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -75,13 +121,13 @@
 
       
 
-      </header><script src="install-and-use-package_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><script src="install-and-use-package_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Install and use package</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/NOAA-EDAB/NEesp/blob/master/vignettes/install-and-use-package.Rmd"><code>vignettes/install-and-use-package.Rmd</code></a></small>
       <div class="hidden name"><code>install-and-use-package.Rmd</code></div>
 
     </div>
@@ -91,8 +137,12 @@
 <div id="install-the-neesp-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install-the-neesp-package" class="anchor"></a>Install the <code>NEesp</code> package</h2>
+<p>Install the versioned package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"NOAA-EDAB/NEesp"</span>, ref <span class="op">=</span> <span class="va">v0.1.0</span><span class="op">)</span></code></pre></div>
+<p>Or install the most recent development package:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"NOAA-EDAB/NEesp"</span>, ref <span class="op">=</span> <span class="va">dev</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="using-the-neesp-package" class="section level2">
 <h2 class="hasAnchor">
@@ -100,13 +150,13 @@
 <div id="run-a-report-using-package-data-and-package-template" class="section level3">
 <h3 class="hasAnchor">
 <a href="#run-a-report-using-package-data-and-package-template" class="anchor"></a>Run a report using package data and package template</h3>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">NEesp</span><span class="fu">::</span><span class="fu"><a href="../reference/render_ind_report.html">render_ind_report</a></span><span class="op">(</span><span class="st">"Black sea bass"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="run-a-report-using-package-data-and-a-local-template-from-bookdown-folder" class="section level3">
 <h3 class="hasAnchor">
 <a href="#run-a-report-using-package-data-and-a-local-template-from-bookdown-folder" class="anchor"></a>Run a report using package data and a local template (from “bookdown” folder)</h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># first source scripts if needed</span>
 
 <span class="fu">NEesp</span><span class="fu">::</span><span class="fu"><a href="../reference/render_ind_report.html">render_ind_report</a></span><span class="op">(</span><span class="st">"Black sea bass"</span>, 
@@ -125,7 +175,7 @@
 <div id="run-a-report-using-package-data-and-package-template-1" class="section level4">
 <h4 class="hasAnchor">
 <a href="#run-a-report-using-package-data-and-package-template-1" class="anchor"></a>Run a report using package data and package template</h4>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">NEesp</span><span class="fu">::</span><span class="fu"><a href="../reference/render_reg_report.html">render_reg_report</a></span><span class="op">(</span>stock_var <span class="op">=</span> <span class="st">"Black sea bass"</span>,
                          epus_var <span class="op">=</span> <span class="st">"MAB"</span>,
                          region_var <span class="op">=</span> <span class="st">"Mid"</span>,
@@ -136,7 +186,7 @@
 <div id="run-a-report-using-package-data-and-a-local-template-from-correlation_bookdown_template-dev-folder" class="section level4">
 <h4 class="hasAnchor">
 <a href="#run-a-report-using-package-data-and-a-local-template-from-correlation_bookdown_template-dev-folder" class="anchor"></a>Run a report using package data and a local template (from “correlation_bookdown_template-dev” folder)</h4>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">NEesp</span><span class="fu">::</span><span class="fu"><a href="../reference/render_reg_report.html">render_reg_report</a></span><span class="op">(</span>stock_var <span class="op">=</span> <span class="st">"Black sea bass"</span>,
                          epus_var <span class="op">=</span> <span class="st">"MAB"</span>,
                          region_var <span class="op">=</span> <span class="st">"Mid"</span>,
@@ -161,11 +211,11 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Abigail Tyrell, Ricky Tabandera.</p>
+  <p>Developed by <a href="https://github.com/atyrell3">Abigail Tyrell</a>, <a href="https://github.com/rtabandera">Ricky Tabandera</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Made with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1, using <a href="https://preferably.amirmasoudabdol.name/?source=footer">preferably</a> template.</p>
 </div>
 
       </footer>

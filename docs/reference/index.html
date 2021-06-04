@@ -6,6 +6,22 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Inform modern browsers that this page supports both dark and light color schemes,
+  and the page author prefers light. -->
+<meta name="color-scheme" content="dark light">
+<script>
+  // If `prefers-color-scheme` is not supported, fall back to light mode.
+  // i.e. In this case, inject the `light` CSS before the others, with
+  // no media filter so that it will be downloaded with highest priority.
+  if (window.matchMedia("(prefers-color-scheme: dark)").media === "not all") {
+    document.documentElement.style.display = "none";
+    document.head.insertAdjacentHTML(
+      "beforeend",
+      "<link id=\"css\" rel=\"stylesheet\" href=\"https://bootswatch.com/3/flatly/bootstrap.css\" onload=\"document.documentElement.style.display = ''\">"
+    );
+  }
+</script>
+
 <title>Function reference • NEesp</title>
 
 
@@ -13,9 +29,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- Flatly Theme - Light  -->
+<link id="css-light" rel="stylesheet" href="https://bootswatch.com/3/flatly/bootstrap.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+
+<!-- Darkly Theme - Dark -->
+<link id="css-dark" rel="stylesheet" href="https://bootswatch.com/3/darkly/bootstrap.css" media="(prefers-color-scheme: dark)">
+
+<!-- preferably CSS -->
+<link rel="stylesheet" href="../preferably.css">
+<link id="css-code-light" rel="stylesheet" href="../code-color-scheme-light.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+<link id="css-code-dark" rel="stylesheet" href="../code-color-scheme-dark.css" media="(prefers-color-scheme: dark)">
+
 
 <!-- bootstrap-toc -->
 <link rel="stylesheet" href="../bootstrap-toc.css">
@@ -48,6 +74,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
+
+
+
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -71,24 +100,70 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">NEesp</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Vignettes
      
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/install-and-use-package.html">Install and use package</a>
+    </li>
+    <li>
+      <a href="../articles/data.html">Data in NEesp</a>
+    </li>
+    <li>
+      <a href="../articles/rmarkdown-intro.html">Intro to RMarkdown for report writing</a>
+    </li>
+    <li>
+      <a href="../articles/general-workflow.html">General report creation workflow</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../reference/index.html">Functions</a>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
+        <li>
+  <a href="../mailto:abigail.tyrell@noaa.gov">
+    <span class="fas fa-paper-plane fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/NOAA-EDAB/NEesp/issues/">
+    <span class="fas fa-question-circle fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/NOAA-EDAB/NEesp">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://nmfs-general-modeling-tools.github.io/">
+    <span class="fas fa-fish"></span>
+     
+  </a>
+</li>
+        
+        
+
+
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -116,11 +191,20 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-stock-reports-suite-of-functions" class="hasAnchor"><a href="#section-stock-reports-suite-of-functions" class="anchor"></a>Stock reports suite of functions</h2>
+          <p class="section-desc"><p>Functions to create stock reports, prepare, manipulate, analyze, and summarise data for reports, and plot data for reports.</p></p>
         </th>
       </tr>
       
+      
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-create-a-report" class="hasAnchor"><a href="#section-create-a-report" class="anchor"></a>Create a report</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
       
     </tbody><tbody>
       
@@ -128,76 +212,23 @@
       <tr>
         
         <td>
-          <p><code><a href="asmt.html">asmt</a></code> </p>
+          <p><code><a href="render_ind_report.html">render_ind_report()</a></code> </p>
         </td>
-        <td><p>Diet and Condition Data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="bio_survey.html">bio_survey</a></code> </p>
-        </td>
-        <td><p>Stock Assessment Summary Data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="character_to_factor.html">character_to_factor()</a></code> </p>
-        </td>
-        <td><p>Changes the class of <code>character</code> columns to <code>factor</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="climate_risk.html">climate_risk</a></code> </p>
-        </td>
-        <td><p>Overall Climate Risk</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="climate_vulnerability.html">climate_vulnerability</a></code> </p>
-        </td>
-        <td><p>Climate Vulnerability</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="com_catch.html">com_catch</a></code> </p>
-        </td>
-        <td><p>Commercial Catch and Revenue Data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="com_palette.html">com_palette</a></code> </p>
-        </td>
-        <td><p>Commercial landings data color palette</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="common_names_survdat.html">common_names_survdat()</a></code> </p>
-        </td>
-        <td><p>Format <code>survdat</code> to add common names</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cond.html">cond</a></code> </p>
-        </td>
-        <td><p>Condition data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="correlation_data.html">correlation_data()</a></code> </p>
-        </td>
-        <td><p>Produces summary tables of correlations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="correlation_summary.html">correlation_summary()</a></code> </p>
-        </td>
-        <td><p>Produces a summary table of correlations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="data_prep.html">data_prep()</a></code> </p>
-        </td>
-        <td><p>Prepares data for correlation analysis</p></td>
-      </tr><tr>
+        <td><p>Renders an indicator ESP report</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-prepare-manipulate-analyze-and-summarise-data" class="hasAnchor"><a href="#section-prepare-manipulate-analyze-and-summarise-data" class="anchor"></a>Prepare, manipulate, analyze, and summarise data</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
           <p><code><a href="data_summary.html">data_summary()</a></code> </p>
@@ -212,45 +243,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="find_files.html">find_files()</a></code> </p>
-        </td>
-        <td><p>Locate files containing a text string</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="format_numbers.html">format_numbers()</a></code> </p>
-        </td>
-        <td><p>Change the class of a vector to <code>numeric</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="generate_len_plot.html">generate_len_plot()</a></code> </p>
-        </td>
-        <td><p>A wrapper function to plot <code>survdat</code> length data</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="generate_len_table.html">generate_len_table()</a></code> </p>
         </td>
         <td><p>A wrapper function to summarise <code>survdat</code> length data</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="generate_plot.html">generate_plot()</a></code> </p>
-        </td>
-        <td><p>A wrapper function to plot <code>survdat</code> data</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="generate_table.html">generate_table()</a></code> </p>
         </td>
         <td><p>A wrapper function to summarise <code>survdat</code> data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_diet_plot.html">get_diet_plot()</a></code> </p>
-        </td>
-        <td><p>Plot diet composition</p></td>
       </tr><tr>
         
         <td>
@@ -278,69 +279,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="get_len_data_risk.html">get_len_data_risk()</a></code> </p>
-        </td>
-        <td><p>Format <code>survdat</code> length data for risk analysis</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="get_len_data_tbl.html">get_len_data_tbl()</a></code> </p>
         </td>
         <td><p>Format <code>survdat</code> length data for summary data table</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="get_risk.html">get_risk()</a></code> </p>
-        </td>
-        <td><p>Calculate risk for comprehensive risk report</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_running_risk.html">get_running_risk()</a></code> </p>
-        </td>
-        <td><p>Rank change compared to historical value</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_running_value_risk.html">get_running_value_risk()</a></code> </p>
-        </td>
-        <td><p>Rank value compared to other species</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_species_risk.html">get_species_risk()</a></code> </p>
-        </td>
-        <td><p>Rank an indicator within a species</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="get_var_data.html">get_var_data()</a></code> </p>
         </td>
         <td><p>Format <code>survdat</code> data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="guild_info.html">guild_info</a></code> </p>
-        </td>
-        <td><p>Functional guild information</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="guild_risk.html">guild_risk</a></code> </p>
-        </td>
-        <td><p>Guild risk</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="indicator_info.html">indicator_info</a></code> </p>
-        </td>
-        <td><p>Indicator risk key</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="latlong.html">latlong</a></code> </p>
-        </td>
-        <td><p>Geographic distribution</p></td>
       </tr><tr>
         
         <td>
@@ -356,45 +303,77 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="make_html_table.html">make_html_table()</a></code> </p>
+          <p><code><a href="prop_catch_data.html">prop_catch_data()</a></code> </p>
         </td>
-        <td><p>Wrapper function for <code>DT::datatable</code></p></td>
+        <td><p>Returns proportional commercial and recreational landings data</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-miscellaneous-data-processing" class="hasAnchor"><a href="#section-miscellaneous-data-processing" class="anchor"></a>Miscellaneous data processing</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="status.html">status()</a></code> </p>
+        </td>
+        <td><p>Assess the status of B/Bmsy or F/Fmsy from <code>assessmentdata::stockAssessmentSummary</code></p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="make_html_table_thin.html">make_html_table_thin()</a></code> </p>
+          <p><code><a href="update_species_names.html">update_species_names()</a></code> </p>
         </td>
-        <td><p>Wrapper function for <code>DT::datatable</code></p></td>
+        <td><p>Change "Goosefish" to "Monkfish" in a designated "Species" column</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="make_ind_rpt.html">make_ind_rpt()</a></code> </p>
+          <p><code><a href="common_names_survdat.html">common_names_survdat()</a></code> </p>
         </td>
-        <td><p>Create indicator report card</p></td>
+        <td><p>Format <code>survdat</code> to add common names</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-plot-data" class="hasAnchor"><a href="#section-plot-data" class="anchor"></a>Plot data</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="generate_len_plot.html">generate_len_plot()</a></code> </p>
+        </td>
+        <td><p>A wrapper function to plot <code>survdat</code> length data</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="make_time_rpt.html">make_time_rpt()</a></code> </p>
+          <p><code><a href="generate_plot.html">generate_plot()</a></code> </p>
         </td>
-        <td><p>Create time report card</p></td>
+        <td><p>A wrapper function to plot <code>survdat</code> data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_diet_plot.html">get_diet_plot()</a></code> </p>
+        </td>
+        <td><p>Plot diet composition</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="map_strata.html">map_strata()</a></code> </p>
         </td>
         <td><p>Create a map of seasonal species distribution</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="missing_na.html">missing_na()</a></code> </p>
-        </td>
-        <td><p>Replace risk rating of 0.5 with NA</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="nrcc.html">nrcc</a></code> </p>
-        </td>
-        <td><p>NRCC prioritization</p></td>
       </tr><tr>
         
         <td>
@@ -437,18 +416,6 @@
           <p><code><a href="plot_cond.html">plot_cond()</a></code> </p>
         </td>
         <td><p>Plot species condition (weight/length^3)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_corr_only.html">plot_corr_only()</a></code> </p>
-        </td>
-        <td><p>Plot stock-time, indicator-time, and stock-indicator correlations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_correlation.html">plot_correlation()</a></code> </p>
-        </td>
-        <td><p>Plots correlations between stock data and indicators</p></td>
       </tr><tr>
         
         <td>
@@ -506,12 +473,6 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="plot_risk_by_year.html">plot_risk_by_year()</a></code> </p>
-        </td>
-        <td><p>Plot risk over time</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="plot_swept.html">plot_swept()</a></code> </p>
         </td>
         <td><p>Plot swept area estimates from <code>survdat</code></p></td>
@@ -527,24 +488,383 @@
           <p><code><a href="plot_variable.html">plot_variable()</a></code> </p>
         </td>
         <td><p>Plot <code>survdat</code> data</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-stock-regression-reports-suite-of-functions" class="hasAnchor"><a href="#section-stock-regression-reports-suite-of-functions" class="anchor"></a>Stock regression reports suite of functions</h2>
+          <p class="section-desc"><p>Functions to create stock-indicator regression reports, prepare, manipulate, analyze, and summarise data for stock-indicator regression reports, and plot data for stock-indicator regression reports.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-create-reports" class="hasAnchor"><a href="#section-create-reports" class="anchor"></a>Create reports</h3>
+          <p class="section-desc"><p>Functions to create stock-indicator regression reports, prepare, manipulate, analyze, and summarise data for stock-indicator regression reports, and plot data for stock-indicator regression reports.</p></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="render_reg_report.html">render_reg_report()</a></code> </p>
+        </td>
+        <td><p>Renders a regression ESP report</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="render_all_reg.html">render_all_reg()</a></code> </p>
+        </td>
+        <td><p>Renders all regression ESP reports</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-prepare-manipulate-analyze-and-summarise-data" class="hasAnchor"><a href="#section-prepare-manipulate-analyze-and-summarise-data" class="anchor"></a>Prepare, manipulate, analyze, and summarise data</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="correlation_data.html">correlation_data()</a></code> </p>
+        </td>
+        <td><p>Produces summary tables of correlations</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="correlation_summary.html">correlation_summary()</a></code> </p>
+        </td>
+        <td><p>Produces a summary table of correlations</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="data_prep.html">data_prep()</a></code> </p>
+        </td>
+        <td><p>Prepares data for correlation analysis</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="prep_data.html">prep_data()</a></code> </p>
         </td>
         <td><p>Prepare data for plotting with <code>plot_corr_only</code></p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-plot-data" class="hasAnchor"><a href="#section-plot-data" class="anchor"></a>Plot data</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="plot_correlation.html">plot_correlation()</a></code> </p>
+        </td>
+        <td><p>Plots correlations between stock data and indicators</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-create-report-section" class="hasAnchor"><a href="#section-create-report-section" class="anchor"></a>Create report section</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="render_indicator.html">render_indicator()</a></code> </p>
+        </td>
+        <td><p>Renders an RMarkdown section</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-risk-data-suite-of-functions" class="hasAnchor"><a href="#section-risk-data-suite-of-functions" class="anchor"></a>Risk data suite of functions</h2>
+          <p class="section-desc"><p>Functions to prepare, manipulate, analyze, and summarise risk data</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-create-a-risk-report" class="hasAnchor"><a href="#section-create-a-risk-report" class="anchor"></a>Create a risk report</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="render_comp_risk.html">render_comp_risk()</a></code> </p>
+        </td>
+        <td><p>Render the comprehensive risk report</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-calculate-risks" class="hasAnchor"><a href="#section-calculate-risks" class="anchor"></a>Calculate risks</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="get_len_data_risk.html">get_len_data_risk()</a></code> </p>
+        </td>
+        <td><p>Format <code>survdat</code> length data for risk analysis</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="prey_palette.html">prey_palette</a></code> </p>
+          <p><code><a href="get_risk.html">get_risk()</a></code> </p>
         </td>
-        <td><p>Diet data color palette</p></td>
+        <td><p>Calculate risk for comprehensive risk report</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="prop_catch_data.html">prop_catch_data()</a></code> </p>
+          <p><code><a href="get_running_risk.html">get_running_risk()</a></code> </p>
         </td>
-        <td><p>Returns proportional commercial and recreational landings data</p></td>
+        <td><p>Rank change compared to historical value</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_running_value_risk.html">get_running_value_risk()</a></code> </p>
+        </td>
+        <td><p>Rank value compared to other species</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_species_risk.html">get_species_risk()</a></code> </p>
+        </td>
+        <td><p>Rank an indicator within a species</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-process-data" class="hasAnchor"><a href="#section-process-data" class="anchor"></a>Process data</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="missing_na.html">missing_na()</a></code> </p>
+        </td>
+        <td><p>Replace risk rating of 0.5 with NA</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-plot-data" class="hasAnchor"><a href="#section-plot-data" class="anchor"></a>Plot data</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="plot_risk_by_year.html">plot_risk_by_year()</a></code> </p>
+        </td>
+        <td><p>Plot risk over time</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-report-card-suite-of-functions" class="hasAnchor"><a href="#section-report-card-suite-of-functions" class="anchor"></a>Report card suite of functions</h2>
+          <p class="section-desc"><p>Functions to prepare, manipulate, analyze, and summarise data and create an ecosystem and socioeconomics status “report card” with graphs and summary tables. Primarily used by the <code>NEespShiny</code> package, not run directly.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-wrapper-function-for-all-report-card-analysis" class="hasAnchor"><a href="#section-wrapper-function-for-all-report-card-analysis" class="anchor"></a>Wrapper function for all report card analysis</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="wrap_analysis.html">wrap_analysis()</a></code> </p>
+        </td>
+        <td><p>Wrapper function to prep data, plot data, and create report card output</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-data-pre-processing" class="hasAnchor"><a href="#section-data-pre-processing" class="anchor"></a>Data pre-processing</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="prep_data.html">prep_data()</a></code> </p>
+        </td>
+        <td><p>Prepare data for plotting with <code>plot_corr_only</code></p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-plot-data" class="hasAnchor"><a href="#section-plot-data" class="anchor"></a>Plot data</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="plot_corr_only.html">plot_corr_only()</a></code> </p>
+        </td>
+        <td><p>Plot stock-time, indicator-time, and stock-indicator correlations</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-create-report-card-data" class="hasAnchor"><a href="#section-create-report-card-data" class="anchor"></a>Create report card data</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="time_rpt.html">time_rpt()</a></code> </p>
+        </td>
+        <td><p>Create an indicator report card rating for one indicator</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-create-report-cards" class="hasAnchor"><a href="#section-create-report-cards" class="anchor"></a>Create report cards</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="make_time_rpt.html">make_time_rpt()</a></code> </p>
+        </td>
+        <td><p>Create time report card</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="make_ind_rpt.html">make_ind_rpt()</a></code> </p>
+        </td>
+        <td><p>Create indicator report card</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-miscellaneous-functions" class="hasAnchor"><a href="#section-miscellaneous-functions" class="anchor"></a>Miscellaneous functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="common_names_survdat.html">common_names_survdat()</a></code> </p>
+        </td>
+        <td><p>Format <code>survdat</code> to add common names</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="character_to_factor.html">character_to_factor()</a></code> </p>
+        </td>
+        <td><p>Changes the class of <code>character</code> columns to <code>factor</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="find_files.html">find_files()</a></code> </p>
+        </td>
+        <td><p>Locate files containing a text string</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="format_numbers.html">format_numbers()</a></code> </p>
+        </td>
+        <td><p>Change the class of a vector to <code>numeric</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="make_html_table.html">make_html_table()</a></code> </p>
+        </td>
+        <td><p>Wrapper function for <code>DT::datatable</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="make_html_table_thin.html">make_html_table_thin()</a></code> </p>
+        </td>
+        <td><p>Wrapper function for <code>DT::datatable</code></p></td>
       </tr><tr>
         
         <td>
@@ -554,45 +874,116 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="rec_palette.html">rec_palette</a></code> </p>
+          <p><code><a href="save_data.html">save_data()</a></code> </p>
         </td>
-        <td><p>Recreational landings</p></td>
+        <td><p>Save a data set</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-stock-data" class="hasAnchor"><a href="#section-stock-data" class="anchor"></a>Stock data</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="asmt.html">asmt</a></code> </p>
+        </td>
+        <td><p>Diet and Condition Data</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="regression_species_regions.html">regression_species_regions</a></code> </p>
+          <p><code><a href="bio_survey.html">bio_survey</a></code> </p>
         </td>
-        <td><p>Species, stock region, and EPU combinations</p></td>
+        <td><p>Stock Assessment Summary Data</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="render_all_reg.html">render_all_reg()</a></code> </p>
+          <p><code><a href="climate_risk.html">climate_risk</a></code> </p>
         </td>
-        <td><p>Renders all regression ESP reports</p></td>
+        <td><p>Overall Climate Risk</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="render_comp_risk.html">render_comp_risk()</a></code> </p>
+          <p><code><a href="climate_vulnerability.html">climate_vulnerability</a></code> </p>
         </td>
-        <td><p>Render the comprehensive risk report</p></td>
+        <td><p>Climate Vulnerability</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="render_ind_report.html">render_ind_report()</a></code> </p>
+          <p><code><a href="com_catch.html">com_catch</a></code> </p>
         </td>
-        <td><p>Renders an indicator ESP report</p></td>
+        <td><p>Commercial Catch and Revenue Data</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="render_indicator.html">render_indicator()</a></code> </p>
+          <p><code><a href="cond.html">cond</a></code> </p>
         </td>
-        <td><p>Renders an RMarkdown section</p></td>
+        <td><p>Condition data</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="render_reg_report.html">render_reg_report()</a></code> </p>
+          <p><code><a href="latlong.html">latlong</a></code> </p>
         </td>
-        <td><p>Renders a regression ESP report</p></td>
+        <td><p>Geographic distribution</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="nrcc.html">nrcc</a></code> </p>
+        </td>
+        <td><p>NRCC prioritization</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="shape.html">shape</a></code> </p>
+        </td>
+        <td><p>Northeast strata shapefile</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="survey.html">survey</a></code> </p>
+        </td>
+        <td><p>NEFSC Bottom Trawl Data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="swept.html">swept</a></code> </p>
+        </td>
+        <td><p>Swept area estimates</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-risk-data" class="hasAnchor"><a href="#section-risk-data" class="anchor"></a>Risk data</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="guild_risk.html">guild_risk</a></code> </p>
+        </td>
+        <td><p>Guild risk</p></td>
       </tr><tr>
         
         <td>
@@ -617,18 +1008,25 @@
           <p><code><a href="risk_year_value.html">risk_year_value</a></code> </p>
         </td>
         <td><p>Risk assessment of magnitude of value compared to other stocks</p></td>
-      </tr><tr>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-data-keys" class="hasAnchor"><a href="#section-data-keys" class="anchor"></a>Data keys</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
-          <p><code><a href="save_data.html">save_data()</a></code> </p>
+          <p><code><a href="guild_info.html">guild_info</a></code> </p>
         </td>
-        <td><p>Save a data set</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="shape.html">shape</a></code> </p>
-        </td>
-        <td><p>Northeast strata shapefile</p></td>
+        <td><p>Functional guild information</p></td>
       </tr><tr>
         
         <td>
@@ -644,39 +1042,52 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="status.html">status()</a></code> </p>
+          <p><code><a href="regression_species_regions.html">regression_species_regions</a></code> </p>
         </td>
-        <td><p>Assess the status of B/Bmsy or F/Fmsy from <code>assessmentdata::stockAssessmentSummary</code></p></td>
+        <td><p>Species, stock region, and EPU combinations</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="survey.html">survey</a></code> </p>
+          <p><code><a href="indicator_info.html">indicator_info</a></code> </p>
         </td>
-        <td><p>NEFSC Bottom Trawl Data</p></td>
+        <td><p>Indicator risk key</p></td>
+      </tr>
+    </tbody><tbody>
+      
+      <tr>
+        <th colspan="2">
+          <h3 id="section-color-palettes" class="hasAnchor"><a href="#section-color-palettes" class="anchor"></a>Color palettes</h3>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="com_palette.html">com_palette</a></code> </p>
+        </td>
+        <td><p>Commercial landings data color palette</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="swept.html">swept</a></code> </p>
+          <p><code><a href="prey_palette.html">prey_palette</a></code> </p>
         </td>
-        <td><p>Swept area estimates</p></td>
+        <td><p>Diet data color palette</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="time_rpt.html">time_rpt()</a></code> </p>
+          <p><code><a href="rec_palette.html">rec_palette</a></code> </p>
         </td>
-        <td><p>Create an indicator report card</p></td>
+        <td><p>Recreational landings</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="update_species_names.html">update_species_names()</a></code> </p>
+          <p><code><a href="indicator_info.html">indicator_info</a></code> </p>
         </td>
-        <td><p>Change "Goosefish" to "Monkfish" in a designated "Species" column</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="wrap_analysis.html">wrap_analysis()</a></code> </p>
-        </td>
-        <td><p>Wrapper function to prep data, plot data, and create report card output</p></td>
+        <td><p>Indicator risk key</p></td>
       </tr>
     </tbody>
     </table>
@@ -692,11 +1103,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Abigail Tyrell, Ricky Tabandera.</p>
+  <p>Developed by <a href='https://github.com/atyrell3'>Abigail Tyrell</a>, <a href='https://github.com/rtabandera'>Ricky Tabandera</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Made with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1, using <a href="https://preferably.amirmasoudabdol.name/?source=footer">preferably</a> template.</p>
 </div>
 
       </footer>
