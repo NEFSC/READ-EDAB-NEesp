@@ -3,16 +3,24 @@ url: https://noaa-edab.github.io/NEesp/
 news:
   one_page: true
 
+authors:
+  Abigail Tyrell:
+    href: https://github.com/atyrell3
+  Ricky Tabandera:
+    href: https://github.com/rtabandera
+    
 navbar:
   left:
     - text: "Vignettes"
       menu:
       -  text: "Install and use package"
          href: articles/install-and-use-package.html
-      -  text: "Date in NEesp"
+      -  text: "Data in NEesp"
          href: articles/data.html
       -  text: "Intro to RMarkdown for report writing"
          href: articles/rmarkdown-intro.html
+      -  text: "General report creation workflow"
+         href: articles/general-workflow.html
 
     - text: "Functions"
       href: reference/index.html
@@ -38,6 +46,7 @@ articles:
       - install-and-use-package
       - data
       - rmarkdown-intro
+      - general-workflow
 
 reference:
   - title: Stock reports suite of functions
@@ -197,5 +206,6 @@ reference:
       - '`indicator_info`'
 
 template:
-  params:
-    bootswatch: sandstone
+  package: preferably
+#  params:
+#    bootswatch: sandstone

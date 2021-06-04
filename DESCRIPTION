@@ -5,6 +5,9 @@ Description: Generates preliminary Ecosystem and Socioeconomic Profiles for Nort
 License: file LICENSE
 Authors@R: c(person("Abigail", "Tyrell", email = "abigail.tyrell@noaa.gov", role = c("aut", "cre")),
 	     person("Ricky", "Tabandera", email = "ricky.tabandera@noaa.gov", role = "aut"))
+Maintainer: Abigail Tyrell <abigail.tyrell@noaa.gov>
+URL: https://noaa-edab.github.io/NEesp/
+BugReports: https://github.com/NOAA-EDAB/NEesp/issues
 Imports:
     bookdown,
     DT,

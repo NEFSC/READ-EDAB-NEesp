@@ -1,0 +1,90 @@
+---
+title: "General report creation workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{General report creation workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  eval = FALSE,
+  echo = FALSE,
+  fig.align = "center"
+)
+```
+
+The general workflow for report creation outlined can be leveraged in other projects. 
+
+## 0. Make it an R package
+
+Even though it seems more complicated from the outset, creating your report workflow as an R package will save time and streamline your final product in the long run. When your reporting ecosystem inhabits its own R package, it can be easily accessed by people (including you). To create an R package, start a new R project, and then run `usethis::create_package()`.
+
+## 1. Data curation
+
+```{r, fig.cap = "Data curation workflow", eval = TRUE, out.width = "50%"}
+knitr::include_graphics("../docs/images/data curation.png", dpi = 300)
+```
+
+The first step is to locate data. Data can come from a variety of sources, including public websites, private databases, personal correspondence, or existing R packages.  Current data sources for the `NEesp` package include the `assessementdata` package, the `survdat` package (`svdbs` database), and MRIP recreational catch data. 
+
+After data has been located, it must be formatted correctly. It is possible that the data is already in the correct format, but in many cases some data cleaning will be required. It is strongly suggested to put the data in a [tidy format](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).
+
+Depending on your data source, the data may or may not already have species names and stock regions assigned. For example, some survey data may have strata rather than stock region, or scientific name rather than common name. You should format all of your data to conform to standard species naming and region naming conventions.
+
+Finally, once your data is properly formatted with standard species and region names, you should save your data in your own R package. After your data exists as an R object, you can save it to the package with: `usethis::use_data({your data name})`. This will allow you to access your data quickly and easily, without having to repeat any data curation steps when you need to use your data.
+
+## 2. Write functions
+
+```{r, fig.cap = "Function creation workflow", eval = TRUE, out.width = "50%"}
+knitr::include_graphics("../docs/images/function creation.png", dpi = 200)
+```
+
+After you have your data, the next step is to begin visualizing and displaying it. I like to begin by creating a plot or table for one species (or stock) only. Once I am happy with the look of the plot or table, I generalize the creation code into a function that can be applied to any input data. Finally, document the function and save it into your package using the [`roxygen2` package](https://cran.r-project.org/web/packages/roxygen2/vignettes/roxygen2.html). 
+
+## 3. Make your report template
+
+```{r, fig.cap = "Report template creation workflow", eval = TRUE, out.width = "100%"}
+knitr::include_graphics("../docs/images/report template.png", dpi = 200)
+```
+
+You can create your report template at the same time as you create your functions. I recommend using the [`bookdown` package](https://bookdown.org/yihui/bookdown/) to create your template, because you can create each section as its own RMarkdown file, which helps with organization.
+
+I recommend that you give your template the ability to export and save all of the data and figures used and produced by your report. This isn't required, but it makes it easier for the information from your report to be used in other contexts. Data can be saved with a simple call to `write.csv` or `saveRDS` (for large or unwieldy data sets). Figures can be saved by setting the figure cache in the global options, e.g., by running `knitr::opts_chunk$set(fig.path = "...")` in your setup chunk. Alternatively, you could also use `png(...); ... ; dev.off()` to save a figure. If desired, you can create an RMarkdown parameter to toggle data/figure saving on and off.
+
+If you find that your workflow necessitates frequently repeating the same code chunk(s) or RMarkdown section(s) with different inputs, consider making a child document that you can call instead. This will streamline your code and reduce copy-and-paste errors. For example, the `render_indicator` function use in the regression reports calls a child document that is rendered with different indicator inputs each time (inputs are assigned to generic names before `render_indicator` is called).
+
+Although it is not required, I strongly recommend that you create a custom rendering function for your report template. This will allow you to set default values and make the parameters that should be changed more visible.
+
+```{r, echo = TRUE, eval = TRUE}
+NEesp::render_indicator
+```
+
+Your template should be saved in the `inst` folder of your package (in its own folder, if it's a bookdown). Files in the `inst` folder are made available in the root directory of an installed R package, so your package code can access the template files by calling `system.file("{your template name}", package = "{your package name}")` (see example in the code chunk above).
+
+## 4. Update your package and iterate
+
+As you work on your report, update package functions and the report template as needed. You will likely run into edge cases that have to be handled, come up with more efficient code, and add new data as it becomes available, among other updates. 
+
+## 5. Deploy a suite of reports using Github Actions
+
+```{r, fig.cap = "Github Actions workflow", eval = TRUE, out.width = "50%"}
+knitr::include_graphics("../docs/images/github actions.png", dpi = 200)
+```
+
+If you are using your workflow to generate a large number of reports, it is probably useful to offload the report generation onto a remote runner with Github Actions. When you generate your reports with Github Actions, you do not have to devote memory and time on your local machine to report generation. However, there will likely be some hurdles when getting Github Actions set up successfully. [Here](https://github.com/NOAA-EDAB/esp_data_aggregation/blob/main/.github/workflows/render_indicator_reports_dev.yaml) is a Github Action workflow that successfully renders reports and deploys them to a different repository. The general steps in the workflow are outlined below.
+
+Github Actions is running your code in a remote environment, which does not have anything pre-installed. That means you have to install R, pandoc, and any packages you need. I have found that I also have to configure some settings on the command line in bash to get all of the packages I need to install correctly. You also have to check out your repo to the remote environment. 
+
+Depending on the complexity of your reports, you may need several dozen libraries, and the time it takes to install these libraries adds up. To avoid the bottleneck of re-installing all of the libraries you need every time you run your Github Action, you can cache your packages by adding a cache step to your Github Actions workflow, which will save the libraries in the remote environment and allow them to be loaded in the remote environment without re-installing. As long as the cache is accessed at least once a week, it will continue to live in the remote environment. Therefore, I suggest making a cache-maintaining Github Actions workflow that pings the cache on a regular schedule, so you don't have to re-create the cache every time you go a few weeks without creating reports.
+
+After rendering the reports in the remote environment, you must deploy the reports to a repository on github.com, or else the Github Action will end, the remote environment will be closed, and the reports will be gone. Before being able to successfully deploy reports with Github Actions, you must do some housekeeping to set yourself up with the correct permissions. First, create a **personal access token** by going to Settings --> Developer settings --> Personal access tokens in  your Github account. Write this token down and save it somewhere, but do not share it with anyone. Next, go to your repo where you are setting up the Github Actions workflow. Go to Settings --> Secrets and add the **same token** with the **same name**. You must have a personal access token set up in every repo where you are trying to deploy a Github Action.
+
+One issue with deploying reports on Github Actions is that if one step fails, all following steps in the Github Actions workflow are cancelled. This means that if your report rendering script breaks, no reports will be deployed, even if the script breaks on the last report. Depending on the complexity of your report, it may be common for an untested edge case to break the code. Fortunately, there is a work-around. If you wrap your render function in `try()`, the script will execute even if some reports are not properly created. Of course, the reports that fail to render will not be updated. You can create a [report generation script that integrates error logging code](https://github.com/NOAA-EDAB/esp_data_aggregation/blob/main/R-scripts/render%20dev%20report%20with%20errors.R) to output information about the reports that failed.
+
+
+
