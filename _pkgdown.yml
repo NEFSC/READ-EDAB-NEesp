@@ -12,7 +12,7 @@ navbar:
       -  text: "Date in NEesp"
          href: articles/data.html
       -  text: "Intro to RMarkdown for report writing"
-         href: articles/rmarkdown-into.html
+         href: articles/rmarkdown-intro.html
 
     - text: "Functions"
       href: reference/index.html
@@ -37,7 +37,7 @@ articles:
     contents:
       - install-and-use-package
       - data
-      - rmarkdown-into
+      - rmarkdown-intro
 
 reference:
   - title: Stock reports suite of functions
