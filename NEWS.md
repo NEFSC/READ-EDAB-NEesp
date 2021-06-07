@@ -1,2 +1,6 @@
-* 0.1.0: Initial release
-* 0.1.1: Development changes, unstable
+# 0.1.0
+## Initial release
+
+# 0.1.1
+## Development changes
+- Stability not guaranteed
