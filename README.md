@@ -3,16 +3,8 @@
 # Ecosystem and Socioeconomic Profiles
 
 ![gitleaks](https://github.com/NOAA-EDAB/NEesp/workflows/gitleaks/badge.svg)
-
-    ## Warning in file(file, "rt"): cannot open URL 'https://bioconductor.org/packages/
-    ## stats/bioc/NEesp/NEesp_stats.tab': HTTP status was '404 Not Found'
-
-    ## Warning in FUN(X[[i]], ...): --> OMITTED: NEesp download stats not found or
-    ## currently not available...
-
 [![](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/NOAA-EDAB/NEesp)
 [![](https://img.shields.io/github/last-commit/NOAA-EDAB/NEesp.svg)](https://github.com/NOAA-EDAB/NEesp/commits/main)
-[![](https://img.shields.io/badge/download-NA/total-yellow.svg)](https://bioconductor.org/packages/stats/bioc/NEesp)
 [![](https://img.shields.io/github/languages/code-size/NOAA-EDAB/NEesp.svg)](https://github.com/NOAA-EDAB/NEesp)
 [![R build
 status](https://github.com/https://noaa-edab.github.io/NEesp//workflows/gitleaks/badge.svg)](https://github.com/https://noaa-edab.github.io/NEesp//actions)

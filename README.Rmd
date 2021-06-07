@@ -12,7 +12,6 @@ output: md_document
 cat(
   badger::badge_devel("NOAA-EDAB/NEesp", "blue"),
   badger::badge_last_commit("NOAA-EDAB/NEesp"),
-  badger::badge_bioc_download(by = "total", color = "yellow"),
   badger::badge_code_size("NOAA-EDAB/NEesp"),
   badger::badge_github_actions(action = "gitleaks")
 )
