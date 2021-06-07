@@ -19,13 +19,13 @@
     <loc>https://noaa-edab.github.io/NEesp//reference/climate_vulnerability.html</loc>
   </url>
   <url>
-    <loc>https://noaa-edab.github.io/NEesp//reference/common_names_survdat.html</loc>
-  </url>
-  <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/com_catch.html</loc>
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/com_palette.html</loc>
+  </url>
+  <url>
+    <loc>https://noaa-edab.github.io/NEesp//reference/common_names_survdat.html</loc>
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/cond.html</loc>
@@ -160,10 +160,10 @@
     <loc>https://noaa-edab.github.io/NEesp//reference/plot_cond.html</loc>
   </url>
   <url>
-    <loc>https://noaa-edab.github.io/NEesp//reference/plot_correlation.html</loc>
+    <loc>https://noaa-edab.github.io/NEesp//reference/plot_corr_only.html</loc>
   </url>
   <url>
-    <loc>https://noaa-edab.github.io/NEesp//reference/plot_corr_only.html</loc>
+    <loc>https://noaa-edab.github.io/NEesp//reference/plot_correlation.html</loc>
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/plot_depth.html</loc>
@@ -229,10 +229,10 @@
     <loc>https://noaa-edab.github.io/NEesp//reference/render_comp_risk.html</loc>
   </url>
   <url>
-    <loc>https://noaa-edab.github.io/NEesp//reference/render_indicator.html</loc>
+    <loc>https://noaa-edab.github.io/NEesp//reference/render_ind_report.html</loc>
   </url>
   <url>
-    <loc>https://noaa-edab.github.io/NEesp//reference/render_ind_report.html</loc>
+    <loc>https://noaa-edab.github.io/NEesp//reference/render_indicator.html</loc>
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/render_reg_report.html</loc>

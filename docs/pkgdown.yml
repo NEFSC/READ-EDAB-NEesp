@@ -1,4 +1,4 @@
-pandoc: '2.12'
+pandoc: '2.14'
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
@@ -6,7 +6,7 @@ articles:
   general-workflow: general-workflow.html
   install-and-use-package: install-and-use-package.html
   rmarkdown-intro: rmarkdown-intro.html
-last_built: 2021-06-04T21:37Z
+last_built: 2021-06-07T14:48Z
 urls:
   reference: https://noaa-edab.github.io/NEesp//reference
   article: https://noaa-edab.github.io/NEesp//articles
