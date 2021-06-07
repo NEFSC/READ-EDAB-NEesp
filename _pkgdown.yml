@@ -203,7 +203,6 @@ reference:
       - '`com_palette`'
       - '`prey_palette`' 
       - '`rec_palette`' 
-      - '`indicator_info`'
 
 template:
   package: preferably
