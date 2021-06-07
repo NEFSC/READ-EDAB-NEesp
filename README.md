@@ -6,8 +6,7 @@
 [![](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/NOAA-EDAB/NEesp)
 [![](https://img.shields.io/github/last-commit/NOAA-EDAB/NEesp.svg)](https://github.com/NOAA-EDAB/NEesp/commits/main)
 [![](https://img.shields.io/github/languages/code-size/NOAA-EDAB/NEesp.svg)](https://github.com/NOAA-EDAB/NEesp)
-[![R build
-status](https://github.com/https://noaa-edab.github.io/NEesp//workflows/gitleaks/badge.svg)](https://github.com/https://noaa-edab.github.io/NEesp//actions)
+[![](https://github.com/https://noaa-edab.github.io/NEesp//workflows/gitleaks/badge.svg)](https://github.com/NOAA-EDAB/NEesp/actions)
 
 ## View current data products
 
