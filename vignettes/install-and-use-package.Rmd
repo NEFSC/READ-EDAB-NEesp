@@ -20,12 +20,12 @@ knitr::opts_chunk$set(
 
 Install the versioned package:
 ```{r}
-remotes::install_github("NOAA-EDAB/NEesp", ref = v0.1.0)
+remotes::install_github("NOAA-EDAB/NEesp", ref = "v0.1.0")
 ```
 
 Or install the most recent development package:
 ```{r}
-remotes::install_github("NOAA-EDAB/NEesp", ref = dev)
+remotes::install_github("NOAA-EDAB/NEesp", ref = "dev")
 ```
 
 ## Using the `NEesp` package

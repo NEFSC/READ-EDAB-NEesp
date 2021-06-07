@@ -15,6 +15,8 @@ navbar:
       menu:
       -  text: "Install and use package"
          href: articles/install-and-use-package.html
+      -  text: "Use NEesp with the NEespShiny app"
+         href: articles/shiny-app.html
       -  text: "Data in NEesp"
          href: articles/data.html
       -  text: "Intro to RMarkdown for report writing"
@@ -44,6 +46,7 @@ articles:
       <br/>
     contents:
       - install-and-use-package
+      - shiny-app
       - data
       - rmarkdown-intro
       - general-workflow
@@ -206,5 +209,3 @@ reference:
 
 template:
   package: preferably
-#  params:
-#    bootswatch: sandstone
