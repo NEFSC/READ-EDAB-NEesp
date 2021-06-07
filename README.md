@@ -2,7 +2,6 @@
 
 # Ecosystem and Socioeconomic Profiles
 
-![gitleaks](https://github.com/NOAA-EDAB/NEesp/workflows/gitleaks/badge.svg)
 [![](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/NOAA-EDAB/NEesp)
 [![](https://img.shields.io/github/last-commit/NOAA-EDAB/NEesp.svg)](https://github.com/NOAA-EDAB/NEesp/commits/main)
 [![](https://img.shields.io/github/languages/code-size/NOAA-EDAB/NEesp.svg)](https://github.com/NOAA-EDAB/NEesp)
