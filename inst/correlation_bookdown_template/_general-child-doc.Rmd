@@ -103,6 +103,15 @@ if(class(data) == "try-error") {
 ```
 
 ##### Figures {-}
+```{r, eval = FALSE}
+if(toString(quote({{label}})) == "pp-week" | toString(quote({{label}})) == "chl-week"){
+  figs <- FALSE
+  print("Too many figures! Showing statistical results only")
+} else {
+  figs <- eval_epu
+}
+```
+
 ```{r, {{label}}-fig, eval = eval_epu, fig.height = 10}
 if (nvar > 6) { # break up into multiple graphs
   for (i in 1:round(nvar / 6)) {
