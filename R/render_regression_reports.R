@@ -108,17 +108,23 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
   }
 
   # clean up files
-  list.files(here::here(new_dir),
-    full.names = TRUE
-  ) %>%
-    stringr::str_subset(".Rmd") %>%
-    file.remove()
-
-  list.files(here::here(new_dir),
-    full.names = TRUE
-  ) %>%
-    stringr::str_subset(".yml") %>%
-    file.remove()
+  clean <- c(
+    list.files(here::here(new_dir),
+               pattern = ".Rmd",
+               full.names = TRUE
+    ),
+    list.files(here::here(new_dir),
+               pattern = ".md",
+               full.names = TRUE
+    ),
+    list.files(here::here(new_dir),
+               pattern = ".yml",
+               full.names = TRUE
+    )
+  )
+  
+  file.remove(clean) %>%
+    invisible()
   
   setwd(starting_dir)
 

@@ -105,6 +105,10 @@ render_ind_report <- function(x,
                full.names = TRUE
     ),
     list.files(here::here(new_dir),
+               pattern = ".md",
+               full.names = TRUE
+    ),
+    list.files(here::here(new_dir),
                pattern = ".yml",
                full.names = TRUE
     )
