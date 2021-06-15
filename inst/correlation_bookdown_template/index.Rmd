@@ -68,9 +68,11 @@ knitr::opts_chunk$set(
   cache = params$cache,
   results = "asis",
   fig.width = 8,
+  out.width = "100%",
   fig.align = "center",
   fig.path = params$path,
-  dev = "png"
+  dev = "png",
+  dpi = 72
 )
 ```
 
