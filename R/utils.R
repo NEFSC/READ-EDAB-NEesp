@@ -168,7 +168,7 @@ save_data <- function(x) {
 
     objsize <- object.size(x)
 
-    if ((objsize / 10^6) < 50) {
+    if (objsize < 10^4 ) {
       filename <- paste("data/", name, ".csv", sep = "")
       write.csv(x, file = filename, row.names = FALSE)
     } else {
