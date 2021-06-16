@@ -72,10 +72,9 @@ if(class(data) == "try-error") {
 
 ```{r, eval = params$save & eval_epu}
   if (nrow(data) > 0) {
-  file_name <- paste(params$stock, params$region, params$epu[1],
+  name <- paste(params$stock, params$region, params$epu[1],
     params$lag, "lag",
     params$remove_recent, "rr", names[1],
-    ".csv",
     sep = "_"
   ) %>%
     stringr::str_replace_all("/", "-") %>%
@@ -85,10 +84,15 @@ if(class(data) == "try-error") {
     stringr::str_replace_all("Southern", "S") %>%
     stringr::str_replace_all("Northwestern", "NW") %>%
     stringr::str_replace_all(" - ", "-") %>%
-    stringr::str_replace_all("_.csv", ".csv") %>%
     stringr::str_replace_all(" ", "_")
-
-  write.csv(data, paste("data/", file_name, sep = ""))
+  
+      if (objsize < 10^4 ) {
+        file_name <- paste("data/", name, ".csv", sep = "")
+        write.csv(data, file_name)
+      } else {
+        file_name <- paste("data/", name, ".RDS", sep = "")
+       saveRDS(data, file_name)
+      }
 
   # prep for fig
   # remove na's,
