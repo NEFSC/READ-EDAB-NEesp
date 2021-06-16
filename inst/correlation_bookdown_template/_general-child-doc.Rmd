@@ -86,6 +86,8 @@ if(class(data) == "try-error") {
     stringr::str_replace_all(" - ", "-") %>%
     stringr::str_replace_all(" ", "_")
   
+  objsize <- object.size(data)
+  
       if (objsize < 10^4 ) {
         file_name <- paste("data/", name, ".csv", sep = "")
         write.csv(data, file_name)
