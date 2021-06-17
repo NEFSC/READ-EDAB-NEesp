@@ -1,6 +1,13 @@
+---
+output: md_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # Ecosystem and Socioeconomic Profiles
 
-![gitleaks](https://github.com/NOAA-EDAB/NEesp/workflows/gitleaks/badge.svg)
+[![](https://img.shields.io/badge/devel%20version-0.1.0-blue.svg)](https://github.com/NOAA-EDAB/NEesp) [![](https://img.shields.io/github/last-commit/NOAA-EDAB/NEesp.svg)](https://github.com/NOAA-EDAB/NEesp/commits/main) ![](https://img.shields.io/badge/repo%20size-0.51%20GB-blue.svg)
+[![](https://github.com/NOAA-EDAB/NEesp/workflows/gitleaks/badge.svg)](https://github.com/NOAA-EDAB/NEesp/actions/workflows/secretScan.yml)
 
 ## View current data products
 https://noaa-edab.github.io/ESP_docs/docs
@@ -9,8 +16,11 @@ https://noaa-edab.github.io/ESP_docs/docs
 Ecosystem and Socioeconomic Profiles (ESPs) are a scientific product to support [Integrated Ecosystem Assessment](https://www.integratedecosystemassessment.noaa.gov/) (IEA). IEA seeks to improve understanding and management of fisheries through incorporating natural, social, and economic data into fisheries analyses and management plans. ESPs are a structured framework developed by the Alaska Science Center to integrate ecosystem and socioeconomic information into the stock assessment process.<sup>[1]</sup>
 
 Here we adapt the ESP process for use in the management of Northeast stocks. Our scientific roadmap consists of these steps:
+
 1. Gather existing data on ecology, biology, socioeconomics, and the human dimension of Northeast fisheries.
+
 2. Conduct a risk analysis of Northeast stocks to determine which stocks are most vulnerable.
+
 3. Create detailed reports for the most vulnerable stocks, incorporating data from the originial risk assessment as well as detailed species-specific information.
 
 ## Running a report
@@ -18,9 +28,13 @@ The current preliminary report pulls data from many existing sources and creates
 
 ## The Northeast ESP suite 
 There are currently 4 github repos associated with the Northeast ESP initiative.
+
 1. [`NOAA-EDAB/esp_data_aggregation`](https://github.com/NOAA-EDAB/esp_data_aggregation) is the original repo and currently houses development and exploratory work.
+
 2. [`NOAA-EDAB/NEesp`](https://github.com/NOAA-EDAB/NEesp) houses an R package that contains relevant data, functions for low-level data analysis and plotting, and report templates.
+
 3. [`NOAA-EDAB/NEespShiny`](https://github.com/NOAA-EDAB/NEespShiny) houses an R Shiny app (in the form of an R package) that provides a graphical user interface for creating reports with the `NEesp` package.
+
 4. [`NOAA-EDAB/ESP_docs`](https://github.com/NOAA-EDAB/ESP_docs) houses reports on Northeast stocks and ecosystem/socioeconomic indicators.
 
 ## Next steps
