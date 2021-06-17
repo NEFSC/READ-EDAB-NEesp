@@ -4,8 +4,7 @@
 
 [![](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/NOAA-EDAB/NEesp)
 [![](https://img.shields.io/github/last-commit/NOAA-EDAB/NEesp.svg)](https://github.com/NOAA-EDAB/NEesp/commits/dev)
-[1](https://meetings.npfmc.org/CommentReview/DownloadFile?p=8f5233fb-3b62-4571-9b49-8bb7ce675916.pdf&fileName=ESP_Shotwell.pdf)
-“![](https://img.shields.io/badge/repo%20size-1.25372265651822%20GB-blue.svg)”
+![](https://img.shields.io/badge/repo%20size-1.25372869614512%20GB-blue.svg)
 [![](https://github.com/NOAA-EDAB/NEesp/workflows/gitleaks/badge.svg)](https://github.com/NOAA-EDAB/NEesp/actions)
 
 ## View current data products
