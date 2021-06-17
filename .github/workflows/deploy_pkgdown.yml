@@ -3,6 +3,13 @@ on:
   push:
     branches:
       - dev
+    paths:
+      - 'vignettes/**'
+      - 'NEWS.md'
+      - 'README.md'
+      - 'DESCRIPTION'
+      - 'LICENSE'
+      - '_pkgdown.yml'
 
 name: Deploy pkgdown
 
