@@ -7,12 +7,19 @@ output: md_document
 
 # Ecosystem and Socioeconomic Profiles
 
+[![](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/NOAA-EDAB/NEesp)
+[![](https://img.shields.io/github/last-commit/NOAA-EDAB/NEesp.svg)](https://github.com/NOAA-EDAB/NEesp/commits/dev)
 ```{r, echo = FALSE, results='asis', message=FALSE}
-cat(
-  badger::badge_devel("NOAA-EDAB/NEesp", "blue"),
-  badger::badge_last_commit("NOAA-EDAB/NEesp"),
-  badger::badge_code_size("NOAA-EDAB/NEesp")
-)
+`%>%` <- magrittr::`%>%`
+# custom code size badge
+files <- list.files(recursive = TRUE, all.files = TRUE) %>%
+  stringr::str_subset(pattern = ".Rproj", negate = TRUE) %>%
+  stringr::str_subset(pattern = ".Rhistory", negate = TRUE) %>%
+  stringr::str_subset(pattern = ".RData", negate = TRUE) %>%
+  stringr::str_subset(pattern = ".Ruserdata", negate = TRUE) %>%
+  stringr::str_subset(pattern = ".Renviron", negate = TRUE)
+total_size <- sum(file.size(files))/1073741824
+badger::badge_custom("repo size", paste(total_size, "GB"), color = "blue")
 ```
 [![](https://github.com/NOAA-EDAB/NEesp/workflows/gitleaks/badge.svg)](https://github.com/NOAA-EDAB/NEesp/actions)
 
