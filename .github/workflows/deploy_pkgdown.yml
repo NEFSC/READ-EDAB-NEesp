@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - dev
-    paths:
-      - '**.Rmd'
 
 name: Deploy pkgdown
 
