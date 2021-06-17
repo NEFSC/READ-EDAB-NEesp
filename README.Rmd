@@ -18,7 +18,7 @@ files <- list.files(recursive = TRUE, all.files = TRUE) %>%
   stringr::str_subset(pattern = ".RData", negate = TRUE) %>%
   stringr::str_subset(pattern = ".Ruserdata", negate = TRUE) %>%
   stringr::str_subset(pattern = ".Renviron", negate = TRUE)
-total_size <- sum(file.size(files))/1073741824 %>%
+total_size <- (sum(file.size(files))/1073741824) %>%
   round(digits = 2)
 cat(badger::badge_custom("repo size", paste(total_size, "GB"), color = "blue"))
 ```
