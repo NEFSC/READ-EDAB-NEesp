@@ -1,5 +1,15 @@
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'vignettes/**'
+      - 'NEWS.md'
+      - 'README.md'
+      - 'DESCRIPTION'
+      - 'LICENSE'
+      - '_pkgdown.yml'
 
 name: Deploy pkgdown
 
@@ -44,7 +54,7 @@ jobs:
           
       - name: Load more R packages
         run: |
-         Rscript -e 'install.packages(c("textshaping", "ragg", "pkgdown"))
+         Rscript -e 'install.packages(c("textshaping", "ragg"))
          devtools::install_github("amirmasoudabdol/preferably", upgrade = "never")
          devtools::install_github("NOAA-EDAB/NEesp", ref = "v0.1.0", upgrade = "never")'
           
