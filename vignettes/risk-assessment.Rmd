@@ -22,14 +22,16 @@ Risk assessment is a structured method to identify issues of concern, which can 
 
 ## The NRCC risk assessment
 
-The (Northeast Region Coordinating Council (NRCC))[https://www.nefmc.org/committees/northeast-regional-coordinating-council-nrcc] is the organizational body responsible for setting the stock assessment schedule in the Northeast. In 2016-2017, the NRCC developed a (risk assessment process)[https://s3.amazonaws.com/nefmc.org/Stock-assessment-process-June2020.pdf] to inform the setting of (research and management track stock assessment schedules)[https://www.nefmc.org/library/2020-2024-stock-assessment-schedule].
+The [Northeast Region Coordinating Council (NRCC)](https://www.nefmc.org/committees/northeast-regional-coordinating-council-nrcc) is the organizational body responsible for setting the stock assessment schedule in the Northeast. In 2016-2017, the NRCC developed a [risk assessment process](https://s3.amazonaws.com/nefmc.org/Stock-assessment-process-June2020.pdf) to inform the setting of [research and management track stock assessment schedules](https://www.nefmc.org/library/2020-2024-stock-assessment-schedule).
 
-## Adding to the risk assessment
+## The ESP risk assessment
 
-The goals of the ESP (providing ecosystem and socioeconomic advice for stock management) differ from the goals of the NRCC (setting the stock assessment schedule). Therefore, we conducted our (own risk assessment)[https://noaa-edab.github.io/ESP_docs/risk_ranking/plot_all_risk] to determine which stocks would benefit most from an ESP. As part of our risk assessment, we identified which stocks were of most socioeconomic importance and which stocks exhibited concerning ecosystem and socioeconomic trends. Stocks were ranked from least concern to most concern for each indicator, and then ranks were normalized. If a stock was missing a measurement, it was assigned a normalized rank of 0.5. The total risk for each stock was calculated as the sum of all normalized rankings. 
+The goals of the ESP (providing ecosystem and socioeconomic advice for stock management) differ from the goals of the NRCC (setting the stock assessment schedule). Therefore, we conducted our [own risk assessment](https://noaa-edab.github.io/ESP_docs/risk_ranking/plot_all_risk) to determine which stocks would benefit most from an ESP. As part of our risk assessment, we identified which stocks were of most socioeconomic importance and which stocks exhibited concerning ecosystem and socioeconomic trends. Stocks were ranked from least concern to most concern for each indicator, and then ranks were normalized. If a stock was missing a measurement, it was assigned a normalized rank of 0.5. The total risk for each stock was calculated as the sum of all normalized rankings. 
 
 This risk assessment is intended to be a guideline for ESP prioritization, not a rigid directive for ESP scheduling.
 
+### Calculating comprehensive risk
 
+Using the [`NEesp::get_risk` function](https://noaa-edab.github.io/NEesp/reference/index.html#section-risk-data-suite-of-functions), each stock was assigned a single risk value for each indicator based on its normalized rank relative to other stocks. Depending on the indicator, indicator time series were reduced to a single value either by (1) only considering the most recent value, (2) taking the mean of the past 5 years, (3) taking the maximum of all time, or (4) comparing the mean of the past 10 years to the historical mean.
 
 
