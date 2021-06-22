@@ -3,7 +3,7 @@
 library(NEesp)
 
 # remove survey data outside stock areas
-survey <- NEesp::survey %>%
+survey <- survey %>%
   dplyr::filter(Region != "Outside stock area")
 
 # rank data ----
