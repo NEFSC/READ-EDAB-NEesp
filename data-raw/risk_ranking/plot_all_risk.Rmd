@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = FALSE,
 #source(here::here("R/full_report_functions", "make_html_table.R"))
 
 data <- NEesp::risk
-guild_data <- read.csv(here::here("data/risk_ranking", "guild_data.csv"))
+guild_data <- NEesp::guild_risk
 guild_info <- NEesp::guild_info
 indicator_info <- NEesp::indicator_info
 
@@ -164,7 +164,7 @@ fig <- ggplot2::ggplot(data,
                               stringr::str_replace_all("_", " "),
                   fill = norm_rank ))+
   ggplot2::geom_raster(stat = "identity")+
-  ggplot2::facet_grid(cols = vars(category),
+  ggplot2::facet_grid(cols = ggplot2::vars(category),
              scales = "free_x",
              space = "free_x")+
   ggplot2::theme_bw()+
@@ -195,7 +195,7 @@ dat <- data %>%
                   round(digits = 3),
                 total_risk = total_risk %>%
                   round(digits = 2)) %>%
-  dplyr::select(-X, -stock, -label, -Region2, -new_label, -n_stocks_per_region) %>%
+  dplyr::select(-stock, -label, -Region2, -new_label, -n_stocks_per_region) %>%
   NEesp::character_to_factor()
 
 NEesp::make_html_table(dat, col_names = colnames(dat))

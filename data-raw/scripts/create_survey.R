@@ -27,7 +27,7 @@ for (i in 1:length(data2$SVSPP)) {
   species_name[i] <- species_key[r, 2]
 }
 
-data2$Species <- species_name
+data2$Species <- species_name # using monkfish not goosefish
 
 # add region to survey data
 
@@ -63,7 +63,8 @@ for (i in 1:length(key$stock_area)) {
   }
 }
 
-key$Species <- stringr::str_to_sentence(key$COMNAME)
+key$Species <- stringr::str_to_sentence(key$COMNAME) %>%
+  stringr::str_replace("Goosefish", "Monkfish")
 key$spst <- paste(key$Species, key$strata %>% as.numeric())
 key3 <- key %>% dplyr::select(spst, stock_area)
 
@@ -88,9 +89,9 @@ data3$fish_id <- paste(data3$CRUISE6, data3$STRATUM,
 # write.csv(data3, file = here::here("data", "survey_data.csv"))
 saveRDS(data3, file = here::here("data-raw", "survey_data.RDS"))
 
-survey <- readRDS(here::here("data-raw", "survey_data.RDS")) %>%
-  update_species_names(species_col = "Species")
-# survey <- survey[-which(survey$Species == "Jonah crab" & survey$LENGTH >= 99.9), ] # remove error jonah crab
+survey <- readRDS(here::here("data-raw", "survey_data.RDS")) #%>%
+  #update_species_names(species_col = "Species")
+survey <- survey[-which(survey$Species == "Jonah crab" & survey$LENGTH >= 99.9), ] # remove error jonah crab
 # sum(numlen) and abundance may not be equal
 # abundnace has been corrected with conversion factor, but numlen has not
 
