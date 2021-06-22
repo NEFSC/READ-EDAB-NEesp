@@ -30,8 +30,16 @@ The goals of the ESP (providing ecosystem and socioeconomic advice for stock man
 
 This risk assessment is intended to be a guideline for ESP prioritization, not a rigid directive for ESP scheduling.
 
-### Calculating comprehensive risk
+### Comprehensive risk
 
-Using the [`NEesp::get_risk` function](https://noaa-edab.github.io/NEesp/reference/index.html#section-risk-data-suite-of-functions), each stock was assigned a single risk value for each indicator based on its normalized rank relative to other stocks. Depending on the indicator, indicator time series were reduced to a single value either by (1) only considering the most recent value, (2) taking the mean of the past 5 years, (3) taking the maximum of all time, or (4) comparing the mean of the past 10 years to the historical mean.
+Using the [`NEesp::get_risk` function](https://noaa-edab.github.io/NEesp/reference/index.html#section-risk-data-suite-of-functions), each stock was assigned a single risk value for each indicator based on its normalized rank relative to other stocks. Depending on the indicator, indicator time series were reduced to a single value either by (1) only considering the most recent value, (2) taking the mean of the past 5 years, (3) taking the maximum of all time, or (4) comparing the mean of the past 10 years to the historical mean. After normalized species risks were calculated for each indicator, risk data was combined into a single data set, missing values were assigned a value of 0.5, and total risk value and ranks were calculated for each stock. The full data manipulation script can be seen [here](https://github.com/NOAA-EDAB/NEesp/blob/main/data-raw/scripts/create_risk_rankings/calculate_comprehensive_risk.R). 
+
+### Comprehensive risk by guild
+
+### Risk within species, value over time
+
+### Risk across species, value over time
+
+### Risk across species, change compared to historical over time
 
 

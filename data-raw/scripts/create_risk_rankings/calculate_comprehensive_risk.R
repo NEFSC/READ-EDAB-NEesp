@@ -1,5 +1,6 @@
 
 `%>%` <- magrittr::`%>%`
+library(NEesp)
 
 # remove survey data outside stock areas
 survey <- NEesp::survey %>%
@@ -75,9 +76,11 @@ hab_vul <- ecodata::habitat_vulnerability %>%
 hab_vul
 
 ### NRCC risk ranking ----
-nrcc <- read.csv(here::here("data-raw/risk_ranking", "NRCC_total_scores.csv")) %>%
+#nrcc <- read.csv(here::here("data-raw/risk_ranking", "NRCC_total_scores.csv")) %>%
+#  dplyr::filter(Species != "Jonah crab") # no region specified
+#usethis::use_data(nrcc)
+nrcc <- NEesp::nrcc %>%
   dplyr::filter(Species != "Jonah crab") # no region specified
-usethis::use_data(nrcc)
 
 # * mean of past 5 years ----
 ### rec catch ----
@@ -493,7 +496,7 @@ new_data
 
 new_data$Year <- new_data$Year %>%
   stringr::str_replace("mean of 2010 - 2020", "magnitude of % change, mean of 2010 - 2020 vs historic") %>%
-  stringr::str_replace("mean of 2010 - 2020", "magnitude of % change, mean of 2009 - 2019 vs historic")
+  stringr::str_replace("mean of 2009 - 2019", "magnitude of % change, mean of 2009 - 2019 vs historic")
 
 write.csv(new_data,
   file = here::here("data-raw/risk_ranking", "full_risk_data.csv")
@@ -508,6 +511,6 @@ usethis::use_data(risk, overwrite = TRUE)
 #         file = here::here("data/risk_ranking", "indicator_key.csv"))
 
 # render Rmd report ----
-rmarkdown::render(here::here("R/rank_species_indicators", "plot_all_risk.Rmd"),
-  output_dir = here::here("docs/risk_ranking")
-)
+rmarkdown::render(here::here("data-raw/risk_ranking/plot_all_risk.Rmd"),
+                             output_dir = "../ESP_docs/risk_ranking")
+
