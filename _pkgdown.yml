@@ -19,6 +19,10 @@ navbar:
          href: articles/shiny-app.html
       -  text: "Data in NEesp"
          href: articles/data.html
+    - text: "About ESP"
+      -  text: "Creating the risk assessment"
+         href: articles/risk-assessment.html
+    - text: "Report writing methods"
       -  text: "Intro to RMarkdown for report writing"
          href: articles/rmarkdown-intro.html
       -  text: "General report creation workflow"
