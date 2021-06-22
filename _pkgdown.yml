@@ -20,9 +20,11 @@ navbar:
       -  text: "Data in NEesp"
          href: articles/data.html
     - text: "About ESP"
+      menu:
       -  text: "Creating the risk assessment"
          href: articles/risk-assessment.html
     - text: "Report writing methods"
+      menu:
       -  text: "Intro to RMarkdown for report writing"
          href: articles/rmarkdown-intro.html
       -  text: "General report creation workflow"
