@@ -2,6 +2,7 @@ pandoc: 2.14.0.1
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
+  cache-guide: cache-guide.html
   data: data.html
   general-workflow: general-workflow.html
   github-actions: github-actions.html
@@ -9,7 +10,7 @@ articles:
   risk-assessment: risk-assessment.html
   rmarkdown-intro: rmarkdown-intro.html
   shiny-app: shiny-app.html
-last_built: 2021-06-23T21:16Z
+last_built: 2021-06-23T21:35Z
 urls:
   reference: https://noaa-edab.github.io/NEesp//reference
   article: https://noaa-edab.github.io/NEesp//articles
