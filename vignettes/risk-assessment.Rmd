@@ -38,8 +38,12 @@ Using the [`NEesp::get_risk` function](https://noaa-edab.github.io/NEesp/referen
 
 ### Risk within species, value over time
 
+Within each species, indicators were ranked over time to assign a risk value. Depending on the indicator, high value was assigned high risk, or low value was assigned high risk. The purpose of this calculation was to visualize the temporal trend of a stock's indicator. The full data manipulation script can be seen [here](https://github.com/NOAA-EDAB/NEesp/blob/main/data-raw/scripts/create_risk_rankings/calculate_risk_within_species.R).
+
 ### Risk across species, value over time
+
+For each year, stocks were ranked by their indicator values. Depending on the indicator, high value was assigned high risk, or low value was assigned high risk. The purpose of this calculation was to visualize the temporal trend of a stock's status relative to other stocks. The full data manipulation script can be seen [here](https://github.com/NOAA-EDAB/NEesp/blob/main/data-raw/scripts/create_risk_rankings/calculate_value_rankings_over_time.R).
 
 ### Risk across species, change compared to historical over time
 
-
+For each year, stocks were ranked by their indicator values, which were normalized to the historical value. Depending on the indicator, high value was assigned high risk, or low value was assigned high risk. The purpose of this calculation was to visualize the temporal trend of a stock's status relative to other stocks, accounting for a baseline measurement of the indicator. The full data manipulation script can be seen [here](https://github.com/NOAA-EDAB/NEesp/blob/main/data-raw/scripts/create_risk_rankings/calculate_historical_rankings_over_time.R).
