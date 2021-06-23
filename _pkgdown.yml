@@ -21,6 +21,8 @@ navbar:
          href: articles/data.html
     - text: "About ESP"
       menu:
+      -  text: "Why ESP?"
+         href: articles/why-esp.html
       -  text: "Creating the risk assessment"
          href: articles/risk-assessment.html
     - text: "Report writing methods"
