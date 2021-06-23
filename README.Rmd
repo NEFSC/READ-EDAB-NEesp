@@ -1,6 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Ecosystem and Socioeconomic Profiles <img src="https://github.com/NOAA-EDAB/esp_data_aggregation/blob/abby/hexes/NEesp_hex.png" align="right" width="120" /> 
+# Ecosystem and Socioeconomic Profiles <img src="https://raw.githubusercontent.com/NOAA-EDAB/esp_data_aggregation/abby/hexes/NEesp_hex.png" align="right" width="120" /> 
 
 ```{r, echo = FALSE, results='asis', message=FALSE}
 `%>%` <- magrittr::`%>%`
