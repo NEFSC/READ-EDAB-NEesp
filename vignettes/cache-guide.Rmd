@@ -1,0 +1,91 @@
+---
+title: "How to cache in Github Actions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{How to cache in Github Actions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  eval = FALSE
+)
+```
+
+## What is caching?
+
+A [cache in Github Actions](https://github.com/actions/cache) stores files so they don't have to be re-uploaded each time an action runs. This is very useful for saving time.
+
+## How to set up and maintain the cache
+
+The cache can be set up and maintained with a single workflow. The workflow should have both a `workflow_dispatch` trigger (so you can run it to create the cache) and a `schedule` trigger (so it runs periodically for maintenance). The cache must be maintained because if more than 7 days pass without a cache hit, Github will delete the cache, and it must be installed again the next time your action runs. By running a cache hit on a schedule, your cache will not be destroyed even if you go more than one week between actively using the cache.
+
+```yaml
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 1,4"
+```
+
+The workflow can be named.
+```yaml
+name: Maintain bigger cache
+```
+
+This workflow has just one job.
+```yaml
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+```
+
+The first step is to set up R.
+```yaml    
+    steps:
+       
+      - name: Setup R
+        uses: r-lib/actions/setup-r@master
+```
+
+Next, check if the cache exists. The cache is identified by its key, which is an alphanumeric string set by the user.
+```yaml        
+      - name: Check cached R packages
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: pkgdown-cache-05172021-AT
+```
+
+Some R packages require command line updates to the system.
+```yaml
+      - name: Install command line packages
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |        
+          sudo apt update
+          sudo apt-get install  libgdal-dev libcurl4-gnutls-dev libgit2-dev libudunits2-dev libharfbuzz-dev libfribidi-dev
+        shell: bash
+```
+
+Load the R packages. If there was a cache hit (as in a "maintenance" run), this step is skipped. If there was no cache hit (as when setting up the cache), this stepp executes and installs your R packages. The amount of time that this step takes depends on how many packages you need.
+```yaml        
+      - name: Load R packages
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          sudo R CMD javareconf
+          Rscript -e 'install.packages(c("usethis", "httr", "rversions",
+          "stringi", "car", "devtools", 
+          "textshaping", "ragg", "pkgdown"), 
+          dependencies = TRUE)
+          devtools::install_github("NOAA-EDAB/NEesp", ref = "v0.1.0", upgrade = "never")'
+```
+
+## How to reference the cache in your workflows
+
+Once you have created a cache in a repo, you can reference it in other Github Actions workflows by including the "Check cached R packages" step in your YAML.

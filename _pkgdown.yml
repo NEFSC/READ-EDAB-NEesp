@@ -29,8 +29,10 @@ navbar:
          href: articles/rmarkdown-intro.html
       -  text: "General report creation workflow"
          href: articles/general-workflow.html
-      -  text: "Creating reports with Github ACtions"
+      -  text: "Creating reports with Github Actions"
          href: articles/github-actions.html
+      -  text: "How to cache Github Actions"
+         href: articles/cache-guide.html
 
     - text: "Functions"
       href: reference/index.html
