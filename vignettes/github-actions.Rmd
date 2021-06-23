@@ -1,0 +1,398 @@
+---
+title: "Creating reports with Github Actions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Creating reports with Github Actions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  eval = FALSE
+)
+```
+
+## Intro to Github Actions
+
+[Github Actions](https://github.com/features/actions) allow you to run code remotely. Following instructions written in [YAML syntax](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html), a remote Github runner executes code. There are hundreds of existing Github Actions workflows that can help you accomplish nearly any (automatable) task, such as performing standard tests, re-deploying a pkgdown website when vignettes are updated, or rendering reports from a template. 
+
+## Workflow overview
+
+To use Github Actions to create reports, there are three general steps:
+
+1. Set up the remote environment.
+Because the code is running in a remote environment, everything that your code needs has to be explicitly added. Fortunately, there are existing Actions that you can use to do most of these steps.
+- Checkout your repo
+- Install all necessary programs and load necessary R packages
+
+2. Create your reports
+- Run a script to create the reports
+
+3. Deploy your reports to Github
+In order for your newly created reports to get off of the remote runner and accessible on github.com, you need to deploy the reports. They can be deployed an any branch on any repository that you own.
+- Deploy your reports to a Github repo
+
+## Detailed workflow
+
+This section walks through the guts of the [YAML file that is used to create NEesp reports](https://github.com/NOAA-EDAB/esp_data_aggregation/blob/abby/.github/workflows/render_indicator_reports_dev.yaml). This workflow not only deploys the reports to Github, it also handles errors within the report and creates an error summary for troubleshooting. 
+
+One important thing to know about YAMLs is that **indentation and colons matter**. If there is a problem with your YAML file, it is almost certainly an issue with indentation and/or colon placement. Using the tab key to create indentations can cause problems.
+
+### Specify the workflow trigger
+
+First, the trigger for the workflow must be specified.
+```{r, eval = FALSE}
+on:
+  workflow_dispatch:
+```
+`workflow_dispatch` means that the workflow is triggered manually on the Actions page of the repo. Workflows can also be triggered by pushes and pulls to the repository.
+
+### Name the workflow (optional)
+```{r, eval = FALSE}
+name: Indicator Reports (development)
+```
+
+### Specify the envorinment for your job
+
+Your workflow can run on Linux, Windows, or Mac. This can be useful if you require a package or method that is only available on a certain operating system. You can also set environment secrets, for example in this workflow a password is set to give permission to the deployment step, and `R_REMOTES_NO_ERRORS_FROM_WARNINGS` is set to `true` to prevent the workflow from failing if the R script throws a warning.
+```{r, eval = FALSE}
+jobs: 
+  build1:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GH_PAT }}
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      
+```
+
+### Add steps to your job(s)
+
+This is the backbone of your workflow. The steps will run in sequence. It is possible to run multiple jobs in parallel, but each job must have all of the necessary set-up steps, so this parallelization does not typically save a notable amount of time when rendering reports. Additionally, if two jobs attempt to deploy reports at the same time, one of them will typically fail.
+
+#### Checkout your repository
+This step is necessary to get the information from your repository onto the remote runner.
+```{r, eval = FALSE}
+    steps:
+          
+      - name: Checkout esp_data_aggregation
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+```
+
+#### Install Pandoc
+Pandoc is used under the hood by the `knitr`, `bookdown`, and `rmarkdown` suite of report rendering functions.
+```{r, eval = FALSE}
+      - name: Install Pandoc
+        run: brew install pandoc
+        shell: bash
+```
+
+#### Install command line packages
+Some R libraries may require command line updates to install or update back-end packages. 
+```{r, eval = FALSE}
+      - name: Install command line packages
+        run: |        
+          sudo apt update
+          sudo apt-get install  libgdal-dev libcurl4-gnutls-dev libgit2-dev libudunits2-dev
+        shell: bash
+```
+
+#### Install R
+R must be installed on the remote runner!
+```{r, eval = FALSE}        
+      - name: Set up R
+        uses: r-lib/actions/setup-r@master
+        with: 
+          r-version: '4.0.3' # problem with using 4.0.4        
+```
+
+#### Cache your R packages
+If your reports depend on a large number of R packages, it will save a lot of time in the long run to cache the packages. 
+```{r, eval = FALSE}      
+      - name: Cache R packages
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: bigger-cache-more-packages-05192021-AT
+```
+
+#### Update packages if needed
+It doesn't always make sense, but sometimes a package needs to be re-installed to work correctly - possible an old version was in the cache. In this case, the `sf` package needs to be re-installed.
+```{r, eval = FALSE}          
+      - name: Re-install sf
+        run: |
+          Rscript -e '
+          remove.packages("sf")
+          install.packages("sf")'
+```
+
+#### Render your reports
+This script is calling [another script](https://github.com/NOAA-EDAB/esp_data_aggregation/blob/abby/R-scripts/render%20dev%20report%20with%20errors.R) to render the reports, to avoid having to write a large amount of R code in the YAML file.
+```{r, eval = FALSE}                 
+      - name: Render reports
+        run: |
+          Rscript -e '
+          # install dev NEesp
+          remove.packages("NEesp")
+          remotes::install_github("NOAA-EDAB/NEesp", ref = "dev", upgrade = "never")
+          
+          # create reports
+          species <- NEesp::species_key$Species
+          source(here::here("R-scripts", "render dev report with errors.R"))'
+```
+
+##### The rendering script
+The script begins with set-up: loading `%>%` and setting a null `output` object that will be filled later in the script.
+```{r, eval = FALSE}  
+`%>%` <- magrittr::`%>%`
+output <- c()
+```
+
+`suppressWarnings` silences much of the script output, making the Github Actions log easier to read.
+```{r, eval = FALSE}  
+suppressWarnings({
+```
+
+The `species` variable was set in the YAML, and it is a vector of species names. That way the species can be altered without changing the rendering script.
+```{r, eval = FALSE} 
+  for (i in species) {
+```
+
+`sink` is used to hide the unnecessary script output. `hide.txt` is a garbage file that will be deleted later.
+```{r, eval = FALSE}     
+    sink("hide.txt")
+```
+
+The report rendering is wrapped in `try` so that if a report breaks, the script will continue to the next species instead of ending on an error. Assigning the report rendering function to a variable does not affect the report creation or saving.
+```{r, eval = FALSE} 
+    test <- try(NEesp::render_ind_report(i,
+      input = here::here("bookdown"),
+      params_to_use = list(
+        species_ID = i,
+        ricky_survey_data = NEesp::bio_survey,
+        path = here::here("action_reports", i, "figures//"),
+        save = TRUE
+      ), trouble = FALSE
+    ))
+```
+
+If report rendering failed, the script searches for which file caused the problem.
+```{r, eval = FALSE} 
+    if (class(test) == "try-error") {
+      problem_file <- NEesp::find_files(
+        paste0("\\{r", "(.{1,5})", chunk_name),
+        here::here("bookdown")
+      ) %>% invisible()
+
+      problem_file <- problem_file %>%
+        tibble::as_tibble() %>%
+        dplyr::filter(stringr::str_detect(file, "not-used", negate = TRUE))
+```
+
+>`chunk_name` is a variable created by the Rmarkdown template. Using a `knitr` hook (code below), `chunk_name` is dynamically updated to the name of the current chunk being rendered. The `<<-` assignment operator creates a variable in the global environment during report rendering. `last_known` is another variable that tracks the name of the last named chunk; it is useful because not all chunks have names.
+```{r, eval = FALSE}
+last_known <<- "setup"
+knitr::knit_hooks$set(hook_name = function(before){
+  if(before){
+    chunk_name <<- knitr::opts_current$get()$label
+    known_name = stringr::str_detect(chunk_name, "unnamed-chunk-", negate = TRUE)
+    if(known_name) {
+      last_known <<- chunk_name
+    }
+  }
+})
+```
+
+If the script can't find the file that caused the problem, that means that `chunk_name` isn't in any of the template files. In turn, that means that the chunk that caused the problem was an unnamed chunk, so it was automatically assigned a name during rendering, which of course cannot be found in the template file. In this situation, the script searches for and displays the name of the last named chunk instead.
+```{r, eval = FALSE}
+      if (problem_file == "Not found") {
+        problem_file2 <- NEesp::find_files(
+          paste0("\\{r", "(.{1,5})", last_known),
+          here::here("bookdown")
+        ) %>% invisible()
+```
+
+Files that are in the template folder but are not used in report creation are in a `not-used` folder so they can be filtered out from the troubleshooting.
+```{r, eval = FALSE}
+        problem_file2 <- problem_file2 %>%
+          tibble::as_tibble() %>%
+          dplyr::filter(stringr::str_detect(file, "not-used", negate = TRUE))
+
+        file_name <- problem_file2[, 1] %>%
+          stringr::str_split("bookdown/", n = 2)
+        file_name <- file_name[[1]][2]
+```
+
+Diagnostic output of the last known file, chunk name, and line run are generated.
+```{r, eval = FALSE}
+        this_output <- c(
+          i, test[1],
+          paste("unknown - last known file:", file_name),
+          chunk_name,
+          paste("unknown - last known line:", problem_file2[2])
+        )
+      } else {
+```        
+
+If the chunk name of the problem code is known, the analysis is simpler. Diagnostic output of the last known file, chunk name, and line run are generated.
+```{r, eval = FALSE}        
+
+        problem_file <- problem_file %>%
+          tibble::as_tibble() %>%
+          dplyr::filter(stringr::str_detect(file, "not-used", negate = TRUE))
+
+        file_name <- problem_file[, 1] %>%
+          stringr::str_split("bookdown/", n = 2)
+        file_name <- file_name[[1]][2]
+
+        this_output <- c(i, toString(test[1]), file_name, chunk_name, problem_file[, 2],
+                         recursive = TRUE)
+      }
+```
+
+The output is appended to the `output` object to keep an error log, and the script reports that it has finished a species.
+```{r, eval = FALSE}  
+      output <- rbind(output, this_output)
+    }
+    sink()
+    print(paste("Done with", i))
+  }
+```
+
+If the report rendered successfully for all species, `output` is still a null object at the end of the `for` loop. In order to satisfy the requirements of the deployment step, an empty folder called `logs` is created.
+```{r, eval = FALSE}  
+  if (class(output) == "NULL") {
+
+    dir.create(here::here("logs"))
+```
+
+If the `output` object is not a null object, that means that one or more species reports had errors. `output` is saved as a spreadsheet in the `logs` folder.
+```{r, eval = FALSE}    
+  } else {
+    
+    colnames(output) <- c("Species", "Error", "File throwing error", "Chunk name", "Line throwing error")
+
+    file <- paste0("logs/", Sys.time(), ".csv") %>%
+      stringr::str_replace_all(":", ".")
+    dir.create(here::here("logs"))
+    
+    write.csv(output, here::here(file), row.names = FALSE)
+```
+
+If the reports that did not render successfully, some files did not get properly cleaned up, so this step removes those files.
+```{r, eval = FALSE}      
+    # clean up .Rmd and .yml files that didn't render
+    files_to_remove <- c(list.files(here::here("action_reports"), 
+                                    pattern = "\\.Rmd$",
+                                    recursive = TRUE,
+                                    full.names = TRUE),
+                         list.files(here::here("action_reports"), 
+                                    pattern = "\\.yml$",
+                                    recursive = TRUE,
+                                    full.names = TRUE))
+    file.remove(files_to_remove)
+  }
+})
+```
+
+And that's the end of the report rendering script!
+
+#### Downsize images to save space
+
+The default linux runner creates .png images with 24-bit color depth, which take up a lot of space and aren't necessary to achieve adequate image quality. Therefore, this step downgrades the images to 8-bit, and displays the folder size before and after downsizing.
+```{r, eval = FALSE}          
+      - name: Change images to 8-bit
+        run: |
+          sudo apt-get install -y pngquant
+          cd action_reports
+          du -s
+          pngquant --quality=0-90 --force --ext .png */*/*.png
+          du -s
+        shell: bash 
+```
+
+#### Compress images to save space
+
+.png images are further compressed to save space. Folders not associated with the creation of these reports are ignored.
+```{r, eval = FALSE}        
+      - name: Compress Images
+        id: calibre
+        uses: calibreapp/image-actions@main
+        with:
+          githubToken: ${{ secrets.GH_PAT }}
+          ignorePaths: 'Regression_reports/**, black-sea-bass/**, R-scripts/**'
+          compressOnly: true
+```
+
+#### Check directory size
+
+The size of the folder containing the reports is displayed. If it is over 2GB, it cannot be deloyed to Github in one chunk.
+```{r, eval = FALSE}          
+      - name: Check directory size
+        run: |
+          cd action_reports
+          du -s
+        shell: bash          
+```
+
+#### Deploy the reports to Github
+
+The `action_reports` folder containing the reports is deployed to Github.
+```{r, eval = FALSE}
+      - name: Deploy reports to Github
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          repository-name: NOAA-EDAB/ESP_docs
+          token: ${{ secrets.GH_PAT }}
+          branch: main # The branch the action should deploy to.
+          folder: action_reports # The folder the action should deploy.
+          target-folder: Reports
+          clean: false # Automatically remove deleted files from the deploy branch
+```
+
+#### Deploy the status check to Github
+
+The `logs` folder containing the error logs is deployed to Github. If there were no errors in report creation, this step is skipped because there is no file to deploy.
+```{r, eval = FALSE}
+      - name: Deploy status check to Github
+        id: logdeploy
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          token: ${{ secrets.GH_PAT }}
+          branch: main # The branch the action should deploy to.
+          folder: logs # The folder the action should deploy.
+          target-folder: logs
+          clean: false # Automatically remove deleted files from the deploy branch
+```
+
+#### Create an issue if the status check showed errors
+
+If the `logs` folder deployment was not skipped (meaning that there were errors), an issue is created. The issue uses [this template](https://github.com/NOAA-EDAB/esp_data_aggregation/blob/abby/.github/ISSUE_TEMPLATE.md).
+```{r, eval = FALSE}
+      - name: Create issue (if needed)
+        if: ${{ env.deployment_status != 'skipped' }}
+        uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        with:
+          assignees: ${{ env.GITHUB_ACTOR }}
+```
+
+#### Force the workflow to break if the status check showed errors
+If the `logs` folder deployment was not skipped (meaning that there were errors), the workflow is stopped with an error message. 
+```{r, eval = FALSE}          
+      - name: Status
+        run: |
+          Rscript -e '
+          if (quote(${{ env.deployment_status }}) == "skipped"){
+          "Passing!"
+          } else { 
+          stop("Errors found! Check logs folder.") 
+          }'
+```
