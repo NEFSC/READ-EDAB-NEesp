@@ -36,6 +36,8 @@ Using the [`NEesp::get_risk` function](https://noaa-edab.github.io/NEesp/referen
 
 ### Comprehensive risk by guild
 
+Mean risk values were calculated for [each guild](https://noaa-edab.github.io/ESP_docs/risk_ranking/plot_all_risk) by first averaging stock values for species that had more than one stock, and then averaging all species within the same guild.
+
 ### Risk within species, value over time
 
 Within each species, indicators were ranked over time to assign a risk value. Depending on the indicator, high value was assigned high risk, or low value was assigned high risk. The purpose of this calculation was to visualize the temporal trend of a stock's indicator. The full data manipulation script can be seen [here](https://github.com/NOAA-EDAB/NEesp/blob/main/data-raw/scripts/create_risk_rankings/calculate_risk_within_species.R).
