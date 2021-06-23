@@ -47,17 +47,8 @@ navbar:
       href: https://nmfs-general-modeling-tools.github.io/
 
 articles:
-  - title: "NEesp Vignettes"
-    desc: >
-      These vignettes provide an introduction to how to use the
-      **NEesp** package. <br/>
-      <br/>
-    contents:
-      - install-and-use-package
-      - shiny-app
-      - data
-      - rmarkdown-intro
-      - general-workflow
+    toc:
+      depth: 3
 
 reference:
   - title: Stock reports suite of functions
