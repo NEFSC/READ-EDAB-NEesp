@@ -101,7 +101,7 @@
       <a href="../articles/github-actions.html">Creating reports with Github Actions</a>
     </li>
     <li>
-      <a href="../articles/cache-guide.html">How to cache Github Actions</a>
+      <a href="../articles/cache-guide.html">How to cache with Github Actions</a>
     </li>
   </ul>
 </li>
@@ -167,12 +167,12 @@
 <div id="what-is-caching" class="section level2">
 <h2 class="hasAnchor">
 <a href="#what-is-caching" class="anchor"></a>What is caching?</h2>
-<p>A <a href="https://github.com/actions/cache">cache in Github Actions</a> stores files so they don’t have to be re-uploaded each time an action runs. This is very useful for saving time.</p>
+<p>A <a href="https://github.com/actions/cache">cache in Github Actions</a> stores files so they don’t have to be re-uploaded each time an action runs. This is very useful for saving time. For the purpose of creating reports with Rmarkdown, R packages can be cached, allowing you to skip the lengthy package installation step when your workflows run.</p>
 </div>
 <div id="how-to-set-up-and-maintain-the-cache" class="section level2">
 <h2 class="hasAnchor">
 <a href="#how-to-set-up-and-maintain-the-cache" class="anchor"></a>How to set up and maintain the cache</h2>
-<p>The cache can be set up and maintained with a single workflow. The workflow should have both a <code>workflow_dispatch</code> trigger (so you can run it to create the cache) and a <code>schedule</code> trigger (so it runs periodically for maintenance). The cache must be maintained because if more than 7 days pass without a cache hit, Github will delete the cache, and it must be installed again the next time your action runs. By running a cache hit on a schedule, your cache will not be destroyed even if you go more than one week between actively using the cache.</p>
+<p>The cache can be set up and maintained with a single workflow, as seen <a href="https://github.com/NOAA-EDAB/NEesp/blob/main/.github/workflows/maintain_cache.yaml">here</a>. The workflow should have both a <code>workflow_dispatch</code> trigger (so you can run it to create the cache) and a <code>schedule</code> trigger (so it runs periodically for maintenance). The cache must be maintained because if more than 7 days pass without a cache hit, Github will delete the cache, and it must be installed again the next time your action runs. By running a cache hit on a schedule, your cache will not be destroyed even if you go more than one week between actively using the cache.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workflow_dispatch</span><span class="kw">:</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">schedule</span><span class="kw">:</span></span>
@@ -204,7 +204,7 @@
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>          sudo apt update</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>          sudo apt-get install  libgdal-dev libcurl4-gnutls-dev libgit2-dev libudunits2-dev libharfbuzz-dev libfribidi-dev</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> bash</span></span></code></pre></div>
-<p>Load the R packages. If there was a cache hit (as in a “maintenance” run), this step is skipped. If there was no cache hit (as when setting up the cache), this stepp executes and installs your R packages. The amount of time that this step takes depends on how many packages you need.</p>
+<p>Load the R packages. If there was a cache hit (as in a “maintenance” run), this step is skipped. If there was no cache hit (as when setting up the cache), this step executes and installs your R packages. The amount of time that this step takes depends on how many packages you need.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Load R packages</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">if</span><span class="kw">:</span><span class="at"> steps.cache.outputs.cache-hit != 'true'</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
@@ -218,7 +218,13 @@
 <div id="how-to-reference-the-cache-in-your-workflows" class="section level2">
 <h2 class="hasAnchor">
 <a href="#how-to-reference-the-cache-in-your-workflows" class="anchor"></a>How to reference the cache in your workflows</h2>
-<p>Once you have created a cache in a repo, you can reference it in other Github Actions workflows by including the “Check cached R packages” step in your YAML.</p>
+<p>Once you have created a cache in a repo, you can reference it in other Github Actions workflows by including the “Check cached R packages” step in your YAML. This will allow your workflow to access the cached files.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Check cached R packages</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/cache@v2</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">id</span><span class="kw">:</span><span class="at"> cache</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ${{ env.R_LIBS_USER }}</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">key</span><span class="kw">:</span><span class="at"> pkgdown-cache-05172021-AT</span></span></code></pre></div>
 </div>
   </div>
 
