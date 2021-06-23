@@ -45,9 +45,11 @@ One important thing to know about YAMLs is that **indentation and colons matter*
 ### Specify the workflow trigger
 
 First, the trigger for the workflow must be specified.
-```{r, eval = FALSE}
+```
+{
 on:
   workflow_dispatch:
+}
 ```
 `workflow_dispatch` means that the workflow is triggered manually on the Actions page of the repo. Workflows can also be triggered by pushes and pulls to the repository.
 
@@ -73,7 +75,7 @@ jobs:
 
 This is the backbone of your workflow. The steps will run in sequence. It is possible to run multiple jobs in parallel, but each job must have all of the necessary set-up steps, so this parallelization does not typically save a notable amount of time when rendering reports. Additionally, if two jobs attempt to deploy reports at the same time, one of them will typically fail.
 
-#### Checkout your repository
+#### 1. Checkout your repository
 This step is necessary to get the information from your repository onto the remote runner.
 ```{r, eval = FALSE}
     steps:
@@ -84,7 +86,7 @@ This step is necessary to get the information from your repository onto the remo
           persist-credentials: false
 ```
 
-#### Install Pandoc
+#### 2. Install Pandoc
 Pandoc is used under the hood by the `knitr`, `bookdown`, and `rmarkdown` suite of report rendering functions.
 ```{r, eval = FALSE}
       - name: Install Pandoc
@@ -92,7 +94,7 @@ Pandoc is used under the hood by the `knitr`, `bookdown`, and `rmarkdown` suite 
         shell: bash
 ```
 
-#### Install command line packages
+#### 3. Install command line packages
 Some R libraries may require command line updates to install or update back-end packages. 
 ```{r, eval = FALSE}
       - name: Install command line packages
@@ -102,7 +104,7 @@ Some R libraries may require command line updates to install or update back-end 
         shell: bash
 ```
 
-#### Install R
+#### 4. Install R
 R must be installed on the remote runner!
 ```{r, eval = FALSE}        
       - name: Set up R
@@ -111,7 +113,7 @@ R must be installed on the remote runner!
           r-version: '4.0.3' # problem with using 4.0.4        
 ```
 
-#### Cache your R packages
+#### 5. Cache your R packages
 If your reports depend on a large number of R packages, it will save a lot of time in the long run to cache the packages. 
 ```{r, eval = FALSE}      
       - name: Cache R packages
@@ -122,7 +124,7 @@ If your reports depend on a large number of R packages, it will save a lot of ti
           key: bigger-cache-more-packages-05192021-AT
 ```
 
-#### Update packages if needed
+#### 6. Update packages if needed
 It doesn't always make sense, but sometimes a package needs to be re-installed to work correctly - possible an old version was in the cache. In this case, the `sf` package needs to be re-installed.
 ```{r, eval = FALSE}          
       - name: Re-install sf
@@ -132,7 +134,7 @@ It doesn't always make sense, but sometimes a package needs to be re-installed t
           install.packages("sf")'
 ```
 
-#### Render your reports
+#### 7. Render your reports
 This script is calling [another script](https://github.com/NOAA-EDAB/esp_data_aggregation/blob/abby/R-scripts/render%20dev%20report%20with%20errors.R) to render the reports, to avoid having to write a large amount of R code in the YAML file.
 ```{r, eval = FALSE}                 
       - name: Render reports
@@ -146,6 +148,8 @@ This script is calling [another script](https://github.com/NOAA-EDAB/esp_data_ag
           species <- NEesp::species_key$Species
           source(here::here("R-scripts", "render dev report with errors.R"))'
 ```
+
+---
 
 ##### The rendering script
 The script begins with set-up: loading `%>%` and setting a null `output` object that will be filled later in the script.
@@ -195,7 +199,7 @@ If report rendering failed, the script searches for which file caused the proble
         dplyr::filter(stringr::str_detect(file, "not-used", negate = TRUE))
 ```
 
->`chunk_name` is a variable created by the Rmarkdown template. Using a `knitr` hook (code below), `chunk_name` is dynamically updated to the name of the current chunk being rendered. The `<<-` assignment operator creates a variable in the global environment during report rendering. `last_known` is another variable that tracks the name of the last named chunk; it is useful because not all chunks have names.
+>>`chunk_name` is a variable created by the Rmarkdown template. Using a `knitr` hook (code below), `chunk_name` is dynamically updated to the name of the current chunk being rendered. The `<<-` assignment operator creates a variable in the global environment during report rendering. `last_known` is another variable that tracks the name of the last named chunk; it is useful because not all chunks have names.
 ```{r, eval = FALSE}
 last_known <<- "setup"
 knitr::knit_hooks$set(hook_name = function(before){
@@ -303,7 +307,9 @@ If the reports that did not render successfully, some files did not get properly
 
 And that's the end of the report rendering script!
 
-#### Downsize images to save space
+---
+
+#### 8. Downsize images to save space (optional)
 
 The default linux runner creates .png images with 24-bit color depth, which take up a lot of space and aren't necessary to achieve adequate image quality. Therefore, this step downgrades the images to 8-bit, and displays the folder size before and after downsizing.
 ```{r, eval = FALSE}          
@@ -317,7 +323,7 @@ The default linux runner creates .png images with 24-bit color depth, which take
         shell: bash 
 ```
 
-#### Compress images to save space
+#### 9. Compress images to save space (optional)
 
 .png images are further compressed to save space. Folders not associated with the creation of these reports are ignored.
 ```{r, eval = FALSE}        
@@ -330,7 +336,7 @@ The default linux runner creates .png images with 24-bit color depth, which take
           compressOnly: true
 ```
 
-#### Check directory size
+#### 10. Check directory size (optional)
 
 The size of the folder containing the reports is displayed. If it is over 2GB, it cannot be deloyed to Github in one chunk.
 ```{r, eval = FALSE}          
@@ -341,7 +347,7 @@ The size of the folder containing the reports is displayed. If it is over 2GB, i
         shell: bash          
 ```
 
-#### Deploy the reports to Github
+#### 11. Deploy the reports to Github
 
 The `action_reports` folder containing the reports is deployed to Github.
 ```{r, eval = FALSE}
@@ -356,7 +362,7 @@ The `action_reports` folder containing the reports is deployed to Github.
           clean: false # Automatically remove deleted files from the deploy branch
 ```
 
-#### Deploy the status check to Github
+#### 12. Deploy the status check to Github
 
 The `logs` folder containing the error logs is deployed to Github. If there were no errors in report creation, this step is skipped because there is no file to deploy.
 ```{r, eval = FALSE}
@@ -371,7 +377,7 @@ The `logs` folder containing the error logs is deployed to Github. If there were
           clean: false # Automatically remove deleted files from the deploy branch
 ```
 
-#### Create an issue if the status check showed errors
+#### 13. Create an issue if the status check showed errors
 
 If the `logs` folder deployment was not skipped (meaning that there were errors), an issue is created. The issue uses [this template](https://github.com/NOAA-EDAB/esp_data_aggregation/blob/abby/.github/ISSUE_TEMPLATE.md).
 ```{r, eval = FALSE}
@@ -384,7 +390,7 @@ If the `logs` folder deployment was not skipped (meaning that there were errors)
           assignees: ${{ env.GITHUB_ACTOR }}
 ```
 
-#### Force the workflow to break if the status check showed errors
+#### 14. Force the workflow to break if the status check showed errors
 If the `logs` folder deployment was not skipped (meaning that there were errors), the workflow is stopped with an error message. 
 ```{r, eval = FALSE}          
       - name: Status
