@@ -199,28 +199,26 @@
 <h3 class="hasAnchor">
 <a href="#specify-the-workflow-trigger" class="anchor"></a>Specify the workflow trigger</h3>
 <p>First, the trigger for the workflow must be specified.</p>
-<pre><code>{
-on:
-  workflow_dispatch:
-}</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workflow_dispatch</span><span class="kw">:</span></span></code></pre></div>
 <p><code>workflow_dispatch</code> means that the workflow is triggered manually on the Actions page of the repo. Workflows can also be triggered by pushes and pulls to the repository.</p>
 </div>
 <div id="name-the-workflow-optional" class="section level3">
 <h3 class="hasAnchor">
 <a href="#name-the-workflow-optional" class="anchor"></a>Name the workflow (optional)</h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>name<span class="sc">:</span> Indicator <span class="fu">Reports</span> (development)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> Indicator Reports (development)</span></span></code></pre></div>
 </div>
 <div id="specify-the-envorinment-for-your-job" class="section level3">
 <h3 class="hasAnchor">
 <a href="#specify-the-envorinment-for-your-job" class="anchor"></a>Specify the envorinment for your job</h3>
 <p>Your workflow can run on Linux, Windows, or Mac. This can be useful if you require a package or method that is only available on a certain operating system. You can also set environment secrets, for example in this workflow a password is set to give permission to the deployment step, and <code>R_REMOTES_NO_ERRORS_FROM_WARNINGS</code> is set to <code>true</code> to prevent the workflow from failing if the R script throws a warning.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>jobs<span class="sc">:</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  build1<span class="sc">:</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    runs<span class="sc">-</span>on<span class="sc">:</span> ubuntu<span class="sc">-</span>latest</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    env<span class="sc">:</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      GITHUB_PAT<span class="sc">:</span> <span class="er">$</span>{{ secrets.GH_PAT }}</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      R_REMOTES_NO_ERRORS_FROM_WARNINGS<span class="sc">:</span> true</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      </span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">build1</span><span class="kw">:</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">env</span><span class="kw">:</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">GITHUB_PAT</span><span class="kw">:</span><span class="at"> ${{ secrets.GH_PAT }}</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">R_REMOTES_NO_ERRORS_FROM_WARNINGS</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="at">      </span></span></code></pre></div>
 </div>
 <div id="add-steps-to-your-jobs" class="section level3">
 <h3 class="hasAnchor">
@@ -230,75 +228,75 @@ on:
 <h4 class="hasAnchor">
 <a href="#checkout-your-repository" class="anchor"></a>1. Checkout your repository</h4>
 <p>This step is necessary to get the information from your repository onto the remote runner.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    steps<span class="sc">:</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>          </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Checkout esp_data_aggregation</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        uses<span class="sc">:</span> actions<span class="sc">/</span>checkout<span class="sc">@</span>v2</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        with<span class="sc">:</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>          persist<span class="sc">-</span>credentials<span class="sc">:</span> false</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="at">          </span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Checkout esp_data_aggregation</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v2</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">persist-credentials</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div>
 </div>
 <div id="install-pandoc" class="section level4">
 <h4 class="hasAnchor">
 <a href="#install-pandoc" class="anchor"></a>2. Install Pandoc</h4>
 <p>Pandoc is used under the hood by the <code>knitr</code>, <code>bookdown</code>, and <code>rmarkdown</code> suite of report rendering functions.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Install Pandoc</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>        run<span class="sc">:</span> brew install pandoc</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        shell<span class="sc">:</span> bash</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Install Pandoc</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> brew install pandoc</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> bash</span></span></code></pre></div>
 </div>
 <div id="install-command-line-packages" class="section level4">
 <h4 class="hasAnchor">
 <a href="#install-command-line-packages" class="anchor"></a>3. Install command line packages</h4>
 <p>Some R libraries may require command line updates to install or update back-end packages.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Install command line packages</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>        run<span class="sc">:</span> <span class="er">|</span>        </span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Install command line packages</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span><span class="at">        </span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>          sudo apt update</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>          sudo apt<span class="sc">-</span>get install  libgdal<span class="sc">-</span>dev libcurl4<span class="sc">-</span>gnutls<span class="sc">-</span>dev libgit2<span class="sc">-</span>dev libudunits2<span class="sc">-</span>dev</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        shell<span class="sc">:</span> bash</span></code></pre></div>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>          sudo apt-get install  libgdal-dev libcurl4-gnutls-dev libgit2-dev libudunits2-dev</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> bash</span></span></code></pre></div>
 </div>
 <div id="install-r" class="section level4">
 <h4 class="hasAnchor">
 <a href="#install-r" class="anchor"></a>4. Install R</h4>
 <p>R must be installed on the remote runner!</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Set up R</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>        uses<span class="sc">:</span> r<span class="sc">-</span>lib<span class="sc">/</span>actions<span class="sc">/</span>setup<span class="sc">-</span>r<span class="sc">@</span>master</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        with<span class="sc">:</span> </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>          r<span class="sc">-</span>version<span class="sc">:</span> <span class="st">'4.0.3'</span> <span class="co"># problem with using 4.0.4        </span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Set up R</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> r-lib/actions/setup-r@master</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">r-version</span><span class="kw">:</span><span class="at"> </span><span class="st">'4.0.3'</span><span class="co"> # problem with using 4.0.4        </span></span></code></pre></div>
 </div>
 <div id="cache-your-r-packages" class="section level4">
 <h4 class="hasAnchor">
 <a href="#cache-your-r-packages" class="anchor"></a>5. Cache your R packages</h4>
 <p>If your reports depend on a large number of R packages, it will save a lot of time in the long run to cache the packages.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Cache R packages</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>        uses<span class="sc">:</span> actions<span class="sc">/</span>cache<span class="sc">@</span>v2</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        id<span class="sc">:</span> cache</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        with<span class="sc">:</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>          path<span class="sc">:</span> <span class="er">$</span>{{ env.R_LIBS_USER }}</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>          key<span class="sc">:</span> bigger<span class="sc">-</span>cache<span class="sc">-</span>more<span class="sc">-</span>packages<span class="dv">-05192021</span><span class="sc">-</span>AT</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Cache R packages</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/cache@v2</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">id</span><span class="kw">:</span><span class="at"> cache</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ${{ env.R_LIBS_USER }}</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">key</span><span class="kw">:</span><span class="at"> bigger-cache-more-packages-05192021-AT</span></span></code></pre></div>
 </div>
 <div id="update-packages-if-needed" class="section level4">
 <h4 class="hasAnchor">
 <a href="#update-packages-if-needed" class="anchor"></a>6. Update packages if needed</h4>
 <p>It doesn’t always make sense, but sometimes a package needs to be re-installed to work correctly - possible an old version was in the cache. In this case, the <code>sf</code> package needs to be re-installed.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Re<span class="sc">-</span>install sf</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>        run<span class="sc">:</span> <span class="er">|</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>          Rscript <span class="sc">-</span>e <span class="st">'</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">          remove.packages("sf")</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">          install.packages("sf")'</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Re-install sf</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>          Rscript -e '</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>          remove.packages("sf")</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>          install.packages("sf")'</span></code></pre></div>
 </div>
 <div id="render-your-reports" class="section level4">
 <h4 class="hasAnchor">
 <a href="#render-your-reports" class="anchor"></a>7. Render your reports</h4>
 <p>This script is calling <a href="https://github.com/NOAA-EDAB/esp_data_aggregation/blob/abby/R-scripts/render%20dev%20report%20with%20errors.R">another script</a> to render the reports, to avoid having to write a large amount of R code in the YAML file.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Render reports</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>        run<span class="sc">:</span> <span class="er">|</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>          Rscript <span class="sc">-</span>e <span class="st">'</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="st">          # install dev NEesp</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="st">          remove.packages("NEesp")</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="st">          remotes::install_github("NOAA-EDAB/NEesp", ref = "dev", upgrade = "never")</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="st">          </span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="st">          # create reports</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="st">          species &lt;- NEesp::species_key$Species</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st">          source(here::here("R-scripts", "render dev report with errors.R"))'</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Render reports</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>          Rscript -e '</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>          # install dev NEesp</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>          remove.packages("NEesp")</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>          remotes::install_github("NOAA-EDAB/NEesp", ref = "dev", upgrade = "never")</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>          # create reports</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>          species &lt;- NEesp::species_key$Species</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>          source(here::here("R-scripts", "render dev report with errors.R"))'</span></code></pre></div>
 <hr>
 <div id="the-rendering-script" class="section level5">
 <h5 class="hasAnchor">
@@ -335,22 +333,31 @@ on:
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>      problem_file <span class="ot">&lt;-</span> problem_file <span class="sc">%&gt;%</span></span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        tibble<span class="sc">::</span><span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">filter</span>(stringr<span class="sc">::</span><span class="fu">str_detect</span>(file, <span class="st">"not-used"</span>, <span class="at">negate =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
-<blockquote>
-<blockquote>
-<p><code>chunk_name</code> is a variable created by the Rmarkdown template. Using a <code>knitr</code> hook (code below), <code>chunk_name</code> is dynamically updated to the name of the current chunk being rendered. The <code><a href="https://rdrr.io/r/base/assignOps.html">&lt;&lt;-</a></code> assignment operator creates a variable in the global environment during report rendering. <code>last_known</code> is another variable that tracks the name of the last named chunk; it is useful because not all chunks have names.</p>
-</blockquote>
-</blockquote>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">last_known</span> <span class="op">&lt;&lt;-</span> <span class="st">"setup"</span>
-<span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/knit_hooks.html">knit_hooks</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>hook_name <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">before</span><span class="op">)</span><span class="op">{</span>
-  <span class="kw">if</span><span class="op">(</span><span class="va">before</span><span class="op">)</span><span class="op">{</span>
-    <span class="va">chunk_name</span> <span class="op">&lt;&lt;-</span> <span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_current</a></span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">label</span>
-    <span class="va">known_name</span> <span class="op">=</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">chunk_name</span>, <span class="st">"unnamed-chunk-"</span>, negate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-    <span class="kw">if</span><span class="op">(</span><span class="va">known_name</span><span class="op">)</span> <span class="op">{</span>
-      <span class="va">last_known</span> <span class="op">&lt;&lt;-</span> <span class="va">chunk_name</span>
-    <span class="op">}</span>
-  <span class="op">}</span>
-<span class="op">}</span><span class="op">)</span></code></pre></div>
+<style>
+div.blue body { background-color:aliceblue; }
+div.blue code { background-color:aliceblue; }
+div.blue pre.r { background-color:aliceblue; }
+</style>
+<div class="blue">
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">### keeping track of code chunks </span><span class="al">###</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">chunk_name</span><span class="st">`</span> is a variable created by the Rmarkdown template. Using a <span class="st">`</span><span class="at">knitr</span><span class="st">`</span> <span class="fu">hook</span> (code below), </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">chunk_name</span><span class="st">`</span> is dynamically updated to the name of the current chunk being <span class="fu">rendered</span> (the name of the </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>chunk containing the setup hook must be manually specified). The <span class="st">`</span><span class="at">&lt;&lt;-</span><span class="st">`</span> assignment operator creates a </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>variable <span class="cf">in</span> the global environment during report rendering. <span class="st">`</span><span class="at">last_known</span><span class="st">`</span> is another variable that tracks </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>the name of the last named chunk; it is useful because not all chunks have names.</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>last_known <span class="ot">&lt;&lt;-</span> <span class="st">'setup'</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>knit_hooks<span class="sc">$</span><span class="fu">set</span>(<span class="at">hook_name =</span> <span class="cf">function</span>(before){</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(before){</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    chunk_name <span class="ot">&lt;&lt;-</span> knitr<span class="sc">::</span>opts_current<span class="sc">$</span><span class="fu">get</span>()<span class="sc">$</span>label</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    known_name <span class="ot">=</span> stringr<span class="sc">::</span><span class="fu">str_detect</span>(chunk_name, <span class="st">'unnamed-chunk-'</span>, <span class="at">negate =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(known_name) {</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>      last_known <span class="ot">&lt;&lt;-</span> chunk_name</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+</div>
 <p>If the script can’t find the file that caused the problem, that means that <code>chunk_name</code> isn’t in any of the template files. In turn, that means that the chunk that caused the problem was an unnamed chunk, so it was automatically assigned a name during rendering, which of course cannot be found in the template file. In this situation, the script searches for and displays the name of the last named chunk instead.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (problem_file <span class="sc">==</span> <span class="st">"Not found"</span>) {</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>        problem_file2 <span class="ot">&lt;-</span> NEesp<span class="sc">::</span><span class="fu">find_files</span>(</span>
@@ -428,89 +435,89 @@ on:
 <h4 class="hasAnchor">
 <a href="#downsize-images-to-save-space-optional" class="anchor"></a>8. Downsize images to save space (optional)</h4>
 <p>The default linux runner creates .png images with 24-bit color depth, which take up a lot of space and aren’t necessary to achieve adequate image quality. Therefore, this step downgrades the images to 8-bit, and displays the folder size before and after downsizing.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Change images to <span class="dv">8</span><span class="sc">-</span>bit</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>        run<span class="sc">:</span> <span class="er">|</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>          sudo apt<span class="sc">-</span>get install <span class="sc">-</span>y pngquant</span>
+<div class="sourceCode" id="cb26"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Change images to 8-bit</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>          sudo apt-get install -y pngquant</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>          cd action_reports</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>          du <span class="sc">-</span>s</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>          pngquant <span class="sc">--</span>quality<span class="ot">=</span><span class="dv">0-90</span> <span class="sc">--</span>force <span class="sc">--</span>ext .png <span class="sc">*</span><span class="er">/*/*</span>.png</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>          du <span class="sc">-</span>s</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>        shell<span class="sc">:</span> bash </span></code></pre></div>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>          du -s</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>          pngquant --quality=0-90 --force --ext .png */*/*.png</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>          du -s</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> bash </span></span></code></pre></div>
 </div>
 <div id="compress-images-to-save-space-optional" class="section level4">
 <h4 class="hasAnchor">
 <a href="#compress-images-to-save-space-optional" class="anchor"></a>9. Compress images to save space (optional)</h4>
 <p>.png images are further compressed to save space. Folders not associated with the creation of these reports are ignored.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Compress Images</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>        id<span class="sc">:</span> calibre</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>        uses<span class="sc">:</span> calibreapp<span class="sc">/</span>image<span class="sc">-</span>actions<span class="sc">@</span>main</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        with<span class="sc">:</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>          githubToken<span class="sc">:</span> <span class="er">$</span>{{ secrets.GH_PAT }}</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>          ignorePaths<span class="sc">:</span> <span class="st">'Regression_reports/**, black-sea-bass/**, R-scripts/**'</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>          compressOnly<span class="sc">:</span> true</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Compress Images</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">id</span><span class="kw">:</span><span class="at"> calibre</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> calibreapp/image-actions@main</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">githubToken</span><span class="kw">:</span><span class="at"> ${{ secrets.GH_PAT }}</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">ignorePaths</span><span class="kw">:</span><span class="at"> </span><span class="st">'Regression_reports/**, black-sea-bass/**, R-scripts/**'</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">compressOnly</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div>
 </div>
 <div id="check-directory-size-optional" class="section level4">
 <h4 class="hasAnchor">
 <a href="#check-directory-size-optional" class="anchor"></a>10. Check directory size (optional)</h4>
 <p>The size of the folder containing the reports is displayed. If it is over 2GB, it cannot be deloyed to Github in one chunk.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Check directory size</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>        run<span class="sc">:</span> <span class="er">|</span></span>
+<div class="sourceCode" id="cb28"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Check directory size</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>          cd action_reports</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>          du <span class="sc">-</span>s</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>        shell<span class="sc">:</span> bash          </span></code></pre></div>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>          du -s</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> bash          </span></span></code></pre></div>
 </div>
 <div id="deploy-the-reports-to-github" class="section level4">
 <h4 class="hasAnchor">
 <a href="#deploy-the-reports-to-github" class="anchor"></a>11. Deploy the reports to Github</h4>
 <p>The <code>action_reports</code> folder containing the reports is deployed to Github.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Deploy reports to Github</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>        uses<span class="sc">:</span> JamesIves<span class="sc">/</span>github<span class="sc">-</span>pages<span class="sc">-</span>deploy<span class="sc">-</span>action<span class="sc">@</span><span class="dv">4</span>.<span class="fl">1.1</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>        with<span class="sc">:</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>          repository<span class="sc">-</span>name<span class="sc">:</span> NOAA<span class="sc">-</span>EDAB<span class="sc">/</span>ESP_docs</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>          token<span class="sc">:</span> <span class="er">$</span>{{ secrets.GH_PAT }}</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>          branch<span class="sc">:</span> main <span class="co"># The branch the action should deploy to.</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>          folder<span class="sc">:</span> action_reports <span class="co"># The folder the action should deploy.</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>          target<span class="sc">-</span>folder<span class="sc">:</span> Reports</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>          clean<span class="sc">:</span> false <span class="co"># Automatically remove deleted files from the deploy branch</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Deploy reports to Github</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> JamesIves/github-pages-deploy-action@4.1.1</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">repository-name</span><span class="kw">:</span><span class="at"> NOAA-EDAB/ESP_docs</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">token</span><span class="kw">:</span><span class="at"> ${{ secrets.GH_PAT }}</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">branch</span><span class="kw">:</span><span class="at"> main</span><span class="co"> # The branch the action should deploy to.</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">folder</span><span class="kw">:</span><span class="at"> action_reports</span><span class="co"> # The folder the action should deploy.</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">target-folder</span><span class="kw">:</span><span class="at"> Reports</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">clean</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span><span class="co"> # Automatically remove deleted files from the deploy branch</span></span></code></pre></div>
 </div>
 <div id="deploy-the-status-check-to-github" class="section level4">
 <h4 class="hasAnchor">
 <a href="#deploy-the-status-check-to-github" class="anchor"></a>12. Deploy the status check to Github</h4>
 <p>The <code>logs</code> folder containing the error logs is deployed to Github. If there were no errors in report creation, this step is skipped because there is no file to deploy.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Deploy status check to Github</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>        id<span class="sc">:</span> logdeploy</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>        uses<span class="sc">:</span> JamesIves<span class="sc">/</span>github<span class="sc">-</span>pages<span class="sc">-</span>deploy<span class="sc">-</span>action<span class="sc">@</span><span class="dv">4</span>.<span class="fl">1.1</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>        with<span class="sc">:</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>          token<span class="sc">:</span> <span class="er">$</span>{{ secrets.GH_PAT }}</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>          branch<span class="sc">:</span> main <span class="co"># The branch the action should deploy to.</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>          folder<span class="sc">:</span> logs <span class="co"># The folder the action should deploy.</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>          target<span class="sc">-</span>folder<span class="sc">:</span> logs</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>          clean<span class="sc">:</span> false <span class="co"># Automatically remove deleted files from the deploy branch</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Deploy status check to Github</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">id</span><span class="kw">:</span><span class="at"> logdeploy</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> JamesIves/github-pages-deploy-action@4.1.1</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">token</span><span class="kw">:</span><span class="at"> ${{ secrets.GH_PAT }}</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">branch</span><span class="kw">:</span><span class="at"> main</span><span class="co"> # The branch the action should deploy to.</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">folder</span><span class="kw">:</span><span class="at"> logs</span><span class="co"> # The folder the action should deploy.</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">target-folder</span><span class="kw">:</span><span class="at"> logs</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">clean</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span><span class="co"> # Automatically remove deleted files from the deploy branch</span></span></code></pre></div>
 </div>
 <div id="create-an-issue-if-the-status-check-showed-errors" class="section level4">
 <h4 class="hasAnchor">
 <a href="#create-an-issue-if-the-status-check-showed-errors" class="anchor"></a>13. Create an issue if the status check showed errors</h4>
 <p>If the <code>logs</code> folder deployment was not skipped (meaning that there were errors), an issue is created. The issue uses <a href="https://github.com/NOAA-EDAB/esp_data_aggregation/blob/abby/.github/ISSUE_TEMPLATE.md">this template</a>.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Create <span class="fu">issue</span> (<span class="cf">if</span> needed)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="sc">:</span> <span class="er">$</span>{{ env.deployment_status <span class="sc">!=</span> <span class="st">'skipped'</span> }}</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>        uses<span class="sc">:</span> JasonEtco<span class="sc">/</span>create<span class="sc">-</span>an<span class="sc">-</span>issue<span class="sc">@</span>v2</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>        env<span class="sc">:</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>          GITHUB_TOKEN<span class="sc">:</span> <span class="er">$</span>{{ secrets.GH_PAT }}</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        with<span class="sc">:</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>          assignees<span class="sc">:</span> <span class="er">$</span>{{ env.GITHUB_ACTOR }}</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Create issue (if needed)</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">if</span><span class="kw">:</span><span class="at"> ${{ env.deployment_status != 'skipped' }}</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> JasonEtco/create-an-issue@v2</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">env</span><span class="kw">:</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">GITHUB_TOKEN</span><span class="kw">:</span><span class="at"> ${{ secrets.GH_PAT }}</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">assignees</span><span class="kw">:</span><span class="at"> ${{ env.GITHUB_ACTOR }}</span></span></code></pre></div>
 </div>
 <div id="force-the-workflow-to-break-if-the-status-check-showed-errors" class="section level4">
 <h4 class="hasAnchor">
 <a href="#force-the-workflow-to-break-if-the-status-check-showed-errors" class="anchor"></a>14. Force the workflow to break if the status check showed errors</h4>
 <p>If the <code>logs</code> folder deployment was not skipped (meaning that there were errors), the workflow is stopped with an error message.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Status</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>        run<span class="sc">:</span> <span class="er">|</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>          Rscript <span class="sc">-</span>e <span class="st">'</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="st">          if (quote(${{ env.deployment_status }}) == "skipped"){</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="st">          "Passing!"</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="st">          } else { </span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="st">          stop("Errors found! Check logs folder.") </span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="st">          }'</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Status</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>          Rscript -e '</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>          if (quote(${{ env.deployment_status }}) == "skipped"){</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>          "Passing!"</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>          } else { </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>          stop("Errors found! Check logs folder.") </span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>          }'</span></code></pre></div>
 </div>
 </div>
 </div>
