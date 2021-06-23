@@ -199,8 +199,10 @@
 <h3 class="hasAnchor">
 <a href="#specify-the-workflow-trigger" class="anchor"></a>Specify the workflow trigger</h3>
 <p>First, the trigger for the workflow must be specified.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>on<span class="sc">:</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  workflow_dispatch<span class="sc">:</span></span></code></pre></div>
+<pre><code>{
+on:
+  workflow_dispatch:
+}</code></pre>
 <p><code>workflow_dispatch</code> means that the workflow is triggered manually on the Actions page of the repo. Workflows can also be triggered by pushes and pulls to the repository.</p>
 </div>
 <div id="name-the-workflow-optional" class="section level3">
@@ -226,7 +228,7 @@
 <p>This is the backbone of your workflow. The steps will run in sequence. It is possible to run multiple jobs in parallel, but each job must have all of the necessary set-up steps, so this parallelization does not typically save a notable amount of time when rendering reports. Additionally, if two jobs attempt to deploy reports at the same time, one of them will typically fail.</p>
 <div id="checkout-your-repository" class="section level4">
 <h4 class="hasAnchor">
-<a href="#checkout-your-repository" class="anchor"></a>Checkout your repository</h4>
+<a href="#checkout-your-repository" class="anchor"></a>1. Checkout your repository</h4>
 <p>This step is necessary to get the information from your repository onto the remote runner.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    steps<span class="sc">:</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>          </span>
@@ -237,7 +239,7 @@
 </div>
 <div id="install-pandoc" class="section level4">
 <h4 class="hasAnchor">
-<a href="#install-pandoc" class="anchor"></a>Install Pandoc</h4>
+<a href="#install-pandoc" class="anchor"></a>2. Install Pandoc</h4>
 <p>Pandoc is used under the hood by the <code>knitr</code>, <code>bookdown</code>, and <code>rmarkdown</code> suite of report rendering functions.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Install Pandoc</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>        run<span class="sc">:</span> brew install pandoc</span>
@@ -245,7 +247,7 @@
 </div>
 <div id="install-command-line-packages" class="section level4">
 <h4 class="hasAnchor">
-<a href="#install-command-line-packages" class="anchor"></a>Install command line packages</h4>
+<a href="#install-command-line-packages" class="anchor"></a>3. Install command line packages</h4>
 <p>Some R libraries may require command line updates to install or update back-end packages.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Install command line packages</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>        run<span class="sc">:</span> <span class="er">|</span>        </span>
@@ -255,7 +257,7 @@
 </div>
 <div id="install-r" class="section level4">
 <h4 class="hasAnchor">
-<a href="#install-r" class="anchor"></a>Install R</h4>
+<a href="#install-r" class="anchor"></a>4. Install R</h4>
 <p>R must be installed on the remote runner!</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Set up R</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>        uses<span class="sc">:</span> r<span class="sc">-</span>lib<span class="sc">/</span>actions<span class="sc">/</span>setup<span class="sc">-</span>r<span class="sc">@</span>master</span>
@@ -264,7 +266,7 @@
 </div>
 <div id="cache-your-r-packages" class="section level4">
 <h4 class="hasAnchor">
-<a href="#cache-your-r-packages" class="anchor"></a>Cache your R packages</h4>
+<a href="#cache-your-r-packages" class="anchor"></a>5. Cache your R packages</h4>
 <p>If your reports depend on a large number of R packages, it will save a lot of time in the long run to cache the packages.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Cache R packages</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>        uses<span class="sc">:</span> actions<span class="sc">/</span>cache<span class="sc">@</span>v2</span>
@@ -275,7 +277,7 @@
 </div>
 <div id="update-packages-if-needed" class="section level4">
 <h4 class="hasAnchor">
-<a href="#update-packages-if-needed" class="anchor"></a>Update packages if needed</h4>
+<a href="#update-packages-if-needed" class="anchor"></a>6. Update packages if needed</h4>
 <p>It doesn’t always make sense, but sometimes a package needs to be re-installed to work correctly - possible an old version was in the cache. In this case, the <code>sf</code> package needs to be re-installed.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Re<span class="sc">-</span>install sf</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>        run<span class="sc">:</span> <span class="er">|</span></span>
@@ -285,7 +287,7 @@
 </div>
 <div id="render-your-reports" class="section level4">
 <h4 class="hasAnchor">
-<a href="#render-your-reports" class="anchor"></a>Render your reports</h4>
+<a href="#render-your-reports" class="anchor"></a>7. Render your reports</h4>
 <p>This script is calling <a href="https://github.com/NOAA-EDAB/esp_data_aggregation/blob/abby/R-scripts/render%20dev%20report%20with%20errors.R">another script</a> to render the reports, to avoid having to write a large amount of R code in the YAML file.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Render reports</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>        run<span class="sc">:</span> <span class="er">|</span></span>
@@ -297,6 +299,7 @@
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="st">          # create reports</span></span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="st">          species &lt;- NEesp::species_key$Species</span></span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st">          source(here::here("R-scripts", "render dev report with errors.R"))'</span></span></code></pre></div>
+<hr>
 <div id="the-rendering-script" class="section level5">
 <h5 class="hasAnchor">
 <a href="#the-rendering-script" class="anchor"></a>The rendering script</h5>
@@ -333,7 +336,9 @@
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        tibble<span class="sc">::</span><span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">filter</span>(stringr<span class="sc">::</span><span class="fu">str_detect</span>(file, <span class="st">"not-used"</span>, <span class="at">negate =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
 <blockquote>
+<blockquote>
 <p><code>chunk_name</code> is a variable created by the Rmarkdown template. Using a <code>knitr</code> hook (code below), <code>chunk_name</code> is dynamically updated to the name of the current chunk being rendered. The <code><a href="https://rdrr.io/r/base/assignOps.html">&lt;&lt;-</a></code> assignment operator creates a variable in the global environment during report rendering. <code>last_known</code> is another variable that tracks the name of the last named chunk; it is useful because not all chunks have names.</p>
+</blockquote>
 </blockquote>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">last_known</span> <span class="op">&lt;&lt;-</span> <span class="st">"setup"</span>
@@ -416,11 +421,12 @@
 <span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="er">}</span></span>
 <span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="er">})</span></span></code></pre></div>
 <p>And that’s the end of the report rendering script!</p>
+<hr>
 </div>
 </div>
-<div id="downsize-images-to-save-space" class="section level4">
+<div id="downsize-images-to-save-space-optional" class="section level4">
 <h4 class="hasAnchor">
-<a href="#downsize-images-to-save-space" class="anchor"></a>Downsize images to save space</h4>
+<a href="#downsize-images-to-save-space-optional" class="anchor"></a>8. Downsize images to save space (optional)</h4>
 <p>The default linux runner creates .png images with 24-bit color depth, which take up a lot of space and aren’t necessary to achieve adequate image quality. Therefore, this step downgrades the images to 8-bit, and displays the folder size before and after downsizing.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Change images to <span class="dv">8</span><span class="sc">-</span>bit</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>        run<span class="sc">:</span> <span class="er">|</span></span>
@@ -431,9 +437,9 @@
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>          du <span class="sc">-</span>s</span>
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>        shell<span class="sc">:</span> bash </span></code></pre></div>
 </div>
-<div id="compress-images-to-save-space" class="section level4">
+<div id="compress-images-to-save-space-optional" class="section level4">
 <h4 class="hasAnchor">
-<a href="#compress-images-to-save-space" class="anchor"></a>Compress images to save space</h4>
+<a href="#compress-images-to-save-space-optional" class="anchor"></a>9. Compress images to save space (optional)</h4>
 <p>.png images are further compressed to save space. Folders not associated with the creation of these reports are ignored.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Compress Images</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>        id<span class="sc">:</span> calibre</span>
@@ -443,9 +449,9 @@
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>          ignorePaths<span class="sc">:</span> <span class="st">'Regression_reports/**, black-sea-bass/**, R-scripts/**'</span></span>
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>          compressOnly<span class="sc">:</span> true</span></code></pre></div>
 </div>
-<div id="check-directory-size" class="section level4">
+<div id="check-directory-size-optional" class="section level4">
 <h4 class="hasAnchor">
-<a href="#check-directory-size" class="anchor"></a>Check directory size</h4>
+<a href="#check-directory-size-optional" class="anchor"></a>10. Check directory size (optional)</h4>
 <p>The size of the folder containing the reports is displayed. If it is over 2GB, it cannot be deloyed to Github in one chunk.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Check directory size</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>        run<span class="sc">:</span> <span class="er">|</span></span>
@@ -455,7 +461,7 @@
 </div>
 <div id="deploy-the-reports-to-github" class="section level4">
 <h4 class="hasAnchor">
-<a href="#deploy-the-reports-to-github" class="anchor"></a>Deploy the reports to Github</h4>
+<a href="#deploy-the-reports-to-github" class="anchor"></a>11. Deploy the reports to Github</h4>
 <p>The <code>action_reports</code> folder containing the reports is deployed to Github.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Deploy reports to Github</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>        uses<span class="sc">:</span> JamesIves<span class="sc">/</span>github<span class="sc">-</span>pages<span class="sc">-</span>deploy<span class="sc">-</span>action<span class="sc">@</span><span class="dv">4</span>.<span class="fl">1.1</span></span>
@@ -469,7 +475,7 @@
 </div>
 <div id="deploy-the-status-check-to-github" class="section level4">
 <h4 class="hasAnchor">
-<a href="#deploy-the-status-check-to-github" class="anchor"></a>Deploy the status check to Github</h4>
+<a href="#deploy-the-status-check-to-github" class="anchor"></a>12. Deploy the status check to Github</h4>
 <p>The <code>logs</code> folder containing the error logs is deployed to Github. If there were no errors in report creation, this step is skipped because there is no file to deploy.</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Deploy status check to Github</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>        id<span class="sc">:</span> logdeploy</span>
@@ -483,7 +489,7 @@
 </div>
 <div id="create-an-issue-if-the-status-check-showed-errors" class="section level4">
 <h4 class="hasAnchor">
-<a href="#create-an-issue-if-the-status-check-showed-errors" class="anchor"></a>Create an issue if the status check showed errors</h4>
+<a href="#create-an-issue-if-the-status-check-showed-errors" class="anchor"></a>13. Create an issue if the status check showed errors</h4>
 <p>If the <code>logs</code> folder deployment was not skipped (meaning that there were errors), an issue is created. The issue uses <a href="https://github.com/NOAA-EDAB/esp_data_aggregation/blob/abby/.github/ISSUE_TEMPLATE.md">this template</a>.</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Create <span class="fu">issue</span> (<span class="cf">if</span> needed)</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="sc">:</span> <span class="er">$</span>{{ env.deployment_status <span class="sc">!=</span> <span class="st">'skipped'</span> }}</span>
@@ -495,7 +501,7 @@
 </div>
 <div id="force-the-workflow-to-break-if-the-status-check-showed-errors" class="section level4">
 <h4 class="hasAnchor">
-<a href="#force-the-workflow-to-break-if-the-status-check-showed-errors" class="anchor"></a>Force the workflow to break if the status check showed errors</h4>
+<a href="#force-the-workflow-to-break-if-the-status-check-showed-errors" class="anchor"></a>14. Force the workflow to break if the status check showed errors</h4>
 <p>If the <code>logs</code> folder deployment was not skipped (meaning that there were errors), the workflow is stopped with an error message.</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>      <span class="sc">-</span> name<span class="sc">:</span> Status</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>        run<span class="sc">:</span> <span class="er">|</span></span>
