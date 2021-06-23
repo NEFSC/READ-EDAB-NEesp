@@ -18,11 +18,11 @@ knitr::opts_chunk$set(
 
 ## What is caching?
 
-A [cache in Github Actions](https://github.com/actions/cache) stores files so they don't have to be re-uploaded each time an action runs. This is very useful for saving time.
+A [cache in Github Actions](https://github.com/actions/cache) stores files so they don't have to be re-uploaded each time an action runs. This is very useful for saving time. For the purpose of creating reports with Rmarkdown, R packages can be cached, allowing you to skip the lengthy package installation step when your workflows run.
 
 ## How to set up and maintain the cache
 
-The cache can be set up and maintained with a single workflow. The workflow should have both a `workflow_dispatch` trigger (so you can run it to create the cache) and a `schedule` trigger (so it runs periodically for maintenance). The cache must be maintained because if more than 7 days pass without a cache hit, Github will delete the cache, and it must be installed again the next time your action runs. By running a cache hit on a schedule, your cache will not be destroyed even if you go more than one week between actively using the cache.
+The cache can be set up and maintained with a single workflow, as seen [here](https://github.com/NOAA-EDAB/NEesp/blob/main/.github/workflows/maintain_cache.yaml). The workflow should have both a `workflow_dispatch` trigger (so you can run it to create the cache) and a `schedule` trigger (so it runs periodically for maintenance). The cache must be maintained because if more than 7 days pass without a cache hit, Github will delete the cache, and it must be installed again the next time your action runs. By running a cache hit on a schedule, your cache will not be destroyed even if you go more than one week between actively using the cache.
 
 ```yaml
 on:
@@ -73,7 +73,7 @@ Some R packages require command line updates to the system.
         shell: bash
 ```
 
-Load the R packages. If there was a cache hit (as in a "maintenance" run), this step is skipped. If there was no cache hit (as when setting up the cache), this stepp executes and installs your R packages. The amount of time that this step takes depends on how many packages you need.
+Load the R packages. If there was a cache hit (as in a "maintenance" run), this step is skipped. If there was no cache hit (as when setting up the cache), this step executes and installs your R packages. The amount of time that this step takes depends on how many packages you need.
 ```yaml        
       - name: Load R packages
         if: steps.cache.outputs.cache-hit != 'true'
@@ -88,4 +88,12 @@ Load the R packages. If there was a cache hit (as in a "maintenance" run), this 
 
 ## How to reference the cache in your workflows
 
-Once you have created a cache in a repo, you can reference it in other Github Actions workflows by including the "Check cached R packages" step in your YAML.
+Once you have created a cache in a repo, you can reference it in other Github Actions workflows by including the "Check cached R packages" step in your YAML. This will allow your workflow to access the cached files.
+```yaml        
+      - name: Check cached R packages
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: pkgdown-cache-05172021-AT
+```

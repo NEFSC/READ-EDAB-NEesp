@@ -31,7 +31,7 @@ navbar:
          href: articles/general-workflow.html
       -  text: "Creating reports with Github Actions"
          href: articles/github-actions.html
-      -  text: "How to cache Github Actions"
+      -  text: "How to cache with Github Actions"
          href: articles/cache-guide.html
 
     - text: "Functions"
