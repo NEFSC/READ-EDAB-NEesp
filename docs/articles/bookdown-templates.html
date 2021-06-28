@@ -104,6 +104,12 @@
       <a href="../articles/bookdown-templates.html">About report templates</a>
     </li>
     <li>
+      <a href="../articles/indicator-template.html">The indicator report template</a>
+    </li>
+    <li>
+      <a href="../articles/correlation-template.html">The correlation report template</a>
+    </li>
+    <li>
       <a href="../articles/github-actions.html">Creating reports with Github Actions</a>
     </li>
     <li>
@@ -187,12 +193,17 @@
 <div id="unique-data-analysis" class="section level3">
 <h3 class="hasAnchor">
 <a href="#unique-data-analysis" class="anchor"></a>Unique data analysis</h3>
-<p>The first, and most intuitive, style is to create each chapter entirely from its own Rmarkdown file. In other words, each chapter would be written to display different data, using data manipulations and visualizations unique to that data set. The <a href="https://github.com/NOAA-EDAB/NEesp/tree/main/inst/indicator_bookdown_template">indicator bookdown template</a> follows this format.</p>
+<p>The first, and most intuitive, style is to create each chapter entirely from its own Rmarkdown file. In other words, each chapter would be written to display different data, using data manipulations and visualizations unique to that data set. The <a href="https://github.com/NOAA-EDAB/NEesp/tree/main/inst/indicator_bookdown_template">indicator bookdown template</a> primarily follows this format.</p>
 </div>
 <div id="analysis-with-a-child-doc" class="section level3">
 <h3 class="hasAnchor">
 <a href="#analysis-with-a-child-doc" class="anchor"></a>Analysis with a child doc</h3>
 <p>A more automated way to create the template is to make each chapter from its own child document. This only works if all of the data being displayed has similar content and formatting. In this case, the same data manipulations and visualizations can be applied to multiple sets of data using a child document. This workflow cuts down on the amount of code that needs to be written, allows data manipulation and visualizations to be consistently produced for all data, and makes it easy to update the manipulations and visualizations for the entire report. The <a href="https://github.com/NOAA-EDAB/NEesp/tree/main/inst/correlation_bookdown_template">correlation bookdown template</a> follows this format.</p>
+</div>
+<div id="hybrid-style" class="section level3">
+<h3 class="hasAnchor">
+<a href="#hybrid-style" class="anchor"></a>Hybrid style</h3>
+<p>Some data may be suitable for a child doc, while other data may require a unique analysis. In this case, the two template methods can be combined. For example, the <a href="https://github.com/NOAA-EDAB/NEesp/tree/main/inst/indicator_bookdown_template">indicator bookdown template</a> uses unique templates to display each indicator data set, but it uses a <a href="https://github.com/NOAA-EDAB/NEesp/blob/main/inst/indicator_bookdown_template/_risk-child-doc.Rmd">child doc</a> to plot the risk assessment data, since the risk assessment data has the same structure and general content for each indicator.</p>
 </div>
 </div>
   </div>
