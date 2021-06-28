@@ -8,7 +8,7 @@ output:
     split_by: section
 documentclass: book
 always_allow_html: true
-github-repo: NOAA-EDAB/esp_data_aggregation
+github-repo: NOAA-EDAB/NEesp
 params:
   lag: 0 # lag for correlations
   remove_recent: FALSE

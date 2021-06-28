@@ -30,12 +30,12 @@ There are two general report template styles that we have used in this package.
 
 ### Unique data analysis
 
-The first, and most intuitive, style is to create each chapter entirely from its own Rmarkdown file. In other words, each chapter would be written to display different data, using data manipulations and visualizations unique to that data set. The [indicator bookdown template](https://github.com/NOAA-EDAB/NEesp/tree/main/inst/indicator_bookdown_template) follows this format.
+The first, and most intuitive, style is to create each chapter entirely from its own Rmarkdown file. In other words, each chapter would be written to display different data, using data manipulations and visualizations unique to that data set. The [indicator bookdown template](https://github.com/NOAA-EDAB/NEesp/tree/main/inst/indicator_bookdown_template) primarily follows this format.
 
 ### Analysis with a child doc
 
 A more automated way to create the template is to make each chapter from its own child document. This only works if all of the data being displayed has similar content and formatting. In this case, the same data manipulations and visualizations can be applied to multiple sets of data using a child document. This workflow cuts down on the amount of code that needs to be written, allows data manipulation and visualizations to be consistently produced for all data, and makes it easy to update the manipulations and visualizations for the entire report. The [correlation bookdown template](https://github.com/NOAA-EDAB/NEesp/tree/main/inst/correlation_bookdown_template) follows this format.
 
+### Hybrid style
 
-
-
+Some data may be suitable for a child doc, while other data may require a unique analysis. In this case, the two template methods can be combined. For example, the [indicator bookdown template](https://github.com/NOAA-EDAB/NEesp/tree/main/inst/indicator_bookdown_template) uses unique templates to display each indicator data set, but it uses a [child doc](https://github.com/NOAA-EDAB/NEesp/blob/main/inst/indicator_bookdown_template/_risk-child-doc.Rmd) to plot the risk assessment data, since the risk assessment data has the same structure and general content for each indicator. 
