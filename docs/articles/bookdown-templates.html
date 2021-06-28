@@ -18,7 +18,7 @@
       "<link id=\"css\" rel=\"stylesheet\" href=\"https://bootswatch.com/3/flatly/bootstrap.css\" onload=\"document.documentElement.style.display = ''\">"
     );
   }
-</script><title>Data in NEesp • NEesp</title>
+</script><title>About report templates • NEesp</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- Flatly Theme - Light  --><link id="css-light" rel="stylesheet" href="https://bootswatch.com/3/flatly/bootstrap.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
 <!-- Darkly Theme - Dark --><link id="css-dark" rel="stylesheet" href="https://bootswatch.com/3/darkly/bootstrap.css" media="(prefers-color-scheme: dark)">
 <!-- preferably CSS --><link rel="stylesheet" href="../preferably.css">
@@ -28,7 +28,7 @@
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Data in NEesp">
+<script src="../pkgdown.js"></script><meta property="og:title" content="About report templates">
 <meta property="og:description" content="NEesp">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -157,34 +157,43 @@
 
       
 
-      </header><script src="data_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><script src="bookdown-templates_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Data in NEesp</h1>
+      <h1 data-toc-skip>About report templates</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/NOAA-EDAB/NEesp/blob/master/vignettes/data.Rmd"><code>vignettes/data.Rmd</code></a></small>
-      <div class="hidden name"><code>data.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/NOAA-EDAB/NEesp/blob/master/vignettes/bookdown-templates.Rmd"><code>vignettes/bookdown-templates.Rmd</code></a></small>
+      <div class="hidden name"><code>bookdown-templates.Rmd</code></div>
 
     </div>
 
     
     
-<div id="types-of-data" class="section level2">
+<div id="what-makes-an--rmd-file-a-template" class="section level2">
 <h2 class="hasAnchor">
-<a href="#types-of-data" class="anchor"></a>Types of data</h2>
-<p>This package contains mostly species-level data that comes from public sources and has been minimally processed. Current data sources include the <code>assessementdata</code> package, the <code>survdat</code> package (<code>svdbs</code> database), and MRIP recreational catch data.</p>
+<a href="#what-makes-an--rmd-file-a-template" class="anchor"></a>What makes an .Rmd file a template?</h2>
+<p>Generally speaking, any parameterized Rmarkdown file is a template. When the parameters are changed, a different output is created from the same Rmarkdown file(s). Depending on how the report is parameterized, any number of possible reports can be created. In the case of the <code>NEesp</code> reports, the Rmarkdown files are parameterized so a report can be created for any of the Northeast fisheries stocks by changing the stock input parameter. The template file structure allows reports to be automatically generated, which is much more quick compared to creating reports on individual stocks by hand.</p>
 </div>
-<div id="data-structure" class="section level2">
+<div id="using-bookdown-for-templates" class="section level2">
 <h2 class="hasAnchor">
-<a href="#data-structure" class="anchor"></a>Data structure</h2>
-<p>Data is in a tidy format. At a minimum, all data have columns to specify species and time. Most data also have a column specifying stock region; some data may only be parsed at the species (not stock) level.</p>
+<a href="#using-bookdown-for-templates" class="anchor"></a>Using <code>bookdown</code> for templates</h2>
+<p>The <a href="https://bookdown.org/yihui/bookdown/"><code>bookdown</code> package</a> was designed to allow for easier creating of long-form Rmarkdown documents. Instead of creating one long document, reports can be generated from several shorter documents (chapters). Chapters can be flexibly inserted or removed from reports at the report generation step.</p>
 </div>
-<div id="ecodata" class="section level2">
+<div id="the-template" class="section level2">
 <h2 class="hasAnchor">
-<a href="#ecodata" class="anchor"></a><code>ecodata</code>
-</h2>
-<p>The <a href="https://github.com/NOAA-EDAB/ecodata"><code>ecodata</code> package</a> is another product created by the Ecosystem Dynamics and Assessment Branch of the Northeast Fisheries Science Center. It houses ecosystem data for the annual State of the Ecosystem Report (SOE). There is an ongoing ESP-SOE collaboration to re-assess SOE data at stock-specific regional scales.</p>
+<a href="#the-template" class="anchor"></a>The template</h2>
+<p>There are two general report template styles that we have used in this package.</p>
+<div id="unique-data-analysis" class="section level3">
+<h3 class="hasAnchor">
+<a href="#unique-data-analysis" class="anchor"></a>Unique data analysis</h3>
+<p>The first, and most intuitive, style is to create each chapter entirely from its own Rmarkdown file. In other words, each chapter would be written to display different data, using data manipulations and visualizations unique to that data set. The <a href="https://github.com/NOAA-EDAB/NEesp/tree/main/inst/indicator_bookdown_template">indicator bookdown template</a> follows this format.</p>
+</div>
+<div id="analysis-with-a-child-doc" class="section level3">
+<h3 class="hasAnchor">
+<a href="#analysis-with-a-child-doc" class="anchor"></a>Analysis with a child doc</h3>
+<p>A more automated way to create the template is to make each chapter from its own child document. This only works if all of the data being displayed has similar content and formatting. In this case, the same data manipulations and visualizations can be applied to multiple sets of data using a child document. This workflow cuts down on the amount of code that needs to be written, allows data manipulation and visualizations to be consistently produced for all data, and makes it easy to update the manipulations and visualizations for the entire report. The <a href="https://github.com/NOAA-EDAB/NEesp/tree/main/inst/correlation_bookdown_template">correlation bookdown template</a> follows this format.</p>
+</div>
 </div>
   </div>
 

@@ -2,6 +2,7 @@ pandoc: 2.14.0.1
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
+  bookdown-templates: bookdown-templates.html
   cache-guide: cache-guide.html
   data: data.html
   general-workflow: general-workflow.html
@@ -11,7 +12,7 @@ articles:
   rmarkdown-intro: rmarkdown-intro.html
   shiny-app: shiny-app.html
   why-esp: why-esp.html
-last_built: 2021-06-23T21:49Z
+last_built: 2021-06-28T15:54Z
 urls:
   reference: https://noaa-edab.github.io/NEesp//reference
   article: https://noaa-edab.github.io/NEesp//articles
