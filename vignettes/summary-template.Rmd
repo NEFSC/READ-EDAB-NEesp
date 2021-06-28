@@ -1,0 +1,31 @@
+---
+title: "The summary report template"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The summary report template}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  eval = FALSE
+)
+```
+
+The [summary report](https://github.com/NOAA-EDAB/NEesp/tree/dev/inst/summary_esp_template) can be created by the [`NEespShiny` app](https://github.com/NOAA-EDAB/NEespShiny); there is no wrapper R function to render this report at this time.
+
+## The intro file
+
+The [intro file](https://github.com/NOAA-EDAB/NEesp/blob/dev/inst/summary_esp_template/intro.Rmd) contains important set-up information for the report. Report specifications, including parameters, are defined in the YAML frontmatter. However, no data is read in at this step.
+
+## The child file
+
+The [child file](https://github.com/NOAA-EDAB/NEesp/blob/dev/inst/summary_esp_template/child.Rmd) is knit for each indicator of interest. Variables values are specified by the shiny app. The [`wrap_analysis` function](https://noaa-edab.github.io/NEesp/reference/wrap_analysis.html) plots the data and adds report card information to a report card object that will be displayed at the end of the report. 
+
+## The end file
+
+The [end file](https://github.com/NOAA-EDAB/NEesp/blob/dev/inst/summary_esp_template/end.Rmd) displays the ESP report cards and appendix. 

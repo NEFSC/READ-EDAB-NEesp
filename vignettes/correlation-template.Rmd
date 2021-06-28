@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 )
 ```
 
+The correlation report template can be found [here](https://github.com/NOAA-EDAB/NEesp/tree/dev/inst/correlation_bookdown_template).
+
 ## The index file
 
 The [index file](https://github.com/NOAA-EDAB/NEesp/blob/main/inst/correlation_bookdown_template/index.Rmd) contains important set-up information for the report. Report specifications, including parameters, are defined in the YAML frontmatter. Data is read in and trimmed to only the stock of interest. Some null variables are set for later use in the report, and there is a fail message that is output if no data exists for the parameters selected. 

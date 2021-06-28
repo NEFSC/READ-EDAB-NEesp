@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 )
 ```
 
+The indicator report template can be found [here](https://github.com/NOAA-EDAB/NEesp/tree/dev/inst/indicator_bookdown_template).
+
 ## The index file
 
 The [index file](https://github.com/NOAA-EDAB/NEesp/blob/main/inst/indicator_bookdown_template/index.Rmd) contains important set-up information for the report. Report specifications, including parameters, are defined in the YAML frontmatter. Data is read in, trimmed to only the stock of interest, and saved as a report output. 
