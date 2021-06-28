@@ -13,8 +13,9 @@ articles:
   risk-assessment: risk-assessment.html
   rmarkdown-intro: rmarkdown-intro.html
   shiny-app: shiny-app.html
+  summary-template: summary-template.html
   why-esp: why-esp.html
-last_built: 2021-06-28T18:24Z
+last_built: 2021-06-28T19:56Z
 urls:
   reference: https://noaa-edab.github.io/NEesp//reference
   article: https://noaa-edab.github.io/NEesp//articles
