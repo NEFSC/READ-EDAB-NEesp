@@ -1,0 +1,41 @@
+---
+title: "About report templates"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{About report templates}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  eval = FALSE
+)
+```
+
+## What makes an .Rmd file a template?
+
+Generally speaking, any parameterized Rmarkdown file is a template. When the parameters are changed, a different output is created from the same Rmarkdown file(s). Depending on how the report is parameterized, any number of possible reports can be created. In the case of the `NEesp` reports, the Rmarkdown files are parameterized so a report can be created for any of the Northeast fisheries stocks by changing the stock input parameter. The template file structure allows reports to be automatically generated, which is much more quick compared to creating reports on individual stocks by hand.
+
+## Using `bookdown` for templates
+
+The [`bookdown` package](https://bookdown.org/yihui/bookdown/) was designed to allow for easier creating of long-form Rmarkdown documents. Instead of creating one long document, reports can be generated from several shorter documents (chapters). Chapters can be flexibly inserted or removed from reports at the report generation step.
+
+## The template
+
+There are two general report template styles that we have used in this package.
+
+### Unique data analysis
+
+The first, and most intuitive, style is to create each chapter entirely from its own Rmarkdown file. In other words, each chapter would be written to display different data, using data manipulations and visualizations unique to that data set. The [indicator bookdown template](https://github.com/NOAA-EDAB/NEesp/tree/main/inst/indicator_bookdown_template) follows this format.
+
+### Analysis with a child doc
+
+A more automated way to create the template is to make each chapter from its own child document. This only works if all of the data being displayed has similar content and formatting. In this case, the same data manipulations and visualizations can be applied to multiple sets of data using a child document. This workflow cuts down on the amount of code that needs to be written, allows data manipulation and visualizations to be consistently produced for all data, and makes it easy to update the manipulations and visualizations for the entire report. The [correlation bookdown template](https://github.com/NOAA-EDAB/NEesp/tree/main/inst/correlation_bookdown_template) follows this format.
+
+
+
+
