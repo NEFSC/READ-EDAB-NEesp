@@ -1,9 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 <!-- badges: start -->
-[![](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/NOAA-EDAB/NEesp) 
-[![](https://img.shields.io/github/last-commit/NOAA-EDAB/NEesp.svg)](https://github.com/NOAA-EDAB/NEesp/commits/dev) 
-![](https://img.shields.io/badge/repo%20size-0.51%20GB-blue.svg)
+[![](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/NOAA-EDAB/NEesp) [![](https://img.shields.io/github/last-commit/NOAA-EDAB/NEesp.svg)](https://github.com/NOAA-EDAB/NEesp/commits/dev) ![](https://img.shields.io/badge/repo%20size-0.51%20GB-blue.svg)
 [![](https://github.com/NOAA-EDAB/NEesp/workflows/gitleaks/badge.svg)](https://github.com/NOAA-EDAB/NEesp/actions/workflows/secretScan.yml)
 <!-- badges: end -->
 `.`
