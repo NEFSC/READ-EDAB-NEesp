@@ -2,6 +2,7 @@
 
 # Ecosystem and Socioeconomic Profiles <img src="https://raw.githubusercontent.com/NOAA-EDAB/esp_data_aggregation/abby/hexes/NEesp_hex.png" align="right" width="120" /> 
 
+<!-- badges: start -->
 ```{r, echo = FALSE, results='asis', message=FALSE}
 `%>%` <- magrittr::`%>%`
 # custom code size badge
@@ -19,6 +20,7 @@ cat(badger::badge_devel("NOAA-EDAB/NEesp", "blue"),
     badger::badge_custom("repo size", paste(total_size, "GB"), color = "blue"), url = " ")
 ```
 [![](https://github.com/NOAA-EDAB/NEesp/workflows/gitleaks/badge.svg)](https://github.com/NOAA-EDAB/NEesp/actions/workflows/secretScan.yml)
+<!-- badges: end -->
 
 ## View current data products
 https://noaa-edab.github.io/ESP_docs/docs
