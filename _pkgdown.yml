@@ -31,18 +31,10 @@ navbar:
          href: articles/rmarkdown-intro.html
       -  text: "General report creation workflow"
          href: articles/general-workflow.html
-      -  text: "About report templates"
+      -  text: "Report templates"
          href: articles/bookdown-templates.html
-      -  text: "The indicator report template"
-         href: articles/indicator-template.html
-      -  text: "The correlation report template"
-         href: articles/correlation-template.html
-      -  text: "The summary report template"
-         href: articles/summary-template.html
       -  text: "Creating reports with Github Actions"
          href: articles/github-actions.html
-      -  text: "How to cache with Github Actions"
-         href: articles/cache-guide.html
 
     - text: "Functions"
       href: reference/index.html
