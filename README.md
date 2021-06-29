@@ -6,6 +6,7 @@
 [![](https://img.shields.io/badge/repo%20size-0.51%20GB-blue.svg)](https://github.com/NOAA-EDAB/NEesp)
 [![](https://github.com/NOAA-EDAB/NEesp/workflows/gitleaks/badge.svg)](https://github.com/NOAA-EDAB/NEesp/actions/workflows/secretScan.yml)
 <!-- badges: end -->
+`.`
 
 # Ecosystem and Socioeconomic Profiles <img src="https://raw.githubusercontent.com/NOAA-EDAB/esp_data_aggregation/abby/hexes/NEesp_hex.png" align="right" width="120" /> 
 
