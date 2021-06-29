@@ -283,12 +283,6 @@
     <loc>https://noaa-edab.github.io/NEesp//articles/bookdown-templates.html</loc>
   </url>
   <url>
-    <loc>https://noaa-edab.github.io/NEesp//articles/cache-guide.html</loc>
-  </url>
-  <url>
-    <loc>https://noaa-edab.github.io/NEesp//articles/correlation-template.html</loc>
-  </url>
-  <url>
     <loc>https://noaa-edab.github.io/NEesp//articles/data.html</loc>
   </url>
   <url>
@@ -296,9 +290,6 @@
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//articles/github-actions.html</loc>
-  </url>
-  <url>
-    <loc>https://noaa-edab.github.io/NEesp//articles/indicator-template.html</loc>
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//articles/install-and-use-package.html</loc>
@@ -311,9 +302,6 @@
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//articles/shiny-app.html</loc>
-  </url>
-  <url>
-    <loc>https://noaa-edab.github.io/NEesp//articles/summary-template.html</loc>
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//articles/why-esp.html</loc>

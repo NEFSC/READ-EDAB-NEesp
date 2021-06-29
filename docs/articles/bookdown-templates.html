@@ -101,22 +101,10 @@
       <a href="../articles/general-workflow.html">General report creation workflow</a>
     </li>
     <li>
-      <a href="../articles/bookdown-templates.html">About report templates</a>
-    </li>
-    <li>
-      <a href="../articles/indicator-template.html">The indicator report template</a>
-    </li>
-    <li>
-      <a href="../articles/correlation-template.html">The correlation report template</a>
-    </li>
-    <li>
-      <a href="../articles/summary-template.html">The summary report template</a>
+      <a href="../articles/bookdown-templates.html">Report templates</a>
     </li>
     <li>
       <a href="../articles/github-actions.html">Creating reports with Github Actions</a>
-    </li>
-    <li>
-      <a href="../articles/cache-guide.html">How to cache with Github Actions</a>
     </li>
   </ul>
 </li>
@@ -179,34 +167,106 @@
 
     
     
-<div id="what-makes-an--rmd-file-a-template" class="section level2">
+<div id="about-report-templates" class="section level2">
 <h2 class="hasAnchor">
-<a href="#what-makes-an--rmd-file-a-template" class="anchor"></a>What makes an .Rmd file a template?</h2>
+<a href="#about-report-templates" class="anchor"></a>About report templates</h2>
+<div id="what-makes-an--rmd-file-a-template" class="section level3">
+<h3 class="hasAnchor">
+<a href="#what-makes-an--rmd-file-a-template" class="anchor"></a>What makes an .Rmd file a template?</h3>
 <p>Generally speaking, any parameterized Rmarkdown file is a template. When the parameters are changed, a different output is created from the same Rmarkdown file(s). Depending on how the report is parameterized, any number of possible reports can be created. In the case of the <code>NEesp</code> reports, the Rmarkdown files are parameterized so a report can be created for any of the Northeast fisheries stocks by changing the stock input parameter. The template file structure allows reports to be automatically generated, which is much more quick compared to creating reports on individual stocks by hand.</p>
 </div>
-<div id="using-bookdown-for-templates" class="section level2">
-<h2 class="hasAnchor">
-<a href="#using-bookdown-for-templates" class="anchor"></a>Using <code>bookdown</code> for templates</h2>
+<div id="using-bookdown-for-templates" class="section level3">
+<h3 class="hasAnchor">
+<a href="#using-bookdown-for-templates" class="anchor"></a>Using <code>bookdown</code> for templates</h3>
 <p>The <a href="https://bookdown.org/yihui/bookdown/"><code>bookdown</code> package</a> was designed to allow for easier creating of long-form Rmarkdown documents. Instead of creating one long document, reports can be generated from several shorter documents (chapters). Chapters can be flexibly inserted or removed from reports at the report generation step.</p>
 </div>
-<div id="the-template" class="section level2">
-<h2 class="hasAnchor">
-<a href="#the-template" class="anchor"></a>The template</h2>
-<p>There are two general report template styles that we have used in this package.</p>
-<div id="unique-data-analysis" class="section level3">
+<div id="the-template" class="section level3">
 <h3 class="hasAnchor">
-<a href="#unique-data-analysis" class="anchor"></a>Unique data analysis</h3>
+<a href="#the-template" class="anchor"></a>The template</h3>
+<p>There are two general report template styles that we have used in this package.</p>
+<div id="unique-data-analysis" class="section level4">
+<h4 class="hasAnchor">
+<a href="#unique-data-analysis" class="anchor"></a>Unique data analysis</h4>
 <p>The first, and most intuitive, style is to create each chapter entirely from its own Rmarkdown file. In other words, each chapter would be written to display different data, using data manipulations and visualizations unique to that data set. The <a href="https://github.com/NOAA-EDAB/NEesp/tree/main/inst/indicator_bookdown_template">indicator bookdown template</a> primarily follows this format.</p>
 </div>
-<div id="analysis-with-a-child-doc" class="section level3">
-<h3 class="hasAnchor">
-<a href="#analysis-with-a-child-doc" class="anchor"></a>Analysis with a child doc</h3>
+<div id="analysis-with-a-child-doc" class="section level4">
+<h4 class="hasAnchor">
+<a href="#analysis-with-a-child-doc" class="anchor"></a>Analysis with a child doc</h4>
 <p>A more automated way to create the template is to make each chapter from its own child document. This only works if all of the data being displayed has similar content and formatting. In this case, the same data manipulations and visualizations can be applied to multiple sets of data using a child document. This workflow cuts down on the amount of code that needs to be written, allows data manipulation and visualizations to be consistently produced for all data, and makes it easy to update the manipulations and visualizations for the entire report. The <a href="https://github.com/NOAA-EDAB/NEesp/tree/main/inst/correlation_bookdown_template">correlation bookdown template</a> follows this format.</p>
 </div>
-<div id="hybrid-style" class="section level3">
-<h3 class="hasAnchor">
-<a href="#hybrid-style" class="anchor"></a>Hybrid style</h3>
+<div id="hybrid-template" class="section level4">
+<h4 class="hasAnchor">
+<a href="#hybrid-template" class="anchor"></a>Hybrid template</h4>
 <p>Some data may be suitable for a child doc, while other data may require a unique analysis. In this case, the two template methods can be combined. For example, the <a href="https://github.com/NOAA-EDAB/NEesp/tree/main/inst/indicator_bookdown_template">indicator bookdown template</a> uses unique templates to display each indicator data set, but it uses a <a href="https://github.com/NOAA-EDAB/NEesp/blob/main/inst/indicator_bookdown_template/_risk-child-doc.Rmd">child doc</a> to plot the risk assessment data, since the risk assessment data has the same structure and general content for each indicator.</p>
+</div>
+</div>
+</div>
+<div id="the-indicator-report-template" class="section level2">
+<h2 class="hasAnchor">
+<a href="#the-indicator-report-template" class="anchor"></a>The indicator report template</h2>
+<p>The indicator report template can be found <a href="https://github.com/NOAA-EDAB/NEesp/tree/dev/inst/indicator_bookdown_template">here</a>.</p>
+<div id="the-index-file" class="section level3">
+<h3 class="hasAnchor">
+<a href="#the-index-file" class="anchor"></a>The index file</h3>
+<p>The <a href="https://github.com/NOAA-EDAB/NEesp/blob/main/inst/indicator_bookdown_template/index.Rmd">index file</a> contains important set-up information for the report. Report specifications, including parameters, are defined in the YAML frontmatter. Data is read in, trimmed to only the stock of interest, and saved as a report output.</p>
+</div>
+<div id="the-chapters" class="section level3">
+<h3 class="hasAnchor">
+<a href="#the-chapters" class="anchor"></a>The chapters</h3>
+<p>Each chapter displays indicator information about the stock (e.g., <a href="https://github.com/NOAA-EDAB/NEesp/blob/main/inst/indicator_bookdown_template/abundance.Rmd">the abundance section</a>). Data visualizations are created primarily with functions, to minimize the amount of code in the report template. All data manipulation and visualization contains conditional statements to handle missing data (either explicitly included in the template code, or in the back-end visualization functions).</p>
+</div>
+<div id="the-appendix" class="section level3">
+<h3 class="hasAnchor">
+<a href="#the-appendix" class="anchor"></a>The appendix</h3>
+<p>The final chapter in the <code>bookdown</code> template is <a href="https://github.com/NOAA-EDAB/NEesp/blob/main/inst/indicator_bookdown_template/appendix.Rmd">an appendix</a>, which displays R session and package information.</p>
+</div>
+</div>
+<div id="the-correlation-report-template" class="section level2">
+<h2 class="hasAnchor">
+<a href="#the-correlation-report-template" class="anchor"></a>The correlation report template</h2>
+<p>The correlation report template can be found <a href="https://github.com/NOAA-EDAB/NEesp/tree/dev/inst/correlation_bookdown_template">here</a>.</p>
+<div id="the-index-file-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#the-index-file-1" class="anchor"></a>The index file</h3>
+<p>The <a href="https://github.com/NOAA-EDAB/NEesp/blob/main/inst/correlation_bookdown_template/index.Rmd">index file</a> contains important set-up information for the report. Report specifications, including parameters, are defined in the YAML frontmatter. Data is read in and trimmed to only the stock of interest. Some null variables are set for later use in the report, and there is a fail message that is output if no data exists for the parameters selected.</p>
+</div>
+<div id="the-indicator-chapters" class="section level3">
+<h3 class="hasAnchor">
+<a href="#the-indicator-chapters" class="anchor"></a>The indicator chapters</h3>
+<p>Each chapter regresses an ecosystem indicator from the <a href="https://github.com/NOAA-EDAB/ecodata"><code>ecodata</code> package</a> against a stock parameter (abundance, recruitment, F, and catch). Because all <code>ecodata</code> data sets are in a standard format, the chapter analyses are conducted with a child document. Each indicator is assigned to a generic variable name and then passed to the child document with the <a href="https://noaa-edab.github.io/NEesp/reference/render_indicator.html"><code>render_indicator</code> function</a> (e.g., <a href="https://github.com/NOAA-EDAB/NEesp/blob/main/inst/correlation_bookdown_template/02-physical-indicators.Rmd">the physical indicators</a>). Some indicators have a small amount of pre-processing if necessary, for example selecting only one season of the indicator for the analysis.</p>
+<p>The <a href="https://github.com/NOAA-EDAB/NEesp/blob/main/inst/correlation_bookdown_template/_general-child-doc.Rmd">child document</a> first merges the indicator data with the stock data and saves the data to the report output. Information about the stock-indicator correlations is recorded for the summary section.</p>
+<p>Data is <a href="https://noaa-edab.github.io/NEesp/reference/plot_correlation.html">plotted</a>. If any correlations were statistically significant, the correlation information is <a href="https://noaa-edab.github.io/NEesp/reference/correlation_data.html">displayed</a>.</p>
+<p>Finally, more information about the statistically significant correlations is recorded for the summary section.</p>
+</div>
+<div id="the-summary-chapter" class="section level3">
+<h3 class="hasAnchor">
+<a href="#the-summary-chapter" class="anchor"></a>The summary chapter</h3>
+<p>The <a href="https://github.com/NOAA-EDAB/NEesp/blob/main/inst/correlation_bookdown_template/08-summary.Rmd">summary chapter</a> displays information about all of the statistically significant indicator-stock correlations from the report. An exploratory Generalized Linear Model is created using forward step wise selection of indicators statistically significant at the Bonferroni-corrected level.</p>
+</div>
+<div id="the-appendix-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#the-appendix-1" class="anchor"></a>The appendix</h3>
+<p>The final chapter in the <code>bookdown</code> template is <a href="https://github.com/NOAA-EDAB/NEesp/blob/main/inst/correlation_bookdown_template/appendix.Rmd">an appendix</a>, which displays R session and package information.</p>
+</div>
+</div>
+<div id="the-summary-report-template" class="section level2">
+<h2 class="hasAnchor">
+<a href="#the-summary-report-template" class="anchor"></a>The summary report template</h2>
+<p>The <a href="https://github.com/NOAA-EDAB/NEesp/tree/dev/inst/summary_esp_template">summary report</a> can be created by the <a href="https://github.com/NOAA-EDAB/NEespShiny"><code>NEespShiny</code> app</a>; there is no wrapper R function to render this report at this time.</p>
+<div id="the-intro-file" class="section level3">
+<h3 class="hasAnchor">
+<a href="#the-intro-file" class="anchor"></a>The intro file</h3>
+<p>The <a href="https://github.com/NOAA-EDAB/NEesp/blob/dev/inst/summary_esp_template/intro.Rmd">intro file</a> contains important set-up information for the report. Report specifications, including parameters, are defined in the YAML frontmatter. However, no data is read in at this step.</p>
+</div>
+<div id="the-child-file" class="section level3">
+<h3 class="hasAnchor">
+<a href="#the-child-file" class="anchor"></a>The child file</h3>
+<p>The <a href="https://github.com/NOAA-EDAB/NEesp/blob/dev/inst/summary_esp_template/child.Rmd">child file</a> is knit for each indicator of interest. Variables values are specified by the shiny app. The <a href="https://noaa-edab.github.io/NEesp/reference/wrap_analysis.html"><code>wrap_analysis</code> function</a> plots the data and adds report card information to a report card object that will be displayed at the end of the report.</p>
+</div>
+<div id="the-end-file" class="section level3">
+<h3 class="hasAnchor">
+<a href="#the-end-file" class="anchor"></a>The end file</h3>
+<p>The <a href="https://github.com/NOAA-EDAB/NEesp/blob/dev/inst/summary_esp_template/end.Rmd">end file</a> displays the ESP report cards and appendix.</p>
 </div>
 </div>
   </div>

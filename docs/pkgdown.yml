@@ -3,19 +3,15 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   bookdown-templates: bookdown-templates.html
-  cache-guide: cache-guide.html
-  correlation-template: correlation-template.html
   data: data.html
   general-workflow: general-workflow.html
   github-actions: github-actions.html
-  indicator-template: indicator-template.html
   install-and-use-package: install-and-use-package.html
   risk-assessment: risk-assessment.html
   rmarkdown-intro: rmarkdown-intro.html
   shiny-app: shiny-app.html
-  summary-template: summary-template.html
   why-esp: why-esp.html
-last_built: 2021-06-28T20:20Z
+last_built: 2021-06-29T14:06Z
 urls:
   reference: https://noaa-edab.github.io/NEesp//reference
   article: https://noaa-edab.github.io/NEesp//articles
