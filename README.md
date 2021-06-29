@@ -1,11 +1,11 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Ecosystem and Socioeconomic Profiles <img src="https://raw.githubusercontent.com/NOAA-EDAB/esp_data_aggregation/abby/hexes/NEesp_hex.png" align="right" width="120" /> 
-
 <!-- badges: start -->
-[![](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/NOAA-EDAB/NEesp) [![](https://img.shields.io/github/last-commit/NOAA-EDAB/NEesp.svg)](https://github.com/NOAA-EDAB/NEesp/commits/dev) ![](https://img.shields.io/badge/repo%20size-0.51%20GB-blue.svg)  
+[![](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/NOAA-EDAB/NEesp) [![](https://img.shields.io/github/last-commit/NOAA-EDAB/NEesp.svg)](https://github.com/NOAA-EDAB/NEesp/commits/dev) ![](https://img.shields.io/badge/repo%20size-0.51%20GB-blue.svg)
 [![](https://github.com/NOAA-EDAB/NEesp/workflows/gitleaks/badge.svg)](https://github.com/NOAA-EDAB/NEesp/actions/workflows/secretScan.yml)
 <!-- badges: end -->
+
+# Ecosystem and Socioeconomic Profiles <img src="https://raw.githubusercontent.com/NOAA-EDAB/esp_data_aggregation/abby/hexes/NEesp_hex.png" align="right" width="120" /> 
 
 ## View current data products
 https://noaa-edab.github.io/ESP_docs/docs
