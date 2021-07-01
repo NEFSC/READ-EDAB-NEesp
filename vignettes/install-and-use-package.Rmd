@@ -30,7 +30,7 @@ remotes::install_github("NOAA-EDAB/NEesp", ref = "dev")
 
 ## Using the `NEesp` package
 
-## Indicator reports
+### Indicator reports
 
 #### Run a report using package data and package template
 ```{r, eval = FALSE}
