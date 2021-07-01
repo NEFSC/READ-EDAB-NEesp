@@ -1,12 +1,24 @@
-### Recreational landings
+### Recreational catch
 
-
-```{r, rec, fig.cap = paste(species, "recreational catch")}
-NEesp::plot_rec_catch(rec_data)
+```{r, rec-catch}
+NEesp::plot_rec(rec_data, var = "total_catch2", title = "Recreational catch (number)")
 ```
 
+### Recreational landings
 
-#### Risk {-}
+#### By number
+
+```{r, rec-land-num}
+NEesp::plot_rec(rec_data, var = "landings_num", title = "Recreational landings (number)")
+```
+
+#### By weight
+
+```{r, rec-land}
+NEesp::plot_rec(rec_data, var = "landings", title = "Recreational landings (lb)")
+```
+
+##### Risk {-}
 
 See Methods for risk calculation details.
 ```{r}
@@ -14,6 +26,36 @@ indicators <- c("rec_catch")
 ```
 
 ```{r, child = system.file("indicator_bookdown_template/_risk-child-doc.Rmd", package = "NEesp")}
+```
+
+#### Proportion of catch landed
+
+```{r, rec-land-prop}
+fig <- NEesp::plot_rec(rec_data, var = "prop_land", title = "Proportion of recreational catch landed (by number)") 
+
+fig <- fig +
+  ggplot2::ylim(c(0,1))
+
+print(fig)
+```
+
+### Recreational discards
+
+#### Discards
+
+```{r, rec-disc}
+NEesp::plot_rec(rec_data, var = "discards", title = "Recreational discards (number)")
+```
+
+#### Proportion of catch discarded
+
+```{r, rec-disc-prop}
+fig <- NEesp::plot_rec(rec_data, var = "prop", title = "Proportion of recreational catch discarded (by number)") 
+
+fig <- fig +
+  ggplot2::ylim(c(0,1))
+
+print(fig)
 ```
 
 

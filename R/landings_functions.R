@@ -221,69 +221,151 @@ plot_com_money <- function(data) {
   }
 }
 
-#' Plot recreational landings data
+#' Prepare recreational data for plotting
 #'
-#' This function plots commercial recreational data. Does not contain fine-scale region information.
+#' This function does basic data manipulation on recreational data. 
 #'
-#' @param data Recreational landings data for a single species. Subsetted from MRIP
+#' @param data Recreational data for a single species. Subsetted from MRIP
+#' @return A tibble
+#' @importFrom magrittr %>%
+#' @export
+
+rec_data_prep <- function(data){
+  
+  # for adding zeros
+  combo <- expand.grid(
+    year = min(data$year):max(data$year),
+    mode_fx_f = unique(data$mode_fx_f)
+  )
+  
+  # northeast data
+  
+  ne <- data %>%
+    dplyr::filter(sub_reg_f == "NORTH ATLANTIC" |
+                    sub_reg_f == "MID-ATLANTIC") %>%
+    dplyr::group_by(mode_fx_f, year) %>%
+    dplyr::summarise(total_catch = sum(tot_cat),
+                     discards = sum(estrel),
+                     landings = sum(lbs_ab1),
+                     landings_num = sum(landing)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(year) %>%
+    dplyr::mutate(total_catch_all_mode = sum(total_catch),
+                  prop = discards/total_catch_all_mode,
+                  prop_land = landings_num/total_catch_all_mode) %>%
+    dplyr::full_join(combo,
+                     by = c(
+                       "year" = "year",
+                       "mode_fx_f" = "mode_fx_f"
+                     )) %>%
+    dplyr::mutate(total_catch2 = ifelse(is.na(total_catch), 0, total_catch)) %>%
+    dplyr::select(-total_catch) %>%
+    tidyr::pivot_longer(cols = c("total_catch2", "discards", "prop", "landings", "landings_num", "prop_land")) %>%
+    dplyr::mutate(Region = "Northeast")
+  
+  
+  # outside of northeast data
+  
+  out <- data %>%
+    dplyr::filter(sub_reg_f != "NORTH ATLANTIC" &
+                    sub_reg_f != "MID-ATLANTIC") %>%
+    dplyr::group_by(mode_fx_f, year) %>%
+    dplyr::summarise(total_catch = sum(tot_cat),
+                     discards = sum(estrel),
+                     landings = sum(lbs_ab1),
+                     landings_num = sum(landing)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(year) %>%
+    dplyr::mutate(total_catch_all_mode = sum(total_catch),
+                  prop = discards/total_catch_all_mode,
+                  prop_land = landings_num/total_catch_all_mode) %>%
+    dplyr::full_join(combo,
+                     by = c(
+                       "year" = "year",
+                       "mode_fx_f" = "mode_fx_f"
+                     )) %>%
+    dplyr::mutate(total_catch2 = ifelse(is.na(total_catch), 0, total_catch)) %>%
+    dplyr::select(-total_catch) %>%
+    tidyr::pivot_longer(cols = c("total_catch2", "discards", "prop", "landings", "landings_num", "prop_land")) %>%
+    dplyr::mutate(Region = "Outside\nNortheast")
+  
+  # total data
+  
+  all <- data %>%
+    dplyr::group_by(mode_fx_f, year) %>%
+    dplyr::summarise(total_catch = sum(tot_cat),
+                     discards = sum(estrel),
+                     landings = sum(lbs_ab1),
+                     landings_num = sum(landing)) %>%
+    dplyr::ungroup() %>%
+    dplyr::group_by(year) %>%
+    dplyr::mutate(total_catch_all_mode = sum(total_catch),
+                  prop = discards/total_catch_all_mode,
+                  prop_land = landings_num/total_catch_all_mode) %>%
+    dplyr::full_join(combo,
+                     by = c(
+                       "year" = "year",
+                       "mode_fx_f" = "mode_fx_f"
+                     )) %>%
+    dplyr::mutate(total_catch2 = ifelse(is.na(total_catch), 0, total_catch)) %>%
+    dplyr::select(-total_catch) %>%
+    tidyr::pivot_longer(cols = c("total_catch2", "discards", "prop", "landings", "landings_num", "prop_land")) %>%
+    dplyr::mutate(Region = "All Regions")
+
+  # combine
+  
+  full_data <- rbind(ne, out, all)
+  
+  # get order of most important - least important category
+  cat <- full_data %>%
+    dplyr::filter(name == "landings") %>%
+    dplyr::group_by(mode_fx_f) %>%
+    dplyr::summarise(imp = max(value)) %>%
+    dplyr::arrange(dplyr::desc(imp))
+  
+  full_data$mode_fx_f <- factor(
+    full_data$mode_fx_f,
+    cat$mode_fx_f
+  )
+
+  return(full_data)
+}
+
+#' Plot recreational data
+#'
+#' This function plots recreational data. 
+#'
+#' @param data Recreational data for a single species. Subsetted from MRIP
+#' @param var What data to plot. One of c("total_catch2", "discards", "prop", "landings", "landings_num", "prop_land")
+#' @param title The title for the graph
 #' @return A ggplot
 #' @importFrom magrittr %>%
 #' @export
 
-plot_rec_catch <- function(data) {
+plot_rec <- function(data, var, title) {
   if (nrow(data) > 0) {
-    summary <- data %>%
-      dplyr::group_by(mode_fx_f, year) %>%
-      dplyr::summarise(total_catch = sum(lbs_ab1))
-
-    # add in zeros
-    combo <- expand.grid(
-      year = min(summary$year):max(summary$year),
-      mode_fx_f = unique(summary$mode_fx_f)
-    )
-
-    summary2 <- dplyr::full_join(summary, combo,
-      by = c(
-        "year" = "year",
-        "mode_fx_f" = "mode_fx_f"
-      )
-    ) %>%
-      dplyr::mutate(total_catch2 = ifelse(is.na(total_catch), 0, total_catch))
-
-    # get order of most important - least important category
-    cat <- summary2 %>%
-      dplyr::group_by(mode_fx_f) %>%
-      dplyr::summarise(imp = max(total_catch2)) %>%
-      dplyr::arrange(dplyr::desc(imp))
-
-    summary2$mode_fx_f <- factor(
-      summary2$mode_fx_f,
-      cat$mode_fx_f
-    )
+    
+    data <- NEesp::rec_data_prep(data)
 
     # assign colors based on nmfs color palette
     plot_colors <- NEesp::rec_palette$color
-    names(plot_colors) <- NEesp::rec_palette$state_id
-
+    names(plot_colors) <- NEesp::rec_palette$rec_mode 
+    
     # plot
     fig <- ggplot2::ggplot(
-      summary2,
+      data %>%
+        dplyr::filter(name == var),
       ggplot2::aes(
         x = year,
-        y = total_catch2,
+        y = value,
         fill = mode_fx_f
       )
     ) +
       ggplot2::geom_bar(color = "black", stat = "identity") +
       ggplot2::theme_bw() +
       ggplot2::scale_y_continuous(
-        name = "Total catch (lb)",
-        labels = scales::comma,
-        sec.axis = ggplot2::sec_axis(
-          trans = ~ . / 2204.6,
-          name = "Total catch (metric tons)",
-          labels = scales::comma
-        )
+        name = "",
+        labels = scales::comma
       ) +
       ggplot2::xlab("Year") +
       ggplot2::scale_fill_manual(
@@ -295,9 +377,12 @@ plot_rec_catch <- function(data) {
         byrow = TRUE,
         title = "Category"
       )) +
-      ggplot2::theme(legend.position = "bottom")
-
+      ggplot2::facet_grid(rows = ggplot2::vars(Region)) +
+      ggplot2::theme(legend.position = "bottom") +
+      ggplot2::labs(title = title)
+    
     return(fig)
+
   } else {
     print("NO DATA")
   }
