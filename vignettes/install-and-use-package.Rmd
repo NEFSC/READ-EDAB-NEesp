@@ -30,12 +30,14 @@ remotes::install_github("NOAA-EDAB/NEesp", ref = "dev")
 
 ## Using the `NEesp` package
 
-### Run a report using package data and package template
+## Indicator reports
+
+#### Run a report using package data and package template
 ```{r, eval = FALSE}
 NEesp::render_ind_report("Black sea bass")
 ```
 
-### Run a report using package data and a local template (from "bookdown" folder)
+#### Run a report using package data and a local template (from "bookdown" folder)
 ```{r, eval = FALSE}
 # first source scripts if needed
 
@@ -70,7 +72,7 @@ NEesp::render_reg_report(stock_var = "Black sea bass",
                          remove_var = FALSE,
                          lag_var = 0,
                          parent_folder = "zero_lag",
-                         input = here::here("correlation_bookdown_template-dev"),
+                         input = here::here("inst/correlation_bookdown_template"),
                          trouble = TRUE)
 ```
 

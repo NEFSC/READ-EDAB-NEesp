@@ -27,21 +27,21 @@ if ("Value" %in% colnames(test)) {
 }
 
 # mean data by year
-test <- test %>%
+n_years <- length(unique(test$Time))
+n_var <- length(unique(test$Var))
+n_measurements <- length(test$Time)
+
+if ((n_measurements > n_years * n_var) &
+  (n_measurements > 0)) {
+  test <- test %>%
+    dplyr::mutate(Var = paste(Var, "(annual mean)", sep = "\n"))
+  
+  test <- test %>%
   dplyr::ungroup() %>%
   dplyr::group_by(Var, Time) %>%
   dplyr::summarise(new_val = mean(Val)) %>%
   dplyr::rename(Val = new_val) %>%
   dplyr::ungroup()
-
-n_years <- length(unique(test$Time))
-n_var <- length(unique(test$Var))
-n_measurements <- length(test$Time)
-
-if (n_measurements > n_years * n_var &
-  n_measurements > 0) {
-  test <- test %>%
-    dplyr::mutate(Var = paste(Var, "(annual mean)", sep = "\n"))
 }
 
 # make name for figure
@@ -55,6 +55,13 @@ data <- try(NEesp::data_prep(
   eco_data = test,
   lag_data = params$lag
 ))
+
+if(class(data) == "try-error"){
+  print("Data problems!")
+  eval_epu <- FALSE
+  print(head(stock))
+  print(head(test))
+}
 ```
 
 ```{r, eval = eval_epu, results = "asis"}

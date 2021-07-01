@@ -20,6 +20,36 @@ test <- ecodata::heatwave
 NEesp::render_indicator(test, lab = names[1])
 ```
 
+#### Marine heatwave index in the stock region
+```{r, heatwave-stock}
+test <- ecodata::ESP_heatwave %>%
+  dplyr::mutate(Pattern_check = stock_id %>%
+    stringr::str_replace_all("_", " ") %>%
+    stringr::str_to_sentence()) %>%
+  dplyr::filter(stringr::str_detect(Pattern_check, params$stock)) %>%
+  dplyr::distinct()
+
+if (nrow(test) > 0) {
+  if (length(unique(test$Pattern_check)) > 1) {
+    # add stock region into var for faceting
+    test <- test %>%
+      dplyr::mutate(Var = paste(Var, Pattern_check, sep = " ") %>%
+        stringr::str_replace_all("_", "") %>%
+        stringr::str_wrap(width = 8))
+    if (nrow(test) > 0) {
+      NEesp::render_indicator(test, lab = names[1])
+    }
+  } else {
+    test <- test %>%
+      dplyr::mutate(Var = paste0(Var, "_stock"))
+
+    NEesp::render_indicator(test, lab = names[1])
+  }
+} else {
+  "Indicator data has not been parsed over this stock's region"
+}
+```
+
 #### GLORYS bottom temperature
 ```{r, glorys}
 test <- ecodata::bottom_temp_glorys
