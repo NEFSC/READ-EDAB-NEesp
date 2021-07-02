@@ -9,27 +9,12 @@ test <- stock %>%
     Val = Value
   ) %>%
   dplyr::select(Time, Val, Var)
-names <- names[-1]
-```
-
-```{r, print, results = "markup"}
-print(head(test))
-names <- names[-1]
-```
-
-```{r, recruit2}
-names[1] <- "recruit"
 
 if (nrow(test) > params$lag) {
   tst <- try(NEesp::render_indicator(test, lab = names[1]))
-  if(class(tst) == "try-error"){
-    names <- names[-1]
-  }
 } else {
-  names <- names[-1]
   print("No data")
 }
-
 names <- names[-1]
 ```
 
