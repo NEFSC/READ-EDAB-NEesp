@@ -175,6 +175,7 @@ this_recruit <- data %>%
     Metric == "Recruitment",
     sig == TRUE
   ) %>%
+  dplyr::mutate(Species = params$stock) %>%
   dplyr::select(Species, Region, Time, Value, Metric, Var, Val, pval)
 
 if (nrow(this_recruit) > 0) {
@@ -186,6 +187,7 @@ this_abun <- data %>%
     Metric == "Abundance",
     sig == TRUE
   ) %>%
+    dplyr::mutate(Species = params$stock) %>%
   dplyr::select(Species, Region, Time, Value, Metric, Var, Val, pval)
 
 if (nrow(this_abun) > 0) {
