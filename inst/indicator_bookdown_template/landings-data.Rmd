@@ -40,12 +40,12 @@ data <- rec_data %>%
     Method = mode_fx_f %>%
       stringr::str_to_sentence()
   ) %>%
-  dplyr::select(year, State, Method, value) %>%
+  dplyr::select(year, State, Region, Method, value) %>%
   NEesp::character_to_factor()
 
 NEesp::make_html_table(data,
   type = params$file,
-  col_names = c("Year", "State", "Method", "Landings (lb)")
+  col_names = c("Year", "State", "Region", "Method", "Landings (lb)")
 )
 ```
 
