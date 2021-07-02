@@ -8,8 +8,15 @@ test <- stock %>%
     Var = Metric,
     Val = Value
   )
+names <- names[-1]
+```
 
+```{r, print, results = "markup"}
 print(head(test))
+names <- names[-1]
+```
+
+```{r, recruit2}
 names[1] <- "recruit"
 
 if (nrow(test) > params$lag) {

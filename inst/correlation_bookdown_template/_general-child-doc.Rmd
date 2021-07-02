@@ -48,7 +48,7 @@ if ((n_measurements > n_years * n_var) &
 knitr::opts_knit$set(unnamed.chunk.label = names[1])
 ```
 
-```{r, eval = eval_epu}
+```{r, eval = eval_epu, results = "markup"}
 # process data
 data <- try(NEesp::data_prep(
   stock_data = stock,
@@ -61,6 +61,8 @@ if(class(data) == "try-error"){
   eval_epu <- FALSE
   print(head(stock))
   print(head(test))
+} else {
+  print(head(data))
 }
 ```
 
