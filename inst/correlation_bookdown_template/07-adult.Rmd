@@ -7,7 +7,8 @@ test <- stock %>%
   dplyr::rename(
     Var = Metric,
     Val = Value
-  )
+  ) %>%
+  dplyr::select(Time, Val, Var)
 ```
 
 ```{r, print2, results = "markup"}
