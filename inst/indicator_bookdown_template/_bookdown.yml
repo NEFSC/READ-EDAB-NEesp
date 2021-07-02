@@ -2,37 +2,9 @@ book_filename: indicator-bookdown
 delete_merged_file: yes
 rmd_files: [
 "index.Rmd",
-"methods.Rmd", 
-"habitat-title-page.Rmd", #Title page
-"geographic-distribution.Rmd",
-"temperature.Rmd",
-"salinity.Rmd",
-"depth.Rmd",
-"habitat-vulnerability.Rmd", 
-"biological-title-page.Rmd", #Title page 
-"length.Rmd",
-"von_b.Rmd",
-"length50maturity.Rmd",
-"condition.Rmd",  
-"trophic-title-page.Rmd", # Title page
-"primary-production.Rmd",
-"Ichthyoplankton.Rmd",
-"diet.Rmd",
-"population-title-page.Rmd", #Title page 
-"abundance.Rmd",
-"biomass.Rmd", 
-"bbmsy.Rmd",
-"recruitment.Rmd",
-"fxn-age-diversity.Rmd",
-"climate-vulnerability.Rmd", 
-"socio-economic-title-page.Rmd", #Title page 
 "catch-asmt.Rmd",
 "catch-rec.Rmd",
 "catch-com.Rmd",
 "com_landings_gear.Rmd",
 "landings-data.Rmd",
-"ffmsy.Rmd", 
-"revenue.Rmd", 
-"management.Rmd", 
-"risk-assessment.Rmd",
 "appendix.Rmd"]

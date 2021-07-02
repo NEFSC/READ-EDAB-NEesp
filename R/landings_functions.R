@@ -230,7 +230,7 @@ plot_com_money <- function(data) {
 #' @importFrom magrittr %>%
 #' @export
 
-rec_data_prep <- function(data){
+rec_data_prep <- function(data, state = FALSE){
   
   # for adding zeros
   combo <- expand.grid(
@@ -238,12 +238,19 @@ rec_data_prep <- function(data){
     mode_fx_f = unique(data$mode_fx_f)
   )
   
+  # group by state if TRUE
+  
+  if(state){
+    data <- data %>%
+      dplyr::group_by(st_f)
+  }
+  
   # northeast data
   
   ne <- data %>%
     dplyr::filter(sub_reg_f == "NORTH ATLANTIC" |
                     sub_reg_f == "MID-ATLANTIC") %>%
-    dplyr::group_by(mode_fx_f, year) %>%
+    dplyr::group_by(mode_fx_f, year, .add = TRUE) %>%
     dplyr::summarise(total_catch = sum(tot_cat),
                      discards = sum(estrel),
                      landings = sum(lbs_ab1),
