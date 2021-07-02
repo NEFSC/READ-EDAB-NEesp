@@ -24,6 +24,7 @@ if (nrow(test) > params$lag) {
 }
 
 names <- names[-1]
+names <- names[-1]
 ```
 
 ### Mean age of spawning stock
