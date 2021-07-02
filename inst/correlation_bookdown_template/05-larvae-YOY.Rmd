@@ -13,7 +13,10 @@ print(head(test))
 names[1] <- "recruit"
 
 if (nrow(test) > params$lag) {
-  try(NEesp::render_indicator(test, lab = names[1]))
+  tst <- try(NEesp::render_indicator(test, lab = names[1]))
+  if(class(tst) == "try-error"){
+    names <- names[-1]
+  }
 } else {
   names <- names[-1]
   print("No data")
