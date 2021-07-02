@@ -55,26 +55,19 @@ data <- try(NEesp::data_prep(
   eco_data = test,
   lag_data = params$lag
 ))
-
-if(class(data) == "try-error"){
-  print("Data problems!")
-  eval_epu <- FALSE
-  print(head(stock))
-  print(head(test))
-} else {
-  print(head(data))
-}
 ```
 
-```{r, eval = eval_epu, results = "asis"}
+```{r, eval = eval_epu, results = "markup"}
 if(class(data) == "try-error") {
   print("There was a problem with this data!!")
   cat("\n\n")
   traceback()
   cat("\n\n")
-  knitr::kable(head(test))
+  try(knitr::kable(head(test)))
   cat("\n\n")
-  knitr::kable(head(stock))
+  try(knitr::kable(head(stock)))
+  cat("\n\n")
+  try(knitr::kable(head(data)))
   eval_epu <- FALSE
 }
 ```

@@ -11,7 +11,7 @@ test <- stock %>%
   dplyr::select(Time, Val, Var)
 
 if (nrow(test) > params$lag) {
-  tst <- try(NEesp::render_indicator(test, lab = names[1]))
+  try(NEesp::render_indicator(test, lab = names[1]))
 } else {
   print("No data")
 }
