@@ -112,7 +112,7 @@ if(class(data) == "try-error") {
 
 ##### Figures {-}
 ```{r, eval = FALSE}
-if(toString(quote({{label}})) == "pp-week" | toString(quote({{label}})) == "chl-week"){
+if(names[1] == "pp-week" | names[1] == "chl-week"){
   figs <- FALSE
   print("Too many figures! Showing statistical results only")
 } else {
