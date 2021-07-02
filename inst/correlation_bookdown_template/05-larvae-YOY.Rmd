@@ -10,7 +10,7 @@ test <- stock %>%
   )
 
 print(head(test))
-name[1] <- "recruit"
+names[1] <- "recruit"
 
 if (nrow(test) > params$lag) {
   try(NEesp::render_indicator(test, lab = names[1]))
