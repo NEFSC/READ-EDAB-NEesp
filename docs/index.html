@@ -175,13 +175,14 @@
 <ol>
 <li><p>Gather existing data on ecology, biology, socioeconomics, and the human dimension of Northeast fisheries.</p></li>
 <li><p>Conduct a risk analysis of Northeast stocks to determine which stocks are most vulnerable.</p></li>
-<li><p>Create detailed reports for the most vulnerable stocks, incorporating data from the originial risk assessment as well as detailed species-specific information.</p></li>
+<li><p>Create detailed reports for the most vulnerable stocks, incorporating data from the original risk assessment as well as detailed species-specific information.</p></li>
 </ol>
 </div>
-<div id="running-a-report" class="section level2">
+<div id="using-this-package" class="section level2">
 <h2 class="hasAnchor">
-<a href="#running-a-report" class="anchor"></a>Running a report</h2>
-<p>The current preliminary report pulls data from many existing sources and creates several data visualizations. Reports for all northeast stocks have been compiled and can be viewed <a href="https://noaa-edab.github.io/ESP_docs/docs">here</a>. We have recently aggregated our data, functions, and report templates into a preliminary R package that can be viewed on the <a href="https://github.com/NOAA-EDAB/NEesp">package repo</a>. The package can be downloaded locally in R with the command <code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("NOAA-EDAB/NEesp")</a></code>. A report can then be generated locally with the command <code><a href="reference/render_ind_report.html">NEesp::render_ind_report("Acadian redfish")</a></code> (replace “Acadian redfish” with the name of species of interest). Please note, report generation will take some time (2+ minutes per species). These reports are a work in progress and should not be viewed as a final or complete product at this time. We do not guarantee that these reports are free from errors; please contact us if you notice any issues.</p>
+<a href="#using-this-package" class="anchor"></a>Using this package</h2>
+<p>The current preliminary report pulls data from many existing sources and creates several data visualizations. Reports for all northeast stocks have been compiled and can be viewed <a href="https://noaa-edab.github.io/ESP_docs/docs">here</a>. Data, functions, and report templates are aggregated in this R package, <a href="https://github.com/NOAA-EDAB/NEesp"><code>NEesp</code></a>. See <a href="https://noaa-edab.github.io/NEesp/articles/install-and-use-package.html">here</a> for a brief demo of how to use this package.</p>
+<p>These reports are a work in progress and should not be viewed as a final or complete product at this time. We do not guarantee that these reports are free from errors; please contact us if you notice any issues.</p>
 </div>
 <div id="the-northeast-esp-suite" class="section level2">
 <h2 class="hasAnchor">
@@ -191,7 +192,7 @@
 <li><p><a href="https://github.com/NOAA-EDAB/esp_data_aggregation"><code>NOAA-EDAB/esp_data_aggregation</code></a> is the original repo and currently houses development and exploratory work.</p></li>
 <li><p><a href="https://github.com/NOAA-EDAB/NEesp"><code>NOAA-EDAB/NEesp</code></a> houses an R package that contains relevant data, functions for low-level data analysis and plotting, and report templates.</p></li>
 <li><p><a href="https://github.com/NOAA-EDAB/NEespShiny"><code>NOAA-EDAB/NEespShiny</code></a> houses an R Shiny app (in the form of an R package) that provides a graphical user interface for creating reports with the <code>NEesp</code> package.</p></li>
-<li><p><a href="https://github.com/NOAA-EDAB/ESP_docs"><code>NOAA-EDAB/ESP_docs</code></a> houses reports on Northeast stocks and ecosystem/socioeconomic indicators.</p></li>
+<li><p><a href="https://github.com/NOAA-EDAB/ESP_docs"><code>NOAA-EDAB/ESP_docs</code></a> houses static reports on Northeast stocks and ecosystem/socioeconomic indicators.</p></li>
 </ol>
 </div>
 <div id="next-steps" class="section level2">
