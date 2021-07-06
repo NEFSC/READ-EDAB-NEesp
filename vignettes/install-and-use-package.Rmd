@@ -37,12 +37,12 @@ remotes::install_github("NOAA-EDAB/NEesp", ref = "dev")
 NEesp::render_ind_report("Black sea bass")
 ```
 
-#### Run a report using package data and a local template (from "bookdown" folder)
+#### Run a report using package data and a local template (from `inst/indicator_bookdown_template` folder)
 ```{r, eval = FALSE}
 # first source scripts if needed
 
 NEesp::render_ind_report("Black sea bass", 
-                         input = here::here("bookdown"),
+                         input = here::here("inst/indicator_bookdown_template"),
                          params_to_use = list(
                            species_ID = "Black sea bass",
                            ricky_survey_data = NEesp::bio_survey,
