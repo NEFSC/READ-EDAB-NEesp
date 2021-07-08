@@ -4,7 +4,7 @@
 \alias{rec_data_prep}
 \title{Prepare recreational data for plotting}
 \usage{
-rec_data_prep(data)
+rec_data_prep(data, state = FALSE)
 }
 \arguments{
 \item{data}{Recreational data for a single species. Subsetted from MRIP}

@@ -234,7 +234,7 @@ rec_data_prep <- function(data, state = FALSE){
   
   # for adding zeros
   combo <- expand.grid(
-    year = min(data$year):max(data$year),
+    year = min(data$year, na.rm = TRUE):max(data$year, na.rm = TRUE),
     mode_fx_f = unique(data$mode_fx_f)
   )
   
