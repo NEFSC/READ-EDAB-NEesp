@@ -41,6 +41,7 @@ jobs:
           
       - name: Test
         run: |
-          Rscript -e 'devtools::test()'
+          Rscript -e 'devtools::install_deps()
+          devtools::test()'
           
 
