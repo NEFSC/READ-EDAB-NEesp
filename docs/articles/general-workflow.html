@@ -210,14 +210,13 @@ Report template creation workflow
 <p>Although it is not required, I strongly recommend that you create a custom rendering function for your report template. This will allow you to set default values and make the parameters that should be changed more visible.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">NEesp</span><span class="fu">::</span><span class="va"><a href="../reference/render_indicator.html">render_indicator</a></span>
-<span class="co">#&gt; function (test, lab = "no-name", file = system.file("correlation_bookdown_template/_general-child-doc.Rmd", </span>
-<span class="co">#&gt;     package = "NEesp")) </span>
+<span class="co">#&gt; function (test, lab = "no-name") </span>
 <span class="co">#&gt; {</span>
-<span class="co">#&gt;     res &lt;- knitr::knit_child(text = knitr::knit_expand(file, </span>
-<span class="co">#&gt;         label = lab), quiet = TRUE)</span>
+<span class="co">#&gt;     res &lt;- knitr::knit_child(text = knitr::knit_expand(system.file("correlation_bookdown_template/_general-child-doc.Rmd", </span>
+<span class="co">#&gt;         package = "NEesp"), label = lab), quiet = TRUE)</span>
 <span class="co">#&gt;     cat(res, sep = "\n")</span>
 <span class="co">#&gt; }</span>
-<span class="co">#&gt; &lt;bytecode: 0x564ecfd63ee0&gt;</span>
+<span class="co">#&gt; &lt;bytecode: 0x5607872940a8&gt;</span>
 <span class="co">#&gt; &lt;environment: namespace:NEesp&gt;</span></code></pre></div>
 <p>Your template should be saved in the <code>inst</code> folder of your package (in its own folder, if it’s a bookdown). Files in the <code>inst</code> folder are made available in the root directory of an installed R package, so your package code can access the template files by calling <code><a href="https://rdrr.io/r/base/system.file.html">system.file("{your template name}", package = "{your package name}")</a></code> (see example in the code chunk above).</p>
 </div>
