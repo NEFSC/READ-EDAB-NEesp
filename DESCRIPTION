@@ -10,6 +10,7 @@ Maintainer: Abigail Tyrell <abigail.tyrell@noaa.gov>
 URL: https://noaa-edab.github.io/NEesp/
 BugReports: https://github.com/NOAA-EDAB/NEesp/issues
 Imports:
+    assessmentdata,
     bookdown,
     DT,
     ecodata,
@@ -17,6 +18,7 @@ Imports:
     ggpubr,
     ggrepel,
     ggridges,
+    ggthemes,
     here,
     nmfspalette,
     papeR,
@@ -28,7 +30,8 @@ Imports:
 Remotes:
     ropensci/rnaturalearthhires,
     nmfs-general-modeling-tools/nmfspalette,
-    NOAA-EDAB/ecodata
+    NOAA-EDAB/ecodata,
+    NOAA-EDAB/assessmentdata
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
