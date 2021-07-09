@@ -26,6 +26,7 @@ Imports:
     rgeos,
     rnaturalearth,
     rnaturalearthhires,    
+    tidyquant,
     viridis
 Remotes:
     ropensci/rnaturalearthhires,
