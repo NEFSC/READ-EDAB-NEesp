@@ -9,12 +9,13 @@
 #' @export
 
 missing_na <- function(data) {
-  for (i in 1:nrow(data)) {
-    if (data$Value[i] %>% is.na()) {
-      data$norm_rank[i] <- NA
+  if(nrow(data) > 0){
+    for (i in 1:nrow(data)) {
+      if (data$Value[i] %>% is.na()) {
+        data$norm_rank[i] <- NA
+      }
     }
   }
-
   return(data)
 }
 
