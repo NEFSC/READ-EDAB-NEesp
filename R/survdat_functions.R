@@ -139,7 +139,7 @@ data_summary_5yr <- function(x) {
 
   table <- x %>%
     dplyr::group_by(SEASON, Region) %>%
-    dplyr::mutate(max_year = max(YEAR)) %>%
+    dplyr::mutate(max_year = max(YEAR, na.rm = TRUE)) %>%
     dplyr::filter(
       YEAR > max_year - 5,
       variable > 0
@@ -391,7 +391,7 @@ plot_len_hist <- function(x) {
       ggplot2::scale_color_manual(values = mycolors) +
       ggplot2::scale_y_continuous(
         labels = scales::comma,
-        limits = c(0, max(x$Count))
+        limits = c(0, max(x$Count, na.rm = TRUE))
       ) +
       ggplot2::theme_bw() +
       ggplot2::xlab("Length (cm)")
@@ -407,7 +407,7 @@ plot_len_hist <- function(x) {
       ggplot2::geom_line(cex = 1.5) +
       ggplot2::facet_grid(rows = ggplot2::vars(Region)) +
       ggplot2::scale_color_manual(values = mycolors) +
-      ggplot2::scale_y_continuous(limits = c(0, max(x$Proportion))) +
+      ggplot2::scale_y_continuous(limits = c(0, max(x$Proportion, na.rm = TRUE))) +
       ggplot2::theme_bw() +
       ggplot2::xlab("Length (cm)")
 
