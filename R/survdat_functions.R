@@ -76,8 +76,7 @@ plot_variable <- function(x, ytitle = "") {
     names(lines) <- c("FALL", "SPRING", "WINTER", "SUMMER")
 
     # override situations where geom_gls doesn't converge
-    res <- try(
-      {
+    res <- try({
         ecodata::geom_gls(
           inherit.aes = FALSE,
           data = ecodat,
@@ -201,11 +200,10 @@ generate_table <- function(x, variable, cap = "", type = "html") {
     table_5yr[, 3:6] <- table_5yr[, 3:6] %>%
       round(digits = 2)
 
-    total_table <- cbind(
-      table,
-      table_5yr[, -(1:2)]
-    ) 
-    
+    total_table <- cbind(table,
+                         table_5yr[, -(1:2)]
+                         )
+
     cnames <- c(
       "Season", "Region", "Total years", "Mean",
       "Standard deviation", "Minimum", "Maximum",
@@ -214,8 +212,8 @@ generate_table <- function(x, variable, cap = "", type = "html") {
       "Minimum (past 5 years)",
       "Maximum (past 5 years)"
     )
-    
-    if(type == "html"){
+
+    if (type == "html") {
       total_table <- total_table %>%
         DT::datatable(
           rownames = FALSE,
@@ -236,12 +234,12 @@ generate_table <- function(x, variable, cap = "", type = "html") {
           )
         )
     }
-    
-    if(type == "word"){
+
+    if (type == "word") {
       total_table <- total_table %>%
         knitr::kable(col.names = cnames)
     }
-     
+
 
     return(total_table)
   }
@@ -335,7 +333,7 @@ plot_len <- function(x) {
     }
 
     print(fig)
-    
+
     cat("\n\n")
   }
 }
@@ -417,7 +415,7 @@ plot_len_hist <- function(x) {
     ) %>%
       ggpubr::annotate_figure(top = i) %>%
       print()
-    
+
     cat("\n\n")
   }
 }
@@ -642,7 +640,7 @@ get_len_data2 <- function(x) {
     dplyr::group_by(YEAR, SEASON, Region) %>%
     dplyr::mutate(n_fish = sum(NUMLEN)) %>%
     dplyr::filter(n_fish > 10) # only year-season-region with >10 fish
-  
+
   y <- y %>%
     dplyr::group_by(YEAR, SEASON, Region, n_fish) %>%
     dplyr::summarise(
@@ -656,11 +654,11 @@ get_len_data2 <- function(x) {
       mean_len = mean_len %>%
         round(digits = 2)
     )
-  
+
   return(y)
 }
 
-#' Format `survdat` to add common names 
+#' Format `survdat` to add common names
 #'
 #' This function appends `survdat` with common names for easier manipulation. By default returns all survdata that is not constrained by biological information. If provided "bio" will return a limited dataset containing only records with biological information such as age and sex.
 #'
@@ -669,26 +667,21 @@ get_len_data2 <- function(x) {
 #' @importFrom magrittr %>%
 #' @export
 
-common_names_survdat<-function(survdat_pull_type="all"){
-  #returns all survdata by defult, if survdat_pull_type= bio returns bio pulls
-  if(survdat_pull_type=="bio"){
-    survdata<-NEesp::bio_survey
-    sp_key<-NEesp::species_key
-    
-    survdata.bio.w.codes<-dplyr::inner_join(survdata, sp_key, by= "SVSPP" )%>%
-      dplyr::rename("common_name"="Species")
-    
-    #print("bio survdata")
+common_names_survdat <- function(survdat_pull_type = "all") {
+  # returns all survdata by defult, if survdat_pull_type= bio returns bio pulls
+  if (survdat_pull_type == "bio") {
+    survdata <- NEesp::bio_survey
+    sp_key <- NEesp::species_key
+
+    survdata.bio.w.codes <- dplyr::inner_join(survdata, sp_key, by = "SVSPP") %>%
+      dplyr::rename("common_name" = "Species")
+
+    # print("bio survdata")
     return(survdata.bio.w.codes)
-    
-    
-  }else{
-    
-    survdata<-NEesp::survey %>%
-      dplyr::rename("common_name"="Species")
-    #print("all survdata")
+  } else {
+    survdata <- NEesp::survey %>%
+      dplyr::rename("common_name" = "Species")
+    # print("all survdata")
     return(survdata)
-    
   }
-  
 }

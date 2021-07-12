@@ -145,7 +145,9 @@ get_diet_table <- function(data, type = "html") {
 
       # only look at season/year combinations with >20 predator samples
       dplyr::group_by(year, season, Region) %>%
-      dplyr::mutate(n_predators = fish_id %>% unique() %>% length()) %>%
+      dplyr::mutate(n_predators = fish_id %>% 
+                      unique() %>% 
+                      length()) %>%
       dplyr::filter(n_predators > 20)
 
     if (length(normalized$n_predators) > 1) {
@@ -196,7 +198,7 @@ get_diet_table <- function(data, type = "html") {
         )
 
       make_html_table(table,
-                      type = type,
+        type = type,
         col_names = c(
           "Prey category", "Season", "Region",
           "Mean proportion +- SD (n years)",
@@ -332,7 +334,7 @@ plot_climate_vulnerability <- function(data) {
       ggplot2::theme(legend.position = "none")
 
     print(fig)
-    
+
     cat("\n\n")
   }
 }
@@ -347,32 +349,39 @@ plot_climate_vulnerability <- function(data) {
 #' @export
 
 
-plot_ecodata <- function(data, ylabel = ""){
-  if(nrow(data) > 0){
-    fig <- ggplot2::ggplot(data,
-                           ggplot2::aes(x = Time,
-                                        y = Value))+
+plot_ecodata <- function(data, ylabel = "") {
+  if (nrow(data) > 0) {
+    fig <- ggplot2::ggplot(
+      data,
+      ggplot2::aes(
+        x = Time,
+        y = Value
+      )
+    ) +
       ggplot2::geom_point(cex = 2) +
       ggplot2::geom_line() +
-      ggplot2::facet_grid(rows = ggplot2::vars(Pattern_check %>%
-                                                 stringr::str_wrap(20)),
-                          cols = ggplot2::vars(Var)) +
+      ggplot2::facet_grid(
+        rows = ggplot2::vars(Pattern_check %>%
+          stringr::str_wrap(20)),
+        cols = ggplot2::vars(Var)
+      ) +
       ggplot2::theme_bw() +
       ggplot2::xlab("Year") +
       ggplot2::ylab(ylabel)
-    
+
     ecodat <- data %>%
       dplyr::distinct() %>%
       dplyr::group_by(Pattern_check, Var) %>%
       dplyr::mutate(nyear = length(Time)) %>%
       dplyr::filter(nyear > 30)
-    
+
     # add if statement to check N > 30
-    if(nrow(ecodat) > 0){
+    if (nrow(ecodat) > 0) {
       fig <- fig + ecodata::geom_gls(data = ecodat)
     }
-    
-    return(fig)
-  } else("NO DATA")
-}
 
+    return(fig)
+  } else {
+    ("NO DATA")
+  }
+}

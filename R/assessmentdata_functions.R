@@ -48,16 +48,15 @@ plot_asmt <- function(x, metric, ytitle = "", lin = lines, col = colors) {
       ggplot2::scale_shape_manual(values = c(15:18, 0:14)) +
       ggplot2::theme(
         legend.position = "bottom",
-        legend.direction = "vertical",
-        # label.hjust = 1 # try next time
+        legend.direction = "vertical"
       ) +
       ggplot2::guides(
         shape = ggplot2::guide_legend(
           ncol = 2,
           title = "Description, units (assessment year)"
         ),
-        fill = FALSE
-      ) + # fill is a dummy aes for geom_gls
+        fill = FALSE # fill is a dummy aes for geom_gls
+      ) + 
       ggplot2::ylab(ytitle)
 
     if (metric != "Catch" &

@@ -158,11 +158,12 @@ get_risk <- function(data, year_source, value_source,
 #' @return An html
 #' @export
 
-render_comp_risk <- function(folder){
+render_comp_risk <- function(folder) {
   rmarkdown::render(list.files(system.file(package = "NEesp"),
-                               pattern = "comprehensive_risk_assessment.Rmd",
-                               full.names = TRUE
+    pattern = "comprehensive_risk_assessment.Rmd",
+    full.names = TRUE
   ),
   output_dir = folder,
-  output_file = "comprehensive_risk_report.html")
+  output_file = "comprehensive_risk_report.html"
+  )
 }

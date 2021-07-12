@@ -16,41 +16,45 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
       facet = paste(Metric, Description, Units, sep = "\n")
     ) %>%
     dplyr::ungroup()
-  
+
   eco_data$Time <- as.numeric(eco_data$Time)
-  
+
   data <- dplyr::full_join(stock2, eco_data,
-                           by = "Time"
+    by = "Time"
   ) %>%
     dplyr::filter(
-        stringr::str_detect(Var, Metric, negate = TRUE) | # remove self-correlations
+      stringr::str_detect(Var, Metric, negate = TRUE) | # remove self-correlations
         is.na(Metric)
     ) %>%
     dplyr::ungroup()
-  
+
   data2 <- data %>%
     dplyr::mutate(missing = (is.na(Value) | is.na(Val))) %>%
     dplyr::group_by(Metric, Var) %>%
     dplyr::mutate(n_data_points = length(Time) - sum(as.numeric(missing)))
-  
+
   data_model <- data2 %>%
-    dplyr::filter(n_data_points >= 3,
-                  missing == FALSE) %>%
+    dplyr::filter(
+      n_data_points >= 3,
+      missing == FALSE
+    ) %>%
     dplyr::ungroup() %>%
     dplyr::group_by(Metric, Var) %>%
-    dplyr::mutate(pval = summary(lm(Value ~ Val))$coefficients[2, 4],
-                  slope = coef(lm(Value ~ Val))[2]) %>%
+    dplyr::mutate(
+      pval = summary(lm(Value ~ Val))$coefficients[2, 4],
+      slope = coef(lm(Value ~ Val))[2]
+    ) %>%
     dplyr::mutate(sig = pval < 0.05)
-  
+
   data_no_model <- data2 %>%
     dplyr::filter(n_data_points < 3 | missing == TRUE) %>%
     dplyr::mutate(
       pval = NA,
       sig = NA
     )
-  
+
   data <- rbind(data_model, data_no_model)
-  
+
   return(data)
 }
 
@@ -63,48 +67,40 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
 #' @return A ggplot
 #' @export
 
-plot_correlation <- function(data, # data that has already been processed
-                             #stock, eco, 
+plot_correlation <- function(data,
                              lag = 0) {
   # both data sets must have a column called "Time"
   # the stock data should be from assessmentdata::stockAssessmentData
   # the eco data numeric values should be in a column called "Val"
   # the eco data category values should be in a column called "Var"
-  
-#  data <- NEesp::data_prep(
-#    stock_data = stock,
-#    eco_data = eco,
-#    lag_data = lag
-#  ) %>%
-  
+
   data <- data %>%
     tibble::as_tibble()
-  
+
   if (nrow(data) > 0) {
     my_colors <- c("black", "#B2292E", "gray")
     names(my_colors) <- c("FALSE", "TRUE", "NA")
-    
+
     fig <- ggplot2::ggplot(
       data,
       ggplot2::aes(
         x = Val,
-        y = Value)
+        y = Value
+      )
     ) +
-
       viridis::scale_color_viridis(
         breaks = seq(1950, 2020, by = 10)
       ) +
       ggplot2::geom_path(ggplot2::aes(color = Time)) +
       ggplot2::geom_point(ggplot2::aes(color = Time)) +
-      
       ggnewscale::new_scale_color() +
       ggplot2::scale_color_manual(
         values = my_colors,
         name = "Statistically significant\n(p < 0.05)"
       ) +
       ggplot2::stat_smooth(ggplot2::aes(color = sig),
-                                        method = "lm") +
-                           
+        method = "lm"
+      ) +
       ggplot2::facet_grid(
         rows = ggplot2::vars(facet),
         cols = ggplot2::vars(Var),
@@ -116,10 +112,9 @@ plot_correlation <- function(data, # data that has already been processed
       ggplot2::theme(
         axis.title = ggplot2::element_blank(),
         legend.position = "bottom"
-      ) 
-    
+      )
+
     print(fig)
-    
   } else {
     print("No data under conditions selected")
   }
@@ -138,23 +133,23 @@ plot_correlation <- function(data, # data that has already been processed
 correlation_data <- function(data, lag = 0) {
   data <- data %>%
     dplyr::filter(sig == TRUE) # only statistically significant data
-  
+
   # test correlations
-  
+
   if (nrow(data) > 0) {
     for (i in unique(data$Metric)) {
       for (j in unique(data$Var)) {
         dat <- data %>%
           dplyr::filter(Metric == i, Var == j)
-        
+
         if (nrow(dat) > 0) {
           results <- lm(Value ~ Val,
-                        data = dat
+            data = dat
           ) %>%
             summary()
-          
+
           cat("\n\n<!-- -->\n\n")
-          
+
           knitr::kable(
             list(
               results$coefficients %>%
@@ -165,7 +160,7 @@ correlation_data <- function(data, lag = 0) {
                   results$fstatistic[1] %>%
                     round(digits = 2),
                   paste(results$fstatistic[2:3],
-                        collapse = ", "
+                    collapse = ", "
                   ),
                   results$r.squared %>%
                     round(digits = 2),
@@ -176,8 +171,9 @@ correlation_data <- function(data, lag = 0) {
             ),
             caption = paste(i, j, sep = " vs "),
             booktabs = TRUE
-          ) %>% print()
-          
+          ) %>% 
+            print()
+
           cat("\n\n<!-- -->\n\n")
         }
       }
@@ -200,23 +196,23 @@ correlation_data <- function(data, lag = 0) {
 correlation_summary <- function(data, lag = 0) {
   data <- data %>%
     dplyr::filter(sig == TRUE) # only statistically significant data
-  
+
   # test correlations
-  
+
   if (nrow(data) > 0) {
     output <- c()
-    
+
     for (i in unique(data$Metric)) {
       for (j in unique(data$Var)) {
         dat <- data %>%
           dplyr::filter(Metric == i, Var == j)
-        
+
         if (nrow(dat) > 0) {
           results <- lm(Value ~ Val,
-                        data = dat
+            data = dat
           ) %>%
             summary()
-          
+
           output <- rbind(output, c(
             i,
             j,
@@ -231,7 +227,7 @@ correlation_summary <- function(data, lag = 0) {
         }
       }
     }
-    
+
     return(output)
   }
 }
@@ -245,16 +241,17 @@ correlation_summary <- function(data, lag = 0) {
 #' @importFrom magrittr %>%
 #' @export
 
-render_indicator <- function(test, 
-                             lab = "no-name", 
-                             file = system.file("correlation_bookdown_template/_general-child-doc.Rmd", 
-                                                package = "NEesp")) {
+render_indicator <- function(test,
+                             lab = "no-name",
+                             file = system.file("correlation_bookdown_template/_general-child-doc.Rmd",
+                               package = "NEesp"
+                             )) {
   res <- knitr::knit_child(
     text = knitr::knit_expand(
       file,
       label = lab
-      ),
-  quiet = TRUE
+    ),
+    quiet = TRUE
   )
   cat(res, sep = "\n")
 }
@@ -270,16 +267,15 @@ render_indicator <- function(test,
 #' @importFrom magrittr %>%
 #' @export
 
-pseudoR2 <- function(model, data, respv_colname){
-  
+pseudoR2 <- function(model, data, respv_colname) {
   data <- data %>%
     dplyr::rename(Measured = respv_colname)
-  
+
   data$Predicted <- predict(model, newdata = data) %>% exp()
-  
-  pseudoR2 <- 1 - 
-    sum((data$Measured - data$Predicted)^2) / 
-    sum((data$Measured - mean(data$Measured))^2)  
-  
+
+  pseudoR2 <- 1 -
+    sum((data$Measured - data$Predicted)^2) /
+      sum((data$Measured - mean(data$Measured))^2)
+
   return(pseudoR2)
 }

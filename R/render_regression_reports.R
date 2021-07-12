@@ -19,7 +19,7 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
                               lag_var = 0, parent_folder, input = "package",
                               trouble = FALSE, save_var = TRUE) {
   starting_dir <- getwd()
-  
+
   new_dir <- here::here(
     "Regressions", parent_folder,
     paste(
@@ -29,17 +29,17 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
     )
   ) %>%
     stringr::str_replace_all(" ", "_")
-  
+
   dir.create(new_dir,
     recursive = TRUE
   )
 
   file.create(here::here(new_dir, ".nojekyll"))
 
-  if(input == "package"){
+  if (input == "package") {
     file.copy(
       from = list.files(system.file("correlation_bookdown_template", package = "NEesp"),
-                        full.names = TRUE
+        full.names = TRUE
       ),
       to = here::here(new_dir),
       overwrite = TRUE
@@ -48,7 +48,7 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
   } else {
     file.copy(
       from = list.files(input,
-                        full.names = TRUE
+        full.names = TRUE
       ),
       to = here::here(new_dir),
       overwrite = TRUE
@@ -59,9 +59,9 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
 
   setwd(here::here(new_dir))
 
-  if(save_var){
+  if (save_var) {
     dir.create("data",
-               recursive = TRUE
+      recursive = TRUE
     )
   }
 
@@ -110,22 +110,22 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
   # clean up files
   clean <- c(
     list.files(here::here(new_dir),
-               pattern = ".Rmd",
-               full.names = TRUE
+      pattern = ".Rmd",
+      full.names = TRUE
     ),
     list.files(here::here(new_dir),
-               pattern = ".md",
-               full.names = TRUE
+      pattern = ".md",
+      full.names = TRUE
     ),
     list.files(here::here(new_dir),
-               pattern = ".yml",
-               full.names = TRUE
+      pattern = ".yml",
+      full.names = TRUE
     )
   )
-  
+
   file.remove(clean) %>%
     invisible()
-  
+
   setwd(starting_dir)
 
   print(paste("Done with", parent_folder, region_var, epus_var, stock_var, "!",
@@ -142,19 +142,8 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
 #' @return Multiple bookdown reports (html)
 #' @export
 
-# get list of species and regions, manually assign to EPUs
-# assessmentdata::stockAssessmentData %>%
-#  dplyr::select(Species, Region) %>%
-#  dplyr::distinct() %>%
-#  dplyr::filter(Species %in%
-#                  all_species | Species == "Goosefish") %>%
-#  write.csv(here::here("R/regressions", "regression_species_regions.csv"))
-
-# info <- read.csv(here::here("R/regressions", "regression_species_regions.csv"))
-
 render_all_reg <- function(x = "package", species = NEesp::regression_species_regions) {
-
-  for (i in 1:nrow(species)
+  for (i in seq_len(nrow(species))
   ) {
     # make 0 lag reports
     NEesp::render_reg_report(

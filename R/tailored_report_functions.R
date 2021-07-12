@@ -224,14 +224,15 @@ prep_data <- function(data,
     dplyr::mutate(Var = Var %>% stringr::str_replace_all("\n", " "))
 
   if (length(pattern) > 0) {
-    for (i in 1:length(pattern)) {
+    for (i in seq_len(pattern)) {
       data <- data %>%
         dplyr::filter(stringr::str_detect(Var, pattern[i], negate = remove[i]))
     }
   }
 
   data <- data %>%
-    dplyr::mutate(Var = Var %>% stringr::str_wrap(40)) %>%
+    dplyr::mutate(Var = Var %>% 
+                    stringr::str_wrap(40)) %>%
     dplyr::arrange(Time)
 
   return(data)
@@ -277,7 +278,7 @@ time_rpt <- function(data, out_name = "unnamed", min_year = 2016) {
     )
 
   status <- c()
-  for (i in 1:nrow(analysis)) {
+  for (i in seq_len(analysis)) {
     if (analysis$avg_value[i] > (analysis$long_avg[1] + analysis$long_sd[1])) {
       status[i] <- "high"
     } else if (analysis$avg_value[i] < (analysis$long_avg[1] - analysis$long_sd[1])) {
@@ -501,8 +502,8 @@ make_time_rpt <- function(data) {
   orig <- data
 
   # remove words
-  for (i in 1:nrow(data)) {
-    for (j in 1:ncol(data)) {
+  for (i in seq_len(nrow(data))) {
+    for (j in seq_len(ncol(data))) {
       data[i, j] <- stringr::str_remove_all(data[i, j], pattern = ", high")
       data[i, j] <- stringr::str_remove_all(data[i, j], pattern = ", neutral")
       data[i, j] <- stringr::str_remove_all(data[i, j], pattern = ", low")
@@ -511,8 +512,8 @@ make_time_rpt <- function(data) {
 
   ft <- flextable::flextable(data)
 
-  for (i in 1:nrow(data)) {
-    for (j in 1:ncol(data)) {
+  for (i in seq_len(nrow(data))) {
+    for (j in seq_len(ncol(data))) {
 
       # color based on ecosystem favorability
       if (stringr::str_detect(toString(orig[i, j]), ", high")) {
@@ -557,8 +558,8 @@ make_ind_rpt <- function(data) {
 
   ft <- flextable::flextable(data)
 
-  for (i in 1:nrow(data)) {
-    for (j in 1:ncol(data)) {
+  for (i in seq_len(nrow(data))) {
+    for (j in seq_len(ncol(data))) {
 
       # make gray if not correlated
       if (stringr::str_detect(toString(data[i, j]), "^No$")) {

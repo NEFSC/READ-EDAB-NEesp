@@ -9,20 +9,19 @@
 #' @export
 
 map_strata <- function(common_name, strata) {
-  
-  if(nrow(strata) > 0){
+  if (nrow(strata) > 0) {
     ## General mapping parameters
     xmin <- -77
     xmax <- -65
     ymin <- 35
     ymax <- 45
-    
+
     xlims <- c(xmin, xmax)
     ylims <- c(ymin, ymax)
     crs <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
-    
+
     ## Download data layers
-    
+
     ## 2) North America layer
     ne_countries <- rnaturalearth::ne_countries(
       scale = 10,
@@ -30,68 +29,68 @@ map_strata <- function(common_name, strata) {
       returnclass = "sf"
     ) %>%
       sf::st_transform()
-    
+
     ## 3) State layer
     ne_states <- rnaturalearth::ne_states(
       country = "united states of america",
       returnclass = "sf"
     ) %>%
       sf::st_transform()
-    
+
     # strata
     strata_spring <- strata %>%
       dplyr::filter(stock_season == "spring") %>%
       dplyr::select(strata, stock_season) %>%
       dplyr::rename(spring = stock_season)
-    
+
     strata_fall <- strata %>%
       dplyr::filter(stock_season == "fall") %>%
       dplyr::select(strata, stock_season) %>%
       dplyr::rename(fall = stock_season)
-    
+
     strata_winter <- strata %>%
       dplyr::filter(stock_season == "winter") %>%
       dplyr::select(strata, stock_season) %>%
       dplyr::rename(winter = stock_season)
-    
+
     # overlapping strata
     all_season <- dplyr::full_join(strata_spring, strata_fall,
-                                   by = "strata"
+      by = "strata"
     )
-    
+
     all_season <- dplyr::full_join(all_season, strata_winter, by = "strata")
-    
+
     all_season <- all_season[, colSums(is.na(all_season)) < nrow(all_season)] # Remove rows with NA only
-    
+
     label <- all_season %>%
       dplyr::select(-strata)
-    
+
     labelv <- c()
-    for (i in 1:nrow(label)) {
+    for (i in seq_len(nrow(label))) {
       labelv[i] <- paste(label[i, ], collapse = ", ")
     }
-    
+
     all_season$label <- labelv
-    
+
     all_season <- all_season %>%
       dplyr::select(strata, label) %>%
       dplyr::rename(STRATA = strata) %>%
       tibble::as_tibble() %>%
       dplyr::mutate(label = label %>%
-                      stringr::str_replace_all(", NA", "") %>%
-                      stringr::str_replace_all("NA, ", ""))
-    
+        stringr::str_replace_all(", NA", "") %>%
+        stringr::str_replace_all("NA, ", ""))
+
     # For plotting
     new_shape <- NEesp::shape %>%
       dplyr::select(STRATA, geometry) %>%
       sf::st_transform()
-    
+
     sf::st_crs(new_shape) <- crs
-    
+
     strata_plot <- dplyr::full_join(new_shape, all_season, by = "STRATA") %>%
       dplyr::rename(SEASON = label) %>%
       dplyr::filter(!is.na(SEASON))
-    
+
     p1 <- ggplot2::ggplot() +
       ggplot2::geom_sf(
         data = new_shape, # all trawl shape files (light outlines)
@@ -131,7 +130,7 @@ map_strata <- function(common_name, strata) {
         legend.position = "bottom",
         legend.key.width = ggplot2::unit(2, "cm")
       )
-    
+
     return(p1)
   } else {
     print("NO DATA")

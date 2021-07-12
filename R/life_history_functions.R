@@ -7,8 +7,7 @@
 #' @importFrom magrittr %>%
 #' @export
 
-plot_depth <- function(data, species){
-  
+plot_depth <- function(data, species) {
   selected.spp.sum <- data %>%
     dplyr::group_by(YEAR, SEASON) %>%
     dplyr::summarise(
@@ -17,8 +16,8 @@ plot_depth <- function(data, species){
       ave.t = mean(BOTTEMP),
       sd.t = sd(BOTTEMP, na.rm = TRUE)
     )
-  
-  if(nrow(selected.spp.sum) > 0){
+
+  if (nrow(selected.spp.sum) > 0) {
     fig <- selected.spp.sum %>%
       ggplot2::ggplot(ggplot2::aes(
         x = YEAR %>% as.numeric(),
@@ -35,13 +34,14 @@ plot_depth <- function(data, species){
       ggplot2::xlab("Year") +
       ggplot2::ylab("depth of trawl (ft)") +
       ggplot2::ggtitle("Seasonal depth profile of",
-              subtitle = species
+        subtitle = species
       ) +
       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90))
-    
+
     return(fig)
-  } else print("NO DATA")
-   
+  } else {
+    print("NO DATA")
+  }
 }
 
 #' Plot `survdat` temperature-at-depth data
@@ -53,8 +53,7 @@ plot_depth <- function(data, species){
 #' @importFrom magrittr %>%
 #' @export
 
-plot_temp_depth <- function(data, species){
-  
+plot_temp_depth <- function(data, species) {
   selected.spp.sum <- data %>%
     dplyr::group_by(YEAR, SEASON) %>%
     dplyr::summarise(
@@ -62,9 +61,9 @@ plot_temp_depth <- function(data, species){
       sd.d = sd(DEPTH, na.rm = TRUE),
       ave.t = mean(BOTTEMP),
       sd.t = sd(BOTTEMP, na.rm = TRUE)
-    ) 
-  
-  if(nrow(selected.spp.sum) > 0){
+    )
+
+  if (nrow(selected.spp.sum) > 0) {
     fig <- selected.spp.sum %>%
       ggplot2::ggplot(ggplot2::aes(
         x = YEAR %>% as.numeric(),
@@ -81,12 +80,14 @@ plot_temp_depth <- function(data, species){
       ggplot2::xlab("Year") +
       ggplot2::ylab("Bottom temperature (°C)") +
       ggplot2::ggtitle("Seasonal bottom temperature of tows that contain",
-              subtitle = species
+        subtitle = species
       ) +
       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90))
-    
+
     return(fig)
-  } else print("NO DATA")
+  } else {
+    print("NO DATA")
+  }
 }
 
 #' Plot `survdat` age diversity data
@@ -98,12 +99,11 @@ plot_temp_depth <- function(data, species){
 #' @importFrom magrittr %>%
 #' @export
 
-plot_age_diversity <- function(data, species){
+plot_age_diversity <- function(data, species) {
   if (data$AGE %>% unique() %>% length() >= 3) {
-    
-    selected.age <- data %>% 
+    selected.age <- data %>%
       dplyr::filter(!is.na(AGE))
-    
+
     age.freq <- selected.age %>%
       dplyr::group_by(YEAR, AGE) %>%
       dplyr::summarise(age.n = length(AGE))
@@ -111,8 +111,8 @@ plot_age_diversity <- function(data, species){
       dplyr::group_by(YEAR) %>%
       dplyr::mutate(prop = (age.n / sum(age.n))) %>%
       dplyr::mutate(prop.ln = (prop * log(prop)))
-    
-    
+
+
     age.freq <- age.freq %>%
       dplyr::group_by(YEAR) %>%
       dplyr::summarise(shanon.h = (-1 * (sum(prop.ln))))
@@ -120,24 +120,29 @@ plot_age_diversity <- function(data, species){
     print("NOT ENOUGH DATA TO GENERATE METRIC")
     age.freq <- tibble::tibble() # make empty tibble for next logical test
   }
-  
+
   if (nrow(age.freq) > 0) {
     fig <- age.freq %>%
-      ggplot2::ggplot(ggplot2::aes(x = YEAR, 
-                                   y = shanon.h)) +
-      ggplot2::geom_path(group = 1, 
-                         size = 1.2, 
-                         color = "blue") +
-      ggplot2::geom_point(size = 3, 
-                          shape = 23, 
-                          fill = "Black") +
+      ggplot2::ggplot(ggplot2::aes(
+        x = YEAR,
+        y = shanon.h
+      )) +
+      ggplot2::geom_path(
+        group = 1,
+        size = 1.2,
+        color = "blue"
+      ) +
+      ggplot2::geom_point(
+        size = 3,
+        shape = 23,
+        fill = "Black"
+      ) +
       ggplot2::xlab("Year") +
       ggplot2::ylab("Shannon diversity index (H)") +
       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90)) +
       ggplot2::ggtitle("Age diversity of", subtitle = species)
-    
+
     return(fig)
-    
   } else {
     print("NO DATA")
   }
@@ -152,15 +157,17 @@ plot_age_diversity <- function(data, species){
 #' @importFrom magrittr %>%
 #' @export
 
-plot_age_density <- function(data){
+plot_age_density <- function(data) {
   if (data$AGE %>% unique() %>% length() > 3) {
     fig <- data %>%
       tidyr::drop_na(AGE) %>%
       dplyr::group_by(YEAR) %>%
-      ggplot2::ggplot(ggplot2::aes(x = AGE, 
-                                   y = YEAR %>% as.factor(), 
-                                   group = YEAR %>% as.factor(),
-                                   fill = YEAR %>% as.numeric())) +
+      ggplot2::ggplot(ggplot2::aes(
+        x = AGE,
+        y = YEAR %>% as.factor(),
+        group = YEAR %>% as.factor(),
+        fill = YEAR %>% as.numeric()
+      )) +
       ggplot2::scale_fill_gradientn(
         colors = nmfspalette::nmfs_palette("regional web")(4),
         name = "Year"
@@ -169,10 +176,10 @@ plot_age_density <- function(data){
       ggplot2::scale_x_continuous(
         limits = c(0, (max(data$AGE, na.rm = TRUE))),
         breaks = seq(0, max(data$AGE, na.rm = TRUE), by = 5)
-      )+
-      ggplot2::xlab("Age")+
+      ) +
+      ggplot2::xlab("Age") +
       ggplot2::ylab("Year")
-    
+
     return(fig)
   } else {
     print("NO DATA")

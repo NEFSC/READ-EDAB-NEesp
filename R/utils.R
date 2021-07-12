@@ -34,7 +34,6 @@ update_species_names <- function(data, species_col) {
 make_html_table <- function(x, col_names = colnames(x), type = "html") {
   if (is.null(x) == FALSE) {
     if (nrow(x) > 0) {
-      
       if (type == "html") {
         output <- DT::datatable(x,
           rownames = FALSE,
@@ -56,16 +55,14 @@ make_html_table <- function(x, col_names = colnames(x), type = "html") {
       }
 
       if (type == "word") {
-        if(nrow(x) <= 60) {
+        if (nrow(x) <= 60) {
           output <- knitr::kable(x, col.names = col_names)
         } else {
           output <- "More than 60 rows of data! Please see `data` folder."
         }
-        
       }
 
       return(output)
-      
     } else {
       print("NO DATA")
     }
@@ -124,7 +121,7 @@ make_html_table_thin <- function(x, col_names) {
 character_to_factor <- function(x) {
   if (is.null(x) == FALSE) {
     if (nrow(x) > 0) {
-      for (i in 1:ncol(x)) {
+      for (i in seq_len(ncol(data))) {
         x <- as.data.frame(x)
         if (class(x[, i]) == "character") {
           x[, i] <- as.factor(x[, i])
@@ -168,7 +165,7 @@ save_data <- function(x) {
 
     objsize <- object.size(x)
 
-    if (objsize < 10^4 ) {
+    if (objsize < 10^4) {
       filename <- paste("data/", name, ".csv", sep = "")
       write.csv(x, file = filename, row.names = FALSE)
     } else {
@@ -199,7 +196,7 @@ find_files <- function(text, path = here::here()) {
 
   out <- c()
 
-  for (i in 1:length(all_files)) {
+  for (i in seq_len(length(all_files))) {
     results <- grep(text, readLines(all_files[i]), value = FALSE) %>% suppressWarnings()
 
     if (length(results) > 0) {
@@ -213,10 +210,9 @@ find_files <- function(text, path = here::here()) {
     percent <- (i / length(all_files) * 100) %>%
       round(digits = 0)
 
-    if((i %% 10) == 0){
+    if ((i %% 10) == 0) {
       print(paste(i, " files searched, ", percent, "% done", ".....", sep = ""))
     }
-    
   }
 
   if (is.null(out)) {

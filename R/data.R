@@ -17,8 +17,8 @@
 #'   \item{\code{pyamtw}}{double Prey weight}
 #'   \item{\code{Species}}{character Predator species}
 #'   \item{\code{Region}}{character Predator region}
-#'   \item{\code{fish_id}}{character Predator ID number} 
-#'}
+#'   \item{\code{fish_id}}{character Predator ID number}
+#' }
 #'
 #' @source \url{https://github.com/Laurels1/Condition/blob/master/data/allfh.RData}
 #' @details DETAILS
@@ -37,8 +37,8 @@
 #'   \item{\code{Units}}{character The units of the metric}
 #'   \item{\code{AssessmentYear}}{double The year that the assessment was conducted}
 #'   \item{\code{Age}}{character The age of the fish (recruitment/abundance only)}
-#'   \item{\code{Category}}{character COLUMN_DESCRIPTION} 
-#'}
+#'   \item{\code{Category}}{character COLUMN_DESCRIPTION}
+#' }
 #' @source \url{https://github.com/NOAA-EDAB/assessmentdata}
 #' @details DETAILS
 "asmt"
@@ -59,8 +59,8 @@
 #'   \item{\code{F/Fmsy}}{double Fishing pressure relative to the fishing pressure for maximum sustainable yield}
 #'   \item{\code{B/Bmsy}}{double Biomass relative to the biomass for maximum sustainable yield}
 #'   \item{\code{Species}}{character Species common name}
-#'   \item{\code{Region}}{character Stock region} 
-#'}
+#'   \item{\code{Region}}{character Stock region}
+#' }
 #' @source \url{https://github.com/NOAA-EDAB/assessmentdata}
 #' @details For more details see \url{https://www.st.nmfs.noaa.gov/stocksmart/StockSMART_DataDictionary.pdf}
 #' "asmt_sum"
@@ -96,8 +96,8 @@
 #'   \item{\code{MATURITY}}{character Maturity}
 #'   \item{\code{AGE}}{double Age}
 #'   \item{\code{STOM_VOLUME}}{double Stomach volume}
-#'   \item{\code{STOM_WGT}}{double Stomach weight} 
-#'}
+#'   \item{\code{STOM_WGT}}{double Stomach weight}
+#' }
 #' @details \itemize{
 #'     \item Function call: survdat::get_survdat_data(channel = channel, filterByYear = NA, all.season = TRUE, shg.check = T, conversion.factor = T, use.SAD = F, getBio = TRUE, getLengths = T)
 #'     \item Pull date: Tue Mar 02 16:12:40 2021
@@ -110,8 +110,8 @@
 #' \describe{
 #'   \item{\code{Species}}{character Species' common name}
 #'   \item{\code{Overall_climate_vulnerability}}{character Overall climate vulnerability score}
-#'   \item{\code{Certainty}}{character Certainty score} 
-#'}
+#'   \item{\code{Certainty}}{character Certainty score}
+#' }
 #' @source \url{https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0146756}
 #' @details DETAILS
 "climate_risk"
@@ -127,8 +127,8 @@
 #'   \item{\code{Low}}{integer Number of experts ranking attribute risk as low}
 #'   \item{\code{Moderate}}{integer Number of experts ranking attribute risk as moderate}
 #'   \item{\code{High}}{integer Number of experts ranking attribute risk as high}
-#'   \item{\code{Very.High}}{integer Number of experts ranking attribute risk as very high} 
-#'}
+#'   \item{\code{Very.High}}{integer Number of experts ranking attribute risk as very high}
+#' }
 #' @source \url{https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0146756}
 #' @details DETAILS
 "climate_vulnerability"
@@ -142,8 +142,8 @@
 #'   \item{\code{State}}{character State}
 #'   \item{\code{Pounds}}{double Pounds landed}
 #'   \item{\code{Dollars}}{double Dollars}
-#'   \item{\code{Dollars_adj}}{double Dollars (2019 value)} 
-#'}
+#'   \item{\code{Dollars_adj}}{double Dollars (2019 value)}
+#' }
 #' @details DETAILS
 "com_catch"
 
@@ -152,8 +152,8 @@
 #' @format A data frame with 11 rows and 2 variables:
 #' \describe{
 #'   \item{\code{state_id}}{character State}
-#'   \item{\code{color}}{character Color (hex code)} 
-#'}
+#'   \item{\code{color}}{character Color (hex code)}
+#' }
 #' @details Created from `nmfspalette` package
 "com_palette"
 
@@ -167,8 +167,8 @@
 #'   \item{\code{YEAR}}{integer Year}
 #'   \item{\code{MeanCond}}{double Mean condition}
 #'   \item{\code{nCond}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{n}}{integer COLUMN_DESCRIPTION} 
-#'}
+#'   \item{\code{n}}{integer COLUMN_DESCRIPTION}
+#' }
 #' @source 2018 data from: \url{https://github.com/Laurels1/Condition}
 #' @details DETAILS
 "cond"
@@ -180,8 +180,8 @@
 #'   \item{\code{Species}}{character Species}
 #'   \item{\code{Scientific_name}}{character Scientific name}
 #'   \item{\code{Guild}}{character Guild}
-#'   \item{\code{size}}{character Size (<40cm = small)} 
-#'}
+#'   \item{\code{size}}{character Size (<40cm = small)}
+#' }
 #' @details DETAILS
 "guild_info"
 
@@ -202,8 +202,8 @@
 #'   \item{\code{total_guild_risk}}{double Total guild risk (summed over all indicators)}
 #'   \item{\code{sum_ranks}}{double Guild rank summed over all indicators}
 #'   \item{\code{legend_label}}{character Legend label (for plotting)}
-#'   \item{\code{label_y}}{double Position of y text (for plotting)} 
-#'}
+#'   \item{\code{label_y}}{double Position of y text (for plotting)}
+#' }
 #' @details DETAILS
 "guild_risk"
 
@@ -215,8 +215,8 @@
 #'   \item{\code{Indicator}}{character Indicator}
 #'   \item{\code{Data_source}}{character Data source}
 #'   \item{\code{Metric}}{character How the indicator was processed for risk assessment}
-#'   \item{\code{Risk}}{character How risk was assigned} 
-#'}
+#'   \item{\code{Risk}}{character How risk was assigned}
+#' }
 #' @details DETAILS
 "indicator_info"
 
@@ -228,8 +228,8 @@
 #'   \item{\code{strata}}{integer Stratum}
 #'   \item{\code{SVSPP}}{integer Northeast Resource Surveys Species code}
 #'   \item{\code{Region}}{character Stock region}
-#'   \item{\code{Species}}{character Species common name} 
-#'}
+#'   \item{\code{Species}}{character Species common name}
+#' }
 #' @source \url{https://github.com/NOAA-EDAB/ECSA}
 #' @details DETAILS
 "latlong"
@@ -244,8 +244,8 @@
 #'   \item{\code{Year}}{character Year when indicator was assessed, or descriptive substitute}
 #'   \item{\code{Value}}{double Indicator value}
 #'   \item{\code{rank}}{double Species rank by indicator value}
-#'   \item{\code{norm_rank}}{double Normalized rank} 
-#'}
+#'   \item{\code{norm_rank}}{double Normalized rank}
+#' }
 #' @source NRCC prioritization data
 #' @details DETAILS
 "nrcc"
@@ -255,8 +255,8 @@
 #' @format A data frame with 19 rows and 2 variables:
 #' \describe{
 #'   \item{\code{prey_id}}{character Prey ID}
-#'   \item{\code{color}}{character Color (hex code)} 
-#'}
+#'   \item{\code{color}}{character Color (hex code)}
+#' }
 #' @details Created from `nmfspalette` package
 "prey_palette"
 
@@ -294,8 +294,8 @@
 #'   \item{\code{var_wab1}}{character COLUMN_DESCRIPTION}
 #'   \item{\code{miss_fish}}{character COLUMN_DESCRIPTION}
 #'   \item{\code{ALT_FLAG}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{Species}}{character Species common name} 
-#'}
+#'   \item{\code{Species}}{character Species common name}
+#' }
 #' @source \url{https://www.st.nmfs.noaa.gov/st1/recreational/MRIP_Survey_Data/CSV/}
 #' @details DETAILS
 #' "rec_catch"
@@ -305,8 +305,8 @@
 #' @format A data frame with 5 rows and 2 variables:
 #' \describe{
 #'   \item{\code{rec_mode}}{character Fishing mode}
-#'   \item{\code{color}}{character Color (hex code)} 
-#'}
+#'   \item{\code{color}}{character Color (hex code)}
+#' }
 #' @details Created from `nmfspalette` package
 "rec_palette"
 
@@ -316,8 +316,8 @@
 #' \describe{
 #'   \item{\code{Species}}{character Species common name}
 #'   \item{\code{Region}}{character Stock region}
-#'   \item{\code{EPU}}{character Environmental Protection Unit} 
-#'}
+#'   \item{\code{EPU}}{character Environmental Protection Unit}
+#' }
 #' @details DETAILS
 "regression_species_regions"
 
@@ -339,8 +339,8 @@
 #'   \item{\code{overall_rank}}{integer Stock rank of total risk, compared to all other stocks}
 #'   \item{\code{overall_stocks}}{integer Total number of stocks}
 #'   \item{\code{stock}}{character Species and region}
-#'   \item{\code{label}}{character Label (for plotting)} 
-#'}
+#'   \item{\code{label}}{character Label (for plotting)}
+#' }
 #' @details DETAILS
 "risk"
 
@@ -359,8 +359,8 @@
 #'   \item{\code{n_stocks_per_region}}{integer NUmber of stocks in the stock region}
 #'   \item{\code{norm_rank}}{double Normalized rank}
 #'   \item{\code{total_risk}}{double Stock's total risk (sum of normalized ranks for all indicators)}
-#'   \item{\code{overall_rank}}{integer Stock's rank of total risk, compared to all other stocks} 
-#'}
+#'   \item{\code{overall_rank}}{integer Stock's rank of total risk, compared to all other stocks}
+#' }
 #' @details DETAILS
 "risk_species"
 
@@ -382,8 +382,8 @@
 #'   \item{\code{overall_rank}}{integer Stock's rank of total risk, compared to all other stocks}
 #'   \item{\code{overall_stocks}}{integer Total number of stocks}
 #'   \item{\code{stock}}{character Species and region}
-#'   \item{\code{label}}{character Label (for plotting)} 
-#'}
+#'   \item{\code{label}}{character Label (for plotting)}
+#' }
 #' @details DETAILS
 "risk_year_hist"
 
@@ -405,8 +405,8 @@
 #'   \item{\code{overall_rank}}{integer Stock's rank of total risk, compared to all other stocks}
 #'   \item{\code{overall_stocks}}{integer Total number of stocks}
 #'   \item{\code{stock}}{character Species and region}
-#'   \item{\code{label}}{character Label (for plotting)} 
-#'}
+#'   \item{\code{label}}{character Label (for plotting)}
+#' }
 #' @details DETAILS
 "risk_year_value"
 
@@ -421,8 +421,8 @@
 #'   \item{\code{SET_}}{integer COLUMN_DESCRIPTION}
 #'   \item{\code{STRATUMA}}{character COLUMN_DESCRIPTION}
 #'   \item{\code{STR3}}{integer COLUMN_DESCRIPTION}
-#'   \item{\code{geometry}}{list Geometry} 
-#'}
+#'   \item{\code{geometry}}{list Geometry}
+#' }
 #' @details DETAILS
 "shape"
 
@@ -432,8 +432,8 @@
 #' \describe{
 #'   \item{\code{Species}}{character Species common name}
 #'   \item{\code{Scientific_name}}{character Species scientific name}
-#'   \item{\code{Guild}}{character Guild} 
-#'}
+#'   \item{\code{Guild}}{character Guild}
+#' }
 #' @details Can probably be deprecated in favor of `guild_info`
 "species_guilds"
 
@@ -442,8 +442,8 @@
 #' @format A data frame with 37 rows and 2 variables:
 #' \describe{
 #'   \item{\code{SVSPP}}{integer Northeast Resource Surveys Species code}
-#'   \item{\code{Species}}{character Species common name} 
-#'}
+#'   \item{\code{Species}}{character Species common name}
+#' }
 #' @details DETAILS
 "species_key"
 
@@ -451,7 +451,7 @@
 #' @description DATASET_DESCRIPTION
 #' @format A data frame with 3937953 rows and 27 variables:
 #' \describe{
-#' 
+#'
 #'   \item{\code{CRUISE6}}{character Cruise ID}
 #'   \item{\code{STATION}}{character Station ID}
 #'   \item{\code{STRATUM}}{character Stratum}
@@ -478,9 +478,9 @@
 #'   \item{\code{stock_area}}{character Stock region}
 #'   \item{\code{Region}}{character Stock region}
 #'   \item{\code{date}}{character Date}
-#'   \item{\code{fish_id}}{character Unique fish ID} 
-#'}
-#' @source Oracle query of `svdbs` using the `survdat` package. 
+#'   \item{\code{fish_id}}{character Unique fish ID}
+#' }
+#' @source Oracle query of `svdbs` using the `survdat` package.
 #' @details \itemize{
 #'     \item Function call: survdat::get_survdat_data(channel = channel, filterByYear = NA, all.season = TRUE, shg.check = T, conversion.factor = T, use.SAD = F, getBio = FALSE, getLengths = T)
 #'     \item Pull date: Wed Mar 03 10:56:23 2021
@@ -507,7 +507,7 @@
 #'   \item{\code{tot.abund.var}}{double Abundance variance}
 #'   \item{\code{tot.abund.SE}}{double Abundance standard error}
 #'   \item{\code{Species}}{character Species common name}
-#'   \item{\code{Season}}{character Season} 
-#'}
+#'   \item{\code{Season}}{character Season}
+#' }
 #' @details See `survdat::swept_area`
 "swept"

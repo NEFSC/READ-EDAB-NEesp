@@ -223,113 +223,128 @@ plot_com_money <- function(data) {
 
 #' Prepare recreational data for plotting
 #'
-#' This function does basic data manipulation on recreational data. 
+#' This function does basic data manipulation on recreational data.
 #'
 #' @param data Recreational data for a single species. Subsetted from MRIP
 #' @return A tibble
 #' @importFrom magrittr %>%
 #' @export
 
-rec_data_prep <- function(data, state = FALSE){
-  
+rec_data_prep <- function(data, state = FALSE) {
+
   # for adding zeros
   combo <- expand.grid(
     year = min(data$year, na.rm = TRUE):max(data$year, na.rm = TRUE),
     mode_fx_f = unique(data$mode_fx_f)
   )
-  
+
   # group by state if TRUE
-  
-  if(state){
+
+  if (state) {
     data <- data %>%
       dplyr::group_by(st_f)
   }
-  
+
   # northeast data
-  
+
   ne <- data %>%
     dplyr::filter(sub_reg_f == "NORTH ATLANTIC" |
-                    sub_reg_f == "MID-ATLANTIC") %>%
+      sub_reg_f == "MID-ATLANTIC") %>%
     dplyr::group_by(mode_fx_f, year, .add = TRUE) %>%
-    dplyr::summarise(total_catch = sum(tot_cat),
-                     discards = sum(estrel),
-                     landings = sum(lbs_ab1),
-                     landings_num = sum(landing)) %>%
+    dplyr::summarise(
+      total_catch = sum(tot_cat),
+      discards = sum(estrel),
+      landings = sum(lbs_ab1),
+      landings_num = sum(landing)
+    ) %>%
     dplyr::ungroup() %>%
     dplyr::group_by(year) %>%
-    dplyr::mutate(total_catch_all_mode = sum(total_catch),
-                  prop = discards/total_catch_all_mode,
-                  prop_land = landings_num/total_catch_all_mode) %>%
+    dplyr::mutate(
+      total_catch_all_mode = sum(total_catch),
+      prop = discards / total_catch_all_mode,
+      prop_land = landings_num / total_catch_all_mode
+    ) %>%
     dplyr::full_join(combo,
-                     by = c(
-                       "year" = "year",
-                       "mode_fx_f" = "mode_fx_f"
-                     )) %>%
+      by = c(
+        "year" = "year",
+        "mode_fx_f" = "mode_fx_f"
+      )
+    ) %>%
     dplyr::mutate(total_catch2 = ifelse(is.na(total_catch), 0, total_catch)) %>%
     dplyr::select(-total_catch) %>%
     tidyr::pivot_longer(cols = c("total_catch2", "discards", "prop", "landings", "landings_num", "prop_land")) %>%
     dplyr::mutate(Region = "Northeast")
-  
-  
+
+
   # outside of northeast data
-  
+
   out <- data %>%
     dplyr::filter(sub_reg_f != "NORTH ATLANTIC" &
-                    sub_reg_f != "MID-ATLANTIC") %>%
+      sub_reg_f != "MID-ATLANTIC") %>%
     dplyr::group_by(mode_fx_f, year) %>%
-    dplyr::summarise(total_catch = sum(tot_cat),
-                     discards = sum(estrel),
-                     landings = sum(lbs_ab1),
-                     landings_num = sum(landing)) %>%
+    dplyr::summarise(
+      total_catch = sum(tot_cat),
+      discards = sum(estrel),
+      landings = sum(lbs_ab1),
+      landings_num = sum(landing)
+    ) %>%
     dplyr::ungroup() %>%
     dplyr::group_by(year) %>%
-    dplyr::mutate(total_catch_all_mode = sum(total_catch),
-                  prop = discards/total_catch_all_mode,
-                  prop_land = landings_num/total_catch_all_mode) %>%
+    dplyr::mutate(
+      total_catch_all_mode = sum(total_catch),
+      prop = discards / total_catch_all_mode,
+      prop_land = landings_num / total_catch_all_mode
+    ) %>%
     dplyr::full_join(combo,
-                     by = c(
-                       "year" = "year",
-                       "mode_fx_f" = "mode_fx_f"
-                     )) %>%
+      by = c(
+        "year" = "year",
+        "mode_fx_f" = "mode_fx_f"
+      )
+    ) %>%
     dplyr::mutate(total_catch2 = ifelse(is.na(total_catch), 0, total_catch)) %>%
     dplyr::select(-total_catch) %>%
     tidyr::pivot_longer(cols = c("total_catch2", "discards", "prop", "landings", "landings_num", "prop_land")) %>%
     dplyr::mutate(Region = "Outside\nNortheast")
-  
+
   # total data
-  
+
   all <- data %>%
     dplyr::group_by(mode_fx_f, year) %>%
-    dplyr::summarise(total_catch = sum(tot_cat),
-                     discards = sum(estrel),
-                     landings = sum(lbs_ab1),
-                     landings_num = sum(landing)) %>%
+    dplyr::summarise(
+      total_catch = sum(tot_cat),
+      discards = sum(estrel),
+      landings = sum(lbs_ab1),
+      landings_num = sum(landing)
+    ) %>%
     dplyr::ungroup() %>%
     dplyr::group_by(year) %>%
-    dplyr::mutate(total_catch_all_mode = sum(total_catch),
-                  prop = discards/total_catch_all_mode,
-                  prop_land = landings_num/total_catch_all_mode) %>%
+    dplyr::mutate(
+      total_catch_all_mode = sum(total_catch),
+      prop = discards / total_catch_all_mode,
+      prop_land = landings_num / total_catch_all_mode
+    ) %>%
     dplyr::full_join(combo,
-                     by = c(
-                       "year" = "year",
-                       "mode_fx_f" = "mode_fx_f"
-                     )) %>%
+      by = c(
+        "year" = "year",
+        "mode_fx_f" = "mode_fx_f"
+      )
+    ) %>%
     dplyr::mutate(total_catch2 = ifelse(is.na(total_catch), 0, total_catch)) %>%
     dplyr::select(-total_catch) %>%
     tidyr::pivot_longer(cols = c("total_catch2", "discards", "prop", "landings", "landings_num", "prop_land")) %>%
     dplyr::mutate(Region = "All Regions")
 
   # combine
-  
+
   full_data <- rbind(ne, out, all)
-  
+
   # get order of most important - least important category
   cat <- full_data %>%
     dplyr::filter(name == "landings") %>%
     dplyr::group_by(mode_fx_f) %>%
     dplyr::summarise(imp = max(value)) %>%
     dplyr::arrange(dplyr::desc(imp))
-  
+
   full_data$mode_fx_f <- factor(
     full_data$mode_fx_f,
     cat$mode_fx_f
@@ -340,7 +355,7 @@ rec_data_prep <- function(data, state = FALSE){
 
 #' Plot recreational data
 #'
-#' This function plots recreational data. 
+#' This function plots recreational data.
 #'
 #' @param data Recreational data for a single species. Subsetted from MRIP
 #' @param var What data to plot. One of c("total_catch2", "discards", "prop", "landings", "landings_num", "prop_land")
@@ -351,13 +366,12 @@ rec_data_prep <- function(data, state = FALSE){
 
 plot_rec <- function(data, var, title) {
   if (nrow(data) > 0) {
-    
     data <- NEesp::rec_data_prep(data)
 
     # assign colors based on nmfs color palette
     plot_colors <- NEesp::rec_palette$color
-    names(plot_colors) <- NEesp::rec_palette$rec_mode 
-    
+    names(plot_colors) <- NEesp::rec_palette$rec_mode
+
     # plot
     fig <- ggplot2::ggplot(
       data %>%
@@ -387,9 +401,8 @@ plot_rec <- function(data, var, title) {
       ggplot2::facet_grid(rows = ggplot2::vars(Region)) +
       ggplot2::theme(legend.position = "bottom") +
       ggplot2::labs(title = title)
-    
-    return(fig)
 
+    return(fig)
   } else {
     print("NO DATA")
   }
