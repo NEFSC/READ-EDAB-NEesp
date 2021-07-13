@@ -353,7 +353,7 @@ wrap_analysis <- function(file_path,
                           species = "species",
                           mode = "download") {
 
-  if(stringr::str_detect(input$si_file$datapath, ".csv$")){
+  if(stringr::str_detect(file_path, ".csv$")){
     data <- read.csv(file_path)
   } else {
     data <- readRDS(file_path)
