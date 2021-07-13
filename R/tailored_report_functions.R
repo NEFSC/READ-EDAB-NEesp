@@ -352,7 +352,12 @@ wrap_analysis <- function(file_path,
                           min_year = 2016,
                           species = "species",
                           mode = "download") {
-  data <- read.csv(file_path)
+
+  if(stringr::str_detect(input$si_file$datapath, ".csv$")){
+    data <- read.csv(file_path)
+  } else {
+    data <- readRDS(file_path)
+  }
 
   data$Time <- as.numeric(data$Time)
 
