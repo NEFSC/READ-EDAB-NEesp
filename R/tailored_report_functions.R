@@ -22,8 +22,11 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
     names(my_colors) <- c("FALSE", "TRUE")
 
     data$sig <- factor(data$sig, levels = c("TRUE", "FALSE"))
+    
+    data2 <- data %>%
+      tidyr::drop_na()
 
-    fig <- ggplot2::ggplot(data, ggplot2::aes(
+    fig <- ggplot2::ggplot(data2, ggplot2::aes(
       x = Val,
       y = Value
     )) +
