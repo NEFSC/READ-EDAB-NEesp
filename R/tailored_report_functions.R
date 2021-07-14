@@ -328,6 +328,22 @@ time_rpt <- function(data, out_name = "unnamed", min_year = 2016) {
   return(output)
 }
 
+#' Read in csv or rds data
+#'
+#' This function reads in csv or rds data
+#'
+#' @return A datatable
+#' @export
+
+read_file <- function(file_pat){
+  if(stringr::str_detect(file_pat, ".csv$")){
+    data <- read.csv(file_pat)
+  } else {
+    data <- readRDS(file_pat)
+  }
+  return(data)
+}
+
 #' Wrapper function to prep data, plot data, and create report card output
 #'
 #' This is a wrapper function of `prep_data`, `plot_corr_only`, and `time_rpt`
@@ -346,30 +362,20 @@ time_rpt <- function(data, out_name = "unnamed", min_year = 2016) {
 
 wrap_analysis <- function(file_path,
                           metric = "Recruitment",
-                          pattern = NULL,
-                          remove = NULL,
+                          var,
                           lag = 0,
                           min_year = 2016,
                           species = "species",
                           mode = "download") {
 
-  if(stringr::str_detect(file_path, ".csv$")){
-    data <- read.csv(file_path)
-  } else {
-    data <- readRDS(file_path)
-  }
+  this_data <- NEesp::read_file(file_path) %>%
+    dplyr::filter(Var == var)
 
-  data$Time <- as.numeric(data$Time)
-
-  for (i in unique(data$Var)) {
-    this_data <- data %>%
-      dplyr::filter(Var == i)
+  this_data$Time <- as.numeric(this_data$Time)
 
     this_data <- prep_data(
       data = this_data,
       metric = metric,
-      pattern = pattern,
-      remove = remove
     )
 
     if (nrow(this_data) > 0) {
@@ -444,7 +450,6 @@ wrap_analysis <- function(file_path,
           dir <- ""
         }
 
-
         # time trend
         model <- lm(Val ~ Time, data = this_data)
 
@@ -467,7 +472,6 @@ wrap_analysis <- function(file_path,
           dir2 <- ""
         }
 
-
         # make data frame
         tib <- rbind(
           c(i, "Trend with time", paste(trend2, dir2)),
@@ -483,8 +487,7 @@ wrap_analysis <- function(file_path,
         colnames(rpt_card_ind) <- c("Indicator", "Trend_with", "Pattern")
       }
     }
-  }
-
+  
   if (mode == "shiny") {
     print(all_fig)
   }
