@@ -361,7 +361,7 @@ read_file <- function(file_pat){
 
 wrap_analysis <- function(file_path,
                           metric = "Recruitment",
-                          var,
+                          var = "",
                           lag = 0,
                           min_year = 2016,
                           species = "species",
