@@ -19,6 +19,8 @@ wrap_analysis(
 
 \item{metric}{The stock metric to assess. Passed to \code{prep_data}.}
 
+\item{var}{Which level of \code{Var} to plot.}
+
 \item{lag}{Passed to \code{plot_corr_only}. The number of years by which the stock-indicator correlation was lagged. Required to correct the stock time series. Defaults to 0.}
 
 \item{min_year}{Passed to \code{time_rpt}. The minimum year to consider for the recent time-series average. Defaults to 2016.}
@@ -26,10 +28,6 @@ wrap_analysis(
 \item{species}{Passed to \code{plot_corr_only}. The species name to add to plots. Defaults to "species".}
 
 \item{mode}{If set to "shiny", plots will be displayed but no other functionality will be triggered (ex, saving figures or showing a report card). Also passed to \code{plot_corr_only}.}
-
-\item{pattern}{Optional. Passed to \code{prep_data}. A pattern to detect in the \code{Var} row, for example if you do not want to plot all levels of \code{Var}. Can be a vector.}
-
-\item{remove}{Optional. Passed to \code{prep_data}. If the pattern should be removed (\code{TRUE}) or retained (\code{FALSE}). Can be a vector.}
 }
 \value{
 A tibble

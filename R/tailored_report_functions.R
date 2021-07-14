@@ -350,8 +350,7 @@ read_file <- function(file_pat){
 #'
 #' @param file_path The file path to a spreadsheet outputted by a `NEespShiny` or `NEesp` regression report.
 #' @param metric The stock metric to assess. Passed to `prep_data`.
-#' @param pattern  Optional. Passed to `prep_data`. A pattern to detect in the `Var` row, for example if you do not want to plot all levels of `Var`. Can be a vector.
-#' @param remove Optional. Passed to `prep_data`. If the pattern should be removed (`TRUE`) or retained (`FALSE`). Can be a vector.
+#' @param var Which level of `Var` to plot.
 #' @param lag Passed to `plot_corr_only`. The number of years by which the stock-indicator correlation was lagged. Required to correct the stock time series. Defaults to 0.
 #' @param min_year Passed to `time_rpt`. The minimum year to consider for the recent time-series average. Defaults to 2016.
 #' @param species Passed to `plot_corr_only`. The species name to add to plots. Defaults to "species".
