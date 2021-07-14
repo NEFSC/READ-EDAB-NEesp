@@ -5,8 +5,8 @@ NEesp::wrap_analysis(
   file_path = file,
   metric = met,
   lag = lag,
-  pattern = pat,
-  remove = rem,
+#  pattern = pat,
+#  remove = rem,
   species = params$species,
   min_year = params$min_year
 )
