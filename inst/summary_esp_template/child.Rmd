@@ -1,7 +1,7 @@
 ### {{input$si_file$name}}
 ```{r}
 dat <- NEesp::prep_si_data(
-  file_path = stringr::str_replace('{{input$si_file$datapath}}', '\\\\', '\\\\\\\\'),
+  file_path = path,
   metric = '{{input$si_metric}}',
   var = '{{input$var_options}}'
 )
