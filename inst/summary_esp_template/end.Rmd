@@ -17,7 +17,7 @@ NEesp::make_ind_rpt(rpt_card_ind)
 # only created for indicators correlated with stock
 # may not exist
 
-if (!is.na(max(rpt_card_time$Time))) {
+if (max(rpt_card_time$Time, na.rm = TRUE) > 0) {
   rpt_card_time <- rpt_card_time %>%
     dplyr::distinct()
 
