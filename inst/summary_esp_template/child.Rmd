@@ -1,12 +1,12 @@
 ### `r file_name`
 ```{r}
-dat <- prep_si_data(
+dat <- NEesp::prep_si_data(
   file_path = input$si_file$datapath,
   metric = input$si_metric,
   var = input$var_options
 )
 
-plt <- plot_corr_only(
+plt <- NEesp::plot_corr_only(
   data = dat,
   lag = as.numeric(input$si_lag),
   species = input$si_species,
@@ -14,14 +14,14 @@ plt <- plot_corr_only(
 )
 print(plt)
 
-rpt_card_ind <- rbind(rpt_card_ind, ind_rpt(
+rpt_card_ind <- rbind(rpt_card_ind, NEesp::ind_rpt(
   data = dat,
   var = input$var_options,
   metric = input$si_metric
 ))
 
 rpt_card_time <- dplyr::full_join(rpt_card_time,
-  time_rpt(data = dat, 
+  NEesp::time_rpt(data = dat, 
            out_name = input$var_options),
   by = "Time"
 )
