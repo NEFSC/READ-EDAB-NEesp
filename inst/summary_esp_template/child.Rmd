@@ -31,8 +31,7 @@ rpt_card_ind <- rbind(rpt_card_ind, ind_rpt(
 
 rpt_card_time <- dplyr::full_join(rpt_card_time,
   time_rpt(data = dat, 
-           out_name = input$var_options, 
-           min_year = input$min_year),
+           out_name = input$var_options),
   by = "Time"
 )
 ```
