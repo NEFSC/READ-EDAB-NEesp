@@ -1,28 +1,28 @@
 ### `r {{input$si_file$name}}`
 ```{r}
 dat <- NEesp::prep_si_data(
-  file_path = {{input$si_file$datapath}},
-  metric = {{input$si_metric}},
-  var = {{input$var_options}}
+  file_path = '{{input$si_file$datapath}}',
+  metric = '{{input$si_metric}}',
+  var = '{{input$var_options}}'
 )
 
 plt <- NEesp::plot_corr_only(
   data = dat,
   lag = as.numeric({{input$si_lag}}),
-  species = {{input$si_species}},
+  species = '{{input$si_species}}',
   mode = "download"
 )
 print(plt)
 
 rpt_card_ind <- rbind(rpt_card_ind, NEesp::ind_rpt(
   data = dat,
-  var = {{input$var_options}},
-  metric = {{input$si_metric}}
+  var = '{{input$var_options}}',
+  metric = '{{input$si_metric}}'
 ))
 
 rpt_card_time <- dplyr::full_join(rpt_card_time,
   NEesp::time_rpt(data = dat, 
-           out_name = {{input$var_options}}),
+           out_name = '{{input$var_options}}'),
   by = "Time"
 )
 ```
