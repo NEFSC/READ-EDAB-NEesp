@@ -23,7 +23,7 @@ plt <- plot_corr_only(
 )
 print(plt)
 
-rpt_card_ind <- rbind(rpt_card_ind, make_ind_rpt(
+rpt_card_ind <- rbind(rpt_card_ind, ind_rpt(
   data = dat,
   var = input$var_options,
   metric = input$si_metric
