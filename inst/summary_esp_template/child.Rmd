@@ -1,4 +1,4 @@
-### `r {{input$si_file$name}}`
+### {{input$si_file$name}}
 ```{r}
 dat <- NEesp::prep_si_data(
   file_path = '{{input$si_file$datapath}}',
