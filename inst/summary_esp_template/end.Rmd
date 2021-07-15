@@ -2,17 +2,18 @@
 
 ### Indicator report card
 
-```{r}
+```{r, ind-rpt-card}
 # rpt_card_ind created from wrap_analysis()
 colnames(rpt_card_ind) <- c("Indicator", "Trend_with", "Pattern")
 rpt_card_ind <- rpt_card_ind %>%
+  tibble::as.tibble() %>%
   dplyr::distinct()
 NEesp::make_ind_rpt(rpt_card_ind)
 ```
 
 ### Time series report card
 
-```{r, fxn-rpt}
+```{r, time-rpt-card}
 # rpt_card_time created from wrap_analysis()
 # only created for indicators correlated with stock
 # may not exist
