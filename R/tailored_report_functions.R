@@ -216,14 +216,13 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
 prep_si_data <- function(file_path,
                          metric = "Recruitment",
                          var) {
-  this_data$Time <- as.numeric(this_data$Time)
-
   this_data <- NEesp::read_file(file_path) %>%
     dplyr::filter(
       Var == var,
       Metric == metric | is.na(Metric)
     ) %>%
-    dplyr::mutate(Var = Var %>%
+    dplyr::mutate(Time = as.numeric(Time),
+      Var = Var %>%
       stringr::str_replace_all("\n", " ")) %>%
     dplyr::mutate(Var = Var %>%
       stringr::str_wrap(40)) %>%
