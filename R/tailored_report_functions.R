@@ -22,7 +22,7 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
     names(my_colors) <- c("FALSE", "TRUE")
 
     data$sig <- factor(data$sig, levels = c("TRUE", "FALSE"))
-    
+
     data2 <- data %>%
       tidyr::drop_na()
 
@@ -171,20 +171,23 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
 
     # save
     if (mode != "shiny") {
-      file <- paste("figures/",
+      file <- paste0(
         unique(data$Metric)[!is.na(unique(data$Metric))],
         "_",
         unique(data$Var),
-        ".png",
-        sep = ""
+        ".png"
       ) %>%
         stringr::str_replace_all(" ", "_") %>%
         stringr::str_replace_all("\n", "_") %>%
-        stringr:str_remove_all("/") %>%
+        stringr::str_remove_all("/") %>%
         stringr::str_remove_all("\\\\")
+
+
+      print(file)
 
       ggplot2::ggsave(
         filename = file,
+        path = "figures",
         width = 6.5,
         height = 6.5,
         units = "in",
@@ -199,46 +202,34 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
   }
 }
 
-#' Prepare data for plotting with `plot_corr_only`
+#' Prepare data for plotting with `plot_corr_only`, within shiny app
 #'
 #' This function prepares data for plotting with `plot_corr_only`.
 #'
-#' @param data A data frame containing stock and indicator time series, or a file path to a .csv containg the data. Data from a spreadsheet outputted by a `NEespShiny` or `NEesp` regression report.
-#' @param metric The stock assessment metric to assess - c("Recruitmetn", "Abundance", "Catch", "Fmort")
-#' @param pattern Optional. A pattern to detect in the `Var` row, for example if you do not want to plot all levels of `Var`. Can be a vector.
-#' @param remove Optional. If the pattern should be removed (`TRUE`) or retained (`FALSE`). Can be a vector.
+#' @param file_path The file path to the data. Data from a spreadsheet outputted by a `NEespShiny` or `NEesp` regression report.
+#' @param metric The stock assessment metric to assess - c("Recruitment", "Abundance", "Catch", "Fmort")
+#' @param var Which level of the `Var` column to plot.
 #' @return A tibble
 #' @importFrom magrittr %>%
 #' @export
+#'
+prep_si_data <- function(file_path,
+                         metric = "Recruitment",
+                         var) {
+  this_data$Time <- as.numeric(this_data$Time)
 
-prep_data <- function(data,
-                      metric = "Recruitment",
-                      pattern = NULL,
-                      remove = NULL) {
-  if (class(data) == "character") {
-    data <- data %>%
-      read.csv()
-  }
-
-  data <- data %>%
+  this_data <- NEesp::read_file(file_path) %>%
     dplyr::filter(
+      Var == var,
       Metric == metric | is.na(Metric)
     ) %>%
-    dplyr::mutate(Var = Var %>% stringr::str_replace_all("\n", " "))
-
-  if (length(pattern) > 0) {
-    for (i in seq_len(pattern)) {
-      data <- data %>%
-        dplyr::filter(stringr::str_detect(Var, pattern[i], negate = remove[i]))
-    }
-  }
-
-  data <- data %>%
-    dplyr::mutate(Var = Var %>% 
-                    stringr::str_wrap(40)) %>%
+    dplyr::mutate(Var = Var %>%
+      stringr::str_replace_all("\n", " ")) %>%
+    dplyr::mutate(Var = Var %>%
+      stringr::str_wrap(40)) %>%
     dplyr::arrange(Time)
 
-  return(data)
+  return(this_data)
 }
 
 #' Create an indicator report card rating for one indicator
@@ -253,77 +244,79 @@ prep_data <- function(data,
 #' @export
 
 time_rpt <- function(data, out_name = "unnamed", min_year = 2016) {
-  data <- data %>%
-    dplyr::select(Time, Val) %>%
-    dplyr::distinct()
+  if ("TRUE" %in% data$sig) {
+    data <- data %>%
+      dplyr::select(Time, Val) %>%
+      dplyr::distinct() %>%
+      dplyr::group_by(Time) %>%
+      dplyr::mutate(avg_value = mean(Val, na.rm = TRUE)) %>% # average by year
+      dplyr::select(-Val) %>%
+      dplyr::distinct()
 
-  data <- data %>%
-    dplyr::group_by(Time) %>%
-    dplyr::mutate(avg_value = mean(Val, na.rm = TRUE)) %>% # average by year
-    dplyr::select(-Val) %>%
-    dplyr::distinct()
-
-  analysis <- data %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(
-      long_avg = mean(avg_value) %>%
-        round(digits = 2),
-      long_sd = sd(avg_value) %>%
-        round(digits = 2)
-    ) %>%
-    dplyr::filter(Time >= min_year) %>%
-    dplyr::mutate(
-      short_avg = mean(avg_value) %>%
-        round(digits = 2),
-      short_sd = sd(avg_value) %>%
-        round(digits = 2),
-      avg_value = round(avg_value, digits = 2)
-    )
-
-  status <- c()
-  for (i in seq_len(analysis)) {
-    if (analysis$avg_value[i] > (analysis$long_avg[1] + analysis$long_sd[1])) {
-      status[i] <- "high"
-    } else if (analysis$avg_value[i] < (analysis$long_avg[1] - analysis$long_sd[1])) {
-      status[i] <- "low"
-    } else {
-      status[i] <- "neutral"
-    }
-  }
-
-  analysis$avg_value <- paste(analysis$avg_value,
-    status,
-    sep = ", "
-  )
-
-  short_status <- c()
-  if (analysis$short_avg[1] > (analysis$long_avg[1] + analysis$long_sd[1])) {
-    short_status <- "high"
-  } else if (analysis$short_avg[1] < (analysis$long_avg[1] - analysis$long_sd[1])) {
-    short_status <- "low"
-  } else {
-    short_status <- "neutral"
-  }
-
-  output <- rbind(
-    cbind(analysis$Time, analysis$avg_value),
-    c(
-      "recent mean",
-      paste(analysis$short_avg[1],
-        " ± ", analysis$short_sd[1],
-        ", ",
-        short_status,
-        sep = ""
+    analysis <- data %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(
+        long_avg = mean(avg_value) %>%
+          round(digits = 2),
+        long_sd = sd(avg_value) %>%
+          round(digits = 2)
+      ) %>%
+      dplyr::filter(Time >= min_year) %>%
+      dplyr::mutate(
+        short_avg = mean(avg_value) %>%
+          round(digits = 2),
+        short_sd = sd(avg_value) %>%
+          round(digits = 2),
+        avg_value = round(avg_value, digits = 2)
       )
-    ),
-    c(
-      "long-term mean",
-      paste(analysis$long_avg[1], "±", analysis$long_sd[1])
-    )
-  ) %>%
-    tibble::as_tibble()
 
-  colnames(output) <- c("Time", out_name)
+    status <- c()
+    for (i in seq_len(nrow(analysis))) {
+      if (analysis$avg_value[i] > (analysis$long_avg[1] + analysis$long_sd[1])) {
+        status[i] <- "high"
+      } else if (analysis$avg_value[i] < (analysis$long_avg[1] - analysis$long_sd[1])) {
+        status[i] <- "low"
+      } else {
+        status[i] <- "neutral"
+      }
+    }
+
+    analysis$avg_value <- paste(analysis$avg_value,
+      status,
+      sep = ", "
+    )
+
+    short_status <- c()
+    if (analysis$short_avg[1] > (analysis$long_avg[1] + analysis$long_sd[1])) {
+      short_status <- "high"
+    } else if (analysis$short_avg[1] < (analysis$long_avg[1] - analysis$long_sd[1])) {
+      short_status <- "low"
+    } else {
+      short_status <- "neutral"
+    }
+
+    output <- rbind(
+      cbind(analysis$Time, analysis$avg_value),
+      c(
+        "recent mean",
+        paste(analysis$short_avg[1],
+          " ± ", analysis$short_sd[1],
+          ", ",
+          short_status,
+          sep = ""
+        )
+      ),
+      c(
+        "long-term mean",
+        paste(analysis$long_avg[1], "±", analysis$long_sd[1])
+      )
+    ) %>%
+      tibble::as_tibble()
+
+    colnames(output) <- c("Time", out_name)
+  } else {
+    output <- tibble::tibble(Time = NA)
+  }
 
   return(output)
 }
@@ -335,8 +328,8 @@ time_rpt <- function(data, out_name = "unnamed", min_year = 2016) {
 #' @return A datatable
 #' @export
 
-read_file <- function(file_pat){
-  if(stringr::str_detect(file_pat, ".csv$")){
+read_file <- function(file_pat) {
+  if (stringr::str_detect(file_pat, ".csv$")) {
     data <- read.csv(file_pat)
   } else {
     data <- readRDS(file_pat)
@@ -344,152 +337,70 @@ read_file <- function(file_pat){
   return(data)
 }
 
-#' Wrapper function to prep data, plot data, and create report card output
+#' Create indicator report card output
 #'
-#' This is a wrapper function of `prep_data`, `plot_corr_only`, and `time_rpt`
+#' This function creates the report card output for an indicator. Variables are passed from `wrap_analysis`
 #'
-#' @param file_path The file path to a spreadsheet outputted by a `NEespShiny` or `NEesp` regression report.
 #' @param metric The stock metric to assess. Passed to `prep_data`.
+#' @param data The data to use.
 #' @param var Which level of `Var` to plot.
-#' @param lag Passed to `plot_corr_only`. The number of years by which the stock-indicator correlation was lagged. Required to correct the stock time series. Defaults to 0.
-#' @param min_year Passed to `time_rpt`. The minimum year to consider for the recent time-series average. Defaults to 2016.
-#' @param species Passed to `plot_corr_only`. The species name to add to plots. Defaults to "species".
-#' @param mode If set to "shiny", plots will be displayed but no other functionality will be triggered (ex, saving figures or showing a report card). Also passed to `plot_corr_only`.
 #' @return A tibble
 #' @importFrom magrittr %>%
 #' @export
+ind_rpt <- function(var, metric, data) {
+  var <- var %>%
+    stringr::str_replace_all("\n", " ")
 
-wrap_analysis <- function(file_path,
-                          metric = "Recruitment",
-                          var = "",
-                          lag = 0,
-                          min_year = 2016,
-                          species = "species",
-                          mode = "download") {
+  rname <- paste("Trend with", metric %>% stringr::str_to_lower())
 
-  this_data <- NEesp::read_file(file_path) %>%
-    dplyr::filter(Var == var)
-
-  this_data$Time <- as.numeric(this_data$Time)
-
-    this_data <- prep_data(
-      data = this_data,
-      metric = metric,
-    )
-
-    if (nrow(this_data) > 0) {
-      eval <- ((this_data %>%
-        dplyr::select(sig) %>%
-        tidyr::drop_na() %>%
-        dplyr::distinct()) == "TRUE")
-
-      plt <- plot_corr_only(this_data, lag = lag, species = species, mode = mode)
-
-      if (mode != "shiny") {
-        print(plt)
-        cat("\n\n")
-      }
-
-      # put all plots into a ggarrange for shiny output
-      if (mode == "shiny") {
-        if (exists("all_fig")) {
-          n <- n + 1
-          all_fig <- ggpubr::ggarrange(all_fig, plt, ncol = 1, heights = c(n, 1))
-        } else {
-          n <- 0
-          all_fig <- plt
-        }
-      }
-
-      # time series report card
-      if (mode != "shiny" &
-        eval # only add to report card if relationship is sig
-      ) {
-        i <- i %>%
-          stringr::str_replace_all("\n", " ")
-
-        if (exists("rpt_card_time")) {
-          test <- stringr::str_detect(colnames(rpt_card_time), i) # is the var already in the rpt card
-          dont_eval <- "TRUE" %in% test
-          if (dont_eval == FALSE # only add if not in rpt card already
-          ) {
-            rpt_card_time <<- dplyr::full_join(rpt_card_time,
-              time_rpt(this_data, out_name = i, min_year = min_year),
-              by = "Time"
-            )
-          }
-        } else {
-          rpt_card_time <<- time_rpt(this_data, out_name = i, min_year = min_year)
-        }
-      }
-
-      # indicator regression report card
-      if (mode != "shiny") {
-        i <- i %>%
-          stringr::str_replace_all("\n", " ")
-
-        rname <- paste("Trend with", metric %>% stringr::str_to_lower())
-
-        # indicator trend
-        lil_dat <- this_data %>%
-          dplyr::filter(!is.na(sig)) %>%
-          dplyr::select(sig, slope)
-        if (lil_dat$sig[1] == "TRUE") {
-          trend <- "Yes,"
-        } else {
-          trend <- "No"
-        }
-        if (lil_dat$sig[1] == "TRUE") {
-          if (lil_dat$slope[1] > 0) {
-            dir <- "positive"
-          } else {
-            dir <- "negative"
-          }
-        } else {
-          dir <- ""
-        }
-
-        # time trend
-        model <- lm(Val ~ Time, data = this_data)
-
-        sig <- summary(model)$coefficients[2, 4] < 0.05
-        slope <- coef(model)[2]
-
-
-        if (sig == TRUE) {
-          trend2 <- "Yes,"
-        } else {
-          trend2 <- "No"
-        }
-        if (sig == TRUE) {
-          if (slope > 0) {
-            dir2 <- "positive"
-          } else {
-            dir2 <- "negative"
-          }
-        } else {
-          dir2 <- ""
-        }
-
-        # make data frame
-        tib <- rbind(
-          c(i, "Trend with time", paste(trend2, dir2)),
-          c(i, rname, paste(trend, dir))
-        )
-
-        # make empty vector if needed
-        if (!exists("rpt_card_ind")) {
-          rpt_card_ind <<- c()
-        }
-
-        rpt_card_ind <<- rbind(rpt_card_ind, tib)
-        colnames(rpt_card_ind) <- c("Indicator", "Trend_with", "Pattern")
-      }
-    }
-  
-  if (mode == "shiny") {
-    print(all_fig)
+  # indicator trend
+  lil_dat <- data %>%
+    dplyr::filter(!is.na(sig)) %>%
+    dplyr::select(sig, slope)
+  if (lil_dat$sig[1] == "TRUE") {
+    trend <- "Yes,"
+  } else {
+    trend <- "No"
   }
+  if (lil_dat$sig[1] == "TRUE") {
+    if (lil_dat$slope[1] > 0) {
+      dir <- "positive"
+    } else {
+      dir <- "negative"
+    }
+  } else {
+    dir <- ""
+  }
+
+  # time trend
+  model <- lm(Val ~ Time, data = data)
+
+  sig <- summary(model)$coefficients[2, 4] < 0.05
+  slope <- coef(model)[2]
+
+
+  if (sig == TRUE) {
+    trend2 <- "Yes,"
+  } else {
+    trend2 <- "No"
+  }
+  if (sig == TRUE) {
+    if (slope > 0) {
+      dir2 <- "positive"
+    } else {
+      dir2 <- "negative"
+    }
+  } else {
+    dir2 <- ""
+  }
+
+  # make data frame
+  tib <- rbind(
+    c(var, "Trend with time", paste(trend2, dir2)),
+    c(var, rname, paste(trend, dir))
+  )
+
+  return(tib)
 }
 
 #' Create time report card

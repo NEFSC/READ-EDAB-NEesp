@@ -171,7 +171,7 @@ correlation_data <- function(data, lag = 0) {
             ),
             caption = paste(i, j, sep = " vs "),
             booktabs = TRUE
-          ) %>% 
+          ) %>%
             print()
 
           cat("\n\n<!-- -->\n\n")

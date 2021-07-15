@@ -145,9 +145,9 @@ get_diet_table <- function(data, type = "html") {
 
       # only look at season/year combinations with >20 predator samples
       dplyr::group_by(year, season, Region) %>%
-      dplyr::mutate(n_predators = fish_id %>% 
-                      unique() %>% 
-                      length()) %>%
+      dplyr::mutate(n_predators = fish_id %>%
+        unique() %>%
+        length()) %>%
       dplyr::filter(n_predators > 20)
 
     if (length(normalized$n_predators) > 1) {

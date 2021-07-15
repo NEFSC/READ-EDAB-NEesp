@@ -56,7 +56,7 @@ plot_asmt <- function(x, metric, ytitle = "", lin = lines, col = colors) {
           title = "Description, units (assessment year)"
         ),
         fill = FALSE # fill is a dummy aes for geom_gls
-      ) + 
+      ) +
       ggplot2::ylab(ytitle)
 
     if (metric != "Catch" &

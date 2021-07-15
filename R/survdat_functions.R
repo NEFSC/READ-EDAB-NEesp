@@ -76,7 +76,8 @@ plot_variable <- function(x, ytitle = "") {
     names(lines) <- c("FALL", "SPRING", "WINTER", "SUMMER")
 
     # override situations where geom_gls doesn't converge
-    res <- try({
+    res <- try(
+      {
         ecodata::geom_gls(
           inherit.aes = FALSE,
           data = ecodat,
@@ -200,9 +201,10 @@ generate_table <- function(x, variable, cap = "", type = "html") {
     table_5yr[, 3:6] <- table_5yr[, 3:6] %>%
       round(digits = 2)
 
-    total_table <- cbind(table,
-                         table_5yr[, -(1:2)]
-                         )
+    total_table <- cbind(
+      table,
+      table_5yr[, -(1:2)]
+    )
 
     cnames <- c(
       "Season", "Region", "Total years", "Mean",
