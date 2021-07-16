@@ -3,13 +3,11 @@
 ### Indicator report card
 
 ```{r, ind-rpt-card}
-# rpt_card_ind created from wrap_analysis()
 #  colnames(rpt_card_ind) <- c("Indicator", "Trend_with", "Pattern")
 rpt_card_ind <- rpt_card_ind %>%
   tibble::as.tibble() %>%
   dplyr::distinct()
 NEesp::make_ind_rpt(rpt_card_ind)
-
 
 ```
 
@@ -39,7 +37,7 @@ if (max(rpt_card_time$Time, na.rm = TRUE) > 0) {
 
 ### R session information
 ```{r, session-info, results = "markup"}
-sessionInfo()
+pander::pander(sessionInfo())
 ```
 
 ### `NEesp` information
