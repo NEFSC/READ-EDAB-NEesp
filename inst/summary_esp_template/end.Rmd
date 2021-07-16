@@ -41,11 +41,13 @@ pander::pander(sessionInfo(), compact = FALSE)
 ```
 
 ### `NEesp` information
+<<<<<<< HEAD
 ```{r, NEesp-info, results = "markup", warning = FALSE}
 pander::pander(packageDescription("NEesp"), compact = FALSE)
 ```
 
 ### `NEespShiny` information
+<<<<<<< HEAD
 ```{r, NEespShiny-info, results = "markup", warning = FALSE}
 pander::pander(packageDescription("NEespShiny"), compact = FALSE)
 ```
