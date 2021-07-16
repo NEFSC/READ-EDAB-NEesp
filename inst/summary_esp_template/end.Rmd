@@ -37,15 +37,15 @@ if (max(rpt_card_time$Time, na.rm = TRUE) > 0) {
 
 ### R session information
 ```{r, session-info, results = "markup"}
-pander::pander(sessionInfo())
+pander::pander(sessionInfo(), compact = FALSE)
 ```
 
 ### `NEesp` information
 ```{r, NEesp-info, results = "markup"}
-packageDescription("NEesp")
+pander::pander(packageDescription("NEesp"), compact = FALSE)
 ```
 
 ### `NEespShiny` information
 ```{r, NEespShiny-info, results = "markup"}
-packageDescription("NEespShiny")
+pander::pander(packageDescription("NEespShiny"), compact = FALSE)
 ```
