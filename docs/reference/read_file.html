@@ -22,7 +22,7 @@
   }
 </script>
 
-<title>Create an indicator report card rating for one indicator — time_rpt • NEesp</title>
+<title>Read in csv or rds data — read_file • NEesp</title>
 
 
 <!-- jquery -->
@@ -65,8 +65,8 @@
 
 
 
-<meta property="og:title" content="Create an indicator report card rating for one indicator — time_rpt" />
-<meta property="og:description" content="This function creates an indicator report card. The report card assesses ecosystem/socioeconomic favorability for the stock, NOT overall ecosystem/socioeconomic favorability." />
+<meta property="og:title" content="Read in csv or rds data — read_file" />
+<meta property="og:description" content="This function reads in csv or rds data" />
 
 
 
@@ -211,37 +211,21 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create an indicator report card rating for one indicator</h1>
+    <h1>Read in csv or rds data</h1>
     <small class="dont-index">Source: <a href='https://github.com/NOAA-EDAB/NEesp/blob/master/R/tailored_report_functions.R'><code>R/tailored_report_functions.R</code></a></small>
-    <div class="hidden name"><code>time_rpt.Rd</code></div>
+    <div class="hidden name"><code>read_file.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function creates an indicator report card. The report card assesses ecosystem/socioeconomic favorability for the stock, NOT overall ecosystem/socioeconomic favorability.</p>
+    <p>This function reads in csv or rds data</p>
     </div>
 
-    <pre class="usage"><span class='fu'>time_rpt</span><span class='op'>(</span><span class='va'>data</span>, out_name <span class='op'>=</span> <span class='st'>"unnamed"</span>, min_year <span class='op'>=</span> <span class='fl'>2016</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>read_file</span><span class='op'>(</span><span class='va'>file_pat</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>data</th>
-      <td><p>A data frame containing stock and indicator time series. Data from a spreadsheet outputted by a <code>NEespShiny</code> or <code>NEesp</code> regression report. Must pre-process with <code>NEesp::prep_data</code>, or do your own pre-processing.</p></td>
-    </tr>
-    <tr>
-      <th>out_name</th>
-      <td><p>The name that the indicator column should have in the output.</p></td>
-    </tr>
-    <tr>
-      <th>min_year</th>
-      <td><p>The minimum year to consider for the recent time-series average. Defaults to 2016.</p></td>
-    </tr>
-    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble</p>
+    <p>A datatable</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -106,6 +106,9 @@
     <loc>https://noaa-edab.github.io/NEesp//reference/guild_risk.html</loc>
   </url>
   <url>
+    <loc>https://noaa-edab.github.io/NEesp//reference/ind_rpt.html</loc>
+  </url>
+  <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/indicator_info.html</loc>
   </url>
   <url>
@@ -205,7 +208,7 @@
     <loc>https://noaa-edab.github.io/NEesp//reference/plot_variable.html</loc>
   </url>
   <url>
-    <loc>https://noaa-edab.github.io/NEesp//reference/prep_data.html</loc>
+    <loc>https://noaa-edab.github.io/NEesp//reference/prep_si_data.html</loc>
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/prey_palette.html</loc>
@@ -215,6 +218,9 @@
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/pseudoR2.html</loc>
+  </url>
+  <url>
+    <loc>https://noaa-edab.github.io/NEesp//reference/read_file.html</loc>
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/rec_data_prep.html</loc>
@@ -278,9 +284,6 @@
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/update_species_names.html</loc>
-  </url>
-  <url>
-    <loc>https://noaa-edab.github.io/NEesp//reference/wrap_analysis.html</loc>
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//articles/bookdown-templates.html</loc>
