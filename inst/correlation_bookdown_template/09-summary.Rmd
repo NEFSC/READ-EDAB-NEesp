@@ -10,7 +10,10 @@ summary_table <- function(x) {
     ),
     options = list(
       search = list(regex = TRUE),
-      paging = FALSE
+      paging = FALSE,
+      scrollY = 400,
+      scrollX = TRUE,
+      scroller = TRUE
     )
   )
 }
@@ -44,7 +47,7 @@ output %>%
 
 ### Generalized linear model
 
-This is an exploratory fit of a poisson GLM. Initial covariates were included based on statistical significance at a Bonferroni-corrected alpha in the linear correlations shown in this report. Final covariates were chosen by forward stepwise AIC selection of additive GLMs.
+This is an exploratory fit of a poisson GLM. Initial covariates were included based on statistical significance at a Bonferroni-corrected alpha in the linear correlations shown in this report. Final covariates were chosen by forward stepwise AIC selection of additive GLMs, with the maximum number of steps limited to the number of data points divided by two.
 
 ```{r, bonf}
 # bonferroni correction to weed out excess covariates
@@ -109,7 +112,7 @@ output %>%
 
 ### Generalized linear model
 
-This is an exploratory fit of a poisson GLM. Initial covariates were included based on statistical significance at a Bonferroni-corrected alpha in the linear correlations shown in this report. Final covariates were chosen by forward stepwise AIC selection of additive GLMs.
+This is an exploratory fit of a poisson GLM. Initial covariates were included based on statistical significance at a Bonferroni-corrected alpha in the linear correlations shown in this report. Final covariates were chosen by forward stepwise AIC selection of additive GLMs, with the maximum number of steps limited to the number of data points divided by two.
 
 ```{r, wrangle-recruit}
 eval_dat <- (class(recruit_data) != "NULL")

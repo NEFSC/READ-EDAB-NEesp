@@ -39,6 +39,7 @@ full_mod <- paste("~", full_mod)
 new_mod <- MASS::stepAIC(start_model,
   k = log(nrow(data)),
   trace = FALSE,
+  steps = nrow(data)/2,
   scope = list(
     lower = ~1,
     upper = full_mod
@@ -82,16 +83,17 @@ if (length(all_coefs) == length(mod_coefs)) {
   dropped_coefs <- all_coefs[(all_coefs %in% mod_coefs) == FALSE]
 
   if (length(dropped_coefs) > 1) {
-    dropped_coefs <- paste(collapse = ",")
+    dropped_coefs <- paste(dropped_coefs, collapse = "\n")
     # print(dropped_coefs)
   }
+  dropped_coefs <- c("\n\n", dropped_coefs)
 }
 ```
 
 Dropped coefficients: `r dropped_coefs`
 
 
-```{r, {{label}}-fig}
+```{r, {{label}}-fig, fig.cap = "Predicted (dashed red) and actual (solid black) response variable over time"}
 data$Predicted <- predict(new_mod, newdata = data) %>% exp()
 
 fig <- ggplot2::ggplot(
