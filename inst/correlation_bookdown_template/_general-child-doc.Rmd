@@ -90,12 +90,12 @@ if(class(data) == "try-error") {
   
   objsize <- object.size(data)
   
-      if (objsize < 10^4 ) {
-        file_name <- paste("data/", name, ".csv", sep = "")
-        write.csv(data, file_name)
-      } else {
-        file_name <- paste("data/", name, ".RDS", sep = "")
-       saveRDS(data, file_name)
+  if (objsize < 10^4 ) {
+    file_name <- paste("data/", name, ".csv", sep = "")
+    write.csv(data, file_name)
+    } else {
+      file_name <- paste("data/", name, ".RDS", sep = "")
+      saveRDS(data, file_name)
       }
 
   # prep for fig
