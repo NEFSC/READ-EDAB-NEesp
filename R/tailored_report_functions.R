@@ -89,7 +89,8 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
       ggplot2::theme_bw() +
       ggplot2::labs(title = stringr::str_to_sentence(species)) +
       ggplot2::xlab("Year") +
-      ggplot2::ylab(unique(data$Metric[!is.na(data$Metric)]))
+      ggplot2::ylab(unique(data$Metric[!is.na(data$Metric)]))+
+      ggplot2::xlim(c(min(data$Time), max(data$Time)))
 
     # test if indicator is sig over time - overwrite sig
     dat <- data %>%
@@ -103,9 +104,12 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
     data$Var <- data$Var %>%
       stringr::str_replace("\n", " ") %>%
       stringr::str_wrap(width = 30)
+    
+    plt <- data %>%
+      tidyr::drop_na(Val)
 
     ind_fig <- ggplot2::ggplot(
-      data,
+      plt,
       ggplot2::aes(
         x = Time,
         y = Val
@@ -130,7 +134,8 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
       ggplot2::theme_bw() +
       ggplot2::labs(title = "Indicator") +
       ggplot2::xlab("Year") +
-      ggplot2::ylab(unique(data$Var))
+      ggplot2::ylab(unique(plt$Var)) +
+      ggplot2::xlim(c(min(data$Time), max(data$Time)))
 
     # change font size for shiny
     if (mode == "shiny") {
@@ -218,7 +223,7 @@ prep_si_data <- function(file_path,
                          var) {
   this_data <- NEesp::read_file(file_path) %>%
     dplyr::filter(
-      Var == var,
+      Var == var | is.na(Var),
       Metric == metric | is.na(Metric)
     ) %>%
     dplyr::mutate(Time = as.numeric(Time),

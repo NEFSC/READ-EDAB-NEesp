@@ -55,6 +55,10 @@ data <- try(NEesp::data_prep(
   eco_data = test,
   lag_data = params$lag
 ))
+
+print(min(data$Time))
+print(min(stock$Time))
+print(min(test$Time))
 ```
 
 ```{r, eval = eval_epu, results = "markup"}
@@ -90,6 +94,8 @@ if(class(data) == "try-error") {
   
   objsize <- object.size(data)
   
+  print(min(data$Time))
+  
   if (objsize < 10^4 ) {
     file_name <- paste("data/", name, ".csv", sep = "")
     write.csv(data, file_name)
@@ -97,16 +103,6 @@ if(class(data) == "try-error") {
       file_name <- paste("data/", name, ".RDS", sep = "")
       saveRDS(data, file_name)
       }
-
-  # prep for fig
-  # remove na's,
-  # count number of regressions for bonferroni correction
-  data <- data %>%
-    tibble::as_tibble() %>%
-    tidyr::drop_na()
-  var_names <- unique(data$Var)
-  nvar <- length(var_names)
-  bonf_n <- bonf_n + nvar
 }
 ```
 
@@ -121,6 +117,19 @@ if(names[1] == "pp-week" | names[1] == "chl-week"){
 ```
 
 ```{r, {{label}}-fig, eval = eval_epu, fig.height = 10}
+
+# prep for fig
+# remove na's,
+# count number of regressions for bonferroni correction
+
+data <- data %>%
+  tibble::as_tibble() %>%
+  tidyr::drop_na()
+
+var_names <- unique(data$Var)
+nvar <- length(var_names)
+bonf_n <- bonf_n + nvar
+
 if (nvar > 6) { # break up into multiple graphs
   for (i in 1:round(nvar / 6)) {
     index <- ((i - 1) * 6 + 1):(i * 6)

@@ -20,6 +20,7 @@ Imports:
     ggridges,
     ggthemes,
     here,
+    magrittr,
     nmfspalette,
     pander,
     papeR,

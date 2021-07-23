@@ -5,5 +5,6 @@
 **/.Ruserdata
 **/.Renviron
 .Rproj.user
+*.Rproj
 docs
 

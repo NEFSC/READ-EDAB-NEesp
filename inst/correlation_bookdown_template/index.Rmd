@@ -91,11 +91,10 @@ knitr::opts_chunk$set(
   hook_name = TRUE,
   knitr.duplicate.label = "allow"
 )
-
-
 ```
 
 # `r params$stock` {-}
+
 Stock region: `r params$region`
 
 EPU: `r params$epu`
