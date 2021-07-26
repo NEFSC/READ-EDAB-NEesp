@@ -22,7 +22,9 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
     names(my_colors) <- c("FALSE", "TRUE")
 
     data$sig <- factor(data$sig, levels = c("TRUE", "FALSE"))
-
+    
+    # stock-indicator correlation ----
+    
     data2 <- data %>%
       tidyr::drop_na()
 
@@ -51,9 +53,11 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
       ggplot2::scale_x_continuous(labels = scales::comma) +
       ggplot2::theme_bw() +
       ggplot2::labs(title = paste("Correlation between", species, "and indicator")) +
-      ggplot2::ylab(unique(data$Metric[!is.na(data$Metric)])) +
-      ggplot2::xlab(unique(data$Var))
+      ggplot2::ylab(unique(data2$Metric)) +
+      ggplot2::xlab(unique(data2$Var))
 
+    # stock over time ----
+    
     # test if bsb is sig over time - overwrite sig
     dat <- data %>%
       dplyr::select(Value, Time) %>%
@@ -92,6 +96,8 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
       ggplot2::ylab(unique(data$Metric[!is.na(data$Metric)]))+
       ggplot2::xlim(c(min(data$Time), max(data$Time)))
 
+    # indicator over time ----
+    
     # test if indicator is sig over time - overwrite sig
     dat <- data %>%
       dplyr::select(Val, Time) %>%
