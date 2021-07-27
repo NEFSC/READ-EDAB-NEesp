@@ -1,7 +1,7 @@
 ### {{input$si_file$name}}
 ```{r}
 dat <- NEesp::prep_si_data(
-  file_path = path,
+  file_path = '{{pat}}',
   metric = '{{input$si_metric}}',
   var = '{{input$var_options}}'
 )
@@ -20,9 +20,10 @@ rpt_card_ind <- rbind(rpt_card_ind, NEesp::ind_rpt(
   metric = '{{input$si_metric}}'
 ))
 
-rpt_card_time <- dplyr::full_join(rpt_card_time,
+if('{{input$var_options}}' %in% colnames(rpt_card_time)){ } else{
+  rpt_card_time <- dplyr::full_join(rpt_card_time,
   NEesp::time_rpt(data = dat, 
            out_name = '{{input$var_options}}'),
   by = "Time"
-)
+)}
 ```
