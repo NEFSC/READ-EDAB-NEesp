@@ -185,7 +185,7 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
       file <- paste0(
         unique(data$Metric)[!is.na(unique(data$Metric))],
         "_",
-        unique(data$Var),
+        unique(data$Var)[!is.na(unique(data$Var))],
         ".png"
       ) %>%
         stringr::str_replace_all(" ", "_") %>%
