@@ -266,16 +266,16 @@ time_rpt <- function(data, out_name = "unnamed", min_year = 2016) {
     analysis <- data %>%
       dplyr::ungroup() %>%
       dplyr::mutate(
-        long_avg = mean(avg_value) %>%
+        long_avg = mean(avg_value, na.rm = TRUE) %>%
           round(digits = 2),
-        long_sd = sd(avg_value) %>%
+        long_sd = sd(avg_value, na.rm = TRUE) %>%
           round(digits = 2)
       ) %>%
       dplyr::filter(Time >= min_year) %>%
       dplyr::mutate(
-        short_avg = mean(avg_value) %>%
+        short_avg = mean(avg_value, na.rm = TRUE) %>%
           round(digits = 2),
-        short_sd = sd(avg_value) %>%
+        short_sd = sd(avg_value, na.rm = TRUE) %>%
           round(digits = 2),
         avg_value = round(avg_value, digits = 2)
       )
