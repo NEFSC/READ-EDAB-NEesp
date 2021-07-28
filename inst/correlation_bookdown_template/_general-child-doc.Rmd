@@ -55,10 +55,6 @@ data <- try(NEesp::data_prep(
   eco_data = test,
   lag_data = params$lag
 ))
-
-print(min(data$Time))
-print(min(stock$Time))
-print(min(test$Time))
 ```
 
 ```{r, eval = eval_epu, results = "markup"}
@@ -93,8 +89,6 @@ if(class(data) == "try-error") {
     stringr::str_replace_all(" ", "_")
   
   objsize <- object.size(data)
-  
-  print(min(data$Time))
   
   if (objsize < 10^4 ) {
     file_name <- paste("data/", name, ".csv", sep = "")
