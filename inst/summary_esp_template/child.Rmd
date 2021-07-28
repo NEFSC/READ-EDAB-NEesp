@@ -19,11 +19,17 @@ rpt_card_ind <- rbind(rpt_card_ind, NEesp::ind_rpt(
   var = '{{input$var_options}}',
   metric = '{{input$si_metric}}'
 ))
+```
 
-if('{{input$var_options}}' %in% colnames(rpt_card_time)){ } else{
-  rpt_card_time <- dplyr::full_join(rpt_card_time,
+```{r}
+#print(paste(colnames(rpt_card_time)), collapse = ", ")
+#'{{var_choice}}' %in% colnames(rpt_card_time)
+test <- '{{var_choice}}' %in% colnames(rpt_card_time)
+if(test == FALSE){
+  rpt_card_time <- 
+    dplyr::full_join(rpt_card_time,
   NEesp::time_rpt(data = dat, 
-           out_name = '{{input$var_options}}'),
+           out_name = '{{var_choice}}'),
   by = "Time"
 )}
 ```
