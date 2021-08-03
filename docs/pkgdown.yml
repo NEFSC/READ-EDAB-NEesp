@@ -1,4 +1,4 @@
-pandoc: 2.14.0.3
+pandoc: 2.14.1
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
@@ -11,7 +11,7 @@ articles:
   rmarkdown-intro: rmarkdown-intro.html
   shiny-app: shiny-app.html
   why-esp: why-esp.html
-last_built: 2021-07-26T21:52Z
+last_built: 2021-08-03T14:29Z
 urls:
   reference: https://noaa-edab.github.io/NEesp//reference
   article: https://noaa-edab.github.io/NEesp//articles

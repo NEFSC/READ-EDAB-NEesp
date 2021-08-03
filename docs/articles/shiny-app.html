@@ -186,6 +186,20 @@
 <code class="sourceCode R"><span class="fu">NEespShiny</span><span class="fu">::</span><span class="fu">run_NEesp</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Within the app, the user can input different parameters to use with the report templates. Output files can be downloaded as a zipped folder, which contains a .doc of the report, an images folder (.png), and a data folder (.csv/.RDS).</p>
 </div>
+<div id="troubleshooting" class="section level2">
+<h2 class="hasAnchor">
+<a href="#troubleshooting" class="anchor"></a>Troubleshooting</h2>
+<ul>
+<li>Override package installation errors from warnings:</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span><span class="op">(</span>R_REMOTES_NO_ERRORS_FROM_WARNINGS<span class="op">=</span><span class="st">"true"</span><span class="op">)</span></code></pre></div>
+<ul>
+<li>You must also have the <a href="https://github.com/NOAA-EDAB/NEesp"><code>NEesp</code> package</a> installed to run the <code>NEespShiny</code> app. Explicitly install <code>NEesp</code>:</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"NOAA-EDAB/NEesp"</span>, ref <span class="op">=</span> <span class="st">"v0.1.0"</span><span class="op">)</span></code></pre></div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
