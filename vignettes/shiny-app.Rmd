@@ -38,3 +38,14 @@ NEespShiny::run_NEesp()
 ```
 
 Within the app, the user can input different parameters to use with the report templates. Output files can be downloaded as a zipped folder, which contains a .doc of the report, an images folder (.png), and a data folder (.csv/.RDS).
+
+## Troubleshooting
+- Override package installation errors from warnings: 
+```{r}
+Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
+```
+
+- You must also have the [`NEesp` package](https://github.com/NOAA-EDAB/NEesp) installed to run the `NEespShiny` app. Explicitly install `NEesp`:
+```{r}
+remotes::install_github("NOAA-EDAB/NEesp", ref = "v0.1.0")
+```
