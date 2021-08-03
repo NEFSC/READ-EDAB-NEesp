@@ -32,6 +32,7 @@ missing_na <- function(data) {
 #' @param n_run How many years to calculate the running mean over. Defaults to 5.
 #' @return A tibble
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 get_species_risk <- function(data, year_source, value_source,
@@ -40,34 +41,38 @@ get_species_risk <- function(data, year_source, value_source,
     dplyr::rename("Value" = value_source, "Year" = year_source)
 
   # select assessmentdata just from most recent assessment for each species
-  if (sum(data %>% colnames() %>% stringr::str_detect("AssessmentYear")) > 0) {
+  if (sum(data %>%
+    colnames() %>%
+    stringr::str_detect("AssessmentYear")) > 0) {
     data <- data %>%
-      dplyr::group_by(Species) %>%
-      dplyr::mutate(most_recent_asmt = max(AssessmentYear)) %>%
-      dplyr::filter(AssessmentYear == most_recent_asmt)
+      dplyr::group_by(.data$Species) %>%
+      dplyr::mutate(most_recent_asmt = max(.data$AssessmentYear)) %>%
+      dplyr::filter(.data$AssessmentYear == .data$most_recent_asmt)
   }
 
   # sum state data for commercial info
-  if (sum(data %>% colnames() %>% stringr::str_detect("State")) > 0) {
+  if (sum(data %>%
+    colnames() %>%
+    stringr::str_detect("State")) > 0) {
     data <- data %>%
-      dplyr::group_by(Species, Year) %>%
-      dplyr::mutate(Value = sum(Value))
+      dplyr::group_by(.data$Species, .data$Year) %>%
+      dplyr::mutate(Value = sum(.data$Value))
   }
 
   data <- data %>%
-    dplyr::select(Species, Region, Value, Year) %>%
+    dplyr::select(.data$Species, .data$Region, .data$Value, .data$Year) %>%
     dplyr::mutate(
-      ne_stock = (Species %in% species_key$Species),
-      Year = as.numeric(Year)
+      ne_stock = (.data$Species %in% NEesp::species_key$Species),
+      Year = as.numeric(.data$Year)
     ) %>%
     dplyr::filter(
-      ne_stock == "TRUE",
-      is.na(Value) == FALSE,
-      is.na(Year) == FALSE
+      .data$ne_stock == "TRUE",
+      is.na(.data$Value) == FALSE,
+      is.na(.data$Year) == FALSE
     ) %>%
-    dplyr::group_by(Species, Region) %>%
-    dplyr::distinct(Year, .keep_all = TRUE) %>% # some years have repeats - keep first value only for now
-    dplyr::arrange(Year)
+    dplyr::group_by(.data$Species, .data$Region) %>%
+    dplyr::distinct(.data$Year, .keep_all = TRUE) %>% # some years have repeats - keep first value only for now
+    dplyr::arrange(.data$Year)
 
   years <- data$Year %>%
     unique()
@@ -76,24 +81,24 @@ get_species_risk <- function(data, year_source, value_source,
   for (i in 1:((years %>% length()) - n_run)) {
     new_data <- data %>%
       dplyr::filter(
-        Year <= years[i + n_run],
-        is.na(Value) == FALSE,
-        is.na(Year) == FALSE
+        .data$Year <= years[i + n_run],
+        is.na(.data$Value) == FALSE,
+        is.na(.data$Year) == FALSE
       ) %>%
-      dplyr::mutate(recent = Year > years[i + n_run] - n_run) %>%
-      dplyr::group_by(Species, Region, recent) %>%
+      dplyr::mutate(recent = .data$Year > years[i + n_run] - n_run) %>%
+      dplyr::group_by(.data$Species, .data$Region, .data$recent) %>%
       dplyr::mutate(
-        mean_value = mean(Value),
-        Indicator = indicator_name,
+        mean_value = mean(.data$Value),
+        Indicator = .data$indicator_name,
         Year = paste(years[i + 1], "-", years[i + n_run], " mean",
           sep = ""
         )
       ) %>%
-      dplyr::select(Species, Region, recent, mean_value, Indicator, Year) %>%
+      dplyr::select(.data$Species, .data$Region, .data$recent, .data$mean_value, .data$Indicator, .data$Year) %>%
       dplyr::distinct() %>%
       dplyr::filter(
-        recent == TRUE,
-        is.na(mean_value) == FALSE
+        .data$recent == TRUE,
+        is.na(.data$mean_value) == FALSE
       ) %>% # remove missing values
       dplyr::ungroup()
 
@@ -102,25 +107,25 @@ get_species_risk <- function(data, year_source, value_source,
 
   if (high == "low_risk") {
     results <- results %>%
-      dplyr::group_by(Species, Region) %>%
+      dplyr::group_by(.data$Species, .data$Region) %>%
       dplyr::mutate(
-        rank = rank(-mean_value),
-        norm_rank = rank / max(rank)
+        rank = rank(-.data$mean_value),
+        norm_rank = .data$rank / max(.data$rank)
       )
   }
 
   if (high == "high_risk") {
     results <- results %>%
-      dplyr::group_by(Species, Region) %>%
+      dplyr::group_by(.data$Species, .data$Region) %>%
       dplyr::mutate(
-        rank = rank(mean_value),
-        norm_rank = rank / max(rank)
+        rank = rank(.data$mean_value),
+        norm_rank = .data$rank / max(.data$rank)
       )
   }
 
   results <- results %>%
     dplyr::ungroup() %>%
-    dplyr::select(Species, Region, Indicator, Year, mean_value, rank, norm_rank) %>%
+    dplyr::select(.data$Species, .data$Region, .data$Indicator, .data$Year, .data$mean_value, .data$rank, .data$norm_rank) %>%
     dplyr::rename("Value" = "mean_value")
 
   return(results)
@@ -140,6 +145,7 @@ get_species_risk <- function(data, year_source, value_source,
 #' @param n_run How many years to calculate the running mean over. Defaults to 5.
 #' @return A tibble
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 get_running_risk <- function(data, year_source, value_source,
@@ -150,29 +156,29 @@ get_running_risk <- function(data, year_source, value_source,
   # select assessmentdata just from most recent assessment for each species
   if (sum(data %>% colnames() %>% stringr::str_detect("AssessmentYear")) > 0) {
     data <- data %>%
-      dplyr::group_by(Species) %>%
-      dplyr::mutate(most_recent_asmt = max(AssessmentYear)) %>%
-      dplyr::filter(AssessmentYear == most_recent_asmt)
+      dplyr::group_by(.data$Species) %>%
+      dplyr::mutate(most_recent_asmt = max(.data$AssessmentYear)) %>%
+      dplyr::filter(AssessmentYear == .data$most_recent_asmt)
   }
 
   # sum state data for commercial info
   if (sum(data %>% colnames() %>% stringr::str_detect("State")) > 0) {
     data <- data %>%
-      dplyr::group_by(Species, Year) %>%
-      dplyr::mutate(Value = sum(Value))
+      dplyr::group_by(.data$Species, .data$Year) %>%
+      dplyr::mutate(Value = sum(.data$Value))
   }
 
   data <- data %>%
-    dplyr::select(Species, Region, Value, Year) %>%
-    dplyr::mutate(ne_stock = (Species %in% species_key$Species)) %>%
+    dplyr::select(.data$Species, .data$Region, .data$Value, .data$Year) %>%
+    dplyr::mutate(ne_stock = (.data$Species %in% NEesp::species_key$Species)) %>%
     dplyr::filter(
-      ne_stock == "TRUE",
-      is.na(Value) == FALSE,
-      is.na(Year) == FALSE
+      .data$ne_stock == "TRUE",
+      is.na(.data$Value) == FALSE,
+      is.na(.data$Year) == FALSE
     )
 
   data <- data %>%
-    dplyr::arrange(Year)
+    dplyr::arrange(.data$Year)
 
   years <- data$Year %>%
     unique()
@@ -181,54 +187,54 @@ get_running_risk <- function(data, year_source, value_source,
   for (i in 1:((years %>% length()) - n_run)) {
     new_data <- data %>%
       dplyr::filter(
-        Year <= years[i + n_run],
-        is.na(Value) == FALSE,
-        is.na(Year) == FALSE
+        .data$Year <= years[i + n_run],
+        is.na(.data$Value) == FALSE,
+        is.na(.data$Year) == FALSE
       ) %>%
-      dplyr::mutate(recent = Year > years[i + n_run] - n_run) %>%
-      dplyr::group_by(Species, Region, recent) %>%
-      dplyr::mutate(mean_value = mean(Value)) %>%
-      dplyr::select(Species, Region, recent, mean_value) %>%
+      dplyr::mutate(recent = .data$Year > years[i + n_run] - n_run) %>%
+      dplyr::group_by(.data$Species, .data$Region, .data$recent) %>%
+      dplyr::mutate(mean_value = mean(.data$Value)) %>%
+      dplyr::select(.data$Species, .data$Region, .data$recent, .data$mean_value) %>%
       dplyr::distinct() %>%
       tidyr::pivot_wider(
-        names_from = recent,
-        values_from = mean_value,
+        names_from = .data$recent,
+        values_from = .data$mean_value,
         names_prefix = "recent_"
       ) %>%
-      dplyr::mutate(score = recent_TRUE / recent_FALSE) %>%
-      dplyr::filter(is.na(score) == FALSE) %>% # remove missing values
+      dplyr::mutate(score = .data$recent_TRUE / .data$recent_FALSE) %>%
+      dplyr::filter(is.na(.data$score) == FALSE) %>% # remove missing values
       dplyr::ungroup()
 
     if (high == "low_risk") {
       new_data <- new_data %>%
         dplyr::mutate(
-          Indicator = indicator_name,
+          Indicator = .data$indicator_name,
           Year = paste(years[i + 1], "-", years[i + n_run], " vs historic mean",
             sep = ""
           ),
-          rank = rank(-score),
-          norm_rank = rank / max(rank)
+          rank = rank(-.data$score),
+          norm_rank = .data$rank / max(.data$rank)
         )
     }
 
     if (high == "high_risk") {
       new_data <- new_data %>%
         dplyr::mutate(
-          Indicator = indicator_name,
+          Indicator = .data$indicator_name,
           Year = paste(years[i + 1], "-", years[i + n_run], " vs historic mean",
             sep = ""
           ),
-          rank = rank(score),
-          norm_rank = rank / max(rank)
+          rank = rank(.data$score),
+          norm_rank = .data$rank / max(.data$rank)
         )
     }
 
     new_data <- new_data %>%
-      dplyr::group_by(Year) %>%
-      dplyr::mutate(n_stocks = length(rank)) %>%
-      dplyr::filter(n_stocks >= 5) %>% # only include years with 5+ stocks
+      dplyr::group_by(.data$Year) %>%
+      dplyr::mutate(n_stocks = length(.data$rank)) %>%
+      dplyr::filter(.data$n_stocks >= 5) %>% # only include years with 5+ stocks
       dplyr::ungroup() %>%
-      dplyr::select(Species, Region, Indicator, Year, score, rank, norm_rank) %>%
+      dplyr::select(.data$Species, .data$Region, .data$Indicator, .data$Year, .data$score, .data$rank, .data$norm_rank) %>%
       dplyr::rename("Value" = "score")
 
     results <- rbind(results, new_data)
@@ -252,6 +258,7 @@ get_running_risk <- function(data, year_source, value_source,
 #' @param n_run How many years to calculate the running mean over. Defaults to 5.
 #' @return A tibble
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 get_running_value_risk <- function(data, year_source, value_source,
@@ -262,28 +269,28 @@ get_running_value_risk <- function(data, year_source, value_source,
   # select assessmentdata just from most recent assessment for each species
   if (sum(data %>% colnames() %>% stringr::str_detect("AssessmentYear")) > 0) {
     data <- data %>%
-      dplyr::group_by(Species) %>%
-      dplyr::mutate(most_recent_asmt = max(AssessmentYear)) %>%
-      dplyr::filter(AssessmentYear == most_recent_asmt)
+      dplyr::group_by(.data$Species) %>%
+      dplyr::mutate(most_recent_asmt = max(.data$AssessmentYear)) %>%
+      dplyr::filter(.data$AssessmentYear == .data$most_recent_asmt)
   }
 
   # sum state data for commercial info
   if (sum(data %>% colnames() %>% stringr::str_detect("State")) > 0) {
     data <- data %>%
-      dplyr::group_by(Species, Year) %>%
-      dplyr::mutate(Value = sum(Value))
+      dplyr::group_by(.data$Species, .data$Year) %>%
+      dplyr::mutate(Value = sum(.data$Value))
   }
 
   data <- data %>%
-    dplyr::select(Species, Region, Value, Year) %>%
+    dplyr::select(.data$Species, .data$Region, .data$Value, .data$Year) %>%
     dplyr::filter(
-      Species %in% species_key$Species,
-      is.na(Value) == FALSE,
-      is.na(Year) == FALSE
+      .data$Species %in% NEesp::species_key$Species,
+      is.na(.data$Value) == FALSE,
+      is.na(.data$Year) == FALSE
     )
 
   data <- data %>%
-    dplyr::arrange(Year)
+    dplyr::arrange(.data$Year)
 
   years <- data$Year %>%
     unique()
@@ -292,51 +299,51 @@ get_running_value_risk <- function(data, year_source, value_source,
   for (i in 1:((years %>% length()) - n_run)) {
     new_data <- data %>%
       dplyr::filter(
-        Year <= years[i + n_run],
-        is.na(Value) == FALSE,
-        is.na(Year) == FALSE
+        .data$Year <= years[i + n_run],
+        is.na(.data$Value) == FALSE,
+        is.na(.data$Year) == FALSE
       ) %>%
-      dplyr::mutate(recent = Year > years[i + n_run] - n_run) %>%
-      dplyr::group_by(Species, Region, recent) %>%
-      dplyr::mutate(score = mean(Value)) %>%
-      dplyr::select(Species, Region, recent, score) %>%
+      dplyr::mutate(recent = .data$Year > years[i + n_run] - n_run) %>%
+      dplyr::group_by(.data$Species, .data$Region, .data$recent) %>%
+      dplyr::mutate(score = mean(.data$Value)) %>%
+      dplyr::select(.data$Species, .data$Region, .data$recent, .data$score) %>%
       dplyr::distinct() %>%
       dplyr::filter(
-        recent == TRUE,
-        is.na(score) == FALSE
+        .data$recent == TRUE,
+        is.na(.data$score) == FALSE
       ) %>% # remove missing values
       dplyr::ungroup()
 
     if (high == "low_risk") {
       new_data <- new_data %>%
         dplyr::mutate(
-          Indicator = indicator_name,
+          Indicator = .data$indicator_name,
           Year = paste(years[i + 1], "-", years[i + n_run], " mean",
             sep = ""
           ),
-          rank = rank(-score),
-          norm_rank = rank / max(rank)
+          rank = rank(-.data$score),
+          norm_rank = .data$rank / max(.data$rank)
         )
     }
 
     if (high == "high_risk") {
       new_data <- new_data %>%
         dplyr::mutate(
-          Indicator = indicator_name,
+          Indicator = .data$indicator_name,
           Year = paste(years[i + 1], "-", years[i + n_run], " mean",
             sep = ""
           ),
-          rank = rank(score),
-          norm_rank = rank / max(rank)
+          rank = rank(.data$score),
+          norm_rank = .data$rank / max(.data$rank)
         )
     }
 
     new_data <- new_data %>%
-      dplyr::group_by(Year) %>%
-      dplyr::mutate(n_stocks = length(rank)) %>%
-      dplyr::filter(n_stocks >= 5) %>% # only include years with 5+ stocks
+      dplyr::group_by(.data$Year) %>%
+      dplyr::mutate(n_stocks = length(.data$rank)) %>%
+      dplyr::filter(.data$n_stocks >= 5) %>% # only include years with 5+ stocks
       dplyr::ungroup() %>%
-      dplyr::select(Species, Region, Indicator, Year, score, rank, norm_rank) %>%
+      dplyr::select(.data$Species, .data$Region, .data$Indicator, .data$Year, .data$score, .data$rank, .data$norm_rank) %>%
       dplyr::rename("Value" = "score")
 
     results <- rbind(results, new_data)
@@ -355,6 +362,7 @@ get_running_value_risk <- function(data, year_source, value_source,
 #' @param include_legend Whether the plot should have a legend. If blank, legend will be included. If "no", legend will not be included.
 #' @return A ggplot or multiple ggplots
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 plot_risk_by_year <- function(data, indicator, title = "", include_legend) {
@@ -362,7 +370,7 @@ plot_risk_by_year <- function(data, indicator, title = "", include_legend) {
   # filter data
   if (indicator[1] != "all") {
     data <- data %>%
-      dplyr::filter(Indicator %in% indicator)
+      dplyr::filter(.data$Indicator %in% indicator)
   }
 
   if (nrow(data) > 0) {
@@ -375,16 +383,16 @@ plot_risk_by_year <- function(data, indicator, title = "", include_legend) {
     # plot
     for (i in unique(data$Region)) {
       new_data <- data %>%
-        dplyr::filter(Region == i)
+        dplyr::filter(.data$Region == i)
 
       if (sum(new_data$norm_rank %>% is.na()) != nrow(new_data)) {
         fig <- ggplot2::ggplot(
           new_data,
           ggplot2::aes(
-            x = new_year %>% as.numeric(),
-            y = Indicator %>%
+            x = .data$new_year %>% as.numeric(),
+            y = .data$Indicator %>%
               stringr::str_replace_all("_", " "),
-            fill = norm_rank
+            fill = .data$norm_rank
           )
         ) +
           ggplot2::geom_raster(stat = "identity") +
@@ -411,7 +419,7 @@ plot_risk_by_year <- function(data, indicator, title = "", include_legend) {
         if (n_category > 1) {
           fig <- fig +
             ggplot2::facet_grid(
-              rows = ggplot2::vars(category),
+              rows = ggplot2::vars(.data$category),
               scales = "free_y",
               space = "free_y"
             )

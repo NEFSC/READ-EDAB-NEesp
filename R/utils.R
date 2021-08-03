@@ -6,6 +6,7 @@
 #' @param species_col The name of the column with species names
 #' @return A tibble
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 update_species_names <- function(data, species_col) {
@@ -13,7 +14,7 @@ update_species_names <- function(data, species_col) {
 
   data <- data %>%
     dplyr::rename(Species = species_col) %>%
-    dplyr::mutate(Species = Species %>%
+    dplyr::mutate(Species = .data$Species %>%
       stringr::str_replace("Goosefish", "Monkfish"))
   # add any other names that have to be changed in mutate() above
 
@@ -150,6 +151,7 @@ format_numbers <- function(x) {
 #'
 #' @param x A data table or tibble
 #' @return A .csv (small files), or a .RDS (large files)
+#' @importFrom rlang .data
 #' @export
 
 save_data <- function(x) {
@@ -160,14 +162,14 @@ save_data <- function(x) {
     # remove column of row indices
     if ("X" %in% colnames(x)) {
       x <- x %>%
-        dplyr::select(-X)
+        dplyr::select(-.data$X)
     }
 
     objsize <- object.size(x)
 
     if (objsize < 10^4) {
       filename <- paste("data/", name, ".csv", sep = "")
-      write.csv(x, file = filename, row.names = FALSE)
+      utils::write.csv(x, file = filename, row.names = FALSE)
     } else {
       filename <- paste("data/", name, ".RDS", sep = "")
       saveRDS(x, file = filename)

@@ -10,6 +10,7 @@
 #' @param mode If set to "shiny", plots will be displayed but no other functionality will be triggered (ex, saving figures or showing a report card)
 #' @return 3 ggplots arranged with `ggpubr::ggarrange`
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode = "") {
@@ -22,25 +23,25 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
     names(my_colors) <- c("FALSE", "TRUE")
 
     data$sig <- factor(data$sig, levels = c("TRUE", "FALSE"))
-    
+
     # stock-indicator correlation ----
-    
+
     data2 <- data %>%
       tidyr::drop_na()
 
     fig <- ggplot2::ggplot(data2, ggplot2::aes(
-      x = Val,
-      y = Value
+      x = .data$Val,
+      y = .data$Value
     )) +
-      ggplot2::geom_path(ggplot2::aes(color = Time)) +
-      ggplot2::geom_point(ggplot2::aes(color = Time)) +
+      ggplot2::geom_path(ggplot2::aes(color = .data$Time)) +
+      ggplot2::geom_point(ggplot2::aes(color = .data$Time)) +
       viridis::scale_color_viridis(
         breaks = scales::breaks_extended(n = 4),
         name = "Year",
         guide = ggplot2::guide_colorbar(order = 2)
       ) +
       ggnewscale::new_scale_color() +
-      ggplot2::stat_smooth(ggplot2::aes(color = sig),
+      ggplot2::stat_smooth(ggplot2::aes(color = .data$sig),
         method = "lm"
       ) +
       ggplot2::scale_color_manual(
@@ -57,31 +58,31 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
       ggplot2::xlab(unique(data2$Var))
 
     # stock over time ----
-    
+
     # test if bsb is sig over time - overwrite sig
     dat <- data %>%
-      dplyr::select(Value, Time) %>%
+      dplyr::select(.data$Value, .data$Time) %>%
       dplyr::distinct() %>%
-      dplyr::mutate(Time = Time + lag)
-    model <- lm(Value ~ Time, data = dat)
+      dplyr::mutate(Time = .data$Time + lag)
+    model <- stats::lm(.data$Value ~ .data$Time, data = dat)
     pval <- summary(model)$coefficients[2, 4]
     data$sig <- (pval < 0.05)
 
     bsb_fig <- ggplot2::ggplot(
       data,
       ggplot2::aes(
-        x = Time + lag,
-        y = Value
+        x = .data$Time + lag,
+        y = .data$Value
       )
     ) +
-      ggplot2::geom_path(ggplot2::aes(color = Time)) +
-      ggplot2::geom_point(ggplot2::aes(color = Time)) +
+      ggplot2::geom_path(ggplot2::aes(color = .data$Time)) +
+      ggplot2::geom_point(ggplot2::aes(color = .data$Time)) +
       viridis::scale_color_viridis(
         breaks = scales::breaks_extended(n = 4),
         name = "Year"
       ) +
       ggnewscale::new_scale_color() +
-      ggplot2::stat_smooth(ggplot2::aes(color = sig),
+      ggplot2::stat_smooth(ggplot2::aes(color = .data$sig),
         method = "lm"
       ) +
       ggplot2::scale_color_manual(
@@ -93,16 +94,16 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
       ggplot2::theme_bw() +
       ggplot2::labs(title = stringr::str_to_sentence(species)) +
       ggplot2::xlab("Year") +
-      ggplot2::ylab(unique(data$Metric[!is.na(data$Metric)]))+
+      ggplot2::ylab(unique(data$Metric[!is.na(data$Metric)])) +
       ggplot2::xlim(c(min(data$Time), max(data$Time)))
 
     # indicator over time ----
-    
+
     # test if indicator is sig over time - overwrite sig
     dat <- data %>%
-      dplyr::select(Val, Time) %>%
+      dplyr::select(.data$Val, .data$Time) %>%
       dplyr::distinct()
-    model <- lm(Val ~ Time, data = dat)
+    model <- stats::lm(.data$Val ~ .data$Time, data = dat)
     pval <- summary(model)$coefficients[2, 4]
     data$sig <- (pval < 0.05)
 
@@ -110,25 +111,25 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
     data$Var <- data$Var %>%
       stringr::str_replace("\n", " ") %>%
       stringr::str_wrap(width = 30)
-    
+
     plt <- data %>%
-      tidyr::drop_na(Val)
+      tidyr::drop_na(.data$Val)
 
     ind_fig <- ggplot2::ggplot(
       plt,
       ggplot2::aes(
-        x = Time,
-        y = Val
+        x = .data$Time,
+        y = .data$Val
       )
     ) +
-      ggplot2::geom_path(ggplot2::aes(color = Time)) +
-      ggplot2::geom_point(ggplot2::aes(color = Time)) +
+      ggplot2::geom_path(ggplot2::aes(color = .data$Time)) +
+      ggplot2::geom_point(ggplot2::aes(color = .data$Time)) +
       viridis::scale_color_viridis(
         breaks = scales::breaks_extended(n = 4),
         name = "Year"
       ) +
       ggnewscale::new_scale_color() +
-      ggplot2::stat_smooth(ggplot2::aes(color = sig),
+      ggplot2::stat_smooth(ggplot2::aes(color = .data$sig),
         method = "lm"
       ) +
       ggplot2::scale_color_manual(
@@ -222,6 +223,7 @@ plot_corr_only <- function(data, title = "", lag = 0, species = "species", mode 
 #' @param var Which level of the `Var` column to plot.
 #' @return A tibble
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 #'
 prep_si_data <- function(file_path,
@@ -229,15 +231,17 @@ prep_si_data <- function(file_path,
                          var) {
   this_data <- NEesp::read_file(file_path) %>%
     dplyr::filter(
-      Var == var | is.na(Var),
-      Metric == metric | is.na(Metric)
+      .data$Var == var | is.na(.data$Var),
+      .data$Metric == metric | is.na(.data$Metric)
     ) %>%
-    dplyr::mutate(Time = as.numeric(Time),
-      Var = Var %>%
-      stringr::str_replace_all("\n", " ")) %>%
-    dplyr::mutate(Var = Var %>%
+    dplyr::mutate(
+      Time = as.numeric(.data$Time),
+      Var = .data$Var %>%
+        stringr::str_replace_all("\n", " ")
+    ) %>%
+    dplyr::mutate(Var = .data$Var %>%
       stringr::str_wrap(40)) %>%
-    dplyr::arrange(Time)
+    dplyr::arrange(.data$Time)
 
   return(this_data)
 }
@@ -251,33 +255,34 @@ prep_si_data <- function(file_path,
 #' @param min_year The minimum year to consider for the recent time-series average. Defaults to 2016.
 #' @return A tibble
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 time_rpt <- function(data, out_name = "unnamed", min_year = 2016) {
   if ("TRUE" %in% data$sig) {
     data <- data %>%
-      dplyr::select(Time, Val) %>%
+      dplyr::select(.data$Time, .data$Val) %>%
       dplyr::distinct() %>%
-      dplyr::group_by(Time) %>%
-      dplyr::mutate(avg_value = mean(Val, na.rm = TRUE)) %>% # average by year
-      dplyr::select(-Val) %>%
+      dplyr::group_by(.data$Time) %>%
+      dplyr::mutate(avg_value = mean(.data$Val, na.rm = TRUE)) %>% # average by year
+      dplyr::select(-.data$Val) %>%
       dplyr::distinct()
 
     analysis <- data %>%
       dplyr::ungroup() %>%
       dplyr::mutate(
-        long_avg = mean(avg_value, na.rm = TRUE) %>%
+        long_avg = mean(.data$avg_value, na.rm = TRUE) %>%
           round(digits = 2),
-        long_sd = sd(avg_value, na.rm = TRUE) %>%
+        long_sd = sd(.data$avg_value, na.rm = TRUE) %>%
           round(digits = 2)
       ) %>%
-      dplyr::filter(Time >= min_year) %>%
+      dplyr::filter(.data$Time >= min_year) %>%
       dplyr::mutate(
-        short_avg = mean(avg_value, na.rm = TRUE) %>%
+        short_avg = mean(.data$avg_value, na.rm = TRUE) %>%
           round(digits = 2),
-        short_sd = sd(avg_value, na.rm = TRUE) %>%
+        short_sd = sd(.data$avg_value, na.rm = TRUE) %>%
           round(digits = 2),
-        avg_value = round(avg_value, digits = 2)
+        avg_value = round(.data$avg_value, digits = 2)
       )
 
     status <- c()
@@ -340,7 +345,7 @@ time_rpt <- function(data, out_name = "unnamed", min_year = 2016) {
 
 read_file <- function(file_pat) {
   if (stringr::str_detect(file_pat, ".csv$")) {
-    data <- read.csv(file_pat)
+    data <- utils::read.csv(file_pat)
   } else {
     data <- readRDS(file_pat)
   }
@@ -356,6 +361,7 @@ read_file <- function(file_pat) {
 #' @param var Which level of `Var` to plot.
 #' @return A tibble
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 ind_rpt <- function(var, metric, data) {
   var <- var %>%
@@ -365,8 +371,8 @@ ind_rpt <- function(var, metric, data) {
 
   # indicator trend
   lil_dat <- data %>%
-    dplyr::filter(!is.na(sig)) %>%
-    dplyr::select(sig, slope)
+    dplyr::filter(!is.na(.data$sig)) %>%
+    dplyr::select(.data$sig, .data$slope)
   if (lil_dat$sig[1] == "TRUE") {
     trend <- "Yes,"
   } else {
@@ -383,7 +389,7 @@ ind_rpt <- function(var, metric, data) {
   }
 
   # time trend
-  model <- lm(Val ~ Time, data = data)
+  model <- stats::lm(.data$Val ~ .data$Time, data = data)
 
   sig <- summary(model)$coefficients[2, 4] < 0.05
   slope <- coef(model)[2]
@@ -467,6 +473,7 @@ make_time_rpt <- function(data) {
 #' @param data A summary of indicator(s) of interest.
 #' @return A flextable
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 make_ind_rpt <- function(data) {
@@ -474,9 +481,9 @@ make_ind_rpt <- function(data) {
   data <- data %>%
     tibble::as_tibble() %>%
     dplyr::mutate(
-      Pattern = Pattern %>%
+      Pattern = .data$Pattern %>%
         stringr::str_replace("No ", "No"),
-      Indicator = Indicator %>%
+      Indicator = .data$Indicator %>%
         stringr::str_replace_all("\n", " ") %>%
         stringr::str_wrap(20)
     ) %>%

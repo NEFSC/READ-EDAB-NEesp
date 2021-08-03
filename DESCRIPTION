@@ -31,6 +31,7 @@ Imports:
     papeR,
     priceR,
     rgeos,
+    rlang,
     rmarkdown,
     rnaturalearth,
     rnaturalearthhires,  
@@ -40,6 +41,7 @@ Imports:
     tibble,  
     tidyquant,
     tidyr,
+    utils,
     viridis
 Remotes:
     ropensci/rnaturalearthhires,

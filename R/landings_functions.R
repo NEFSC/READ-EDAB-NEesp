@@ -6,37 +6,38 @@
 #' @param com Commercial landings data for a single species. Subsetted from FOSS.
 #' @return A ggplot
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 plot_prop_catch <- function(rec, com) {
   if (nrow(rec) > 0 & nrow(com) > 0) {
     rec <- rec %>%
-      dplyr::group_by(year) %>%
-      dplyr::summarise(tot_catch_rec = sum(lbs_ab1)) %>%
+      dplyr::group_by(.data$year) %>%
+      dplyr::summarise(tot_catch_rec = sum(.data$lbs_ab1)) %>%
       dplyr::rename("Year" = "year")
 
     com <- com %>%
-      dplyr::group_by(Year) %>%
-      dplyr::summarise(tot_catch_com = sum(Pounds))
+      dplyr::group_by(.data$Year) %>%
+      dplyr::summarise(tot_catch_com = sum(.data$Pounds))
 
     data <- dplyr::full_join(rec, com, by = "Year") %>%
-      dplyr::select(Year, tot_catch_rec, tot_catch_com) %>%
-      dplyr::filter(is.na(tot_catch_rec) == FALSE &
-        is.na(tot_catch_com) == FALSE) %>%
+      dplyr::select(.data$Year, .data$tot_catch_rec, .data$tot_catch_com) %>%
+      dplyr::filter(is.na(.data$tot_catch_rec) == FALSE &
+        is.na(.data$tot_catch_com) == FALSE) %>%
       dplyr::mutate(
-        total_catch = tot_catch_rec + tot_catch_com,
-        prop_rec = tot_catch_rec / total_catch,
-        prop_com = tot_catch_com / total_catch
+        total_catch = .data$tot_catch_rec + .data$tot_catch_com,
+        prop_rec = .data$tot_catch_rec / .data$total_catch,
+        prop_com = .data$tot_catch_com / .data$total_catch
       ) %>%
-      dplyr::select(Year, prop_rec, prop_com) %>%
+      dplyr::select(.data$Year, .data$prop_rec, .data$prop_com) %>%
       tidyr::pivot_longer(cols = c("prop_rec", "prop_com"))
 
     fig <- ggplot2::ggplot(
       data,
       ggplot2::aes(
-        x = Year,
-        y = value,
-        fill = name
+        x = .data$Year,
+        y = .data$value,
+        fill = .data$name
       )
     ) +
       ggplot2::geom_bar(color = "black", stat = "identity") +
@@ -62,36 +63,37 @@ plot_prop_catch <- function(rec, com) {
 #' @param com Commercial landings data for a single species. Subsetted from FOSS.
 #' @return A tibble
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 prop_catch_data <- function(rec, com) {
   if (nrow(rec) > 0 & nrow(com) > 0) {
     rec <- rec %>%
-      dplyr::group_by(year) %>%
-      dplyr::summarise(tot_catch_rec = sum(lbs_ab1)) %>%
+      dplyr::group_by(.data$year) %>%
+      dplyr::summarise(tot_catch_rec = sum(.data$lbs_ab1)) %>%
       dplyr::rename("Year" = "year")
 
     com <- com %>%
-      dplyr::group_by(Year) %>%
-      dplyr::summarise(tot_catch_com = sum(Pounds))
+      dplyr::group_by(.data$Year) %>%
+      dplyr::summarise(tot_catch_com = sum(.data$Pounds))
 
     data <- dplyr::full_join(rec, com, by = "Year") %>%
-      dplyr::select(Year, tot_catch_rec, tot_catch_com) %>%
-      dplyr::filter(is.na(tot_catch_rec) == FALSE &
-        is.na(tot_catch_com) == FALSE) %>%
+      dplyr::select(.data$Year, .data$tot_catch_rec, .data$tot_catch_com) %>%
+      dplyr::filter(is.na(.data$tot_catch_rec) == FALSE &
+        is.na(.data$tot_catch_com) == FALSE) %>%
       dplyr::mutate(
-        total_catch = tot_catch_rec + tot_catch_com,
-        prop_rec = (tot_catch_rec / total_catch) %>%
+        total_catch = .data$tot_catch_rec + .data$tot_catch_com,
+        prop_rec = (.data$tot_catch_rec / .data$total_catch) %>%
           round(digits = 3),
-        prop_com = (tot_catch_com / total_catch) %>%
+        prop_com = (.data$tot_catch_com / .data$total_catch) %>%
           round(digits = 3)
       ) %>%
       dplyr::mutate(
-        tot_catch_rec = tot_catch_rec %>%
+        tot_catch_rec = .data$tot_catch_rec %>%
           format(big.mark = ","),
-        tot_catch_com = tot_catch_com %>%
+        tot_catch_com = .data$tot_catch_com %>%
           format(big.mark = ","),
-        total_catch = total_catch %>%
+        total_catch = .data$total_catch %>%
           format(big.mark = ",")
       )
     return(data)
@@ -105,15 +107,16 @@ prop_catch_data <- function(rec, com) {
 #' @param data Commercial landings data for a single species. Subsetted from FOSS.
 #' @return A ggplot
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 plot_com <- function(data) {
   if (nrow(data) > 0) {
     # get order of most important - least important state
     cat <- data %>%
-      dplyr::group_by(State) %>%
-      dplyr::summarise(imp = max(Pounds)) %>%
-      dplyr::arrange(dplyr::desc(imp))
+      dplyr::group_by(.data$State) %>%
+      dplyr::summarise(imp = max(.data$Pounds)) %>%
+      dplyr::arrange(dplyr::desc(.data$imp))
 
     data$State <- factor(
       data$State,
@@ -128,9 +131,9 @@ plot_com <- function(data) {
     fig <- ggplot2::ggplot(
       data,
       ggplot2::aes(
-        x = Year,
-        y = Pounds,
-        fill = State
+        x = .data$Year,
+        y = .data$Pounds,
+        fill = .data$State
       )
     ) +
       ggplot2::geom_bar(color = "black", stat = "identity") +
@@ -169,15 +172,16 @@ plot_com <- function(data) {
 #' @param data Commercial revenue data for a single species. Subsetted from FOSS.
 #' @return A ggplot
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 plot_com_money <- function(data) {
   if (nrow(data) > 0) {
     # get order of most important - least important state
     cat <- data %>%
-      dplyr::group_by(State) %>%
-      dplyr::summarise(imp = max(Dollars_adj)) %>%
-      dplyr::arrange(dplyr::desc(imp))
+      dplyr::group_by(.data$State) %>%
+      dplyr::summarise(imp = max(.data$Dollars_adj)) %>%
+      dplyr::arrange(dplyr::desc(.data$imp))
 
     data$State <- factor(
       data$State,
@@ -192,9 +196,9 @@ plot_com_money <- function(data) {
     fig <- ggplot2::ggplot(
       data,
       ggplot2::aes(
-        x = Year,
-        y = Dollars_adj,
-        fill = State
+        x = .data$Year,
+        y = .data$Dollars_adj,
+        fill = .data$State
       )
     ) +
       ggplot2::geom_bar(color = "black", stat = "identity") +
@@ -228,6 +232,7 @@ plot_com_money <- function(data) {
 #' @param data Recreational data for a single species. Subsetted from MRIP
 #' @return A tibble
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 rec_data_prep <- function(data, state = FALSE) {
@@ -242,27 +247,27 @@ rec_data_prep <- function(data, state = FALSE) {
 
   if (state) {
     data <- data %>%
-      dplyr::group_by(st_f)
+      dplyr::group_by(.data$st_f)
   }
 
   # northeast data
 
   ne <- data %>%
-    dplyr::filter(sub_reg_f == "NORTH ATLANTIC" |
-      sub_reg_f == "MID-ATLANTIC") %>%
-    dplyr::group_by(mode_fx_f, year, .add = TRUE) %>%
+    dplyr::filter(.data$sub_reg_f == "NORTH ATLANTIC" |
+      .data$sub_reg_f == "MID-ATLANTIC") %>%
+    dplyr::group_by(.data$mode_fx_f, .data$year, .add = TRUE) %>%
     dplyr::summarise(
-      total_catch = sum(tot_cat),
-      discards = sum(estrel),
-      landings = sum(lbs_ab1),
-      landings_num = sum(landing)
+      total_catch = sum(.data$tot_cat),
+      discards = sum(.data$estrel),
+      landings = sum(.data$lbs_ab1),
+      landings_num = sum(.data$landing)
     ) %>%
     dplyr::ungroup() %>%
-    dplyr::group_by(year) %>%
+    dplyr::group_by(.data$year) %>%
     dplyr::mutate(
-      total_catch_all_mode = sum(total_catch),
-      prop = discards / total_catch_all_mode,
-      prop_land = landings_num / total_catch_all_mode
+      total_catch_all_mode = sum(.data$total_catch),
+      prop = .data$discards / .data$total_catch_all_mode,
+      prop_land = .data$landings_num / .data$total_catch_all_mode
     ) %>%
     dplyr::full_join(combo,
       by = c(
@@ -270,8 +275,8 @@ rec_data_prep <- function(data, state = FALSE) {
         "mode_fx_f" = "mode_fx_f"
       )
     ) %>%
-    dplyr::mutate(total_catch2 = ifelse(is.na(total_catch), 0, total_catch)) %>%
-    dplyr::select(-total_catch) %>%
+    dplyr::mutate(total_catch2 = ifelse(is.na(.data$total_catch), 0, .data$total_catch)) %>%
+    dplyr::select(-.data$total_catch) %>%
     tidyr::pivot_longer(cols = c("total_catch2", "discards", "prop", "landings", "landings_num", "prop_land")) %>%
     dplyr::mutate(Region = "Northeast")
 
@@ -279,21 +284,21 @@ rec_data_prep <- function(data, state = FALSE) {
   # outside of northeast data
 
   out <- data %>%
-    dplyr::filter(sub_reg_f != "NORTH ATLANTIC" &
-      sub_reg_f != "MID-ATLANTIC") %>%
-    dplyr::group_by(mode_fx_f, year) %>%
+    dplyr::filter(.data$sub_reg_f != "NORTH ATLANTIC" &
+      .data$sub_reg_f != "MID-ATLANTIC") %>%
+    dplyr::group_by(.data$mode_fx_f, .data$year) %>%
     dplyr::summarise(
-      total_catch = sum(tot_cat),
-      discards = sum(estrel),
-      landings = sum(lbs_ab1),
-      landings_num = sum(landing)
+      total_catch = sum(.data$tot_cat),
+      discards = sum(.data$estrel),
+      landings = sum(.data$lbs_ab1),
+      landings_num = sum(.data$landing)
     ) %>%
     dplyr::ungroup() %>%
-    dplyr::group_by(year) %>%
+    dplyr::group_by(.data$year) %>%
     dplyr::mutate(
-      total_catch_all_mode = sum(total_catch),
-      prop = discards / total_catch_all_mode,
-      prop_land = landings_num / total_catch_all_mode
+      total_catch_all_mode = sum(.data$total_catch),
+      prop = .data$discards / .data$total_catch_all_mode,
+      prop_land = .data$landings_num / .data$total_catch_all_mode
     ) %>%
     dplyr::full_join(combo,
       by = c(
@@ -301,27 +306,27 @@ rec_data_prep <- function(data, state = FALSE) {
         "mode_fx_f" = "mode_fx_f"
       )
     ) %>%
-    dplyr::mutate(total_catch2 = ifelse(is.na(total_catch), 0, total_catch)) %>%
-    dplyr::select(-total_catch) %>%
+    dplyr::mutate(total_catch2 = ifelse(is.na(.data$total_catch), 0, .data$total_catch)) %>%
+    dplyr::select(-.data$total_catch) %>%
     tidyr::pivot_longer(cols = c("total_catch2", "discards", "prop", "landings", "landings_num", "prop_land")) %>%
     dplyr::mutate(Region = "Outside\nNortheast")
 
   # total data
 
   all <- data %>%
-    dplyr::group_by(mode_fx_f, year) %>%
+    dplyr::group_by(.data$mode_fx_f, .data$year) %>%
     dplyr::summarise(
-      total_catch = sum(tot_cat),
-      discards = sum(estrel),
-      landings = sum(lbs_ab1),
-      landings_num = sum(landing)
+      total_catch = sum(.data$tot_cat),
+      discards = sum(.data$estrel),
+      landings = sum(.data$lbs_ab1),
+      landings_num = sum(.data$landing)
     ) %>%
     dplyr::ungroup() %>%
-    dplyr::group_by(year) %>%
+    dplyr::group_by(.data$year) %>%
     dplyr::mutate(
-      total_catch_all_mode = sum(total_catch),
-      prop = discards / total_catch_all_mode,
-      prop_land = landings_num / total_catch_all_mode
+      total_catch_all_mode = sum(.data$total_catch),
+      prop = .data$discards / .data$total_catch_all_mode,
+      prop_land = .data$landings_num / .data$total_catch_all_mode
     ) %>%
     dplyr::full_join(combo,
       by = c(
@@ -329,8 +334,8 @@ rec_data_prep <- function(data, state = FALSE) {
         "mode_fx_f" = "mode_fx_f"
       )
     ) %>%
-    dplyr::mutate(total_catch2 = ifelse(is.na(total_catch), 0, total_catch)) %>%
-    dplyr::select(-total_catch) %>%
+    dplyr::mutate(total_catch2 = ifelse(is.na(.data$total_catch), 0, .data$total_catch)) %>%
+    dplyr::select(-.data$total_catch) %>%
     tidyr::pivot_longer(cols = c("total_catch2", "discards", "prop", "landings", "landings_num", "prop_land")) %>%
     dplyr::mutate(Region = "All Regions")
 
@@ -341,9 +346,9 @@ rec_data_prep <- function(data, state = FALSE) {
   # get order of most important - least important category
   cat <- full_data %>%
     dplyr::filter(name == "landings") %>%
-    dplyr::group_by(mode_fx_f) %>%
-    dplyr::summarise(imp = max(value)) %>%
-    dplyr::arrange(dplyr::desc(imp))
+    dplyr::group_by(.data$mode_fx_f) %>%
+    dplyr::summarise(imp = max(.data$value)) %>%
+    dplyr::arrange(dplyr::desc(.data$imp))
 
   full_data$mode_fx_f <- factor(
     full_data$mode_fx_f,
@@ -362,6 +367,7 @@ rec_data_prep <- function(data, state = FALSE) {
 #' @param title The title for the graph
 #' @return A ggplot
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 plot_rec <- function(data, var, title) {
@@ -375,11 +381,11 @@ plot_rec <- function(data, var, title) {
     # plot
     fig <- ggplot2::ggplot(
       data %>%
-        dplyr::filter(name == var),
+        dplyr::filter(.data$name == var),
       ggplot2::aes(
-        x = year,
-        y = value,
-        fill = mode_fx_f
+        x = .data$year,
+        y = .data$value,
+        fill = .data$mode_fx_f
       )
     ) +
       ggplot2::geom_bar(color = "black", stat = "identity") +
@@ -398,7 +404,7 @@ plot_rec <- function(data, var, title) {
         byrow = TRUE,
         title = "Category"
       )) +
-      ggplot2::facet_grid(rows = ggplot2::vars(Region)) +
+      ggplot2::facet_grid(rows = ggplot2::vars(.data$Region)) +
       ggplot2::theme(legend.position = "bottom") +
       ggplot2::labs(title = title)
 

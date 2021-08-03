@@ -7,13 +7,14 @@
 #' @param lag_data The number of years to lag the correlation by. Defaults to 0.
 #' @return A tibble
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 data_prep <- function(stock_data, eco_data, lag_data = 0) {
   stock2 <- stock_data %>%
     dplyr::mutate(
-      Time = as.numeric(Time) - lag_data,
-      facet = paste(Metric, Description, Units, sep = "\n")
+      Time = as.numeric(.data$Time) - lag_data,
+      facet = paste(.data$Metric, .data$Description, .data$Units, sep = "\n")
     ) %>%
     dplyr::ungroup()
 
@@ -23,32 +24,32 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
     by = "Time"
   ) %>%
     dplyr::filter(
-      stringr::str_detect(Var, Metric, negate = TRUE) | # remove self-correlations
-        is.na(Metric) |
-        is.na(Var)
+      stringr::str_detect(.data$Var, .data$Metric, negate = TRUE) | # remove self-correlations
+        is.na(.data$Metric) |
+        is.na(.data$Var)
     ) %>%
     dplyr::ungroup()
 
   data2 <- data %>%
-    dplyr::mutate(missing = (is.na(Value) | is.na(Val))) %>%
-    dplyr::group_by(Metric, Var) %>%
-    dplyr::mutate(n_data_points = length(Time) - sum(as.numeric(missing)))
+    dplyr::mutate(missing = (is.na(.data$Value) | is.na(.data$Val))) %>%
+    dplyr::group_by(.data$Metric, .data$Var) %>%
+    dplyr::mutate(n_data_points = length(.data$Time) - sum(as.numeric(.data$missing)))
 
   data_model <- data2 %>%
     dplyr::filter(
-      n_data_points >= 3,
-      missing == FALSE
+      .data$n_data_points >= 3,
+      .data$missing == FALSE
     ) %>%
     dplyr::ungroup() %>%
-    dplyr::group_by(Metric, Var) %>%
+    dplyr::group_by(.data$Metric, .data$Var) %>%
     dplyr::mutate(
-      pval = summary(lm(Value ~ Val))$coefficients[2, 4],
-      slope = coef(lm(Value ~ Val))[2]
+      pval = summary(stats::lm(.data$Value ~ .data$Val))$coefficients[2, 4],
+      slope = stats::coef(stats::lm(.data$Value ~ .data$Val))[2]
     ) %>%
-    dplyr::mutate(sig = pval < 0.05)
+    dplyr::mutate(sig = .data$pval < 0.05)
 
   data_no_model <- data2 %>%
-    dplyr::filter(n_data_points < 3 | missing == TRUE) %>%
+    dplyr::filter(.data$n_data_points < 3 | .data$missing == TRUE) %>%
     dplyr::mutate(
       pval = NA,
       sig = NA
@@ -66,6 +67,8 @@ data_prep <- function(stock_data, eco_data, lag_data = 0) {
 #' @param data The output of `data_prep()`.
 #' @param lag The number of years to lag the correlation by. Defaults to 0.
 #' @return A ggplot
+#' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 plot_correlation <- function(data,
@@ -85,26 +88,26 @@ plot_correlation <- function(data,
     fig <- ggplot2::ggplot(
       data,
       ggplot2::aes(
-        x = Val,
-        y = Value
+        x = .data$Val,
+        y = .data$Value
       )
     ) +
       viridis::scale_color_viridis(
         breaks = seq(1950, 2020, by = 10)
       ) +
-      ggplot2::geom_path(ggplot2::aes(color = Time)) +
-      ggplot2::geom_point(ggplot2::aes(color = Time)) +
+      ggplot2::geom_path(ggplot2::aes(color = .data$Time)) +
+      ggplot2::geom_point(ggplot2::aes(color = .data$Time)) +
       ggnewscale::new_scale_color() +
       ggplot2::scale_color_manual(
         values = my_colors,
         name = "Statistically significant\n(p < 0.05)"
       ) +
-      ggplot2::stat_smooth(ggplot2::aes(color = sig),
+      ggplot2::stat_smooth(ggplot2::aes(color = .data$sig),
         method = "lm"
       ) +
       ggplot2::facet_grid(
-        rows = ggplot2::vars(facet),
-        cols = ggplot2::vars(Var),
+        rows = ggplot2::vars(.data$facet),
+        cols = ggplot2::vars(.data$Var),
         scales = "free"
       ) +
       ggplot2::scale_y_continuous(labels = scales::comma) +
@@ -129,11 +132,12 @@ plot_correlation <- function(data,
 #' @param lag The number of years to lag the correlation by. Defaults to 0.
 #' @return A data frame
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 correlation_data <- function(data, lag = 0) {
   data <- data %>%
-    dplyr::filter(sig == TRUE) # only statistically significant data
+    dplyr::filter(.data$sig == TRUE) # only statistically significant data
 
   # test correlations
 
@@ -141,10 +145,10 @@ correlation_data <- function(data, lag = 0) {
     for (i in unique(data$Metric)) {
       for (j in unique(data$Var)) {
         dat <- data %>%
-          dplyr::filter(Metric == i, Var == j)
+          dplyr::filter(.data$Metric == i, .data$Var == j)
 
         if (nrow(dat) > 0) {
-          results <- lm(Value ~ Val,
+          results <- stats::lm(.data$Value ~ .data$Val,
             data = dat
           ) %>%
             summary()
@@ -192,11 +196,12 @@ correlation_data <- function(data, lag = 0) {
 #' @param lag The number of years to lag the correlation by. Defaults to 0.
 #' @return A tibble
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 correlation_summary <- function(data, lag = 0) {
   data <- data %>%
-    dplyr::filter(sig == TRUE) # only statistically significant data
+    dplyr::filter(.data$sig == TRUE) # only statistically significant data
 
   # test correlations
 
@@ -206,10 +211,10 @@ correlation_summary <- function(data, lag = 0) {
     for (i in unique(data$Metric)) {
       for (j in unique(data$Var)) {
         dat <- data %>%
-          dplyr::filter(Metric == i, Var == j)
+          dplyr::filter(.data$Metric == i, .data$Var == j)
 
         if (nrow(dat) > 0) {
-          results <- lm(Value ~ Val,
+          results <- stats::lm(.data$Value ~ .data$Val,
             data = dat
           ) %>%
             summary()
@@ -272,7 +277,7 @@ pseudoR2 <- function(model, data, respv_colname) {
   data <- data %>%
     dplyr::rename(Measured = respv_colname)
 
-  data$Predicted <- predict(model, newdata = data) %>% exp()
+  data$Predicted <- stats::predict(model, newdata = data) %>% exp()
 
   pseudoR2 <- 1 -
     sum((data$Measured - data$Predicted)^2) /

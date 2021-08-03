@@ -6,6 +6,7 @@
 #' @param common_name The common name of the species.
 #' @return A ggplot
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 map_strata <- function(common_name, strata) {
@@ -39,18 +40,18 @@ map_strata <- function(common_name, strata) {
 
     # strata
     strata_spring <- strata %>%
-      dplyr::filter(stock_season == "spring") %>%
-      dplyr::select(strata, stock_season) %>%
+      dplyr::filter(.data$stock_season == "spring") %>%
+      dplyr::select(.data$strata, .data$stock_season) %>%
       dplyr::rename(spring = stock_season)
 
     strata_fall <- strata %>%
-      dplyr::filter(stock_season == "fall") %>%
-      dplyr::select(strata, stock_season) %>%
+      dplyr::filter(.data$stock_season == "fall") %>%
+      dplyr::select(.data$strata, .data$stock_season) %>%
       dplyr::rename(fall = stock_season)
 
     strata_winter <- strata %>%
-      dplyr::filter(stock_season == "winter") %>%
-      dplyr::select(strata, stock_season) %>%
+      dplyr::filter(.data$stock_season == "winter") %>%
+      dplyr::select(.data$strata, .data$stock_season) %>%
       dplyr::rename(winter = stock_season)
 
     # overlapping strata
@@ -73,7 +74,7 @@ map_strata <- function(common_name, strata) {
     all_season$label <- labelv
 
     all_season <- all_season %>%
-      dplyr::select(strata, label) %>%
+      dplyr::select(.data$strata, .data$label) %>%
       dplyr::rename(STRATA = strata) %>%
       tibble::as_tibble() %>%
       dplyr::mutate(label = label %>%
@@ -82,14 +83,14 @@ map_strata <- function(common_name, strata) {
 
     # For plotting
     new_shape <- NEesp::shape %>%
-      dplyr::select(STRATA, geometry) %>%
+      dplyr::select(.data$STRATA, .data$geometry) %>%
       sf::st_transform()
 
     sf::st_crs(new_shape) <- crs
 
     strata_plot <- dplyr::full_join(new_shape, all_season, by = "STRATA") %>%
       dplyr::rename(SEASON = label) %>%
-      dplyr::filter(!is.na(SEASON))
+      dplyr::filter(!is.na(.data$SEASON))
 
     p1 <- ggplot2::ggplot() +
       ggplot2::geom_sf(
@@ -101,7 +102,7 @@ map_strata <- function(common_name, strata) {
       ) +
       ggplot2::geom_sf(
         data = strata_plot, # occupied trawl shape files (filled with color)
-        ggplot2::aes(fill = SEASON),
+        ggplot2::aes(fill = .data$SEASON),
         size = 0.05,
         color = "grey30"
       ) +
@@ -146,17 +147,19 @@ map_strata <- function(common_name, strata) {
 #' @param shapefile A shapefile to convert strata ID to a shape.
 #' @return A ggplot
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 get_latlong <- function(x, data, shapefile) {
   range_coord <- c()
 
-  data <- dplyr::filter(data, Species == x)
+  data <- data %>%
+    dplyr::filter(.data$Species == x)
 
   for (i in unique(data$Region)) {
     for (j in unique(data$stock_season)) {
       data2 <- data %>%
-        dplyr::filter(stock_season == j, Region == i)
+        dplyr::filter(.data$stock_season == j, .data$Region == i)
 
       if (nrow(data2) > 0) {
         log_statement <- paste("STRATA == ", unique(data2$strata), collapse = " | ")

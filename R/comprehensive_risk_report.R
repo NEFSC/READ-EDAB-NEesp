@@ -10,6 +10,7 @@
 #' @param indicator_name The name the indicator should have in the output.
 #' @return A tibble
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 get_risk <- function(data, year_source, value_source,
@@ -18,34 +19,34 @@ get_risk <- function(data, year_source, value_source,
   # select assessmentdata just from most recent assessment for each species
   if (sum(data %>% colnames() %>% stringr::str_detect("AssessmentYear")) > 0) {
     data <- data %>%
-      dplyr::group_by(Species) %>%
-      dplyr::mutate(most_recent_asmt = max(AssessmentYear)) %>%
-      dplyr::filter(AssessmentYear == most_recent_asmt)
+      dplyr::group_by(.data$Species) %>%
+      dplyr::mutate(most_recent_asmt = max(.data$AssessmentYear)) %>%
+      dplyr::filter(.data$AssessmentYear == .data$most_recent_asmt)
   }
 
   data <- data %>%
-    dplyr::select(Species, Region, value_source, year_source) %>%
+    dplyr::select(.data$Species, .data$Region, .data$value_source, .data$year_source) %>%
     dplyr::rename("Value" = value_source, "Year" = year_source) %>%
     dplyr::filter(
-      Species %in% species_key$Species,
-      is.na(Value) == FALSE,
-      is.na(Year) == FALSE
+      .data$Species %in% NEesp::species_key$Species,
+      is.na(.data$Value) == FALSE,
+      is.na(.data$Year) == FALSE
     )
 
   if (analysis == "most_recent") {
     data <- data %>%
-      dplyr::group_by(Species, Region) %>%
-      dplyr::mutate(most_recent_year = max(Year)) %>%
+      dplyr::group_by(.data$Species, .data$Region) %>%
+      dplyr::mutate(most_recent_year = max(.data$Year)) %>%
       dplyr::ungroup() %>%
       dplyr::distinct() %>%
-      dplyr::filter(Year == most_recent_year) %>%
-      dplyr::select(Species, Region, Value, Year) %>%
+      dplyr::filter(.data$Year == .data$most_recent_year) %>%
+      dplyr::select(.data$Species, .data$Region, .data$Value, .data$Year) %>%
       dplyr::ungroup() %>%
 
       # mean value because yellowtail flounder has two ffmsys
 
-      dplyr::group_by(Species, Region, Year) %>%
-      dplyr::summarise(Value2 = mean(Value, na.rm = TRUE)) %>%
+      dplyr::group_by(.data$Species, .data$Region, .data$Year) %>%
+      dplyr::summarise(Value2 = mean(.data$Value, na.rm = TRUE)) %>%
       dplyr::ungroup() %>%
       dplyr::rename("Value" = "Value2")
   }
@@ -54,22 +55,22 @@ get_risk <- function(data, year_source, value_source,
     max_yr <- max(data$Year)
 
     data <- data %>%
-      dplyr::filter(Year > max_yr - 5) %>%
-      dplyr::group_by(Species, Region) %>%
-      dplyr::summarise(Value2 = mean(Value, na.rm = TRUE)) %>%
+      dplyr::filter(.data$Year > max_yr - 5) %>%
+      dplyr::group_by(.data$Species, .data$Region) %>%
+      dplyr::summarise(Value2 = mean(.data$Value, na.rm = TRUE)) %>%
       dplyr::rename("Value" = "Value2") %>%
       dplyr::mutate(Year = paste("mean of", max_yr - 5, "-", max_yr)) %>%
       dplyr::ungroup() %>%
-      dplyr::select(Species, Region, Year, Value) %>%
+      dplyr::select(.data$Species, .data$Region, .data$Year, .data$Value) %>%
       dplyr::distinct()
   }
 
   if (analysis == "max_alltime") {
     data <- data %>%
-      dplyr::group_by(Species, Region) %>%
-      dplyr::mutate(max_value = max(Value)) %>%
-      dplyr::filter(Value == max_value) %>%
-      dplyr::select(Species, Region, Year, Value) %>%
+      dplyr::group_by(.data$Species, .data$Region) %>%
+      dplyr::mutate(max_value = max(.data$Value)) %>%
+      dplyr::filter(.data$Value == .data$max_value) %>%
+      dplyr::select(.data$Species, .data$Region, .data$Year, .data$Value) %>%
       dplyr::ungroup()
   }
 
@@ -77,30 +78,30 @@ get_risk <- function(data, year_source, value_source,
     max_yr <- max(data$Year)
 
     data <- data %>%
-      dplyr::mutate(recent = Year > max_yr - 10) %>%
-      dplyr::group_by(Species, Region, recent) %>%
-      dplyr::mutate(mean_abun = mean(Value, na.rm = TRUE)) %>%
-      dplyr::select(Species, Region, recent, mean_abun) %>%
+      dplyr::mutate(recent = .data$Year > max_yr - 10) %>%
+      dplyr::group_by(.data$Species, .data$Region, .data$recent) %>%
+      dplyr::mutate(mean_abun = mean(.data$Value, na.rm = TRUE)) %>%
+      dplyr::select(.data$Species, .data$Region, .data$recent, .data$mean_abun) %>%
       dplyr::distinct() %>%
       tidyr::pivot_wider(
-        names_from = recent,
-        values_from = mean_abun,
+        names_from = .data$recent,
+        values_from = .data$mean_abun,
         names_prefix = "recent_"
       ) %>%
-      dplyr::mutate(Value = abs(recent_TRUE - recent_FALSE) / recent_FALSE) %>% # magnitude of % change
-      dplyr::select(Species, Region, Value) %>%
+      dplyr::mutate(Value = abs(.data$recent_TRUE - .data$recent_FALSE) / .data$recent_FALSE) %>% # magnitude of % change
+      dplyr::select(.data$Species, .data$Region, .data$Value) %>%
       dplyr::mutate(Year = paste("mean of", max_yr - 10, "-", max_yr)) %>%
       dplyr::ungroup()
   }
 
   if (analysis == "diet") {
     data <- data %>%
-      dplyr::group_by(Species, Region) %>%
+      dplyr::group_by(.data$Species, .data$Region) %>%
       dplyr::mutate(
-        Value = length(unique(Value)),
+        Value = length(unique(.data$Value)),
         Year = "all time"
       ) %>%
-      dplyr::select(Species, Region, Value, Year) %>%
+      dplyr::select(.data$Species, .data$Region, .data$Value, .data$Year) %>%
       dplyr::distinct() %>%
       dplyr::ungroup()
   }
@@ -108,44 +109,44 @@ get_risk <- function(data, year_source, value_source,
   if (high == "low_risk" & analysis != "diet") {
     data <- data %>%
       dplyr::mutate(
-        Indicator = indicator_name,
-        rank = rank(-Value),
-        norm_rank = rank / max(rank)
+        Indicator = .data$indicator_name,
+        rank = rank(-.data$Value),
+        norm_rank = .data$rank / max(.data$rank)
       )
   }
 
   if (high == "high_risk" & analysis != "diet") {
     data <- data %>%
       dplyr::mutate(
-        Indicator = indicator_name,
-        rank = rank(Value),
-        norm_rank = rank / max(rank)
+        Indicator = .data$indicator_name,
+        rank = rank(.data$Value),
+        norm_rank = .data$rank / max(.data$rank)
       )
   }
 
   if (high == "low_risk" & analysis == "diet") {
     data <- data %>%
       dplyr::mutate(
-        Indicator = indicator_name,
-        norm_diversity = Value - min(Value) + 1,
-        rank = max(Value) - Value + 1,
-        norm_rank = rank / max(rank)
+        Indicator = .data$indicator_name,
+        norm_diversity = .data$Value - min(.data$Value) + 1,
+        rank = max(.data$Value) - .data$Value + 1,
+        norm_rank = .data$rank / max(.data$rank)
       )
   }
 
   if (high == "high_risk" & analysis == "diet") {
     data <- data %>%
       dplyr::mutate(
-        Indicator = indicator_name,
-        norm_diversity = diet_diversity - min(diet_diversity) + 1,
-        rank = norm_diversity,
-        norm_rank = rank / max(rank)
+        Indicator = .data$indicator_name,
+        norm_diversity = .data$diet_diversity - min(.data$diet_diversity) + 1,
+        rank = .data$norm_diversity,
+        norm_rank = .data$rank / max(.data$rank)
       )
   }
 
 
   data <- data %>%
-    dplyr::select(Species, Region, Indicator, Year, Value, rank, norm_rank)
+    dplyr::select(.data$Species, .data$Region, .data$Indicator, .data$Year, .data$Value, .data$rank, .data$norm_rank)
 
   return(data)
 }
