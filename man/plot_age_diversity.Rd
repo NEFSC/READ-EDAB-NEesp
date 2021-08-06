@@ -8,6 +8,8 @@ plot_age_diversity(data, species)
 }
 \arguments{
 \item{data}{A \code{survdat} data frame or tibble, containing data on one species.}
+
+\item{species}{The species name to print as the subtitle}
 }
 \value{
 A ggplot

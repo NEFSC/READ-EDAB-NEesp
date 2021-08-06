@@ -10,26 +10,20 @@ Maintainer: Abigail Tyrell <abigail.tyrell@noaa.gov>
 URL: https://noaa-edab.github.io/NEesp/
 BugReports: https://github.com/NOAA-EDAB/NEesp/issues
 Imports:
-    assessmentdata,
     bookdown,
     dplyr,
     DT,
     ecodata,
     flextable,
-    FSA,
     ggnewscale,
     ggplot2,
     ggpubr,
-    ggrepel,
     ggridges,
     ggthemes,
     here,
     knitr,
     magrittr,
     nmfspalette,
-    pander,
-    papeR,
-    priceR,
     rgeos,
     rlang,
     rmarkdown,
@@ -43,6 +37,15 @@ Imports:
     tidyr,
     utils,
     viridis
+Suggests:
+    assessmentdata,
+    FSA,
+    ggrepel,
+    pander,
+    papeR,
+    priceR,
+    testthat (>= 3.0.0),
+    lintr
 Remotes:
     ropensci/rnaturalearthhires,
     nmfs-general-modeling-tools/nmfspalette,
@@ -56,7 +59,4 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Depends: 
     R (>= 3.5.0)
-Suggests: 
-    testthat (>= 3.0.0),
-    lintr
 Config/testthat/edition: 3

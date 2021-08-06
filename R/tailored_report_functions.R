@@ -273,14 +273,14 @@ time_rpt <- function(data, out_name = "unnamed", min_year = 2016) {
       dplyr::mutate(
         long_avg = mean(.data$avg_value, na.rm = TRUE) %>%
           round(digits = 2),
-        long_sd = sd(.data$avg_value, na.rm = TRUE) %>%
+        long_sd = stats::sd(.data$avg_value, na.rm = TRUE) %>%
           round(digits = 2)
       ) %>%
       dplyr::filter(.data$Time >= min_year) %>%
       dplyr::mutate(
         short_avg = mean(.data$avg_value, na.rm = TRUE) %>%
           round(digits = 2),
-        short_sd = sd(.data$avg_value, na.rm = TRUE) %>%
+        short_sd = stats::sd(.data$avg_value, na.rm = TRUE) %>%
           round(digits = 2),
         avg_value = round(.data$avg_value, digits = 2)
       )
@@ -315,7 +315,7 @@ time_rpt <- function(data, out_name = "unnamed", min_year = 2016) {
       c(
         "recent mean",
         paste(analysis$short_avg[1],
-          " ± ", analysis$short_sd[1],
+          " +- ", analysis$short_sd[1],
           ", ",
           short_status,
           sep = ""
@@ -323,7 +323,7 @@ time_rpt <- function(data, out_name = "unnamed", min_year = 2016) {
       ),
       c(
         "long-term mean",
-        paste(analysis$long_avg[1], "±", analysis$long_sd[1])
+        paste(analysis$long_avg[1], "+-", analysis$long_sd[1])
       )
     ) %>%
       tibble::as_tibble()
@@ -339,6 +339,8 @@ time_rpt <- function(data, out_name = "unnamed", min_year = 2016) {
 #' Read in csv or rds data
 #'
 #' This function reads in csv or rds data
+#' 
+#' @param file_pat The file path (.csv or .RDS)
 #'
 #' @return A datatable
 #' @export
@@ -392,7 +394,7 @@ ind_rpt <- function(var, metric, data) {
   model <- stats::lm(.data$Val ~ .data$Time, data = data)
 
   sig <- summary(model)$coefficients[2, 4] < 0.05
-  slope <- coef(model)[2]
+  slope <- stats::coef(model)[2]
 
 
   if (sig == TRUE) {

@@ -192,8 +192,8 @@ plot_msy <- function(x, ytitle = "", lin = lines, col = colors, type) {
 #'
 #' This function assesses the status of the most recent B/Bmsy or F/Fmsy from `assessmentdata::stockAssessmentSummary`.
 #'
-#' @param x A data frame or tibble, containing data on one species. The output of `assessmentdata::stockAssessmentSummary`.
-#' @param region The region to assess.
+#' @param data A data frame or tibble, containing data on one species. The output of `assessmentdata::stockAssessmentSummary`.
+#' @param regions The region to assess.
 #' @param metric "bbmsy" for B/Bmsy, "ffmsy" for F/Fmsy
 #' @return A character
 #' @importFrom magrittr %>%

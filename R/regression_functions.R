@@ -243,6 +243,8 @@ correlation_summary <- function(data, lag = 0) {
 #' This function renders an RMarkdown section, including plots and data tables, for stock data and an `ecodata` indicator. Designed for use in an RMarkdown document. Stock data must be pre-defined.
 #'
 #' @param test A data table from `ecodata` that has been pre-processed to a standardized format.
+#' @param lab A name for the figure file
+#' @param file The path to the document to knit. Not suggested to change from the default.
 #' @return An RMarkdown section
 #' @importFrom magrittr %>%
 #' @export

@@ -1,9 +1,8 @@
 ^.github$
-^docs$
 ^pkgdown$
-^images$
-^docs$
 ^Ricky$
+^docs$
+^images$
 ^data-raw$
 ^black-sea-bass$
 ^LICENSE\.txt$

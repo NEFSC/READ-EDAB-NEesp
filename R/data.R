@@ -1,28 +1,3 @@
-#' @title Diet and Condition Data
-#' @description This data was derived from NEFSC bottom trawl data. It contains stomach content information and length-weight information.
-#' @format A data frame with 1423676 rows and 16 variables:
-#' \describe{
-#'   \item{\code{pynam}}{character Prey scientific name}
-#'   \item{\code{gencat}}{character Prey general category (shortened)}
-#'   \item{\code{gensci}}{character Prey general category (full)}
-#'   \item{\code{analcat}}{character Prey analytical category (shortened)}
-#'   \item{\code{analsci}}{character Prey analytical category (full)}
-#'   \item{\code{pdlen}}{double Predtaor length}
-#'   \item{\code{pdwgt}}{integer Predator weight}
-#'   \item{\code{stratum}}{integer Stratum}
-#'   \item{\code{surftemp}}{double Surface water temperature}
-#'   \item{\code{bottemp}}{double Bottom water temperature}
-#'   \item{\code{year}}{integer Year}
-#'   \item{\code{season}}{integer Season}
-#'   \item{\code{pyamtw}}{double Prey weight}
-#'   \item{\code{Species}}{character Predator species}
-#'   \item{\code{Region}}{character Predator region}
-#'   \item{\code{fish_id}}{character Predator ID number}
-#' }
-#'
-#' @source \url{https://github.com/Laurels1/Condition/blob/master/data/allfh.RData}
-#' @details DETAILS
-#' "allfh"
 
 #' @title Stock Assessment Data
 #' @description This data set contains stock assessment data on several US stocks.
@@ -42,28 +17,6 @@
 #' @source \url{https://github.com/NOAA-EDAB/assessmentdata}
 #' @details DETAILS
 "asmt"
-
-#' @title Stock Assessment Summary Data
-#' @description This data set contains summary stock assessment metrics on several US stocks.
-#' @format A data frame with 337 rows and 12 variables:
-#' \describe{
-
-#'   \item{\code{FSSI Stock?}}{character Is the stock included in the Fish Stock Sustainability Index?}
-#'   \item{\code{Assessment Year}}{integer Assessment year}
-#'   \item{\code{Last Data Year}}{integer Last data year used in assessment}
-#'   \item{\code{Review Result}}{character Results of assessment review by the Council}
-#'   \item{\code{Life History Data}}{integer Biological data rating (before 2019): 0 = no data ; 4 = sufficient data for informed modeling}
-#'   \item{\code{Biological Input Data}}{logical Biological data rating (2019 onwards): 0 = no data ; 5 = detailed data with no gaps}
-#'   \item{\code{Ecosystem Linkage}}{integer Use of ecosystem linkage data in stock assessment model: 0 = not used ; 5 = model is linked to ecosystem processes}
-#'   \item{\code{Composition Input Data}}{integer Availability of size/age data for the stock assessment model: 0 = none ; 5 = complete data with spatial resolution}
-#'   \item{\code{F/Fmsy}}{double Fishing pressure relative to the fishing pressure for maximum sustainable yield}
-#'   \item{\code{B/Bmsy}}{double Biomass relative to the biomass for maximum sustainable yield}
-#'   \item{\code{Species}}{character Species common name}
-#'   \item{\code{Region}}{character Stock region}
-#' }
-#' @source \url{https://github.com/NOAA-EDAB/assessmentdata}
-#' @details For more details see \url{https://www.st.nmfs.noaa.gov/stocksmart/StockSMART_DataDictionary.pdf}
-#' "asmt_sum"
 
 #' @title NEFSC Bottom Trawl Data with Bio Data
 #' @description This data is NEFSC bottom trawl data with bio data.
@@ -298,7 +251,7 @@
 #' }
 #' @source \url{https://www.st.nmfs.noaa.gov/st1/recreational/MRIP_Survey_Data/CSV/}
 #' @details DETAILS
-#' "rec_catch"
+"rec_catch"
 
 #' @title Recreational landings data color palette
 #' @description A color palette to use with recreational landings dat

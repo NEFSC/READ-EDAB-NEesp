@@ -230,6 +230,7 @@ plot_com_money <- function(data) {
 #' This function does basic data manipulation on recreational data.
 #'
 #' @param data Recreational data for a single species. Subsetted from MRIP
+#' @param state If TRUE, group data by state
 #' @return A tibble
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
@@ -345,7 +346,7 @@ rec_data_prep <- function(data, state = FALSE) {
 
   # get order of most important - least important category
   cat <- full_data %>%
-    dplyr::filter(name == "landings") %>%
+    dplyr::filter(.data$name == "landings") %>%
     dplyr::group_by(.data$mode_fx_f) %>%
     dplyr::summarise(imp = max(.data$value)) %>%
     dplyr::arrange(dplyr::desc(.data$imp))

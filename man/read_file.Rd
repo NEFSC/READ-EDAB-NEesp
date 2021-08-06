@@ -6,6 +6,9 @@
 \usage{
 read_file(file_pat)
 }
+\arguments{
+\item{file_pat}{The file path (.csv or .RDS)}
+}
 \value{
 A datatable
 }

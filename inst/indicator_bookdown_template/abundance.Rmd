@@ -14,7 +14,8 @@ Separate geom_gls() functions were fit for fall and spring measurements; trend l
 NEesp::generate_plot(survey_data,
   variable = "ABUNDANCE",
   ytitle = "Abundance"
-)
+) %>%
+  print_fig()
 ```
 
 

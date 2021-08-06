@@ -134,8 +134,9 @@ get_diet_plot <- function(data) {
 #'
 #' This function creates a table of the proportional composition of a species' diet.
 #'
-#' @param x A data frame or tibble, containing data on one species. Data from `allfh`.
-#' @return A `DT::datatable`
+#' @param data A data frame or tibble, containing data on one species. Data from `allfh`.
+#' @param type The file type of the output. One of c("html", "word")
+#' @return A `DT::datatable` or a `knitr::kable`
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @export
@@ -230,8 +231,8 @@ plot_swept <- function(x, var) {
   if (var == "biomass") {
     x <- x %>%
       dplyr::rename(
-        value = tot.biomass,
-        error = tot.bio.SE
+        "value" = .data$tot.biomass,
+        "error" = .data$tot.bio.SE
       )
     name <- "Survey biomass estimate (kg)"
   }
@@ -239,8 +240,8 @@ plot_swept <- function(x, var) {
   if (var == "abundance") {
     x <- x %>%
       dplyr::rename(
-        value = tot.abundance,
-        error = tot.abund.SE
+        "value" = .data$tot.abundance,
+        "error" = .data$tot.abund.SE
       )
 
     name <- "Survey abundance estimate"
@@ -296,7 +297,7 @@ plot_swept <- function(x, var) {
 #'
 #' This function plots climate vulnerability ratings from Hare et al. 2016.
 #'
-#' @param x A data frame or tibble of climate vulnerability ratings from Hare et al. 2016, containing data on one species.
+#' @param data A data frame or tibble of climate vulnerability ratings from Hare et al. 2016, containing data on one species.
 #' @return A ggplot
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data

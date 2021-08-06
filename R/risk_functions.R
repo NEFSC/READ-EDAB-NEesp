@@ -3,7 +3,7 @@
 #' This function replace a risk rating of 0.5 that was assigned due to missing data with "NA".
 #' A helper function.
 #'
-#' @param x A data frame or tibble of risk data.
+#' @param data A data frame or tibble of risk data.
 #' @return A data frame or tibble
 #' @importFrom magrittr %>%
 #' @export
@@ -158,7 +158,7 @@ get_running_risk <- function(data, year_source, value_source,
     data <- data %>%
       dplyr::group_by(.data$Species) %>%
       dplyr::mutate(most_recent_asmt = max(.data$AssessmentYear)) %>%
-      dplyr::filter(AssessmentYear == .data$most_recent_asmt)
+      dplyr::filter(.data$AssessmentYear == .data$most_recent_asmt)
   }
 
   # sum state data for commercial info
@@ -357,7 +357,7 @@ get_running_value_risk <- function(data, year_source, value_source,
 #' This function plots indicator risk for one species over time.
 #'
 #' @param data A data frame or tibble of data. The output of `get_running_risk` or `get_running_value_risk`.
-#' @param indicator_name The name of the indicator to plot.
+#' @param indicator The name of the indicator to plot.
 #' @param title The title of the plot. Defaults to "".
 #' @param include_legend Whether the plot should have a legend. If blank, legend will be included. If "no", legend will not be included.
 #' @return A ggplot or multiple ggplots

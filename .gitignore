@@ -1,10 +1,8 @@
-**/.Rproj.user
+**/.Rproj\.user
 **/.Rhistory
 **/.RData
 **/.RDataTmp
 **/.Ruserdata
 **/.Renviron
-.Rproj.user
-*.Rproj
+^NEesp\.Rproj$
 docs
-

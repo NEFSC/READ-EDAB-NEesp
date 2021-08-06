@@ -10,6 +10,8 @@ make_html_table(x, col_names = colnames(x), type = "html")
 \item{x}{A data frame or tibble}
 
 \item{col_names}{The column names to display on the output. Defaults to the column names of the data frame.}
+
+\item{type}{The file type of the output. One of c("html", "word")}
 }
 \value{
 An html table

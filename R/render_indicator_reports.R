@@ -1,13 +1,15 @@
 #' Renders an indicator ESP report
 #'
 #' This function renders an indicator ESP report.
+#' 
+#' out parameter - deprecated. The `output_format` to be passed to the `bookdown::render_book` call. Defaults to `bookdown::gitbook(split_by = "section", fig_caption = TRUE)`. For experimental purposes only: most alternative outputs have not been tested.
 #'
 #' @param x The common name of the species. `NEesp::species_key$Species` shows all available options.
 #' @param input The folder with the bookdown template (include full file path, e.g. use `here::here`). Defaults to "package", which calls the template files saved in the package.
 #' @param params_to_use A list of parameters to use in the markdown report. Do not set if using `input = "package"`.
 #' @param trouble Whether or not to display verbose output. Defaults to FALSE.
 #' @param save_data Whether or not to save the data used in report creation. Only relevant when using `input = "package"`. Defaults to TRUE.
-#' @param out Deprecated. The `output_format` to be passed to the `bookdown::render_book` call. Defaults to `bookdown::gitbook(split_by = "section", fig_caption = TRUE)`. For experimental purposes only: most alternative outputs have not been tested.
+#' @param config The yml configuration file to use. Defaults to `_bookdown.yml`
 #' @return A bookdown report (html) (saved in a folder called `action_reports` in the root directory)
 #' @importFrom magrittr %>%
 #' @export

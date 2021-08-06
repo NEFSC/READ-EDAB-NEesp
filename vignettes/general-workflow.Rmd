@@ -27,7 +27,7 @@ Even though it seems more complicated from the outset, creating your report work
 ## 1. Data curation
 
 ```{r, fig.cap = "Data curation workflow", eval = TRUE, out.width = "50%"}
-knitr::include_graphics("../images/data curation.png", dpi = 300)
+knitr::include_graphics("images/data-curation.png", dpi = 200)
 ```
 
 The first step is to locate data. Data can come from a variety of sources, including public websites, private databases, personal correspondence, or existing R packages.  Current data sources for the `NEesp` package include the `assessementdata` package, the `survdat` package (`svdbs` database), and MRIP recreational catch data. 
@@ -41,7 +41,7 @@ Finally, once your data is properly formatted with standard species and region n
 ## 2. Write functions
 
 ```{r, fig.cap = "Function creation workflow", eval = TRUE, out.width = "50%"}
-knitr::include_graphics("../images/function creation.png", dpi = 200)
+knitr::include_graphics("images/function-creation.png", dpi = 200)
 ```
 
 After you have your data, the next step is to begin visualizing and displaying it. I like to begin by creating a plot or table for one species (or stock) only. Once I am happy with the look of the plot or table, I generalize the creation code into a function that can be applied to any input data. Finally, document the function and save it into your package using the [`roxygen2` package](https://cran.r-project.org/web/packages/roxygen2/vignettes/roxygen2.html). 
@@ -49,7 +49,7 @@ After you have your data, the next step is to begin visualizing and displaying i
 ## 3. Make your report template
 
 ```{r, fig.cap = "Report template creation workflow", eval = TRUE, out.width = "100%"}
-knitr::include_graphics("../images/report template.png", dpi = 200)
+knitr::include_graphics("images/report-template.png", dpi = 200)
 ```
 
 You can create your report template at the same time as you create your functions. I recommend using the [`bookdown` package](https://bookdown.org/yihui/bookdown/) to create your template, because you can create each section as its own RMarkdown file, which helps with organization.
@@ -73,7 +73,7 @@ As you work on your report, update package functions and the report template as 
 ## 5. Deploy a suite of reports using Github Actions
 
 ```{r, fig.cap = "Github Actions workflow", eval = TRUE, out.width = "50%"}
-knitr::include_graphics("../images/github actions.png", dpi = 200)
+knitr::include_graphics("images/github-actions.png", dpi = 200)
 ```
 
 If you are using your workflow to generate a large number of reports, it is probably useful to offload the report generation onto a remote runner with Github Actions. When you generate your reports with Github Actions, you do not have to devote memory and time on your local machine to report generation. However, there will likely be some hurdles when getting Github Actions set up successfully. [Here](https://github.com/NOAA-EDAB/esp_data_aggregation/blob/main/.github/workflows/render_indicator_reports_dev.yaml) is a Github Action workflow that successfully renders reports and deploys them to a different repository. The general steps in the workflow are outlined below.
@@ -84,7 +84,7 @@ Depending on the complexity of your reports, you may need several dozen librarie
 
 After rendering the reports in the remote environment, you must deploy the reports to a repository on github.com, or else the Github Action will end, the remote environment will be closed, and the reports will be gone. Before being able to successfully deploy reports with Github Actions, you must do some housekeeping to set yourself up with the correct permissions. First, create a **personal access token** by going to Settings --> Developer settings --> Personal access tokens in  your Github account. Write this token down and save it somewhere, but do not share it with anyone. Next, go to your repo where you are setting up the Github Actions workflow. Go to Settings --> Secrets and add the **same token** with the **same name**. You must have a personal access token set up in every repo where you are trying to deploy a Github Action.
 
-One issue with deploying reports on Github Actions is that if one step fails, all following steps in the Github Actions workflow are cancelled. This means that if your report rendering script breaks, no reports will be deployed, even if the script breaks on the last report. Depending on the complexity of your report, it may be common for an untested edge case to break the code. Fortunately, there is a work-around. If you wrap your render function in `try()`, the script will execute even if some reports are not properly created. Of course, the reports that fail to render will not be updated. You can create a [report generation script that integrates error logging code](https://github.com/NOAA-EDAB/esp_data_aggregation/blob/main/R-scripts/render%20dev%20report%20with%20errors.R) to output information about the reports that failed.
+One issue with deploying reports on Github Actions is that if one step fails, all following steps in the Github Actions workflow are canceled. This means that if your report rendering script breaks, no reports will be deployed, even if the script breaks on the last report. Depending on the complexity of your report, it may be common for an untested edge case to break the code. Fortunately, there is a work-around. If you wrap your render function in `try()`, the script will execute even if some reports are not properly created. Of course, the reports that fail to render will not be updated. You can create a [report generation script that integrates error logging code](https://github.com/NOAA-EDAB/esp_data_aggregation/blob/main/R-scripts/render%20dev%20report%20with%20errors.R) to output information about the reports that failed.
 
 
 

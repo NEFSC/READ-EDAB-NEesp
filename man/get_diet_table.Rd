@@ -7,10 +7,12 @@
 get_diet_table(data, type = "html")
 }
 \arguments{
-\item{x}{A data frame or tibble, containing data on one species. Data from \code{allfh}.}
+\item{data}{A data frame or tibble, containing data on one species. Data from \code{allfh}.}
+
+\item{type}{The file type of the output. One of c("html", "word")}
 }
 \value{
-A \code{DT::datatable}
+A \code{DT::datatable} or a \code{knitr::kable}
 }
 \description{
 This function creates a table of the proportional composition of a species' diet.

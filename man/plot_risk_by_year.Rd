@@ -9,11 +9,11 @@ plot_risk_by_year(data, indicator, title = "", include_legend)
 \arguments{
 \item{data}{A data frame or tibble of data. The output of \code{get_running_risk} or \code{get_running_value_risk}.}
 
+\item{indicator}{The name of the indicator to plot.}
+
 \item{title}{The title of the plot. Defaults to "".}
 
 \item{include_legend}{Whether the plot should have a legend. If blank, legend will be included. If "no", legend will not be included.}
-
-\item{indicator_name}{The name of the indicator to plot.}
 }
 \value{
 A ggplot or multiple ggplots

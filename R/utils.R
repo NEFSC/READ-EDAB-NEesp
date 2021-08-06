@@ -29,6 +29,7 @@ update_species_names <- function(data, species_col) {
 #'
 #' @param x A data frame or tibble
 #' @param col_names The column names to display on the output. Defaults to the column names of the data frame.
+#' @param type The file type of the output. One of c("html", "word")
 #' @return An html table
 #' @export
 
@@ -165,7 +166,7 @@ save_data <- function(x) {
         dplyr::select(-.data$X)
     }
 
-    objsize <- object.size(x)
+    objsize <- utils::object.size(x)
 
     if (objsize < 10^4) {
       filename <- paste("data/", name, ".csv", sep = "")

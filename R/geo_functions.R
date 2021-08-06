@@ -42,17 +42,17 @@ map_strata <- function(common_name, strata) {
     strata_spring <- strata %>%
       dplyr::filter(.data$stock_season == "spring") %>%
       dplyr::select(.data$strata, .data$stock_season) %>%
-      dplyr::rename(spring = stock_season)
+      dplyr::rename("spring" = .data$stock_season)
 
     strata_fall <- strata %>%
       dplyr::filter(.data$stock_season == "fall") %>%
       dplyr::select(.data$strata, .data$stock_season) %>%
-      dplyr::rename(fall = stock_season)
+      dplyr::rename("fall" = .data$stock_season)
 
     strata_winter <- strata %>%
       dplyr::filter(.data$stock_season == "winter") %>%
       dplyr::select(.data$strata, .data$stock_season) %>%
-      dplyr::rename(winter = stock_season)
+      dplyr::rename("winter" = .data$stock_season)
 
     # overlapping strata
     all_season <- dplyr::full_join(strata_spring, strata_fall,
@@ -77,7 +77,7 @@ map_strata <- function(common_name, strata) {
       dplyr::select(.data$strata, .data$label) %>%
       dplyr::rename(STRATA = strata) %>%
       tibble::as_tibble() %>%
-      dplyr::mutate(label = label %>%
+      dplyr::mutate(label = .data$label %>%
         stringr::str_replace_all(", NA", "") %>%
         stringr::str_replace_all("NA, ", ""))
 

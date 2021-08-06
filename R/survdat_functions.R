@@ -116,7 +116,7 @@ plot_variable <- function(x, ytitle = "") {
 data_summary <- function(x) {
   table <- x %>%
     dplyr::group_by(.data$SEASON, .data$Region) %>%
-    dplyr::filter(variable > 0) %>%
+    dplyr::filter(.data$variable > 0) %>%
     dplyr::summarise(
       total_years = length(.data$variable),
       mean_value = mean(.data$variable),
@@ -189,7 +189,8 @@ generate_plot <- function(x, ytitle = "", variable) {
 #' @param x A `survdat` data frame or tibble, containing data on one species.
 #' @param variable The `survdat` measurement of interest. Must be a column name of the `survdat` data set.
 #' @param cap A caption for the table. Defaults to "".
-#' @return A `DT::datatable`
+#' @param type The file type of the output. One of c("html", "word")
+#' @return A `DT::datatable` or a `knitr::kable`
 #' @importFrom magrittr %>%
 #' @export
 
@@ -509,7 +510,7 @@ len_tbl_data <- function(x) {
 
       range_value = paste(.data$min_len %>%
         round(digits = 2),
-        .data$max_len %>%
+      .data$max_len %>%
         round(digits = 2),
       sep = " - "
       )
@@ -561,7 +562,7 @@ len_tbl_data_5yr <- function(x) {
 
       range_value = paste(.data$min_len %>%
         round(digits = 2),
-        .data$max_len %>%
+      .data$max_len %>%
         round(digits = 2),
       sep = " - "
       )

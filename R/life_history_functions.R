@@ -3,6 +3,7 @@
 #' This function plots `survdat` depth data
 #'
 #' @param data A `survdat` data frame or tibble, containing data on one species.
+#' @param species The species name to print as the subtitle
 #' @return A ggplot
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
@@ -50,6 +51,7 @@ plot_depth <- function(data, species) {
 #' This function plots `survdat` temperature-at-depth data
 #'
 #' @param data A `survdat` data frame or tibble, containing data on one species.
+#' @param species The species name to print as the subtitle
 #' @return A ggplot
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
@@ -80,7 +82,7 @@ plot_temp_depth <- function(data, species) {
         ymax = .data$ave.t + .data$sd.t
       )) +
       ggplot2::xlab("Year") +
-      ggplot2::ylab("Bottom temperature (°C)") +
+      ggplot2::ylab("Bottom temperature (C)") +
       ggplot2::ggtitle("Seasonal bottom temperature of tows that contain",
         subtitle = species
       ) +
@@ -97,6 +99,7 @@ plot_temp_depth <- function(data, species) {
 #' This function plots `survdat` age diversity data
 #'
 #' @param data A `survdat` data frame or tibble, containing data on one species.
+#' @param species The species name to print as the subtitle
 #' @return A ggplot
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data

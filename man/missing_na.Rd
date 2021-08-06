@@ -7,7 +7,7 @@
 missing_na(data)
 }
 \arguments{
-\item{x}{A data frame or tibble of risk data.}
+\item{data}{A data frame or tibble of risk data.}
 }
 \value{
 A data frame or tibble
