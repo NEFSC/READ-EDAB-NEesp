@@ -22,7 +22,7 @@
   }
 </script>
 
-<title>Stock Assessment Summary Data — bio_survey • NEesp</title>
+<title>NEFSC Bottom Trawl Data with Bio Data — bio_survey • NEesp</title>
 
 
 <!-- jquery -->
@@ -65,9 +65,8 @@
 
 
 
-<meta property="og:title" content="Stock Assessment Summary Data — bio_survey" />
-<meta property="og:description" content="This data set contains summary stock assessment metrics on several US stocks.
-This data is NEFSC bottom trawl data with bio data." />
+<meta property="og:title" content="NEFSC Bottom Trawl Data with Bio Data — bio_survey" />
+<meta property="og:description" content="This data is NEFSC bottom trawl data with bio data." />
 
 
 
@@ -212,14 +211,13 @@ This data is NEFSC bottom trawl data with bio data." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Stock Assessment Summary Data</h1>
+    <h1>NEFSC Bottom Trawl Data with Bio Data</h1>
     <small class="dont-index">Source: <a href='https://github.com/NOAA-EDAB/NEesp/blob/master/R/data.R'><code>R/data.R</code></a></small>
     <div class="hidden name"><code>bio_survey.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This data set contains summary stock assessment metrics on several US stocks.</p>
-<p>This data is NEFSC bottom trawl data with bio data.</p>
+    <p>This data is NEFSC bottom trawl data with bio data.</p>
     </div>
 
     <pre class="usage"><span class='va'>bio_survey</span></pre>
@@ -227,23 +225,7 @@ This data is NEFSC bottom trawl data with bio data." />
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with 337 rows and 12 variables:</p><dl>
-<dt><code>FSSI Stock?</code></dt><dd><p>character Is the stock included in the Fish Stock Sustainability Index?</p></dd>
-<dt><code>Assessment Year</code></dt><dd><p>integer Assessment year</p></dd>
-<dt><code>Last Data Year</code></dt><dd><p>integer Last data year used in assessment</p></dd>
-<dt><code>Review Result</code></dt><dd><p>character Results of assessment review by the Council</p></dd>
-<dt><code>Life History Data</code></dt><dd><p>integer Biological data rating (before 2019): 0 = no data ; 4 = sufficient data for informed modeling</p></dd>
-<dt><code>Biological Input Data</code></dt><dd><p>logical Biological data rating (2019 onwards): 0 = no data ; 5 = detailed data with no gaps</p></dd>
-<dt><code>Ecosystem Linkage</code></dt><dd><p>integer Use of ecosystem linkage data in stock assessment model: 0 = not used ; 5 = model is linked to ecosystem processes</p></dd>
-<dt><code>Composition Input Data</code></dt><dd><p>integer Availability of size/age data for the stock assessment model: 0 = none ; 5 = complete data with spatial resolution</p></dd>
-<dt><code>F/Fmsy</code></dt><dd><p>double Fishing pressure relative to the fishing pressure for maximum sustainable yield</p></dd>
-<dt><code>B/Bmsy</code></dt><dd><p>double Biomass relative to the biomass for maximum sustainable yield</p></dd>
-<dt><code>Species</code></dt><dd><p>character Species common name</p></dd>
-<dt><code>Region</code></dt><dd><p>character Stock region</p></dd>
-
-</dl>
-
-<p>A data frame with 1103575 rows and 28 variables:</p><dl>
+    <p>A data frame with 1103575 rows and 28 variables:</p><dl>
 <dt><code>CRUISE6</code></dt><dd><p>character Cruise ID</p></dd>
 <dt><code>STATION</code></dt><dd><p>character Station ID</p></dd>
 <dt><code>STRATUM</code></dt><dd><p>character Stratum</p></dd>
@@ -275,13 +257,9 @@ This data is NEFSC bottom trawl data with bio data." />
 
 </dl>
 
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p><a href='https://github.com/NOAA-EDAB/assessmentdata'>https://github.com/NOAA-EDAB/assessmentdata</a></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>For more details see <a href='https://www.st.nmfs.noaa.gov/stocksmart/StockSMART_DataDictionary.pdf'>https://www.st.nmfs.noaa.gov/stocksmart/StockSMART_DataDictionary.pdf</a>
-"asmt_sum"</p>
+    
 <ul>
 <li><p>Function call: survdat::get_survdat_data(channel = channel, filterByYear = NA, all.season = TRUE, shg.check = T, conversion.factor = T, use.SAD = F, getBio = TRUE, getLengths = T)</p></li>
 <li><p>Pull date: Tue Mar 02 16:12:40 2021</p></li>

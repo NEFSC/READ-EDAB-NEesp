@@ -22,7 +22,7 @@
   }
 </script>
 
-<title>Renders an indicator ESP report — render_ind_report • NEesp</title>
+<title>DATASET_TITLE — rec_catch_small • NEesp</title>
 
 
 <!-- jquery -->
@@ -65,8 +65,8 @@
 
 
 
-<meta property="og:title" content="Renders an indicator ESP report — render_ind_report" />
-<meta property="og:description" content="This function renders an indicator ESP report." />
+<meta property="og:title" content="DATASET_TITLE — rec_catch_small" />
+<meta property="og:description" content="DATASET_DESCRIPTION" />
 
 
 
@@ -211,59 +211,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Renders an indicator ESP report</h1>
-    <small class="dont-index">Source: <a href='https://github.com/NOAA-EDAB/NEesp/blob/master/R/render_indicator_reports.R'><code>R/render_indicator_reports.R</code></a></small>
-    <div class="hidden name"><code>render_ind_report.Rd</code></div>
+    <h1>DATASET_TITLE</h1>
+    <small class="dont-index">Source: <a href='https://github.com/NOAA-EDAB/NEesp/blob/master/R/data2.R'><code>R/data2.R</code></a></small>
+    <div class="hidden name"><code>rec_catch_small.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function renders an indicator ESP report.</p>
+    <p>DATASET_DESCRIPTION</p>
     </div>
 
-    <pre class="usage"><span class='fu'>render_ind_report</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  input <span class='op'>=</span> <span class='st'>"package"</span>,
-  <span class='va'>params_to_use</span>,
-  trouble <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  save_data <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  config <span class='op'>=</span> <span class='st'>"_bookdown.yml"</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>rec_catch_small</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>The common name of the species. <code>NEesp::species_key$Species</code> shows all available options.</p></td>
-    </tr>
-    <tr>
-      <th>input</th>
-      <td><p>The folder with the bookdown template (include full file path, e.g. use <code><a href='https://here.r-lib.org//reference/here.html'>here::here</a></code>). Defaults to "package", which calls the template files saved in the package.</p></td>
-    </tr>
-    <tr>
-      <th>params_to_use</th>
-      <td><p>A list of parameters to use in the markdown report. Do not set if using <code>input = "package"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>trouble</th>
-      <td><p>Whether or not to display verbose output. Defaults to FALSE.</p></td>
-    </tr>
-    <tr>
-      <th>save_data</th>
-      <td><p>Whether or not to save the data used in report creation. Only relevant when using <code>input = "package"</code>. Defaults to TRUE.</p></td>
-    </tr>
-    <tr>
-      <th>config</th>
-      <td><p>The yml configuration file to use. Defaults to <code>_bookdown.yml</code></p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A bookdown report (html) (saved in a folder called <code>action_reports</code> in the root directory)</p>
+    <p>A data frame with 63710 rows and 7 variables:</p><dl>
+<dt><code>year</code></dt><dd><p>integer COLUMN_DESCRIPTION</p></dd>
+<dt><code>sub_reg_f</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>st_f</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>mode_fx_f</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>tot_cat</code></dt><dd><p>integer COLUMN_DESCRIPTION</p></dd>
+<dt><code>lbs_ab1</code></dt><dd><p>double COLUMN_DESCRIPTION</p></dd>
+<dt><code>Species</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+
+</dl>
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>out parameter - deprecated. The <code>output_format</code> to be passed to the <code><a href='https://pkgs.rstudio.com/bookdown/reference/render_book.html'>bookdown::render_book</a></code> call. Defaults to <code><a href='https://pkgs.rstudio.com/bookdown/reference/gitbook.html'>bookdown::gitbook(split_by = "section", fig_caption = TRUE)</a></code>. For experimental purposes only: most alternative outputs have not been tested.</p>
+    <p>DETAILS</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -22,7 +22,7 @@
   }
 </script>
 
-<title>Renders an indicator ESP report — render_ind_report • NEesp</title>
+<title>Stock Assessment Summary Data — asmt_sum • NEesp</title>
 
 
 <!-- jquery -->
@@ -65,8 +65,8 @@
 
 
 
-<meta property="og:title" content="Renders an indicator ESP report — render_ind_report" />
-<meta property="og:description" content="This function renders an indicator ESP report." />
+<meta property="og:title" content="Stock Assessment Summary Data — asmt_sum" />
+<meta property="og:description" content="This data set contains summary stock assessment metrics on several US stocks." />
 
 
 
@@ -211,59 +211,93 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Renders an indicator ESP report</h1>
-    <small class="dont-index">Source: <a href='https://github.com/NOAA-EDAB/NEesp/blob/master/R/render_indicator_reports.R'><code>R/render_indicator_reports.R</code></a></small>
-    <div class="hidden name"><code>render_ind_report.Rd</code></div>
+    <h1>Stock Assessment Summary Data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/NOAA-EDAB/NEesp/blob/master/R/data2.R'><code>R/data2.R</code></a></small>
+    <div class="hidden name"><code>asmt_sum.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function renders an indicator ESP report.</p>
+    <p>This data set contains summary stock assessment metrics on several US stocks.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>render_ind_report</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  input <span class='op'>=</span> <span class='st'>"package"</span>,
-  <span class='va'>params_to_use</span>,
-  trouble <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  save_data <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  config <span class='op'>=</span> <span class='st'>"_bookdown.yml"</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>asmt_sum</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>The common name of the species. <code>NEesp::species_key$Species</code> shows all available options.</p></td>
-    </tr>
-    <tr>
-      <th>input</th>
-      <td><p>The folder with the bookdown template (include full file path, e.g. use <code><a href='https://here.r-lib.org//reference/here.html'>here::here</a></code>). Defaults to "package", which calls the template files saved in the package.</p></td>
-    </tr>
-    <tr>
-      <th>params_to_use</th>
-      <td><p>A list of parameters to use in the markdown report. Do not set if using <code>input = "package"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>trouble</th>
-      <td><p>Whether or not to display verbose output. Defaults to FALSE.</p></td>
-    </tr>
-    <tr>
-      <th>save_data</th>
-      <td><p>Whether or not to save the data used in report creation. Only relevant when using <code>input = "package"</code>. Defaults to TRUE.</p></td>
-    </tr>
-    <tr>
-      <th>config</th>
-      <td><p>The yml configuration file to use. Defaults to <code>_bookdown.yml</code></p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A bookdown report (html) (saved in a folder called <code>action_reports</code> in the root directory)</p>
+    <p>A data frame with 337 rows and 61 variables:</p><dl>
+
+<dt><code>FSSI Stock?</code></dt><dd><p>character Is the stock included in the Fish Stock Sustainability Index?</p></dd>
+<dt><code>Assessment Year</code></dt><dd><p>integer Assessment year</p></dd>
+<dt><code>Last Data Year</code></dt><dd><p>integer Last data year used in assessment</p></dd>
+<dt><code>Review Result</code></dt><dd><p>character Results of assessment review by the Council</p></dd>
+<dt><code>Life History Data</code></dt><dd><p>integer Biological data rating (before 2019): 0 = no data ; 4 = sufficient data for informed modeling</p></dd>
+<dt><code>Biological Input Data</code></dt><dd><p>logical Biological data rating (2019 onwards): 0 = no data ; 5 = detailed data with no gaps</p></dd>
+<dt><code>Ecosystem Linkage</code></dt><dd><p>integer Use of ecosystem linkage data in stock assessment model: 0 = not used ; 5 = model is linked to ecosystem processes</p></dd>
+<dt><code>Composition Input Data</code></dt><dd><p>integer Availability of size/age data for the stock assessment model: 0 = none ; 5 = complete data with spatial resolution</p></dd>
+<dt><code>F/Fmsy</code></dt><dd><p>double Fishing pressure relative to the fishing pressure for maximum sustainable yield</p></dd>
+<dt><code>B/Bmsy</code></dt><dd><p>double Biomass relative to the biomass for maximum sustainable yield</p></dd>
+<dt><code>Species</code></dt><dd><p>character Species common name</p></dd>
+<dt><code>Region</code></dt><dd><p>character Stock region</p></dd>
+
+<dt><code>Stock Name</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Jurisdiction</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>FMP</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Science Center</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Regional Ecosystem</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>ITIS Taxon Serial Number</code></dt><dd><p>integer COLUMN_DESCRIPTION</p></dd>
+<dt><code>Scientific Name</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Common Name</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Stock Area</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Assessment Month</code></dt><dd><p>integer COLUMN_DESCRIPTION</p></dd>
+<dt><code>Update Type</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Assessment Model</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Model Version</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Lead Lab</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Citation</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Final Assessment Report 1</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Final Assessment Report 2</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Point of Contact</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Abundance Data</code></dt><dd><p>integer COLUMN_DESCRIPTION</p></dd>
+<dt><code>Catch Data</code></dt><dd><p>integer COLUMN_DESCRIPTION</p></dd>
+<dt><code>Assessment Level</code></dt><dd><p>integer COLUMN_DESCRIPTION</p></dd>
+<dt><code>Assessment Frequency</code></dt><dd><p>integer COLUMN_DESCRIPTION</p></dd>
+<dt><code>Assessment Type</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Model Category</code></dt><dd><p>integer COLUMN_DESCRIPTION</p></dd>
+<dt><code>Catch Input Data</code></dt><dd><p>integer COLUMN_DESCRIPTION</p></dd>
+<dt><code>Abundance Input Data</code></dt><dd><p>integer COLUMN_DESCRIPTION</p></dd>
+<dt><code>F Year</code></dt><dd><p>integer COLUMN_DESCRIPTION</p></dd>
+<dt><code>Estimated F</code></dt><dd><p>double COLUMN_DESCRIPTION</p></dd>
+<dt><code>F Unit</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>F Basis</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Flimit</code></dt><dd><p>double COLUMN_DESCRIPTION</p></dd>
+<dt><code>Flimit Basis</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Fmsy</code></dt><dd><p>double COLUMN_DESCRIPTION</p></dd>
+<dt><code>Fmsy Basis</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>F/Flimit</code></dt><dd><p>double COLUMN_DESCRIPTION</p></dd>
+<dt><code>Ftarget</code></dt><dd><p>double COLUMN_DESCRIPTION</p></dd>
+<dt><code>Ftarget Basis</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>F/Ftarget</code></dt><dd><p>double COLUMN_DESCRIPTION</p></dd>
+<dt><code>B Year</code></dt><dd><p>integer COLUMN_DESCRIPTION</p></dd>
+<dt><code>Estimated B</code></dt><dd><p>double COLUMN_DESCRIPTION</p></dd>
+<dt><code>B Unit</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>B Basis</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Blimit</code></dt><dd><p>double COLUMN_DESCRIPTION</p></dd>
+<dt><code>Blimit Basis</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>Bmsy</code></dt><dd><p>double COLUMN_DESCRIPTION</p></dd>
+<dt><code>Bmsy Basis</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+<dt><code>B/Blimit</code></dt><dd><p>double COLUMN_DESCRIPTION</p></dd>
+<dt><code>MSY</code></dt><dd><p>double COLUMN_DESCRIPTION</p></dd>
+<dt><code>MSY Unit</code></dt><dd><p>character COLUMN_DESCRIPTION</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='https://github.com/NOAA-EDAB/assessmentdata'>https://github.com/NOAA-EDAB/assessmentdata</a></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>out parameter - deprecated. The <code>output_format</code> to be passed to the <code><a href='https://pkgs.rstudio.com/bookdown/reference/render_book.html'>bookdown::render_book</a></code> call. Defaults to <code><a href='https://pkgs.rstudio.com/bookdown/reference/gitbook.html'>bookdown::gitbook(split_by = "section", fig_caption = TRUE)</a></code>. For experimental purposes only: most alternative outputs have not been tested.</p>
+    <p>For more details see <a href='https://www.st.nmfs.noaa.gov/stocksmart/StockSMART_DataDictionary.pdf'>https://www.st.nmfs.noaa.gov/stocksmart/StockSMART_DataDictionary.pdf</a></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

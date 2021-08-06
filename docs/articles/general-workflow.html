@@ -177,7 +177,7 @@
 <h2 class="hasAnchor">
 <a href="#data-curation" class="anchor"></a>1. Data curation</h2>
 <div class="figure" style="text-align: center">
-<img src="../images/data%20curation.png" alt="Data curation workflow" width="50%"><p class="caption">
+<img src="images/data-curation.png" alt="Data curation workflow" width="50%"><p class="caption">
 Data curation workflow
 </p>
 </div>
@@ -190,7 +190,7 @@ Data curation workflow
 <h2 class="hasAnchor">
 <a href="#write-functions" class="anchor"></a>2. Write functions</h2>
 <div class="figure" style="text-align: center">
-<img src="../images/function%20creation.png" alt="Function creation workflow" width="50%"><p class="caption">
+<img src="images/function-creation.png" alt="Function creation workflow" width="50%"><p class="caption">
 Function creation workflow
 </p>
 </div>
@@ -200,7 +200,7 @@ Function creation workflow
 <h2 class="hasAnchor">
 <a href="#make-your-report-template" class="anchor"></a>3. Make your report template</h2>
 <div class="figure" style="text-align: center">
-<img src="../images/report%20template.png" alt="Report template creation workflow" width="100%"><p class="caption">
+<img src="images/report-template.png" alt="Report template creation workflow" width="100%"><p class="caption">
 Report template creation workflow
 </p>
 </div>
@@ -216,7 +216,7 @@ Report template creation workflow
 <span class="co">#&gt;         package = "NEesp"), label = lab), quiet = TRUE)</span>
 <span class="co">#&gt;     cat(res, sep = "\n")</span>
 <span class="co">#&gt; }</span>
-<span class="co">#&gt; &lt;bytecode: 0x560c15820290&gt;</span>
+<span class="co">#&gt; &lt;bytecode: 0x55def6bdb0a8&gt;</span>
 <span class="co">#&gt; &lt;environment: namespace:NEesp&gt;</span></code></pre></div>
 <p>Your template should be saved in the <code>inst</code> folder of your package (in its own folder, if it’s a bookdown). Files in the <code>inst</code> folder are made available in the root directory of an installed R package, so your package code can access the template files by calling <code><a href="https://rdrr.io/r/base/system.file.html">system.file("{your template name}", package = "{your package name}")</a></code> (see example in the code chunk above).</p>
 </div>
@@ -229,7 +229,7 @@ Report template creation workflow
 <h2 class="hasAnchor">
 <a href="#deploy-a-suite-of-reports-using-github-actions" class="anchor"></a>5. Deploy a suite of reports using Github Actions</h2>
 <div class="figure" style="text-align: center">
-<img src="../images/github%20actions.png" alt="Github Actions workflow" width="50%"><p class="caption">
+<img src="images/github-actions.png" alt="Github Actions workflow" width="50%"><p class="caption">
 Github Actions workflow
 </p>
 </div>
@@ -237,7 +237,7 @@ Github Actions workflow
 <p>Github Actions is running your code in a remote environment, which does not have anything pre-installed. That means you have to install R, pandoc, and any packages you need. I have found that I also have to configure some settings on the command line in bash to get all of the packages I need to install correctly. You also have to check out your repo to the remote environment.</p>
 <p>Depending on the complexity of your reports, you may need several dozen libraries, and the time it takes to install these libraries adds up. To avoid the bottleneck of re-installing all of the libraries you need every time you run your Github Action, you can cache your packages by adding a cache step to your Github Actions workflow, which will save the libraries in the remote environment and allow them to be loaded in the remote environment without re-installing. As long as the cache is accessed at least once a week, it will continue to live in the remote environment. Therefore, I suggest making a cache-maintaining Github Actions workflow that pings the cache on a regular schedule, so you don’t have to re-create the cache every time you go a few weeks without creating reports.</p>
 <p>After rendering the reports in the remote environment, you must deploy the reports to a repository on github.com, or else the Github Action will end, the remote environment will be closed, and the reports will be gone. Before being able to successfully deploy reports with Github Actions, you must do some housekeeping to set yourself up with the correct permissions. First, create a <strong>personal access token</strong> by going to Settings –&gt; Developer settings –&gt; Personal access tokens in your Github account. Write this token down and save it somewhere, but do not share it with anyone. Next, go to your repo where you are setting up the Github Actions workflow. Go to Settings –&gt; Secrets and add the <strong>same token</strong> with the <strong>same name</strong>. You must have a personal access token set up in every repo where you are trying to deploy a Github Action.</p>
-<p>One issue with deploying reports on Github Actions is that if one step fails, all following steps in the Github Actions workflow are cancelled. This means that if your report rendering script breaks, no reports will be deployed, even if the script breaks on the last report. Depending on the complexity of your report, it may be common for an untested edge case to break the code. Fortunately, there is a work-around. If you wrap your render function in <code><a href="https://rdrr.io/r/base/try.html">try()</a></code>, the script will execute even if some reports are not properly created. Of course, the reports that fail to render will not be updated. You can create a <a href="https://github.com/NOAA-EDAB/esp_data_aggregation/blob/main/R-scripts/render%20dev%20report%20with%20errors.R">report generation script that integrates error logging code</a> to output information about the reports that failed.</p>
+<p>One issue with deploying reports on Github Actions is that if one step fails, all following steps in the Github Actions workflow are canceled. This means that if your report rendering script breaks, no reports will be deployed, even if the script breaks on the last report. Depending on the complexity of your report, it may be common for an untested edge case to break the code. Fortunately, there is a work-around. If you wrap your render function in <code><a href="https://rdrr.io/r/base/try.html">try()</a></code>, the script will execute even if some reports are not properly created. Of course, the reports that fail to render will not be updated. You can create a <a href="https://github.com/NOAA-EDAB/esp_data_aggregation/blob/main/R-scripts/render%20dev%20report%20with%20errors.R">report generation script that integrates error logging code</a> to output information about the reports that failed.</p>
 </div>
   </div>
 

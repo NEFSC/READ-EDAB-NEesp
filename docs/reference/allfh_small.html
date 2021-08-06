@@ -22,7 +22,7 @@
   }
 </script>
 
-<title>Renders an indicator ESP report — render_ind_report • NEesp</title>
+<title>Diet and Condition Data — allfh_small • NEesp</title>
 
 
 <!-- jquery -->
@@ -65,8 +65,8 @@
 
 
 
-<meta property="og:title" content="Renders an indicator ESP report — render_ind_report" />
-<meta property="og:description" content="This function renders an indicator ESP report." />
+<meta property="og:title" content="Diet and Condition Data — allfh_small" />
+<meta property="og:description" content="This data was derived from NEFSC bottom trawl data. It contains stomach content information and length-weight information." />
 
 
 
@@ -211,59 +211,46 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Renders an indicator ESP report</h1>
-    <small class="dont-index">Source: <a href='https://github.com/NOAA-EDAB/NEesp/blob/master/R/render_indicator_reports.R'><code>R/render_indicator_reports.R</code></a></small>
-    <div class="hidden name"><code>render_ind_report.Rd</code></div>
+    <h1>Diet and Condition Data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/NOAA-EDAB/NEesp/blob/master/R/data2.R'><code>R/data2.R</code></a></small>
+    <div class="hidden name"><code>allfh_small.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function renders an indicator ESP report.</p>
+    <p>This data was derived from NEFSC bottom trawl data. It contains stomach content information and length-weight information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>render_ind_report</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  input <span class='op'>=</span> <span class='st'>"package"</span>,
-  <span class='va'>params_to_use</span>,
-  trouble <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  save_data <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  config <span class='op'>=</span> <span class='st'>"_bookdown.yml"</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='va'>allfh_small</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>The common name of the species. <code>NEesp::species_key$Species</code> shows all available options.</p></td>
-    </tr>
-    <tr>
-      <th>input</th>
-      <td><p>The folder with the bookdown template (include full file path, e.g. use <code><a href='https://here.r-lib.org//reference/here.html'>here::here</a></code>). Defaults to "package", which calls the template files saved in the package.</p></td>
-    </tr>
-    <tr>
-      <th>params_to_use</th>
-      <td><p>A list of parameters to use in the markdown report. Do not set if using <code>input = "package"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>trouble</th>
-      <td><p>Whether or not to display verbose output. Defaults to FALSE.</p></td>
-    </tr>
-    <tr>
-      <th>save_data</th>
-      <td><p>Whether or not to save the data used in report creation. Only relevant when using <code>input = "package"</code>. Defaults to TRUE.</p></td>
-    </tr>
-    <tr>
-      <th>config</th>
-      <td><p>The yml configuration file to use. Defaults to <code>_bookdown.yml</code></p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A bookdown report (html) (saved in a folder called <code>action_reports</code> in the root directory)</p>
+    <p>A data frame with 1423676 rows and 16 variables:</p><dl>
+<dt><code>pynam</code></dt><dd><p>character Prey scientific name</p></dd>
+<dt><code>gencat</code></dt><dd><p>character Prey general category (shortened)</p></dd>
+<dt><code>gensci</code></dt><dd><p>character Prey general category (full)</p></dd>
+<dt><code>analcat</code></dt><dd><p>character Prey analytical category (shortened)</p></dd>
+<dt><code>analsci</code></dt><dd><p>character Prey analytical category (full)</p></dd>
+<dt><code>pdlen</code></dt><dd><p>double Predtaor length</p></dd>
+<dt><code>pdwgt</code></dt><dd><p>integer Predator weight</p></dd>
+<dt><code>stratum</code></dt><dd><p>integer Stratum</p></dd>
+<dt><code>surftemp</code></dt><dd><p>double Surface water temperature</p></dd>
+<dt><code>bottemp</code></dt><dd><p>double Bottom water temperature</p></dd>
+<dt><code>year</code></dt><dd><p>integer Year</p></dd>
+<dt><code>season</code></dt><dd><p>integer Season</p></dd>
+<dt><code>pyamtw</code></dt><dd><p>double Prey weight</p></dd>
+<dt><code>Species</code></dt><dd><p>character Predator species</p></dd>
+<dt><code>Region</code></dt><dd><p>character Predator region</p></dd>
+<dt><code>fish_id</code></dt><dd><p>character Predator ID number</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='https://github.com/Laurels1/Condition/blob/master/data/allfh.RData'>https://github.com/Laurels1/Condition/blob/master/data/allfh.RData</a></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>out parameter - deprecated. The <code>output_format</code> to be passed to the <code><a href='https://pkgs.rstudio.com/bookdown/reference/render_book.html'>bookdown::render_book</a></code> call. Defaults to <code><a href='https://pkgs.rstudio.com/bookdown/reference/gitbook.html'>bookdown::gitbook(split_by = "section", fig_caption = TRUE)</a></code>. For experimental purposes only: most alternative outputs have not been tested.</p>
+    <p>DETAILS</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

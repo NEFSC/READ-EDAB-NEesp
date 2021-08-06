@@ -4,7 +4,19 @@
     <loc>https://noaa-edab.github.io/NEesp//index.html</loc>
   </url>
   <url>
+    <loc>https://noaa-edab.github.io/NEesp//reference/allfh.html</loc>
+  </url>
+  <url>
+    <loc>https://noaa-edab.github.io/NEesp//reference/allfh_small.html</loc>
+  </url>
+  <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/asmt.html</loc>
+  </url>
+  <url>
+    <loc>https://noaa-edab.github.io/NEesp//reference/asmt_sum.html</loc>
+  </url>
+  <url>
+    <loc>https://noaa-edab.github.io/NEesp//reference/asmt_sum_small.html</loc>
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/bio_survey.html</loc>
@@ -20,6 +32,9 @@
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/com_catch.html</loc>
+  </url>
+  <url>
+    <loc>https://noaa-edab.github.io/NEesp//reference/com_gear.html</loc>
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/com_palette.html</loc>
@@ -104,6 +119,9 @@
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/guild_risk.html</loc>
+  </url>
+  <url>
+    <loc>https://noaa-edab.github.io/NEesp//reference/ichthyo.html</loc>
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/ind_rpt.html</loc>
@@ -223,7 +241,16 @@
     <loc>https://noaa-edab.github.io/NEesp//reference/read_file.html</loc>
   </url>
   <url>
+    <loc>https://noaa-edab.github.io/NEesp//reference/rec_catch.html</loc>
+  </url>
+  <url>
+    <loc>https://noaa-edab.github.io/NEesp//reference/rec_catch_small.html</loc>
+  </url>
+  <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/rec_data_prep.html</loc>
+  </url>
+  <url>
+    <loc>https://noaa-edab.github.io/NEesp//reference/rec_effort.html</loc>
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/rec_palette.html</loc>
@@ -265,6 +292,9 @@
     <loc>https://noaa-edab.github.io/NEesp//reference/shape.html</loc>
   </url>
   <url>
+    <loc>https://noaa-edab.github.io/NEesp//reference/sp_group.html</loc>
+  </url>
+  <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/species_guilds.html</loc>
   </url>
   <url>
@@ -284,6 +314,9 @@
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//reference/update_species_names.html</loc>
+  </url>
+  <url>
+    <loc>https://noaa-edab.github.io/NEesp//reference/zoop_stock.html</loc>
   </url>
   <url>
     <loc>https://noaa-edab.github.io/NEesp//articles/bookdown-templates.html</loc>
