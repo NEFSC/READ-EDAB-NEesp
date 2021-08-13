@@ -6,3 +6,4 @@
 **/.Renviron
 ^NEesp\.Rproj$
 docs
+.Rproj.user

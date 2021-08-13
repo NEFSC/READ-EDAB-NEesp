@@ -26,15 +26,15 @@ To use Github Actions to create reports, there are three general steps:
 
 1. Set up the remote environment.
 Because the code is running in a remote environment, everything that your code needs has to be explicitly added. Fortunately, there are existing Actions that you can use to do most of these steps.
-  - Checkout your repo
-  - Install all necessary programs and load necessary R packages
+    - Checkout your repo
+    - Install all necessary programs and load necessary R packages
 
 2. Create your reports
-  - Run a script to create the reports
+    - Run a script to create the reports
 
 3. Deploy your reports to Github
 In order for your newly created reports to get off of the remote runner and accessible on github.com, you need to deploy the reports. They can be deployed an any branch on any repository that you own.
-  - Deploy your reports to a Github repo
+    - Deploy your reports to a Github repo
 
 ## Detailed workflow
 

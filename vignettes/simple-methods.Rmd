@@ -1,0 +1,88 @@
+---
+title: "Simple description of methods"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Simple description of methods}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  eval = FALSE
+)
+```
+
+## Towards a reproducable workflow
+
+While open source code is certainly a necessary component of a reproducible workflow, code without documentation is a dangerous thing. Although all `NEesp` functions and data have some level of documentation, function-level documentation obscures the forest for the trees, and the overall goals and purpose of the `NEesp` package are hard to identify based on the package documentation alone. Therefore, this vignette outlines the high-level organization and functionality of the `NEesp` package with the goal of facilitating use of the package, as well as facilitating future updates and changes. 
+
+## Components of an ESP
+
+The ESP concept was developed by the Alaska Fisheries Science Center. For detailed information, we refer the reader to Kalei Shotwell's [excellent presentation](https://www.youtube.com/watch?v=kYi1SAI-Xtk) about the Alaska Fisheries Science Center's Ecosystem and Socioeconomic Profiles (ESPs).
+
+```{r, fig.cap = "Alaska ESP checklist", eval = TRUE, out.width = "100%", echo = FALSE}
+knitr::include_graphics("images/esp-checklist.png", dpi = 200)
+```
+
+For the purposes of applying the ESP concept to the Northeast, we identified four major information components to an ESP:
+
+1. **Status of the stock**: A compilation of relevant ecosystem and socioeconomic information to give a snapshot of the stock's current condition. This can include qualitative as well as quantitative information. The Alaska ESP calls this *metrics assessment*.
+
+2. **Conceptual modeling**: The conceptual model identifies key linkages and bottlenecks that affect the stock and/or fishery. This step identifies what data can give the most informative knowledge about the stock. This is part of the Alaska ESP's *indicator assessment: indicator suite*.
+
+3. **Analysis**: This step can involve multiple analyses of varying complexity. The Alaska ESP calls this analysis step *indicator assessment: indicator monitoring analysis*, and they identify three levels of analysis:
+    - Level 1: At a minimum, an analysis determines the recent trends in the relevant ecosystem and socioeconomic data identified by the conceptual model. 
+    - Level 2: Further analysis identifies linkages between ecosystem and socioeconomic data and stock performance. 
+    - Level 3: Ecosystem and socioeconomic data are incorporated into a stock assessment model.
+
+4. **Summary**: Because the goal of an ESP is to inform stock advice, the results must be communicated clearly and succinctly. This involves a written summary of key points and implications, as well as summary visualizations.
+
+## Where the current data products fit in to the ESP
+
+Our (perhaps misnamed) [indicator reports](https://noaa-edab.github.io/NEesp/articles/install-and-use-package.html#indicator-reports-1) are roughly analogous to *Step 1: Status of the stock*. These reports summarize data on stock distribution, biology, population, and socioeconomics. See [here](https://noaa-edab.github.io/ESP_docs/Reports/Black%20sea%20bass/index) for a sample report on black sea bass. 
+
+*Step 2: Conceptual modeling* is not conducted by the `NEesp` R package. This step requires expert opinion and must be completed manually.
+
+Our [indicator reports](https://noaa-edab.github.io/NEesp/articles/install-and-use-package.html#indicator-reports-1) also contain information about ecosystem and socioecnomic data over time, which is *Level 1* of *Step 3: Analysis*. Our [regression reports](https://noaa-edab.github.io/NEesp/articles/install-and-use-package.html#regression-reports-1) analyze simple correlations between ecosystem and socioeconomic data and stock performance, contributing to *Level 2* of *Step 3: Analysis*. At the moment, we do not create any stock assessment models that would be considered *Level 3* of *Step 3: Analysis*. 
+
+The report cards created by our [shiny app](https://github.com/NOAA-EDAB/NEespShiny) are a summary visualization in line with *Step 4: Summary*. The functions that create the report cards live in the `NEesp` R package, but at the moment there is no simple way to create a report card outside of the shiny app without having a fairly deep understanding of the code.
+
+## The purpose of all the stuff in this package
+
+We won't beat around the bush: the `NEesp` package has a lot going on. Here is our humble attempt to demystify the inner workings.
+
+### Data
+
+The size of the `NEesp` package comes primarily from the [data](https://noaa-edab.github.io/NEesp/reference/index.html#section-data) that is stored herein. Although the data is collected primarily from public sources, and some even comes from other R packages, we decided to also store the data in this package so that the products created by `NEesp` are not affected by changes to outside data structure or availability. We hope that data will eventually be able to be queried from a single database, such as the Alaska Center can perform with their [AKFIN database](https://www.fisheries.noaa.gov/inport/organization/AKFIN).
+
+### Report templates
+
+This package started as the idea that parameterized Rmarkdown templates could be used to quickly create reports about many stocks. Rmarkdown templates in the `inst` folder ([on github](https://github.com/NOAA-EDAB/NEesp/tree/dev/inst)) or in the package folder (on your local computer) filter data to the specified stock and then produce a variety of data visualizations. 
+
+### Functions
+
+As the templates grew longer and longer with the addition of more data, we switched to writing functions to perform most of the data analyses and visualization, rather than including in-line code in the templates. This makes the templates shorter and easier to understand and troubleshoot. Conducting analyses and visualizations with functions also forces us to document the functions, leading to better transparency and reproducibility. We also hope to eventually develop unit tests for the functions to ensure that they perform as expected and can handle edge cases in an appropriate way.
+
+#### Data analysis
+
+There are many functions that perform basic data manipulation and analysis, such as calculating annual means. The purpose of these functions is to convert data into a format that can be easily visualized. These functions usually require data with a certain structure (for example, expected column names).
+
+#### Plotting
+
+Many functions plot the data. These functions usually require data with a certain structure (for example, expected column names).
+
+#### Creating reports
+
+Because creating the reports requires a lot of inputs, there are functions that simplify report creation.
+
+#### Report cards
+
+A suite of functions creates the summary report cards. These functions depend on data outputted from other functions in the package.
+
+#### Risk analysis
+
+A suite of functions can be used to create a prototype risk analysis. This risk analysis is not fully automated and requires running several scripts. Essentially, these functions rank stocks according to different criteria.

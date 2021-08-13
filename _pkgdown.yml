@@ -23,6 +23,8 @@ navbar:
       menu:
       -  text: "Why ESP?"
          href: articles/why-esp.html
+      -  text: "Simple description of methods"
+         href: articles/simple-methods.html
       -  text: "Creating the risk assessment"
          href: articles/risk-assessment.html
     - text: "Report writing methods"
