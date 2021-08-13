@@ -83,6 +83,9 @@
       <a href="../articles/why-esp.html">Why ESP?</a>
     </li>
     <li>
+      <a href="../articles/simple-methods.html">Simple description of methods</a>
+    </li>
+    <li>
       <a href="../articles/risk-assessment.html">Creating the risk assessment</a>
     </li>
   </ul>
@@ -177,24 +180,23 @@
 <a href="#workflow-overview" class="anchor"></a>Workflow overview</h2>
 <p>To use Github Actions to create reports, there are three general steps:</p>
 <ol style="list-style-type: decimal">
-<li>Set up the remote environment. Because the code is running in a remote environment, everything that your code needs has to be explicitly added. Fortunately, there are existing Actions that you can use to do most of these steps.</li>
-</ol>
+<li>Set up the remote environment. Because the code is running in a remote environment, everything that your code needs has to be explicitly added. Fortunately, there are existing Actions that you can use to do most of these steps.
 <ul>
 <li>Checkout your repo</li>
 <li>Install all necessary programs and load necessary R packages</li>
 </ul>
-<ol start="2" style="list-style-type: decimal">
-<li>Create your reports</li>
-</ol>
+</li>
+<li>Create your reports
 <ul>
 <li>Run a script to create the reports</li>
 </ul>
-<ol start="3" style="list-style-type: decimal">
-<li>Deploy your reports to Github In order for your newly created reports to get off of the remote runner and accessible on github.com, you need to deploy the reports. They can be deployed an any branch on any repository that you own.</li>
-</ol>
+</li>
+<li>Deploy your reports to Github In order for your newly created reports to get off of the remote runner and accessible on github.com, you need to deploy the reports. They can be deployed an any branch on any repository that you own.
 <ul>
 <li>Deploy your reports to a Github repo</li>
 </ul>
+</li>
+</ol>
 </div>
 <div id="detailed-workflow" class="section level2">
 <h2 class="hasAnchor">
