@@ -252,7 +252,7 @@ plot_swept <- function(x, var) {
       ggplot2::geom_ribbon(ggplot2::aes(
         x = .data$YEAR,
         ymin = .data$value - 2 * .data$error,
-        ymax = .data$alue + 2 * .data$error,
+        ymax = .data$value + 2 * .data$error,
         fill = .data$Season
       ),
       alpha = 0.5
