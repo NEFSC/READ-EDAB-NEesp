@@ -19,7 +19,7 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
                               lag_var = 0, parent_folder, input = "package",
                               trouble = FALSE, save_var = TRUE) {
   starting_dir <- getwd()
-  
+
   new_dir <- here::here(
     "Regressions", parent_folder,
     paste(
@@ -29,17 +29,17 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
     )
   ) %>%
     stringr::str_replace_all(" ", "_")
-  
+
   dir.create(new_dir,
     recursive = TRUE
   )
 
   file.create(here::here(new_dir, ".nojekyll"))
 
-  if(input == "package"){
+  if (input == "package") {
     file.copy(
       from = list.files(system.file("correlation_bookdown_template", package = "NEesp"),
-                        full.names = TRUE
+        full.names = TRUE
       ),
       to = here::here(new_dir),
       overwrite = TRUE
@@ -48,7 +48,7 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
   } else {
     file.copy(
       from = list.files(input,
-                        full.names = TRUE
+        full.names = TRUE
       ),
       to = here::here(new_dir),
       overwrite = TRUE
@@ -59,9 +59,9 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
 
   setwd(here::here(new_dir))
 
-  if(save_var){
+  if (save_var) {
     dir.create("data",
-               recursive = TRUE
+      recursive = TRUE
     )
   }
 
@@ -108,18 +108,24 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
   }
 
   # clean up files
-  list.files(here::here(new_dir),
-    full.names = TRUE
-  ) %>%
-    stringr::str_subset(".Rmd") %>%
-    file.remove()
+  clean <- c(
+    list.files(here::here(new_dir),
+      pattern = ".Rmd",
+      full.names = TRUE
+    ),
+    list.files(here::here(new_dir),
+      pattern = ".md",
+      full.names = TRUE
+    ),
+    list.files(here::here(new_dir),
+      pattern = ".yml",
+      full.names = TRUE
+    )
+  )
 
-  list.files(here::here(new_dir),
-    full.names = TRUE
-  ) %>%
-    stringr::str_subset(".yml") %>%
-    file.remove()
-  
+  file.remove(clean) %>%
+    invisible()
+
   setwd(starting_dir)
 
   print(paste("Done with", parent_folder, region_var, epus_var, stock_var, "!",
@@ -132,29 +138,18 @@ render_reg_report <- function(stock_var, epus_var, region_var, remove_var = FALS
 #' This function renders all regression ESP reports.
 #'
 #' @param x The folder with the bookdown template. Defaults to "package", which calls the template files saved in the package.
+#' @param species A dataframe of the species, region, and EPU combinations to use. Suggest to use `NEesp::regression_species_regions` or a subset thereof.
 #' @return Multiple bookdown reports (html)
 #' @export
 
-# get list of species and regions, manually assign to EPUs
-# assessmentdata::stockAssessmentData %>%
-#  dplyr::select(Species, Region) %>%
-#  dplyr::distinct() %>%
-#  dplyr::filter(Species %in%
-#                  all_species | Species == "Goosefish") %>%
-#  write.csv(here::here("R/regressions", "regression_species_regions.csv"))
-
-# info <- read.csv(here::here("R/regressions", "regression_species_regions.csv"))
-
-render_all_reg <- function(x = "package") {
-  info <- NEesp::regression_species_regions
-
-  for (i in 1:nrow(info)
+render_all_reg <- function(x = "package", species = NEesp::regression_species_regions) {
+  for (i in seq_len(nrow(species))
   ) {
     # make 0 lag reports
     NEesp::render_reg_report(
-      stock_var = info[i, 1],
-      epus_var = info[i, 3],
-      region_var = info[i, 2],
+      stock_var = species[i, 1],
+      epus_var = species[i, 3],
+      region_var = species[i, 2],
       lag_var = 0,
       remove_var = FALSE,
       save_var = TRUE,
@@ -165,9 +160,9 @@ render_all_reg <- function(x = "package") {
 
     # make 1 year lag reports
     NEesp::render_reg_report(
-      stock_var = info[i, 1],
-      epus_var = info[i, 3],
-      region_var = info[i, 2],
+      stock_var = species[i, 1],
+      epus_var = species[i, 3],
+      region_var = species[i, 2],
       lag_var = 1,
       remove_var = FALSE,
       save_var = TRUE,
@@ -178,9 +173,9 @@ render_all_reg <- function(x = "package") {
 
     # make 1 year lag, minus 10 recent years reports
     NEesp::render_reg_report(
-      stock_var = info[i, 1],
-      epus_var = info[i, 3],
-      region_var = info[i, 2],
+      stock_var = species[i, 1],
+      epus_var = species[i, 3],
+      region_var = species[i, 2],
       lag_var = 1,
       remove_var = TRUE,
       save_var = TRUE,

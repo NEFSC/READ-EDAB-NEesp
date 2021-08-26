@@ -2,36 +2,37 @@
 #'
 #' This function plots the proportional composition of a species' diet.
 #'
-#' @param x A data frame or tibble, containing data on one species. Data from `allfh`.
+#' @param data A data frame or tibble, containing data on one species. Data from `allfh`.
 #' @return A ggplot
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 get_diet_plot <- function(data) {
   if (nrow(data) > 0) {
     normalized <- data %>%
-      dplyr::filter(pyamtw > 0) %>%
+      dplyr::filter(.data$pyamtw > 0) %>%
 
       # only look at season/year combinations with >20 predator samples
-      dplyr::group_by(year, season, Region) %>%
-      dplyr::mutate(n_predators = fish_id %>%
+      dplyr::group_by(.data$year, .data$season, .data$Region) %>%
+      dplyr::mutate(n_predators = .data$fish_id %>%
         unique() %>%
         length()) %>%
-      dplyr::filter(n_predators > 20)
+      dplyr::filter(.data$n_predators > 20)
 
     if (length(normalized$n_predators) > 1) {
       normalized <- normalized %>%
-        dplyr::group_by(year, season, Region, gensci) %>%
-        dplyr::summarise(total_weight = sum(pyamtw)) %>%
-        dplyr::mutate(proportion = total_weight / sum(total_weight))
+        dplyr::group_by(.data$year, .data$season, .data$Region, .data$gensci) %>%
+        dplyr::summarise(total_weight = sum(.data$pyamtw)) %>%
+        dplyr::mutate(proportion = .data$total_weight / sum(.data$total_weight))
 
       normalized$gensci <- stringr::str_replace(normalized$gensci, " ", "_")
 
       # group low abundance prey as "other"
       groups <- normalized %>%
-        dplyr::group_by(year, season, Region, gensci) %>%
-        dplyr::summarise(max_prop = max(proportion)) %>%
-        dplyr::filter(max_prop > 0.05)
+        dplyr::group_by(.data$year, .data$season, .data$Region, .data$gensci) %>%
+        dplyr::summarise(max_prop = max(.data$proportion)) %>%
+        dplyr::filter(.data$max_prop > 0.05)
 
       groups <- groups$gensci %>% unique()
 
@@ -43,8 +44,8 @@ get_diet_plot <- function(data) {
 
       # re-group proportions with new "other" category
       normalized <- normalized %>%
-        dplyr::group_by(year, season, Region, gensci) %>%
-        dplyr::summarise(prop2 = sum(proportion))
+        dplyr::group_by(.data$year, .data$season, .data$Region, .data$gensci) %>%
+        dplyr::summarise(prop2 = sum(.data$proportion))
 
       # add in zeros
       combo <- expand.grid(
@@ -62,13 +63,13 @@ get_diet_plot <- function(data) {
           "gensci" = "gensci"
         )
       ) %>%
-        dplyr::mutate(prop2 = ifelse(is.na(prop2), 0, prop2))
+        dplyr::mutate(prop2 = ifelse(is.na(.data$prop2), 0, .data$prop2))
 
       # get order of most important - least important prey
       prey <- new_normalized %>%
-        dplyr::group_by(gensci) %>%
-        dplyr::summarise(imp = max(prop2)) %>%
-        dplyr::arrange(dplyr::desc(imp))
+        dplyr::group_by(.data$gensci) %>%
+        dplyr::summarise(imp = max(.data$prop2)) %>%
+        dplyr::arrange(dplyr::desc(.data$imp))
 
       new_normalized$gensci <- factor(
         new_normalized$gensci,
@@ -83,9 +84,9 @@ get_diet_plot <- function(data) {
       fig <- ggplot2::ggplot(
         new_normalized,
         ggplot2::aes(
-          x = year,
-          y = prop2,
-          fill = gensci
+          x = .data$year,
+          y = .data$prop2,
+          fill = .data$gensci
         )
       ) +
         ggplot2::geom_bar(color = "black", stat = "identity") +
@@ -112,12 +113,12 @@ get_diet_plot <- function(data) {
       if (length(unique(new_normalized$season)) > 1) {
         fig <- fig +
           ggplot2::facet_grid(
-            rows = ggplot2::vars(season),
-            cols = ggplot2::vars(Region)
+            rows = ggplot2::vars(.data$season),
+            cols = ggplot2::vars(.data$Region)
           )
       } else {
         fig <- fig +
-          ggplot2::facet_grid(cols = ggplot2::vars(Region))
+          ggplot2::facet_grid(cols = ggplot2::vars(.data$Region))
       }
 
       print(fig)
@@ -133,34 +134,38 @@ get_diet_plot <- function(data) {
 #'
 #' This function creates a table of the proportional composition of a species' diet.
 #'
-#' @param x A data frame or tibble, containing data on one species. Data from `allfh`.
-#' @return A `DT::datatable`
+#' @param data A data frame or tibble, containing data on one species. Data from `allfh`.
+#' @param type The file type of the output. One of c("html", "word")
+#' @return A `DT::datatable` or a `knitr::kable`
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 get_diet_table <- function(data, type = "html") {
   if (nrow(data) > 0) {
     normalized <- data %>%
-      dplyr::filter(pyamtw > 0) %>%
+      dplyr::filter(.data$pyamtw > 0) %>%
 
       # only look at season/year combinations with >20 predator samples
-      dplyr::group_by(year, season, Region) %>%
-      dplyr::mutate(n_predators = fish_id %>% unique() %>% length()) %>%
-      dplyr::filter(n_predators > 20)
+      dplyr::group_by(.data$year, .data$season, .data$Region) %>%
+      dplyr::mutate(n_predators = .data$fish_id %>%
+        unique() %>%
+        length()) %>%
+      dplyr::filter(.data$n_predators > 20)
 
     if (length(normalized$n_predators) > 1) {
       normalized <- normalized %>%
-        dplyr::group_by(year, season, Region, gensci) %>%
-        dplyr::summarise(total_weight = sum(pyamtw)) %>%
-        dplyr::mutate(proportion = total_weight / sum(total_weight))
+        dplyr::group_by(.data$year, .data$season, .data$Region, .data$gensci) %>%
+        dplyr::summarise(total_weight = sum(.data$pyamtw)) %>%
+        dplyr::mutate(proportion = .data$total_weight / sum(.data$total_weight))
 
       normalized$gensci <- stringr::str_replace(normalized$gensci, " ", "_")
 
       # group low abundance prey as "other"
       groups <- normalized %>%
-        dplyr::group_by(year, season, Region, gensci) %>%
-        dplyr::summarise(max_prop = max(proportion)) %>%
-        dplyr::filter(max_prop > 0.05)
+        dplyr::group_by(.data$year, .data$season, .data$Region, .data$gensci) %>%
+        dplyr::summarise(max_prop = max(.data$proportion)) %>%
+        dplyr::filter(.data$max_prop > 0.05)
 
       groups <- groups$gensci %>%
         unique()
@@ -173,30 +178,30 @@ get_diet_table <- function(data, type = "html") {
 
       # re-group proportions with new "other" category
       normalized <- normalized %>%
-        dplyr::group_by(year, season, Region, gensci) %>%
-        dplyr::summarise(prop2 = sum(proportion))
+        dplyr::group_by(.data$year, .data$season, .data$Region, .data$gensci) %>%
+        dplyr::summarise(prop2 = sum(.data$proportion))
 
       # summary table
       table <- normalized %>%
-        dplyr::group_by(gensci, season, Region, year) %>%
-        dplyr::filter(sum(prop2) > 0) %>%
-        dplyr::group_by(gensci, season, Region) %>%
+        dplyr::group_by(.data$gensci, .data$season, .data$Region, .data$year) %>%
+        dplyr::filter(sum(.data$prop2) > 0) %>%
+        dplyr::group_by(.data$gensci, .data$season, .data$Region) %>%
         dplyr::summarise(
-          mean_proportion = paste(mean(prop2) %>% round(digits = 3),
+          mean_proportion = paste(mean(.data$prop2) %>% round(digits = 3),
             " +- ",
-            sd(prop2) %>% round(digits = 3),
-            " (", length(prop2), ") ",
+            stats::sd(.data$prop2) %>% round(digits = 3),
+            " (", length(.data$prop2), ") ",
             sep = ""
           ),
 
-          range_proportion = paste(min(prop2) %>% round(digits = 3),
-            max(prop2) %>% round(digits = 3),
+          range_proportion = paste(min(.data$prop2) %>% round(digits = 3),
+            max(.data$prop2) %>% round(digits = 3),
             sep = " - "
           )
         )
 
       make_html_table(table,
-                      type = type,
+        type = type,
         col_names = c(
           "Prey category", "Season", "Region",
           "Mean proportion +- SD (n years)",
@@ -219,14 +224,15 @@ get_diet_table <- function(data, type = "html") {
 #' @param var The variable to plot ("abundance" or "biomass")
 #' @return A ggplot
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 plot_swept <- function(x, var) {
   if (var == "biomass") {
     x <- x %>%
       dplyr::rename(
-        value = tot.biomass,
-        error = tot.bio.SE
+        "value" = .data$tot.biomass,
+        "error" = .data$tot.bio.SE
       )
     name <- "Survey biomass estimate (kg)"
   }
@@ -234,8 +240,8 @@ plot_swept <- function(x, var) {
   if (var == "abundance") {
     x <- x %>%
       dplyr::rename(
-        value = tot.abundance,
-        error = tot.abund.SE
+        "value" = .data$tot.abundance,
+        "error" = .data$tot.abund.SE
       )
 
     name <- "Survey abundance estimate"
@@ -244,17 +250,17 @@ plot_swept <- function(x, var) {
   if (nrow(x) > 0) {
     fig <- ggplot2::ggplot(x) +
       ggplot2::geom_ribbon(ggplot2::aes(
-        x = YEAR,
-        ymin = value - 2 * error,
-        ymax = value + 2 * error,
-        fill = Season
+        x = .data$YEAR,
+        ymin = .data$value - 2 * .data$error,
+        ymax = .data$value + 2 * .data$error,
+        fill = .data$Season
       ),
       alpha = 0.5
       ) +
       ggplot2::geom_line(ggplot2::aes(
-        x = YEAR,
-        y = value,
-        color = Season
+        x = .data$YEAR,
+        y = .data$value,
+        color = .data$Season
       ),
       cex = 2
       ) +
@@ -267,17 +273,17 @@ plot_swept <- function(x, var) {
       )
 
     y <- x %>%
-      dplyr::filter(is.na(value) == FALSE) %>%
-      dplyr::group_by(Season) %>%
-      dplyr::summarise(n_points = length(value)) %>%
-      dplyr::filter(n_points >= 30)
+      dplyr::filter(is.na(.data$value) == FALSE) %>%
+      dplyr::group_by(.data$Season) %>%
+      dplyr::summarise(n_points = length(.data$value)) %>%
+      dplyr::filter(.data$n_points >= 30)
 
     if (nrow(y) > 0) {
       fig <- fig +
         ecodata::geom_gls(ggplot2::aes(
-          x = YEAR,
-          y = value,
-          color = Season
+          x = .data$YEAR,
+          y = .data$value,
+          color = .data$Season
         ))
     }
 
@@ -291,9 +297,10 @@ plot_swept <- function(x, var) {
 #'
 #' This function plots climate vulnerability ratings from Hare et al. 2016.
 #'
-#' @param x A data frame or tibble of climate vulnerability ratings from Hare et al. 2016, containing data on one species.
+#' @param data A data frame or tibble of climate vulnerability ratings from Hare et al. 2016, containing data on one species.
 #' @return A ggplot
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 plot_climate_vulnerability <- function(data) {
@@ -306,14 +313,14 @@ plot_climate_vulnerability <- function(data) {
 
   for (i in unique(data$Attribute.Category)) {
     plot_data <- data %>%
-      dplyr::filter(Attribute.Category == i)
+      dplyr::filter(.data$Attribute.Category == i)
 
     fig <- ggplot2::ggplot(
       plot_data,
       ggplot2::aes(
-        x = name,
-        y = value,
-        fill = name
+        x = .data$name,
+        y = .data$value,
+        fill = .data$name
       )
     ) +
       ggplot2::geom_bar(
@@ -321,7 +328,7 @@ plot_climate_vulnerability <- function(data) {
         color = "black"
       ) +
       ggplot2::facet_wrap(
-        facets = ggplot2::vars(Attribute),
+        facets = ggplot2::vars(.data$Attribute),
         ncol = 2
       ) +
       nmfspalette::scale_fill_nmfs(palette = "regional web") +
@@ -332,7 +339,7 @@ plot_climate_vulnerability <- function(data) {
       ggplot2::theme(legend.position = "none")
 
     print(fig)
-    
+
     cat("\n\n")
   }
 }
@@ -344,35 +351,44 @@ plot_climate_vulnerability <- function(data) {
 #' @param data `ecodata` data aggregated at the stock level, filtered to the stock of interest
 #' @param ylabel Optional. Label for y-axis. Defaults to blank.
 #' @return A ggplot
+#' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 
-plot_ecodata <- function(data, ylabel = ""){
-  if(nrow(data) > 0){
-    fig <- ggplot2::ggplot(data,
-                           ggplot2::aes(x = Time,
-                                        y = Value))+
+plot_ecodata <- function(data, ylabel = "") {
+  if (nrow(data) > 0) {
+    fig <- ggplot2::ggplot(
+      data,
+      ggplot2::aes(
+        x = .data$Time,
+        y = .data$Value
+      )
+    ) +
       ggplot2::geom_point(cex = 2) +
       ggplot2::geom_line() +
-      ggplot2::facet_grid(rows = ggplot2::vars(Pattern_check %>%
-                                                 stringr::str_wrap(20)),
-                          cols = ggplot2::vars(Var)) +
+      ggplot2::facet_grid(
+        rows = ggplot2::vars(.data$Pattern_check %>%
+          stringr::str_wrap(20)),
+        cols = ggplot2::vars(.data$Var)
+      ) +
       ggplot2::theme_bw() +
       ggplot2::xlab("Year") +
       ggplot2::ylab(ylabel)
-    
+
     ecodat <- data %>%
       dplyr::distinct() %>%
-      dplyr::group_by(Pattern_check, Var) %>%
-      dplyr::mutate(nyear = length(Time)) %>%
-      dplyr::filter(nyear > 30)
-    
+      dplyr::group_by(.data$Pattern_check, .data$Var) %>%
+      dplyr::mutate(nyear = length(.data$Time)) %>%
+      dplyr::filter(.data$nyear > 30)
+
     # add if statement to check N > 30
-    if(nrow(ecodat) > 0){
+    if (nrow(ecodat) > 0) {
       fig <- fig + ecodata::geom_gls(data = ecodat)
     }
-    
-    return(fig)
-  } else("NO DATA")
-}
 
+    return(fig)
+  } else {
+    ("NO DATA")
+  }
+}

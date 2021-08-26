@@ -12,9 +12,11 @@ generate_table(x, variable, cap = "", type = "html")
 \item{variable}{The \code{survdat} measurement of interest. Must be a column name of the \code{survdat} data set.}
 
 \item{cap}{A caption for the table. Defaults to "".}
+
+\item{type}{The file type of the output. One of c("html", "word")}
 }
 \value{
-A \code{DT::datatable}
+A \code{DT::datatable} or a \code{knitr::kable}
 }
 \description{
 This function is a wrapper for \code{get_var_data}, \code{data_summary}, and \code{data_summary_5yr}.

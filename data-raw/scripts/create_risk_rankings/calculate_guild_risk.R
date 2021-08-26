@@ -29,7 +29,7 @@ survey2 <- NEesp::survey %>%
   dplyr::mutate(len_class = round(overall_mean_len, digits = -1))
 survey2
 
-# mean by species (combind stocks of same species)
+# mean by species (combine stocks of same species)
 guild_risk2 <- dplyr::left_join(survey2, guild_risk, by = "Species") %>%
   dplyr::group_by(Species, Scientific_name, Indicator, category, Guild, overall_mean_len) %>%
   dplyr::summarise(mean_norm_risk = mean(norm_rank, na.rm = TRUE)) %>%
@@ -70,7 +70,7 @@ write.csv(dat,
 )
 
 guild_risk <- dat
-usethis::use_data(guild_risk)
+usethis::use_data(guild_risk, overwrite = TRUE)
 
 # save guild info
 guild_info <- guild_risk2 %>%

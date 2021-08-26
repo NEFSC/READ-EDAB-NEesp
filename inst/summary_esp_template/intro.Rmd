@@ -4,9 +4,7 @@ author: "Abigail Tyrell"
 date: "`r format(Sys.time(), '%d %b %Y')`"
 output: word_document
 params: 
-  species: "black sea bass" # species name (for titles, etc.)
   fig_size: 6.5 # figure size (inches. square shape)
-  min_year: 2016
 ---
 
 ```{r, setup, include = FALSE}
@@ -21,10 +19,13 @@ knitr::opts_chunk$set(
 )
 
 # make a clean figures folder
-if(dir.exists("figures")){
+if (dir.exists("figures")) {
   unlink("figures")
 }
 dir.create("figures")
+
+rpt_card_ind <- c()
+rpt_card_time <- tibble::tibble(Time = NA)
 ```
 
 ## Indicator data

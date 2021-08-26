@@ -9,11 +9,12 @@
 #' @param col The colors to use for each region (a named vector)
 #' @return A ggplot
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 plot_asmt <- function(x, metric, ytitle = "", lin = lines, col = colors) {
   x <- x %>%
-    dplyr::filter(Metric == metric)
+    dplyr::filter(.data$Metric == metric)
 
   if (nrow(x) > 0) {
     x$facet_var <- paste(x$Description, "\n", x$Units, " (", x$AssessmentYear,
@@ -24,19 +25,19 @@ plot_asmt <- function(x, metric, ytitle = "", lin = lines, col = colors) {
     # mean by year because some years have two measurements?
     x <- x %>%
       dplyr::group_by(
-        Year, Description, Units, AssessmentYear, Region,
-        Age, facet_var, Category
+        .data$Year, .data$Description, .data$Units, .data$AssessmentYear, .data$Region,
+        .data$Age, .data$facet_var, .data$Category
       ) %>%
-      dplyr::summarise(Value = mean(Value))
+      dplyr::summarise(Value = mean(.data$Value))
 
     fig <- ggplot2::ggplot(
       x,
       ggplot2::aes(
-        x = Year,
-        y = Value,
-        lty = Region,
-        color = Region,
-        shape = facet_var
+        x = .data$Year,
+        y = .data$Value,
+        lty = .data$Region,
+        color = .data$Region,
+        shape = .data$facet_var
       )
     ) +
       ggplot2::geom_point(cex = 2) +
@@ -48,16 +49,15 @@ plot_asmt <- function(x, metric, ytitle = "", lin = lines, col = colors) {
       ggplot2::scale_shape_manual(values = c(15:18, 0:14)) +
       ggplot2::theme(
         legend.position = "bottom",
-        legend.direction = "vertical",
-        # label.hjust = 1 # try next time
+        legend.direction = "vertical"
       ) +
       ggplot2::guides(
         shape = ggplot2::guide_legend(
           ncol = 2,
           title = "Description, units (assessment year)"
         ),
-        fill = FALSE
-      ) + # fill is a dummy aes for geom_gls
+        fill = FALSE # fill is a dummy aes for geom_gls
+      ) +
       ggplot2::ylab(ytitle)
 
     if (metric != "Catch" &
@@ -66,7 +66,7 @@ plot_asmt <- function(x, metric, ytitle = "", lin = lines, col = colors) {
         length() <= 2) {
       fig <- fig +
         ggplot2::facet_grid(
-          rows = ggplot2::vars(Age),
+          rows = ggplot2::vars(.data$Age),
           scales = "free_y"
         )
     }
@@ -77,7 +77,7 @@ plot_asmt <- function(x, metric, ytitle = "", lin = lines, col = colors) {
         length() > 2) {
       fig <- fig +
         ggplot2::facet_grid(
-          rows = ggplot2::vars(Category),
+          rows = ggplot2::vars(.data$Category),
           scales = "free_y"
         )
     }
@@ -85,10 +85,10 @@ plot_asmt <- function(x, metric, ytitle = "", lin = lines, col = colors) {
     # Category - SSB, mature biomass, etc
 
     ecodat <- x %>%
-      dplyr::filter(Year > 0, Value > 0) %>%
-      dplyr::group_by(Region, facet_var) %>%
-      dplyr::mutate(num = length(Value)) %>%
-      dplyr::filter(num > 30)
+      dplyr::filter(.data$Year > 0, .data$Value > 0) %>%
+      dplyr::group_by(.data$Region, .data$facet_var) %>%
+      dplyr::mutate(num = length(.data$Value)) %>%
+      dplyr::filter(.data$num > 30)
 
     if (nrow(ecodat) > 0) {
       fig <- fig +
@@ -96,10 +96,10 @@ plot_asmt <- function(x, metric, ytitle = "", lin = lines, col = colors) {
           inherit.aes = FALSE,
           data = ecodat,
           mapping = ggplot2::aes(
-            x = Year,
-            y = Value,
-            lty = Region,
-            fill = facet_var
+            x = .data$Year,
+            y = .data$Value,
+            lty = .data$Region,
+            fill = .data$facet_var
           )
         )
       # geom_gls doesn't like group aesthetic, use fill instead
@@ -124,6 +124,7 @@ plot_asmt <- function(x, metric, ytitle = "", lin = lines, col = colors) {
 #' @param type "b" for B/Bmsy, "f" for F/Fmsy
 #' @return A ggplot
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 plot_msy <- function(x, ytitle = "", lin = lines, col = colors, type) {
@@ -150,10 +151,10 @@ plot_msy <- function(x, ytitle = "", lin = lines, col = colors, type) {
   fig <- ggplot2::ggplot(
     data,
     ggplot2::aes(
-      x = year,
-      y = value,
-      lty = Region,
-      color = Region
+      x = .data$year,
+      y = .data$value,
+      lty = .data$Region,
+      color = .data$Region
     )
   ) +
     ggplot2::geom_point(cex = 2) +
@@ -166,10 +167,10 @@ plot_msy <- function(x, ytitle = "", lin = lines, col = colors, type) {
     ggplot2::scale_color_manual(values = col)
 
   ecodat <- data %>%
-    dplyr::filter(value > 0, year > 0) %>%
-    dplyr::group_by(Region) %>%
-    dplyr::mutate(num = length(value)) %>%
-    dplyr::filter(num > 30)
+    dplyr::filter(.data$value > 0, .data$year > 0) %>%
+    dplyr::group_by(.data$Region) %>%
+    dplyr::mutate(num = length(.data$value)) %>%
+    dplyr::filter(.data$num > 30)
 
   if (length(ecodat$value) > 1) {
     fig <- fig +
@@ -177,9 +178,9 @@ plot_msy <- function(x, ytitle = "", lin = lines, col = colors, type) {
         inherit.aes = FALSE,
         data = ecodat,
         mapping = ggplot2::aes(
-          x = year,
-          y = value,
-          lty = Region
+          x = .data$year,
+          y = .data$value,
+          lty = .data$Region
         )
       )
   }
@@ -191,15 +192,17 @@ plot_msy <- function(x, ytitle = "", lin = lines, col = colors, type) {
 #'
 #' This function assesses the status of the most recent B/Bmsy or F/Fmsy from `assessmentdata::stockAssessmentSummary`.
 #'
-#' @param x A data frame or tibble, containing data on one species. The output of `assessmentdata::stockAssessmentSummary`.
-#' @param region The region to assess.
+#' @param data A data frame or tibble, containing data on one species. The output of `assessmentdata::stockAssessmentSummary`.
+#' @param regions The region to assess.
 #' @param metric "bbmsy" for B/Bmsy, "ffmsy" for F/Fmsy
 #' @return A character
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
+#' @importFrom utils tail
 #' @export
 
 status <- function(data, regions, metric) {
-  data <- dplyr::filter(data, Region == regions)
+  data <- dplyr::filter(data, .data$Region == regions)
 
   if (metric == "bbmsy") {
     data <- data$`B/Bmsy`

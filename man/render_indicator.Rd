@@ -4,10 +4,19 @@
 \alias{render_indicator}
 \title{Renders an RMarkdown section}
 \usage{
-render_indicator(test, lab = "no-name")
+render_indicator(
+  test,
+  lab = "no-name",
+  file = system.file("correlation_bookdown_template/_general-child-doc.Rmd", package =
+    "NEesp")
+)
 }
 \arguments{
 \item{test}{A data table from \code{ecodata} that has been pre-processed to a standardized format.}
+
+\item{lab}{A name for the figure file}
+
+\item{file}{The path to the document to knit. Not suggested to change from the default.}
 }
 \value{
 An RMarkdown section

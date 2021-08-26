@@ -6,6 +6,7 @@
 #' @param species_col The name of the column with species names
 #' @return A tibble
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 
 update_species_names <- function(data, species_col) {
@@ -13,7 +14,7 @@ update_species_names <- function(data, species_col) {
 
   data <- data %>%
     dplyr::rename(Species = species_col) %>%
-    dplyr::mutate(Species = Species %>%
+    dplyr::mutate(Species = .data$Species %>%
       stringr::str_replace("Goosefish", "Monkfish"))
   # add any other names that have to be changed in mutate() above
 
@@ -28,13 +29,13 @@ update_species_names <- function(data, species_col) {
 #'
 #' @param x A data frame or tibble
 #' @param col_names The column names to display on the output. Defaults to the column names of the data frame.
+#' @param type The file type of the output. One of c("html", "word")
 #' @return An html table
 #' @export
 
 make_html_table <- function(x, col_names = colnames(x), type = "html") {
   if (is.null(x) == FALSE) {
     if (nrow(x) > 0) {
-      
       if (type == "html") {
         output <- DT::datatable(x,
           rownames = FALSE,
@@ -56,16 +57,14 @@ make_html_table <- function(x, col_names = colnames(x), type = "html") {
       }
 
       if (type == "word") {
-        if(nrow(x) <= 60) {
+        if (nrow(x) <= 60) {
           output <- knitr::kable(x, col.names = col_names)
         } else {
           output <- "More than 60 rows of data! Please see `data` folder."
         }
-        
       }
 
       return(output)
-      
     } else {
       print("NO DATA")
     }
@@ -124,7 +123,7 @@ make_html_table_thin <- function(x, col_names) {
 character_to_factor <- function(x) {
   if (is.null(x) == FALSE) {
     if (nrow(x) > 0) {
-      for (i in 1:ncol(x)) {
+      for (i in seq_len(ncol(x))) {
         x <- as.data.frame(x)
         if (class(x[, i]) == "character") {
           x[, i] <- as.factor(x[, i])
@@ -153,6 +152,7 @@ format_numbers <- function(x) {
 #'
 #' @param x A data table or tibble
 #' @return A .csv (small files), or a .RDS (large files)
+#' @importFrom rlang .data
 #' @export
 
 save_data <- function(x) {
@@ -163,14 +163,14 @@ save_data <- function(x) {
     # remove column of row indices
     if ("X" %in% colnames(x)) {
       x <- x %>%
-        dplyr::select(-X)
+        dplyr::select(-.data$X)
     }
 
-    objsize <- object.size(x)
+    objsize <- utils::object.size(x)
 
-    if ((objsize / 10^6) < 50) {
+    if (objsize < 10^4) {
       filename <- paste("data/", name, ".csv", sep = "")
-      write.csv(x, file = filename, row.names = FALSE)
+      utils::write.csv(x, file = filename, row.names = FALSE)
     } else {
       filename <- paste("data/", name, ".RDS", sep = "")
       saveRDS(x, file = filename)
@@ -199,7 +199,7 @@ find_files <- function(text, path = here::here()) {
 
   out <- c()
 
-  for (i in 1:length(all_files)) {
+  for (i in seq_len(length(all_files))) {
     results <- grep(text, readLines(all_files[i]), value = FALSE) %>% suppressWarnings()
 
     if (length(results) > 0) {
@@ -213,10 +213,9 @@ find_files <- function(text, path = here::here()) {
     percent <- (i / length(all_files) * 100) %>%
       round(digits = 0)
 
-    if((i %% 10) == 0){
+    if ((i %% 10) == 0) {
       print(paste(i, " files searched, ", percent, "% done", ".....", sep = ""))
     }
-    
   }
 
   if (is.null(out)) {

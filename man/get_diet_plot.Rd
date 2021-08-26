@@ -7,7 +7,7 @@
 get_diet_plot(data)
 }
 \arguments{
-\item{x}{A data frame or tibble, containing data on one species. Data from \code{allfh}.}
+\item{data}{A data frame or tibble, containing data on one species. Data from \code{allfh}.}
 }
 \value{
 A ggplot

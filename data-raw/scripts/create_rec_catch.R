@@ -23,14 +23,14 @@ big_data$Species <- stringr::str_to_sentence(big_data$common)
 write.csv(big_data, file = here::here("data-raw/MRIP", "all_MRIP_catch_year.csv"))
 
 rec_catch <- read.csv(here::here("data-raw/MRIP", "all_MRIP_catch_year.csv")) %>%
-  dplyr::filter(sub_reg_f == "NORTH ATLANTIC" |
-    sub_reg_f == "MID-ATLANTIC") %>%
-  dplyr::mutate(lbs_ab1 = lbs_ab1 %>%
-    stringr::str_replace_all(",", "") %>%
-    as.numeric()) %>%
-  update_species_names(species_col = "Species")
+  #dplyr::filter(sub_reg_f == "NORTH ATLANTIC" |
+  #  sub_reg_f == "MID-ATLANTIC") %>%
+  #dplyr::mutate(lbs_ab1 = lbs_ab1 %>%
+  #  stringr::str_replace_all(",", "") %>%
+  #  as.numeric()) %>%
+  NEesp::update_species_names(species_col = "Species")
 
-usethis::use_data(rec_catch)
+usethis::use_data(rec_catch, overwrite = TRUE)
 
 rec_catch_small <- NEesp::rec_catch %>%
   dplyr::select(-X, -status, -wave, -wave_f, -sub_reg, -st, -sp_code, -common,

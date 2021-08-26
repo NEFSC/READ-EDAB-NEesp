@@ -7,11 +7,11 @@
 status(data, regions, metric)
 }
 \arguments{
+\item{data}{A data frame or tibble, containing data on one species. The output of \code{assessmentdata::stockAssessmentSummary}.}
+
+\item{regions}{The region to assess.}
+
 \item{metric}{"bbmsy" for B/Bmsy, "ffmsy" for F/Fmsy}
-
-\item{x}{A data frame or tibble, containing data on one species. The output of \code{assessmentdata::stockAssessmentSummary}.}
-
-\item{region}{The region to assess.}
 }
 \value{
 A character

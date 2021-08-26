@@ -1,0 +1,62 @@
+## Adult indicators
+
+### Abundance
+```{r, abundance}
+test <- stock %>%
+  dplyr::filter(Metric == "Abundance") %>%
+  dplyr::rename(
+    Var = Metric,
+    Val = Value
+  ) %>%
+  dplyr::select(Time, Val, Var)
+
+if (nrow(test) > params$lag) {
+  try(NEesp::render_indicator(test, lab = names[1]))
+} else {
+  print("No data")
+}
+names <- names[-1]
+```
+
+### Mean age of spawning stock
+
+### Age distribution
+
+### Length-age curves
+
+### Condition
+```{r, condition}
+test <- NEesp::cond  %>%
+  dplyr::mutate(Species = Species %>%
+    stringr::str_to_sentence()) %>%
+  dplyr::filter(Species == params$stock) %>%
+  dplyr::rename(
+    Val = MeanCond,
+    Time = YEAR
+  ) %>%
+  dplyr::mutate(Var = paste(sex, "condition"))
+
+if (nrow(test) > 0) {
+  NEesp::render_indicator(test, lab = names[1])
+} else {
+  names <- names[-1]
+  print("No data")
+}
+```
+
+### Stomach fullness
+```{r, stomach}
+test <- ecodata::stom_fullness %>%
+  dplyr::mutate(Var = Var %>%
+    stringr::str_to_sentence()) %>%
+  dplyr::filter(Var == params$stock)
+
+if (nrow(test) > 0) {
+  NEesp::render_indicator(test, lab = names[1])
+} else {
+  names <- names[-1]
+  print("No data")
+}
+```
+
+### Center of gravity and area occupied

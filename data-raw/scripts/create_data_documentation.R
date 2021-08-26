@@ -8,6 +8,12 @@ names <- list("allfh", "asmt", "asmt_sum", "bio_survey", "climate_risk",
            "risk_year_hist", "risk_year_value", "shape", "species_guilds",
            "species_key", "survey", "swept")
 
+names <- list(  'allfh', 'allfh_small', 'asmt_sum', 'asmt_sum_small', 'com_gear',
+                'ichthyo', 'rec_catch_small', 'rec_effort', 'sp_group',
+                'zoop_stock')
+
+#zoop_stock <- NEesp::zoop_stock
+
 my_save <- function(x) {
   data <- get(x)
   sinew::makeOxygen(data)
@@ -15,6 +21,6 @@ my_save <- function(x) {
   print(x)
 }
 
-sink("R/data.R")
+sink("R/data2.R")
 lapply(names, my_save)
 sink()

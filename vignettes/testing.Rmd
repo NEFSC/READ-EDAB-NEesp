@@ -1,0 +1,23 @@
+---
+title: "Report testing"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Report testing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  eval = FALSE
+)
+```
+
+## Package testing
+
+Most of the functions and templates in this package have been developed by generalizing code originally written to work with one species or stock. As such, sometimes functions or templates cannot handle unexpected data, such as missing data. In these cases, it can be hard to track down which part of the code is leading to errors. 
+
+Therefore, we developed [a test](https://github.com/NOAA-EDAB/esp_data_aggregation/blob/main/R-scripts/test_rmds.R) that can diagnose two common issues in the [indicator report template](https://github.com/NOAA-EDAB/NEesp/tree/dev/inst/indicator_bookdown_template), namely inability to handle missing data and inability to run separately from the other template files. 

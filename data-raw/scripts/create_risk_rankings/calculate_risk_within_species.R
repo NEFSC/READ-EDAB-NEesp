@@ -1,5 +1,6 @@
 
 `%>%` <- magrittr::`%>%`
+library(NEesp)
 
 # remove survey data outside stock areas
 survey <- NEesp::survey %>%

@@ -5,7 +5,7 @@ date: "`r format(Sys.time(), '%d %b %Y')`"
 site: bookdown::bookdown_site
 documentclass: book
 always_allow_html: true
-github-repo: NOAA-EDAB/esp_data_aggregation
+github-repo: NOAA-EDAB/NEesp
 
 language:
   ui:
@@ -32,14 +32,52 @@ params:
 # `r params$species_ID` {-}
 
 ```{r, setup, include = FALSE}
+
+# keep track of chunk names for troubleshooting
+last_known <<- "setup"
+knitr::knit_hooks$set(hook_name = function(before) {
+  capture.output({
+    if (before) {
+      chunk_name <<- knitr::opts_current$get()$label
+      known_name <- stringr::str_detect(chunk_name, "unnamed-chunk-", negate = TRUE)
+      if (known_name) {
+        last_known <<- chunk_name
+      }
+    }
+  })
+})
+
+# Define helper function
+print_fig <- function(x) {
+  if(params$file == "word") {
+    print(x)
+  } else if(params$file == "html") {
+    fig <- try({
+      x %>%
+        plotly::ggplotly()
+      },
+      silent = TRUE)
+    if(class(fig) == "try-error"){
+      print(x)
+    } else {
+       plotly::plotly_build(fig)
+    }
+  }
+}
+
 knitr::opts_chunk$set(
   echo = FALSE,
   message = FALSE,
   warning = FALSE,
+  fig.height = 8,
   fig.width = 8,
+  out.width = "100%",
   fig.align = "center",
   fig.path = params$path,
-  dev = "png"
+  dev = "png",
+  dpi = 72,
+  fig.retina = 1,
+  hook_name = TRUE
 )
 ```
 
@@ -130,6 +168,14 @@ pp_data <- ecodata::ESP_seasonal_pp %>%
     stringr::str_to_sentence()) %>%
   dplyr::filter(stringr::str_detect(Pattern_check, species)) %>%
   dplyr::distinct()
+
+# ecodata (heatwave)
+hw_data <- ecodata::ESP_heatwave %>%
+  dplyr::mutate(Pattern_check = stock_id %>%
+    stringr::str_replace_all("_", " ") %>%
+    stringr::str_to_sentence()) %>%
+  dplyr::filter(stringr::str_detect(Pattern_check, species)) %>%
+  dplyr::distinct()
 ```
 
 ```{r, save_data, eval = params$save}
@@ -171,6 +217,8 @@ NEesp::save_data(ecodat_tanom)
 NEesp::save_data(chl_data)
 
 NEesp::save_data(pp_data)
+
+NEesp::save_data(hw_data)
 ```
 
 This is a preliminary report of previously collected data. This report is pulling information on all Northeast `r species` stocks.

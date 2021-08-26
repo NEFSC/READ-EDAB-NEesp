@@ -1,6 +1,9 @@
 name: Update size and devel badges
 on:
-  push:
+  push:  
+concurrency: 
+  group: ${{ github.ref }}
+  cancel-in-progress: true
   
 jobs:
   build:

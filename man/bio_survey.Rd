@@ -3,24 +3,8 @@
 \docType{data}
 \name{bio_survey}
 \alias{bio_survey}
-\title{Stock Assessment Summary Data}
+\title{NEFSC Bottom Trawl Data with Bio Data}
 \format{
-A data frame with 337 rows and 12 variables:
-\describe{
-\item{\code{FSSI Stock?}}{character Is the stock included in the Fish Stock Sustainability Index?}
-\item{\code{Assessment Year}}{integer Assessment year}
-\item{\code{Last Data Year}}{integer Last data year used in assessment}
-\item{\code{Review Result}}{character Results of assessment review by the Council}
-\item{\code{Life History Data}}{integer Biological data rating (before 2019): 0 = no data ; 4 = sufficient data for informed modeling}
-\item{\code{Biological Input Data}}{logical Biological data rating (2019 onwards): 0 = no data ; 5 = detailed data with no gaps}
-\item{\code{Ecosystem Linkage}}{integer Use of ecosystem linkage data in stock assessment model: 0 = not used ; 5 = model is linked to ecosystem processes}
-\item{\code{Composition Input Data}}{integer Availability of size/age data for the stock assessment model: 0 = none ; 5 = complete data with spatial resolution}
-\item{\code{F/Fmsy}}{double Fishing pressure relative to the fishing pressure for maximum sustainable yield}
-\item{\code{B/Bmsy}}{double Biomass relative to the biomass for maximum sustainable yield}
-\item{\code{Species}}{character Species common name}
-\item{\code{Region}}{character Stock region}
-}
-
 A data frame with 1103575 rows and 28 variables:
 \describe{
 \item{\code{CRUISE6}}{character Cruise ID}
@@ -53,21 +37,13 @@ A data frame with 1103575 rows and 28 variables:
 \item{\code{STOM_WGT}}{double Stomach weight}
 }
 }
-\source{
-\url{https://github.com/NOAA-EDAB/assessmentdata}
-}
 \usage{
 bio_survey
 }
 \description{
-This data set contains summary stock assessment metrics on several US stocks.
-
 This data is NEFSC bottom trawl data with bio data.
 }
 \details{
-For more details see \url{https://www.st.nmfs.noaa.gov/stocksmart/StockSMART_DataDictionary.pdf}
-"asmt_sum"
-
 \itemize{
 \item Function call: survdat::get_survdat_data(channel = channel, filterByYear = NA, all.season = TRUE, shg.check = T, conversion.factor = T, use.SAD = F, getBio = TRUE, getLengths = T)
 \item Pull date: Tue Mar 02 16:12:40 2021

@@ -8,7 +8,7 @@ output:
     split_by: section
 documentclass: book
 always_allow_html: true
-github-repo: NOAA-EDAB/esp_data_aggregation
+github-repo: NOAA-EDAB/NEesp
 params:
   lag: 0 # lag for correlations
   remove_recent: FALSE
@@ -60,6 +60,20 @@ bonf_n <- 0
 ```
 
 ```{r, setup2, include = FALSE}
+# keep track of chunk names for troubleshooting
+last_known <<- "setup"
+knitr::knit_hooks$set(hook_name = function(before) {
+  capture.output({
+    if (before) {
+      chunk_name <<- knitr::opts_current$get()$label
+      known_name <- stringr::str_detect(chunk_name, "unnamed-chunk-", negate = TRUE)
+      if (known_name) {
+        last_known <<- chunk_name
+      }
+    }
+  })
+})
+
 knitr::opts_chunk$set(
   echo = FALSE,
   message = FALSE,
@@ -68,13 +82,19 @@ knitr::opts_chunk$set(
   cache = params$cache,
   results = "asis",
   fig.width = 8,
+  out.width = "100%",
   fig.align = "center",
   fig.path = params$path,
-  dev = "png"
+  dev = "png",
+  dpi = 72,
+  fig.retina = 1,
+  hook_name = TRUE,
+  knitr.duplicate.label = "allow"
 )
 ```
 
 # `r params$stock` {-}
+
 Stock region: `r params$region`
 
 EPU: `r params$epu`

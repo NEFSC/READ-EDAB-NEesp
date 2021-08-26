@@ -2,6 +2,7 @@ bookdown::gitbook:
   css: style.css
   split_by: section
   fig_caption: yes
+  toc_depth: 4
   config:
     toc:
       before: |

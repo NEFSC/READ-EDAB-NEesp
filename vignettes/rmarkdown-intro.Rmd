@@ -1,0 +1,65 @@
+---
+title: "Intro to R Markdown templates"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Intro to R Markdown templates}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  eval = FALSE
+)
+```
+
+## The basics
+
+### R Markdown
+
+R Markdown is a simple markdown structure that allows you to combine text and code. A comprehensive introduction to R Markdown can be found [here](https://bookdown.org/yihui/rmarkdown/).
+
+### Parameterized R Markdown documemts
+
+Parameterized R Markdown documents allow you to create reports with dynamic input. Parameters specified in the YAML header can be updated, producing a new report with new values and custom analysis. For example, the YAML for the indicator reports contains the lines:
+```{r, eval = FALSE}
+params:
+  species_ID
+```
+
+When `params$species_ID` is called in the report, it will reference a dynamic species name that can be chosen by the user. To render parameterized report for Black sea bass, the following code snippet would be used:
+```{r, eval = FALSE}
+rmarkdown::render(..., params = list(species_ID = "Black sea bass"), ...)
+```
+
+[This video](https://www.youtube.com/watch?v=p55q2szc3I8) gives an excellent introduction to parameterization in R Markdown.
+
+### Automated report creation
+
+Once you have created a parameterized R Markdown report, automation is simple. A `for` loop can be used to create reports for a list of species:
+```{r, eval = FALSE}
+species <- NEesp::species_key$Species
+for(i in species){
+  rmarkdown::render(..., params = list(species_ID = i), ...)
+}
+```
+`lapply` and `purrr::map` can also be used in many cases.
+
+## Advanced R Markdown
+
+The examples above are minimal examples. More complex reports can be created with more parameters and more rendering options. There are also additional technical tools that can be used to enhance R Markdown reports. 
+
+### Bookdown
+
+The [`bookdown` package](https://bookdown.org/yihui/bookdown/) offers many useful extensions of the functionality of R Markdown. Most notably, documents created with `bookdown` are saved in a series of separate files ("chapters" or "sections"), allowing long reports to be broken up into more manageable chunks. Sections can easily be inserted and removed from the report. 
+
+### Child documents
+
+[Child documents](https://bookdown.org/yihui/rmarkdown-cookbook/child-document.html) are a flexible way to include additional R Markdown sections in the report. The `NEesp::render_ind` function is a simple wrapper to render a child document. In each section of the regression report template, variable values are assigned, and then `NEesp::render_ind` is called to knit the child documents with the new variable values. 
+
+### Github Actions
+
+Github Actions allow code to be run on a remote runner. When rendering a large number of reports, it can be time-consuming to render all of the reports on a local machine. With Github Actions, the reports can be rendered remotely and then deployed to a github pages website.
