@@ -41,7 +41,7 @@ For the purposes of applying the ESP concept to the Northeast, we identified fou
 
 4. **Summary**: Because the goal of an ESP is to inform stock advice, the results must be communicated clearly and succinctly. This involves a written summary of key points and implications, as well as summary visualizations.
 
-## Where the current data products fit in to the ESP
+## Where the current data products fit in to an ESP
 
 Our (perhaps misnamed) [indicator reports](https://noaa-edab.github.io/NEesp/articles/install-and-use-package.html#indicator-reports-1) are roughly analogous to *Step 1: Status of the stock*. These reports summarize data on stock distribution, biology, population, and socioeconomics. See [here](https://noaa-edab.github.io/ESP_docs/Reports/Black%20sea%20bass/index) for a sample report on black sea bass. 
 
