@@ -23,7 +23,7 @@ jobs:
         with:
           path: ${{ env.R_LIBS_USER }}
           key: pkgdown-cache-05172021-AT
-          
+
       - name: Load R packages
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
