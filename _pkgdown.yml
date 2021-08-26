@@ -37,6 +37,8 @@ navbar:
          href: articles/bookdown-templates.html
       -  text: "Creating reports with Github Actions"
          href: articles/github-actions.html
+      -  text: "Report testing"
+         href: articles/testing.html
 
     - text: "Functions"
       href: reference/index.html
