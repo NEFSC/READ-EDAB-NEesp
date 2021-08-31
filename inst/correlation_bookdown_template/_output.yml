@@ -1,0 +1,13 @@
+bookdown::gitbook:
+  css: style.css
+  split_by: section
+  fig_caption: yes
+  toc_depth: 4
+  config:
+    toc:
+      before: |
+        <li><a href="https://noaa-edab.github.io/ESP_docs/docs/">Back to main table of contents</a></li>
+      after: |
+        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+   
+

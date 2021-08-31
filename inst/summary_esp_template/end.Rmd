@@ -1,0 +1,51 @@
+## Report cards
+
+### Indicator report card
+
+```{r, ind-rpt-card}
+#  colnames(rpt_card_ind) <- c("Indicator", "Trend_with", "Pattern")
+rpt_card_ind <- rpt_card_ind %>%
+  tibble::as.tibble() %>%
+  dplyr::distinct()
+NEesp::make_ind_rpt(rpt_card_ind)
+
+```
+
+### Time series report card
+
+```{r, time-rpt-card}
+# rpt_card_time created from wrap_analysis()
+# only created for indicators correlated with stock
+# may not exist
+
+if (max(rpt_card_time$Time, na.rm = TRUE) > 0) {
+  rpt_card_time <- rpt_card_time %>%
+    dplyr::distinct()
+
+  # make sure rows go by year, then recent mean, then long-term mean
+  lev <- sort(rpt_card_time$Time)[c(1:5, 7, 6)]
+  rpt_card_time <- rpt_card_time %>%
+    dplyr::arrange(factor(Time, levels = lev))
+
+  NEesp::make_time_rpt(rpt_card_time)
+} else {
+  "Not created because no indicators were correlated with the stock"
+}
+```
+
+## Appendix
+
+### R session information
+```{r, session-info, results = "markup"}
+pander::pander(sessionInfo(), compact = FALSE)
+```
+
+### `NEesp` information
+```{r, NEesp-info, results = "markup", warning = FALSE}
+pander::pander(packageDescription("NEesp"), compact = FALSE)
+```
+
+### `NEespShiny` information
+```{r, NEespShiny-info, results = "markup", warning = FALSE}
+pander::pander(packageDescription("NEespShiny"), compact = FALSE)
+```

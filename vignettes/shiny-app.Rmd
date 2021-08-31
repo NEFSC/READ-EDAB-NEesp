@@ -1,0 +1,51 @@
+---
+title: "Use NEesp with the NEespShiny app"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Use NEesp with the NEespShiny app}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  eval = FALSE
+)
+```
+
+The [`NEespShiny` package](https://github.com/NOAA-EDAB/NEespShiny) is a Graphical User Interface for the `NEesp` package. 
+
+## Install the `NEespShiny` package
+
+Install the versioned package:
+```{r}
+remotes::install_github("NOAA-EDAB/NEespShiny", ref = "v0.1.0")
+```
+
+Or install the most recent development package:
+```{r}
+remotes::install_github("NOAA-EDAB/NEespShiny", ref = "dev")
+```
+
+## Using the `NEespShiny` package
+
+The `NEespShiny` package has only one front-end function, which initiates the app.
+```{r}
+NEespShiny::run_NEesp()
+```
+
+Within the app, the user can input different parameters to use with the report templates. Output files can be downloaded as a zipped folder, which contains a .doc of the report, an images folder (.png), and a data folder (.csv/.RDS).
+
+## Troubleshooting
+- Override package installation errors from warnings: 
+```{r}
+Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
+```
+
+- You must also have the [`NEesp` package](https://github.com/NOAA-EDAB/NEesp) installed to run the `NEespShiny` app. Explicitly install `NEesp`:
+```{r}
+remotes::install_github("NOAA-EDAB/NEesp", ref = "v0.1.0")
+```

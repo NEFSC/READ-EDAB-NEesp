@@ -1,0 +1,14 @@
+book_filename: correlation-bookdown
+delete_merged_file: yes
+rmd_files: [
+"index.Rmd",
+"01-time-trends.Rmd",
+"02-physical-indicators.Rmd",
+"03-trophic-indicators.Rmd",
+"04-trophic-indicators-stock.Rmd",
+"05-larvae-YOY.Rmd",
+"06-juvenile.Rmd",
+"07-adult.Rmd",
+"08-socioeconomic.Rmd",
+"09-summary.Rmd",
+"appendix.Rmd"]

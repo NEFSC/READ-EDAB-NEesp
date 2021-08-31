@@ -1,0 +1,211 @@
+## Trophic indicators
+
+### Chlorophyll
+
+#### Annual chlorophyll
+```{r, chl-annual}
+test <- ecodata::chl_pp %>%
+  dplyr::mutate(Var = Var %>%
+    stringr::str_replace_all("_", "\n") %>%
+    stringr::str_replace_all(" ", "\n")) %>%
+  dplyr::filter(
+    stringr::str_detect(Var, "ANNUAL"),
+    stringr::str_detect(Var, "CHLOR")
+  ) %>%
+  dplyr::mutate(Time = Time %>%
+    stringr::str_replace("A_", "") %>%
+    as.numeric())
+NEesp::render_indicator(test, lab = names[1])
+
+# data_prep(stock, test, lag = params$lag) %>% knitr::kable()
+```
+
+#### Monthly chlorophyll
+```{r, chl-month}
+test <- ecodata::chl_pp %>%
+  dplyr::mutate(Var = Var %>%
+    stringr::str_replace_all("_", "\n") %>%
+    stringr::str_replace_all(" ", "\n")) %>%
+  dplyr::filter(
+    stringr::str_detect(Var, "MONTHLY"),
+    stringr::str_detect(Var, "CHLOR")
+  ) %>%
+  dplyr::mutate(
+    Time = Time %>%
+      stringr::str_replace("M_", ""),
+    Year = Time %>%
+      stringr::str_trunc(width = 4, ellipsis = ""),
+    Month = Time %>%
+      stringr::str_trunc(width = 2, side = "left", ellipsis = ""),
+    Var = paste(Var, "month", Month, sep = "\n")
+  ) %>%
+  dplyr::select(-Time) %>%
+  dplyr::rename(Time = Year)
+NEesp::render_indicator(test, lab = names[1])
+```
+
+#### Weekly chlorophyll
+```{r, chl-week}
+test <- ecodata::chl_pp %>%
+  dplyr::mutate(Var = Var %>%
+    stringr::str_replace_all("_", "\n") %>%
+    stringr::str_replace_all(" ", "\n")) %>%
+  dplyr::filter(
+    stringr::str_detect(Var, "WEEKLY"),
+    stringr::str_detect(Var, "CHLOR")
+  ) %>%
+  dplyr::mutate(
+    Time = Time %>%
+      stringr::str_replace("W_", ""),
+    Year = Time %>%
+      stringr::str_trunc(width = 4, ellipsis = ""),
+    Week = Time %>%
+      stringr::str_trunc(width = 2, side = "left", ellipsis = ""),
+    Var = paste(Var, "week", Week, sep = "\n")
+  ) %>%
+  dplyr::select(-Time) %>%
+  dplyr::rename(Time = Year)
+NEesp::render_indicator(test, lab = names[1])
+```
+
+### Primary production
+
+#### Annual primary production
+```{r, pp-annual}
+test <- ecodata::chl_pp %>%
+  dplyr::mutate(Var = Var %>%
+    stringr::str_replace_all("_", "\n") %>%
+    stringr::str_replace_all(" ", "\n")) %>%
+  dplyr::filter(
+    stringr::str_detect(Var, "ANNUAL"),
+    stringr::str_detect(Var, "PPD")
+  ) %>%
+  dplyr::mutate(Time = Time %>%
+    stringr::str_replace("A_", "") %>%
+    as.numeric())
+NEesp::render_indicator(test, lab = names[1])
+
+# data_prep(stock, test, lag = params$lag) %>% knitr::kable()
+```
+
+#### Monthly primary production
+```{r, pp-month}
+test <- ecodata::chl_pp %>%
+  dplyr::mutate(Var = Var %>%
+    stringr::str_replace_all("_", "\n") %>%
+    stringr::str_replace_all(" ", "\n")) %>%
+  dplyr::filter(
+    stringr::str_detect(Var, "MONTHLY"),
+    stringr::str_detect(Var, "PPD")
+  ) %>%
+  dplyr::mutate(
+    Time = Time %>%
+      stringr::str_replace("M_", ""),
+    Year = Time %>%
+      stringr::str_trunc(width = 4, ellipsis = ""),
+    Month = Time %>%
+      stringr::str_trunc(width = 2, side = "left", ellipsis = ""),
+    Var = paste(Var, "month", Month, sep = "\n")
+  ) %>%
+  dplyr::select(-Time) %>%
+  dplyr::rename(Time = Year)
+NEesp::render_indicator(test, lab = names[1])
+```
+
+#### Weekly primary production
+```{r, pp-week}
+test <- ecodata::chl_pp %>%
+  dplyr::mutate(Var = Var %>%
+    stringr::str_replace_all("_", "\n") %>%
+    stringr::str_replace_all(" ", "\n")) %>%
+  dplyr::filter(
+    stringr::str_detect(Var, "WEEKLY"),
+    stringr::str_detect(Var, "PPD")
+  ) %>%
+  dplyr::mutate(
+    Time = Time %>%
+      stringr::str_replace("W_", ""),
+    Year = Time %>%
+      stringr::str_trunc(width = 4, ellipsis = ""),
+    Week = Time %>%
+      stringr::str_trunc(width = 2, side = "left", ellipsis = ""),
+    Var = paste(Var, "week", Week, sep = "\n")
+  ) %>%
+  dplyr::select(-Time) %>%
+  dplyr::rename(Time = Year)
+NEesp::render_indicator(test, lab = names[1])
+```
+
+### Zooplankton
+
+#### Spring zooplankton abundance by species
+```{r, zoo-oi-spring}
+test <- ecodata::zoo_oi %>%
+  dplyr::filter(
+    Var %>% stringr::str_detect("SD") == FALSE,
+    Var %>% stringr::str_detect("spring")
+  )
+NEesp::render_indicator(test, lab = names[1])
+```
+
+#### Fall zooplankton abundance by species
+```{r, zoo-oi-fall}
+test <- ecodata::zoo_oi %>%
+  dplyr::filter(
+    Var %>% stringr::str_detect("SD") == FALSE,
+    Var %>% stringr::str_detect("fall")
+  )
+NEesp::render_indicator(test, lab = names[1])
+```
+
+#### Zooplankton abundance by group
+```{r, zoo-strat-abun}
+test <- ecodata::zoo_strat_abun
+NEesp::render_indicator(test, lab = names[1])
+```
+
+#### Abundance of Calanus CV and adults
+```{r, calanus}
+test <- ecodata::calanus_stage %>%
+  dplyr::rename(Time = Year) %>%
+  dplyr::filter(
+    Var == "adt" | Var == "c5",
+    Units == "No. per 100m^-3"
+  ) %>%
+  dplyr::group_by(Time, EPU, season) %>%
+  dplyr::mutate(Val = sum(Value)) %>%
+  dplyr::select(Time, Val, EPU, season) %>%
+  dplyr::distinct() %>%
+  dplyr::mutate(Var = paste("Calanus CV and adult", season))
+NEesp::render_indicator(test, lab = names[1])
+```
+
+#### Zooplankton abundance anomaly
+```{r, zoo-abund}
+test <- ecodata::zoo_abund
+NEesp::render_indicator(test, lab = names[1])
+```
+
+#### Zooplankton diversity index
+```{r, zoo-diversity}
+test <- ecodata::zoo_diversity
+NEesp::render_indicator(test, lab = names[1])
+```
+
+#### Small/large copepod anomaly
+```{r, zoo-sli-anom}
+test <- ecodata::zoo_sli_anom
+NEesp::render_indicator(test, lab = names[1])
+```
+
+#### Ichthyoplankton diversity
+```{r, ich}
+test <- ecodata::ichthyo_diversity
+NEesp::render_indicator(test, lab = names[1])
+```
+
+### Forage fish abundance
+```{r, forage}
+test <- ecodata::forage_anomaly
+NEesp::render_indicator(test, lab = names[1])
+```

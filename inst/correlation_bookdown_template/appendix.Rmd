@@ -1,0 +1,11 @@
+# Appendix
+
+## R session information
+```{r, session-info, results = "markup"}
+sessionInfo()
+```
+
+## `NEesp` information
+```{r, NEesp-info, results = "markup"}
+packageDescription("NEesp")
+```
