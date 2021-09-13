@@ -1,4 +1,4 @@
-pandoc: 2.14.1
+pandoc: 2.14.2
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
@@ -13,7 +13,7 @@ articles:
   simple-methods: simple-methods.html
   testing: testing.html
   why-esp: why-esp.html
-last_built: 2021-08-26T16:06Z
+last_built: 2021-09-13T21:26Z
 urls:
   reference: https://noaa-edab.github.io/NEesp//reference
   article: https://noaa-edab.github.io/NEesp//articles
