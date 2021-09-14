@@ -43,7 +43,7 @@ jobs:
       - name: Deploy new README to Github
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
-          token: ${{ secrets.GH_PAT }}
+            token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ env.branch }} # The branch the action should deploy to.
           folder: . # The folder the action should deploy.
           clean: false # Automatically remove deleted files from the deploy branch
