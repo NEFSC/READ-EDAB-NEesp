@@ -80,12 +80,12 @@ plot_correlation <- function(data,
 
   data <- data %>%
     tibble::as_tibble()
-
+  
   if (nrow(data) > 0) {
     my_colors <- c("black", "#B2292E", "gray")
     names(my_colors) <- c("FALSE", "TRUE", "NA")
 
-    fig <- ggplot2::ggplot(
+    fig <- try({ggplot2::ggplot(
       data,
       ggplot2::aes(
         x = .data$Val,
@@ -116,9 +116,11 @@ plot_correlation <- function(data,
       ggplot2::theme(
         axis.title = ggplot2::element_blank(),
         legend.position = "bottom"
-      )
+      )}
+    )
 
     print(fig)
+
   } else {
     print("No data under conditions selected")
   }
@@ -148,7 +150,7 @@ correlation_data <- function(data, lag = 0) {
           dplyr::filter(.data$Metric == i, .data$Var == j)
 
         if (nrow(dat) > 0) {
-          results <- stats::lm(.data$Value ~ .data$Val,
+          results <- stats::lm(Value ~ Val,
             data = dat
           ) %>%
             summary()
@@ -214,7 +216,7 @@ correlation_summary <- function(data, lag = 0) {
           dplyr::filter(.data$Metric == i, .data$Var == j)
 
         if (nrow(dat) > 0) {
-          results <- stats::lm(.data$Value ~ .data$Val,
+          results <- stats::lm(Value ~ Val,
             data = dat
           ) %>%
             summary()
