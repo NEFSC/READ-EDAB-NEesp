@@ -7,4 +7,5 @@
 ^NEesp\.Rproj$
 docs
 .Rproj.user
-^Regressions/**
+Regressions
+data-raw/MRIP/gitignore
