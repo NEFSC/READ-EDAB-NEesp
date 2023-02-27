@@ -209,3 +209,10 @@ NEesp::render_indicator(test, lab = names[1])
 test <- ecodata::forage_anomaly
 NEesp::render_indicator(test, lab = names[1])
 ```
+
+### Seabird abundance
+```{r, seabird}
+test <- ecodata::seabird_mab %>%
+  dplyr::rename(Var = Group)
+NEesp::render_indicator(test, lab = names[1])
+```

@@ -7,3 +7,4 @@
 ^NEesp\.Rproj$
 docs
 .Rproj.user
+^Regressions/**

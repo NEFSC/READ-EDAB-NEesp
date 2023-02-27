@@ -68,6 +68,7 @@ if(class(data) == "try-error") {
   try(knitr::kable(head(stock)))
   cat("\n\n")
   try(knitr::kable(head(data)))
+  cat("\n\n")
   eval_epu <- FALSE
 }
 ```
@@ -97,7 +98,7 @@ if(class(data) == "try-error") {
       file_name <- paste("data/", name, ".RDS", sep = "")
       saveRDS(data, file_name)
       }
-}
+  }
 ```
 
 ##### Figures {-}
@@ -118,15 +119,21 @@ if(names[1] == "pp-week" | names[1] == "chl-week"){
 
 data <- data %>%
   tibble::as_tibble() %>%
-  tidyr::drop_na()
+  tidyr::drop_na(Var, facet)
 
 var_names <- unique(data$Var)
 nvar <- length(var_names)
 bonf_n <- bonf_n + nvar
 
 if (nvar > 6) { # break up into multiple graphs
-  for (i in 1:round(nvar / 6)) {
+  message(nvar)
+  message(nvar/6)
+  message(ceiling(nvar/6))
+
+  for (i in 1:ceiling(nvar / 6)) {
     index <- ((i - 1) * 6 + 1):(i * 6)
+    index <- index[index <= nvar]
+    message(paste(index, collapse = ", "))
     dat <- data %>%
       dplyr::filter(Var %in% var_names[index])
 
@@ -152,12 +159,14 @@ print("No data for the EPU selected")
 ##### Regression statistics {-}
 ```{r, results = "asis", eval = eval_epu}
 # correlation tables
+message("correlation data")
 NEesp::correlation_data(
   data = data,
   lag = params$lag
 )
 
 # correlation summary (to go at end of report)
+message("correlation table")
 output <- rbind(output, NEesp::correlation_summary(
   data = data,
   lag = params$lag
@@ -189,6 +198,7 @@ this_abun <- data %>%
 if (nrow(this_abun) > 0) {
   abun_data <- rbind(abun_data, this_abun)
 }
+message("regression data")
 ```
 
 ```{r, eval = (eval_epu == FALSE)}

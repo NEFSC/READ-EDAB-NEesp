@@ -23,25 +23,29 @@ params:
 
 ```{r setup, include = FALSE}
 if (params$stock == "Monkfish") {
-  stock <- assessmentdata::stockAssessmentData %>%
+  stock <- stocksmart::stockAssessmentData %>%
+    dplyr::rename(Species = CommonName,
+                  Region = StockArea,
+                  Time = Year) %>%
     dplyr::filter(
       Species == "Goosefish",
       Region == params$region
     ) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(max_year = max(AssessmentYear)) %>%
-    dplyr::filter(AssessmentYear == max_year) %>%
-    dplyr::rename(Time = Year)
+    dplyr::filter(AssessmentYear == max_year)
 } else {
-  stock <- assessmentdata::stockAssessmentData %>%
+  stock <- stocksmart::stockAssessmentData %>%
+        dplyr::rename(Species = CommonName,
+                  Region = StockArea,
+                  Time = Year) %>%
     dplyr::filter(
       Species == params$stock,
       Region == params$region
     ) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(max_year = max(AssessmentYear)) %>%
-    dplyr::filter(AssessmentYear == max_year) %>%
-    dplyr::rename(Time = Year)
+    dplyr::filter(AssessmentYear == max_year) 
 }
 
 if (params$remove_recent) {
@@ -49,6 +53,8 @@ if (params$remove_recent) {
   stock <- stock %>%
     dplyr::filter(Time <= (max_year - 10))
 }
+
+message(max(stock$Time))
 
 output <- c()
 
