@@ -1,4 +1,4 @@
-url: https://noaa-edab.github.io/NEesp/
+url: https://nefsc.github.io/READ-EDAB-NEesp/
 
 news:
   one_page: true
@@ -6,8 +6,8 @@ news:
 authors:
   Abigail Tyrell:
     href: https://github.com/atyrell3
-  Ricky Tabandera:
-    href: https://github.com/rtabandera
+  Stephanie Owen:
+    href: https://github.com/stephanie-owen
     
 navbar:
   left:
