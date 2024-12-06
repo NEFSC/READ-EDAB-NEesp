@@ -1,0 +1,218 @@
+url: https://nefsc.github.io/READ-EDAB-NEesp/
+
+news:
+  one_page: true
+
+authors:
+  Abigail Tyrell:
+    href: https://github.com/atyrell3
+  Stephanie Owen:
+    href: https://github.com/stephanie-owen
+    
+navbar:
+  left:
+    - text: "Vignettes"
+      menu:
+      -  text: "Install and use package"
+         href: articles/install-and-use-package.html
+      -  text: "Use NEesp with the NEespShiny app"
+         href: articles/shiny-app.html
+      -  text: "Data in NEesp"
+         href: articles/data.html
+    - text: "About ESP"
+      menu:
+      -  text: "Why ESP?"
+         href: articles/why-esp.html
+      -  text: "Simple description of methods"
+         href: articles/simple-methods.html
+      -  text: "Creating the risk assessment"
+         href: articles/risk-assessment.html
+    - text: "Report writing methods"
+      menu:
+      -  text: "Intro to RMarkdown for report writing"
+         href: articles/rmarkdown-intro.html
+      -  text: "General report creation workflow"
+         href: articles/general-workflow.html
+      -  text: "Report templates"
+         href: articles/bookdown-templates.html
+      -  text: "Creating reports with Github Actions"
+         href: articles/github-actions.html
+      -  text: "Report testing"
+         href: articles/testing.html
+
+    - text: "Functions"
+      href: reference/index.html
+    - text: "News"
+      href: news/index.html
+  right:
+    - icon: fas fa-paper-plane fa-lg
+      href: mailto:abigail.tyrell@noaa.gov
+    - icon: fas fa-question-circle fa-lg
+      href: https://github.com/NOAA-EDAB/NEesp/issues/
+    - icon: fab fa-github fa-lg
+      href: https://github.com/NOAA-EDAB/NEesp
+    - icon: fa-fish
+      href: https://nmfs-general-modeling-tools.github.io/
+
+articles:
+    toc:
+      depth: 3
+
+reference:
+  - title: Stock reports suite of functions
+    desc: Functions to create stock reports, prepare, manipulate, analyze, and summarise data for reports, and plot data for reports.
+  - subtitle: Create a report
+    contents:
+      - '`render_ind_report`'
+  - subtitle: Prepare, manipulate, analyze, and summarise data  
+    contents:
+      - '`data_summary`'
+      - '`data_summary_5yr`'
+      - '`generate_len_table`'
+      - '`generate_table`'
+      - '`get_diet_table`'
+      - '`get_latlong`'
+      - '`get_len_data`'
+      - '`get_len_data2`'
+      - get_len_data_tbl
+      - '`get_var_data`'
+      - '`len_tbl_data`'
+      - '`len_tbl_data_5yr`'
+      - '`prop_catch_data`'
+  - subtitle: Miscellaneous data processing
+    contents:
+      - '`status`'
+      - '`update_species_names`'
+      - '`common_names_survdat`'
+  - subtitle: Plot data
+    contents:
+      - generate_len_plot
+      - generate_plot
+      - get_diet_plot
+      - map_strata 
+      - '`plot_age_density`'
+      - '`plot_age_diversity`'
+      - '`plot_asmt`'
+      - '`plot_climate_vulnerability`'
+      - '`plot_com`'
+      - '`plot_com_money`'
+      - '`plot_cond`'
+      - '`plot_depth`'
+      - '`plot_ecodata`'
+      - '`plot_len`'
+      - '`plot_len_hist`'
+      - '`plot_lw`'
+      - '`plot_msy`'
+      - '`plot_prop_catch`'
+      - '`plot_rec_catch`'
+      - '`plot_relw`'
+      - '`plot_swept`'
+      - '`plot_temp_depth`'
+      - '`plot_variable`'
+      - '`plot_rec_catch`'
+      - '`plot_rec_catch`'
+      
+  - title: Stock regression reports suite of functions
+    desc: Functions to create stock-indicator regression reports, prepare, manipulate, analyze, and summarise data for stock-indicator regression reports, and plot data for stock-indicator regression reports.
+    subtitle: Create reports
+    contents:      
+      - '`render_reg_report`'
+      - '`render_all_reg`'
+  - subtitle: Prepare, manipulate, analyze, and summarise data
+    contents:
+      - '`correlation_data`' 
+      - '`correlation_summary`' 
+      - '`data_prep`' 
+      - '`prep_data`'
+  - subtitle: Plot data
+    contents:        
+      - '`plot_correlation`'
+  - subtitle: Create report section
+    contents:        
+      - '`render_indicator`'
+      
+  - title: Risk data suite of functions
+    desc: Functions to prepare, manipulate, analyze, and summarise risk data
+  - subtitle: Create a risk report
+    contents:      
+      - '`render_comp_risk`'
+  - subtitle: Calculate risks
+    contents:  
+      - '`get_len_data_risk`'
+      - '`get_risk`'
+      - '`get_running_risk`'
+      - '`get_running_value_risk`'
+      - '`get_species_risk`'
+  - subtitle: Process data
+    contents:    
+      - '`missing_na`'
+  - subtitle: Plot data
+    contents:
+      - '`plot_risk_by_year`'
+
+  - title: Report card suite of functions
+    desc: Functions to prepare, manipulate, analyze, and summarise data and create an ecosystem and socioeconomics status "report card" with graphs and summary tables. Primarily used by the `NEespShiny` package, not run directly.
+  - subtitle: Wrapper function for all report card analysis
+    contents:
+      - '`wrap_analysis`'    
+  - subtitle: Data pre-processing
+    contents:
+      - '`prep_data`'    
+  - subtitle: Plot data
+    contents:
+      - '`plot_corr_only`'
+  - subtitle: Create report card data
+    contents:
+      - '`time_rpt`'
+  - subtitle: Create report cards
+    contents:
+      - '`make_time_rpt`'     
+      - '`make_ind_rpt`'
+      
+  - title: Miscellaneous functions
+    contents:
+      - '`common_names_survdat`'
+      - '`character_to_factor`'
+      - '`find_files`'
+      - '`format_numbers`'
+      - make_html_table
+      - make_html_table_thin
+      - '`pseudoR2`'
+      - '`save_data`'
+      
+  - title: Data
+  - subtitle: Stock data
+    contents:
+      - '`asmt`'
+      - '`bio_survey`'
+      - '`climate_risk`'
+      - '`climate_vulnerability`'
+      - '`com_catch`'
+      - '`cond`'
+      - '`latlong`'      
+      - '`nrcc`'
+      - '`shape`'      
+      - '`survey`'
+      - '`swept`'  
+  - subtitle: Risk data
+    contents:
+      - '`guild_risk`'
+      - '`risk`'      
+      - '`risk_species`'
+      - '`risk_year_hist`'      
+      - '`risk_year_value`'    
+  - subtitle: Data keys
+    contents:
+      - '`guild_info`'
+      - '`species_guilds`'
+      - '`species_key`' 
+      - '`regression_species_regions`'
+      - '`indicator_info`'
+  - subtitle: Color palettes
+    contents:
+      - '`com_palette`'
+      - '`prey_palette`' 
+      - '`rec_palette`' 
+
+template:
+  package: preferably
