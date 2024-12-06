@@ -10,6 +10,7 @@ on:
       - 'DESCRIPTION'
       - 'LICENSE'
       - '_pkgdown.yml'
+      - '.github/workflows/deploy_pkgdown.yml'
 
 name: Deploy pkgdown
 
