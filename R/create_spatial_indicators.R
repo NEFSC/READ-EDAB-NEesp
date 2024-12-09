@@ -2,141 +2,171 @@
 
 #' Create Bottom Temperature Indicator
 #'
-#' This function generates a bottom temperature indicator from an input data frame with GLORYS data to an R object
-#' Prior to running function, should convert GLORYS netCDF files to data frames using 'convert_netcdf_raster_df.R' in this package.
-#' @param data Dataframe name or filepath to the indicator data
-#' @param shape Spatial shape file input
-#' @param columns Number of columns of bottom temperature data. Column titles will be in the format of "X1990.01.01.12.00.00" with date and time corresponding to each month. 
-#' @param return Boolean. Whether to return the indicator as an object in the global environment\
-#' @return Saves R object `bottomT`, returns bottom temperature indicator
-#' @importFrom magrittr `%>%`
+#' This function generates a bottom temperature indicator from a GLORYS netCDF file. 
+#' The function passes data through EDABUtilities::make_2d_summary_ts, which provides summary statistics of 2d gridded data as time series by area.
+#' Converts .nc files to data frame.
+#' @param data.in Either a character vector of full input file names for a list of spatRasters
+#' @param output.files character vector of full output file names corresponding to each input file
+#' @param shp.file  string. Shape file you wish to crop each input file to
+#' @param var.name string. Variable name you wish to extract = 'bottomT'
+#' @param area.names character vector. Names of shape file areas you want to summarize. 
+#' @param statistic string. Which statistic to calculate = 'mean'
+#' @param agg.time character. Time scale to calculate over (days, doy, months, season, or years)
+#' @param tz string. Time zone to convert. No correction if NA
+#' @param touches logical. If TRUE, all cells touched by lines or polygons will be masked, not just those on the line render path, or whose center point is within the polygon
+#' @param write.out logical. If TRUE, will write a netCDF file with output.files. If FALSE will return a list of spatRasters
+#' @return Saves R object `bottomT`, returns bottom temp indicator in a data frame summarized by timestep for each area.names
+#' @importFrom magrittr "%>%"
 #' @export
 #'
 `%>%` <- magrittr::`%>%`
 
-create_bottomT <- function(data, columns, shape, return = TRUE){
-  bottomT <- data %>%
-    tidyr::pivot_longer(cols=c(columns),
-                        names_to='date',
-                        values_to='bottomT') %>%
-    dplyr::mutate(year = stringr::str_sub(date, 2, 5), month = stringr::str_sub(date, 7, 8) |> as.numeric()) %>%
-    subset(select = -c(date) ) %>%
-    dplyr::rename(Longitude = 'x') %>%
-    dplyr::rename(Latitude = 'y') %>%
+create_bottomT <- function(...) { 
+  make_2d_summary_output <- EDABUtilities::make_2d_summary_ts(...) 
+  df <- make_2d_summary_output %>%
+    terra::as.data.frame(na.rm = FALSE) 
+  bottomT <- df %>%
+    dplyr::mutate(time = as.Date(time),
+                  day = lubridate::day(time), month = lubridate::month(time), year = lubridate::year(time)) %>%
     dplyr::mutate(Units = c ('degC')) %>%
+    subset(select = -c(agg.time, time) ) 
   
   return(bottomT)
 }
 
-#bottomT <- create_bottomT(JanFeb, 1:4) 
-
 #' Create Sea Surface Temperature Indicator
 #'
-#' This function generates a sea surface temperature indicator from an input data frame with ERDDAP data to an R object
-#' Prior to running function, should convert ERDDAP netCDF files to data frames using 'convert_netcdf_raster_df.R' in this package.
-#' @param data Dataframe name or filepath to the indicator data
-#' @param shape Spatial shape file input
-#' @param year Data year(s)
-#' @param return Boolean. Whether to return the indicator as an object in the global environment\
-#' @return Saves R object `seasurfacetemp`, returns sea surface temperature indicator
-#' @importFrom magrittr `%>%`
+#' This function generates a sea surface temperature indicator from an OISST ERDDAP netCDF file. 
+#' The function passes data through EDABUtilities::make_2d_summary_ts, which provides summary statistics of 2d gridded data as time series by area.
+#' Converts .nc files to data frame.
+#' @param data.in Either a character vector of full input file names for a list of spatRasters
+#' @param output.files character vector of full output file names corresponding to each input file
+#' @param shp.file  string. Shape file you wish to crop each input file to
+#' @param var.name string. Variable name you wish to extract = 'sst'
+#' @param area.names character vector. Names of shape file areas you want to summarize. 
+#' @param statistic string. Which statistic to calculate = 'mean'
+#' @param agg.time character. Time scale to calculate over (days, doy, months, season, or years)
+#' @param tz string. Time zone to convert. No correction if NA
+#' @param touches logical. If TRUE, all cells touched by lines or polygons will be masked, not just those on the line render path, or whose center point is within the polygon
+#' @param write.out logical. If TRUE, will write a netCDF file with output.files. If FALSE will return a list of spatRasters
+#' @return Saves R object `sst`, returns sea surface temp indicator in a data frame summarized by timestep for each area.names
+#' @importFrom magrittr "%>%"
 #' @export
 #'
 `%>%` <- magrittr::`%>%`
 
-create_sst <- function(data, year, shape, return = TRUE){
-  seasurfacetemp <- data %>%
-    dplyr::rename(Longitude = 'x') %>%
-    dplyr::rename(Latitude = 'y') %>%
-    dplyr::rename(January = 1, February = 2, March = 3, April = 4,
-                  May = 5, June = 6, July = 7, August = 8,
-                  September = 9, October = 10, November = 11, December = 12) %>%
-    dplyr::mutate(Year = c (year)) %>%
+create_sst <- function(...) { 
+  make_2d_summary_output <- EDABUtilities::make_2d_summary_ts(...) 
+  df <- make_2d_summary_output %>%
+    terra::as.data.frame(na.rm = FALSE) 
+  sst <- df %>%
+    dplyr::mutate(time = as.Date(time),
+                  day = lubridate::day(time), month = lubridate::month(time), year = lubridate::year(time)) %>%
     dplyr::mutate(Units = c ('degC')) %>%
+    subset(select = -c(agg.time, time) ) 
   
-  return(seasurfacetemp)
+  return(sst)
 }
-
-#sst <- create_sst(sst_1989, 1989)
 
 #' Create Salinity Indicator
 #'
-#' This function generates a salinity indicator from an input data frame with GLORYS data to an R object
-#' Prior to running function, should convert GLORYS netCDF files to data frames using 'convert_netcdf_raster_df.R' in this package.
-#' Column names are depth contours in meters.
-#' @param data Dataframe name or filepath to the indicator data
-#' @param shape Spatial shape file input
-#' @param year Data year(s)
-#' @param month Data month(s)
-#' @param return Boolean. Whether to return the indicator as an object in the global environment\
-#' @return Saves R object `sal`, returns salinity indicator
-#' @importFrom magrittr `%>%`
+#' This function generates a salinity indicator from a GLORYS netCDF file. 
+#' The function passes data through EDABUtilities::make_2d_summary_ts, which provides summary statistics of 2d gridded data as time series by area.
+#' Converts .nc files to data frame.
+#' @param data.in Either a character vector of full input file names for a list of spatRasters
+#' @param output.files character vector of full output file names corresponding to each input file
+#' @param shp.file  string. Shape file you wish to crop each input file to
+#' @param var.name string. Variable name you wish to extract = 'sal'
+#' @param area.names character vector. Names of shape file areas you want to summarize. 
+#' @param statistic string. Which statistic to calculate = 'mean'
+#' @param agg.time character. Time scale to calculate over (days, doy, months, season, or years)
+#' @param tz string. Time zone to convert. No correction if NA
+#' @param touches logical. If TRUE, all cells touched by lines or polygons will be masked, not just those on the line render path, or whose center point is within the polygon
+#' @param write.out logical. If TRUE, will write a netCDF file with output.files. If FALSE will return a list of spatRasters
+#' @return Saves R object `sal`, returns salinity indicator in a data frame summarized by timestep for each area.names
+#' @importFrom magrittr "%>%"
 #' @export
 #'
 `%>%` <- magrittr::`%>%`
 
-create_sal <- function(data, year, month, shape, return = TRUE){
-  sal <- data %>%
-    dplyr::rename(Longitude = 'x') %>%
-    dplyr::rename(Latitude = 'y') %>%
-    dplyr::mutate(Year = c (year)) %>%
-    dplyr::mutate(Month = c(month)) %>%
-    dplyr::mutate(Units = c ('psu')) %>%
+create_sal <- function(...) { 
+  make_2d_summary_output <- EDABUtilities::make_2d_summary_ts(...) 
+  df <- make_2d_summary_output %>%
+    terra::as.data.frame(na.rm = FALSE) 
+  sal <- df %>%
+    dplyr::mutate(time = as.Date(time),
+                  day = lubridate::day(time), month = lubridate::month(time), year = lubridate::year(time)) %>%
+    subset(select = -c(agg.time, time))  %>%
     purrr::discard(~all(is.na(.)))
-    
-    return(sal)
+  
+  return(sal)
 }
-
-#sal <- create_sal(sal_1993, 1993, 'January') 
 
 #' Create Chlorophyll-a Indicator
 #'
-#' This function generates a chlorophyll-a indicator from an input data frame with OCCCI ERDDAP data to an R object
-#' Prior to running function, should convert ERDDAP netCDF files to data frames using 'convert_netcdf_raster_df.R' in this package.
-#' @param data Dataframe name or filepath to the indicator data
-#' @param shape Spatial shape file input
-#' @param year Data year(s)
-#' @param return Boolean. Whether to return the indicator as an object in the global environment
-#' @return Saves R object `chl`, returns chlorophyll-a indicator
-#' @importFrom magrittr `%>%`
+#' This function generates a chlorophyll-a indicator from an OCCCI ERDDAP netCDF file. 
+#' The function passes data through EDABUtilities::make_2d_summary_ts, which provides summary statistics of 2d gridded data as time series by area.
+#' Converts .nc files to data frame.
+#' @param data.in Either a character vector of full input file names for a list of spatRasters
+#' @param output.files character vector of full output file names corresponding to each input file
+#' @param shp.file  string. Shape file you wish to crop each input file to
+#' @param var.name string. Variable name you wish to extract = 'chl'
+#' @param area.names character vector. Names of shape file areas you want to summarize. 
+#' @param statistic string. Which statistic to calculate = 'mean'
+#' @param agg.time character. Time scale to calculate over (days, doy, months, season, or years)
+#' @param tz string. Time zone to convert. No correction if NA
+#' @param touches logical. If TRUE, all cells touched by lines or polygons will be masked, not just those on the line render path, or whose center point is within the polygon
+#' @param write.out logical. If TRUE, will write a netCDF file with output.files. If FALSE will return a list of spatRasters
+#' @return Saves R object `chl`, returns chlorophyll-a indicator in a data frame summarized by timestep for each area.names
+#' @importFrom magrittr "%>%"
 #' @export
 #'
 `%>%` <- magrittr::`%>%`
 
-create_chl <- function(data, year, shape, return = TRUE){
-  chl <- data %>%
-    dplyr::rename(Longitude = 'x') %>%
-    dplyr::rename(Latitude = 'y') %>%
-    dplyr::rename(January = 1, February = 2, March = 3, April = 4,
-                  May = 5, June = 6, July = 7, August = 8,
-                  September = 9, October = 10, November = 11) %>%
-    dplyr::mutate(Year = c (year)) %>%
+create_chl <- function(...) { 
+  make_2d_summary_output <- EDABUtilities::make_2d_summary_ts(...) 
+  df <- make_2d_summary_output %>%
+    terra::as.data.frame(na.rm = FALSE) 
+  chl <- df %>%
+    dplyr::mutate(time = as.Date(time),
+                  day = lubridate::day(time), month = lubridate::month(time), year = lubridate::year(time)) %>%
     dplyr::mutate(Units = c ('mg m^-3')) %>%
-    
-    return(chl)
+    subset(select = -c(agg.time, time) ) 
+  
+  return(chl)
 }
 
-#chl <- create_chl(chl_2017, 2017)
 
-#' Create Primary Production (mean) Indicator
+#' Create Primary Production Indicator
 #'
-#' This function generates a primary production indicator from an input data frame with OCCCI ERDDAP data to an R object
-#' Prior to running function, should convert ERDDAP netCDF files to data frames using 'convert_netcdf_raster_df.R' in this package.
-#' @param data Dataframe name or filepath to the indicator data
-#' @param shape Spatial shape file input
-#' @param year Data year(s)
-#' @param return Boolean. Whether to return the indicator as an object in the global environment
-#' @return Saves R object `pp`, returns primary production indicator
-#' @importFrom magrittr `%>%`
+#' This function generates a primary productivity indicator from an ERDDAP netCDF file. 
+#' The function passes data through EDABUtilities::make_2d_summary_ts, which provides summary statistics of 2d gridded data as time series by area.
+#' Converts .nc files to data frame.
+#' @param data.in Either a character vector of full input file names for a list of spatRasters
+#' @param output.files character vector of full output file names corresponding to each input file
+#' @param shp.file  string. Shape file you wish to crop each input file to
+#' @param var.name string. Variable name you wish to extract = 'pp'
+#' @param area.names character vector. Names of shape file areas you want to summarize. 
+#' @param statistic string. Which statistic to calculate = 'mean'
+#' @param agg.time character. Time scale to calculate over (days, doy, months, season, or years)
+#' @param tz string. Time zone to convert. No correction if NA
+#' @param touches logical. If TRUE, all cells touched by lines or polygons will be masked, not just those on the line render path, or whose center point is within the polygon
+#' @param write.out logical. If TRUE, will write a netCDF file with output.files. If FALSE will return a list of spatRasters
+#' @return Saves R object `pp`, returns primary production indicator in a data frame summarized by timestep for each area.names
+#' @importFrom magrittr "%>%"
 #' @export
 #'
 `%>%` <- magrittr::`%>%`
 
-create_pp <- function(data, year, shape, return = TRUE){
-  pp <- data %>%
-    dplyr::rename(Longitude = 'x') %>%
-    dplyr::rename(Latitude = 'y') %>%
+create_pp <- function(...) { 
+  make_2d_summary_output <- EDABUtilities::make_2d_summary_ts(...) 
+  df <- make_2d_summary_output %>%
+    terra::as.data.frame(na.rm = FALSE) 
+  pp <- df %>%
+    dplyr::mutate(time = as.Date(time),
+                  day = lubridate::day(time), month = lubridate::month(time), year = lubridate::year(time)) %>%
     dplyr::mutate(Units = c ('mg m^-3')) %>%
-    
-    return(pp)
+    subset(select = -c(agg.time, time) ) 
+  
+  return(pp)
 }
