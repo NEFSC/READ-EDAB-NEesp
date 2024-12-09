@@ -13,6 +13,7 @@
 #'Positive values == colder 
 #'Negative values == warmer
 #'
+library(dplyr)
 create_coldpool_index <- function(data){
   coldpool_index <- data |>
     dplyr::filter(Var == 'cold_pool_index') %>%

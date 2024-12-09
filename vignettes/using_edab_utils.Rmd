@@ -29,6 +29,7 @@ Crops a 2D netCDF based on the extent of a shape file.
 crop_bottomT <- EDABUtilities::crop_nc_2d(data.in = c(here::here('data','glorys_bottomT.nc')),
                             output.files = c(here::here('data','crop_glorys_bottomT.nc')),
                             shp.file = here::here('shapefiles','BTS_STRATA.shp'),
+                            #area.names = c('01030'),
                             var.name = 'bottomT',
                             write.out = F)
 
@@ -43,6 +44,7 @@ crop_bottomS <- EDABUtilities::crop_nc_2d(data.in = c(here::here('data','glorys_
                             write.out = F)
 
 terra::plot(crop_bottomS[[1]])
+
 ```
 
 
@@ -59,7 +61,7 @@ monthly_bt <- EDABUtilities::make_2d_summary_ts(data.in = c(here::here('data','g
                                            '01140', '01150', '01670', '01680', '01710', '01720', 
                                            '01750', '01760'),
                             statistic = 'mean',
-                            agg.time = 'months',
+                            agg.time = 'days',
                             tz = NA,
                             touches = TRUE,
                             write.out = F)
@@ -110,8 +112,8 @@ dd <- EDABUtilities::make_2d_deg_day_ts(data.in = c(here::here('data','glorys_bo
                               shp.file = here::here('shapefiles','BTS_STRATA.shp'),
                               var.name = 'bottomT',
                               area.names = c('01030', '01040', '01070', '01080', '01110', '01120', 
-                                             '01140', '01150', '01670', '01680', '01710', '01720', 
-                                             '01750', '01760'),
+                                            '01140', '01150', '01670', '01680', '01710', '01720', 
+                                            '01750', '01760'),
                    ref.value = 14,
                    type = 'above',
                    statistic = 'nd',
