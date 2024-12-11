@@ -48,7 +48,7 @@ navbar:
       href: news/index.html
   right:
     - icon: fas fa-paper-plane fa-lg
-      href: mailto:abigail.tyrell@noaa.gov
+      href: mailto:stephanie.owen@noaa.gov
     - icon: fas fa-question-circle fa-lg
       href: https://github.com/NOAA-EDAB/NEesp/issues/
     - icon: fab fa-github fa-lg
