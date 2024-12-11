@@ -56,9 +56,9 @@ navbar:
     - icon: fa-fish
       href: https://nmfs-general-modeling-tools.github.io/
 
-articles:
-    toc:
-      depth: 3
+#articles:
+ #   toc:
+  #    depth: 3
 
 reference:
   - title: Stock reports suite of functions
