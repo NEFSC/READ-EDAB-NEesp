@@ -33,10 +33,10 @@ jobs:
         with:
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::pkgdown, local::.
-          needs: website
+    #  - uses: r-lib/actions/setup-r-dependencies@v2
+     #   with:
+      #    extra-packages: any::pkgdown, local::.
+       #   needs: website
 
       - name: Cache R packages
         uses: actions/cache@v2
