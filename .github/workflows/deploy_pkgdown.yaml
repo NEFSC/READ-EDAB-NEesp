@@ -1,14 +1,13 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
-# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
   release:
     types: [published]
   workflow_dispatch:
 
-name: pkgdown.yaml
+name: Deploy pkgdown
 
 permissions: read-all
 
@@ -23,11 +22,14 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - uses: r-lib/actions/setup-pandoc@v2
+      - name: Install Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
 
-      - uses: r-lib/actions/setup-r@v2
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
@@ -35,6 +37,25 @@ jobs:
         with:
           extra-packages: any::pkgdown, local::.
           needs: website
+
+      - name: Cache R packages
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: pkgdown-cache-05172021-AT
+
+      - name: Load R packages
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          sudo R CMD javareconf
+          Rscript -e 'install.packages(c("pkgdown", "stringi", "car", "devtools"), dependencies = TRUE)'
+          
+      - name: Load more R packages
+        run: |
+         Rscript -e 'install.packages(c("textshaping", "ragg"))
+         devtools::install_github("amirmasoudabdol/preferably", upgrade = "never")
+         devtools::install_github("NOAA-EDAB/NEesp", ref = "v0.1.0", upgrade = "never")'
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
