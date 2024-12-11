@@ -45,10 +45,10 @@ jobs:
          devtools::install_github("amirmasoudabdol/preferably", upgrade = "never")
          devtools::install_github("NOAA-EDAB/NEesp", ref = "v0.1.0", upgrade = "never")'
          
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::pkgdown, local::.
-          needs: website
+ #     - uses: r-lib/actions/setup-r-dependencies@v2
+  #      with:
+   #       extra-packages: any::pkgdown, local::.
+    #      needs: website
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
