@@ -1,0 +1,131 @@
+---
+title: "Using EDAB Utilities Functions for NE ESPs"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using EDAB Utilities Functions for NE ESPs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  eval = FALSE
+)
+```
+
+
+## EDAB Utilities 
+
+This vignette demonstrates use of functions within the EDABUtilities package (https://github.com/NEFSC/READ_EDAB_Utilities/tree/main) in examining ecosystem data for ESPs. The example functions here apply input data (as .nc files) and shape files utilized in the golden tilefish ESP. 
+
+### Crop netCDFs of bottom temperature and bottom salinity to shape file of BTS strata
+
+Crops a 2D netCDF based on the extent of a shape file.
+
+```{r}
+crop_bottomT <- EDABUtilities::crop_nc_2d(data.in = c(here::here('data','glorys_bottomT.nc')),
+                            output.files = c(here::here('data','crop_glorys_bottomT.nc')),
+                            shp.file = here::here('shapefiles','BTS_STRATA.shp'),
+                            #area.names = c('01030'),
+                            var.name = 'bottomT',
+                            write.out = F)
+
+terra::plot(crop_bottomT[[1]])
+```
+
+```{r}
+crop_bottomS <- EDABUtilities::crop_nc_2d(data.in = c(here::here('data','glorys_bottomS.nc')),
+                            output.files = c(here::here('data','crop_glorys_bottomS.nc')),
+                            shp.file = here::here('shapefiles','BTS_STRATA.shp'),
+                            var.name = 'bottomS',
+                            write.out = F)
+
+terra::plot(crop_bottomS[[1]])
+
+```
+
+
+### Make 2d summary time series: mean monthly bottom temperature in golden tilefish BTS strata 
+
+Provides summary statistics of 2d gridded data as time series by area.
+
+```{r}
+monthly_bt <- EDABUtilities::make_2d_summary_ts(data.in = c(here::here('data','glorys_bottomT.nc')),
+                            output.files = c(here::here('data','GLORYS_monthly_bottomT.nc')),
+                            shp.file = here::here('shapefiles','BTS_STRATA.shp'),
+                            var.name = 'bottomT',
+                            area.names = c('01030', '01040', '01070', '01080', '01110', '01120', 
+                                           '01140', '01150', '01670', '01680', '01710', '01720', 
+                                           '01750', '01760'),
+                            statistic = 'mean',
+                            agg.time = 'days',
+                            tz = NA,
+                            touches = TRUE,
+                            write.out = F)
+
+ggplot2::ggplot(monthly_bt[[1]],ggplot2::aes(x = time, y= value))+
+  ggplot2::geom_line(lwd = 1)+ 
+  ggplot2::labs(title = 'Monthly Bottom Temperature in GTF Strata') +
+  ggplot2::xlab('Month') +
+  ggplot2::ylab('Bottom Temperature') +
+  ggplot2::theme_bw() +
+  ggplot2::facet_wrap(~area)
+```
+
+### Make 2d summary time series: mean daily bottom salinity in golden tilefish BTS strata 
+
+Provides summary statistics of 2d gridded data as time series by area.
+
+```{r}
+daily_bS <- EDABUtilities::make_2d_summary_ts(data.in = c(here::here('data','glorys_bottomS.nc')),
+                   output.files = c(here::here('data','GLORYS_daily_bottomS.nc')),
+                   shp.file = here::here('shapefiles','BTS_STRATA.shp'),
+                   var.name = 'bottomS',
+                   area.names = c('01030', '01040', '01070', '01080', '01110', '01120', 
+                                           '01140', '01150', '01670', '01680', '01710', '01720', 
+                                           '01750', '01760'),
+                   statistic = 'mean',
+                   agg.time = 'days',
+                   tz = NA,
+                   touches = TRUE,
+                   write.out = F)
+
+ggplot2::ggplot(daily_bS[[1]],ggplot2::aes(x = time, y= value))+
+  ggplot2::geom_line(lwd = 1)+ 
+  ggplot2::labs(title = 'Daily Bottom Salinity in GTF Strata') +
+  ggplot2::xlab('Days') +
+  ggplot2::ylab('Bottom Salinity') +
+  ggplot2::theme_bw() +
+  ggplot2::facet_wrap(~area)
+```
+
+### Make 2d gridded time series: calculate number of days (nd) above a bottom temperature threshold (14C) in the golden tilefish BTS strata
+
+Provides a data frame of degree-day family statistics
+
+```{r}
+dd <- EDABUtilities::make_2d_deg_day_ts(data.in = c(here::here('data','glorys_bottomT.nc')),
+                              output.files = c(here::here('data','GLORYS_monthly_bottomT.nc')),
+                              shp.file = here::here('shapefiles','BTS_STRATA.shp'),
+                              var.name = 'bottomT',
+                              area.names = c('01030', '01040', '01070', '01080', '01110', '01120', 
+                                            '01140', '01150', '01670', '01680', '01710', '01720', 
+                                            '01750', '01760'),
+                   ref.value = 14,
+                   type = 'above',
+                   statistic = 'nd',
+                   write.out = F)
+
+dd_df = dplyr::bind_rows(dd)
+
+ggplot2::ggplot(dd_df,ggplot2::aes(x = ls.id, y = value, fill = area))+
+  ggplot2::geom_bar(stat = 'identity', position = ggplot2::position_dodge(width = 1.0))+
+  ggplot2::labs(title = 'Number of days above 14C', fill = "Strata Number") +
+  ggplot2::xlab('GTF Strata') +
+  ggplot2::ylab('Days') +
+  ggplot2::theme_bw()
+```
+
