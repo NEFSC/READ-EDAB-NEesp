@@ -19,6 +19,8 @@ navbar:
          href: articles/shiny-app.html
       -  text: "Data in NEesp"
          href: articles/data.html
+      -  text: "Using EDABUtilities"
+         href: articles/using_edab_utils.html
     - text: "About ESP"
       menu:
       -  text: "Why ESP?"
