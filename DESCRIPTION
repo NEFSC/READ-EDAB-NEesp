@@ -25,7 +25,6 @@ Imports:
     knitr,
     magrittr,
     nmfspalette,
- #   rgeos,
     rlang,
     rmarkdown,
     rnaturalearth,
