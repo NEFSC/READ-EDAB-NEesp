@@ -217,4 +217,5 @@ reference:
       - '`rec_palette`' 
 
 template:
+  bootstrap: 5
   package: preferably
