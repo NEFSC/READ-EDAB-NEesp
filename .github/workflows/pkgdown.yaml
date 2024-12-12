@@ -1,7 +1,8 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 on:
   push:
-    branches: main
+    branches: 
+    - main
   pull_request:
   release:
     types: published
@@ -43,7 +44,7 @@ jobs:
         run: |
          Rscript -e 'install.packages(c("textshaping", "ragg"))
          devtools::install_github("amirmasoudabdol/preferably", upgrade = "never")
-         devtools::install_github("NOAA-EDAB/NEesp", ref = "v0.1.0", upgrade = "never")'
+         devtools::install_github("READ-EDAB/NEesp", ref = "v0.1.0", upgrade = "never")'
          
  #     - uses: r-lib/actions/setup-r-dependencies@v2
   #      with:
