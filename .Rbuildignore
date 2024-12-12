@@ -14,3 +14,4 @@ README\.Rmd$
 ^NEWS\.md$
 .RData
 
+^\.github$
