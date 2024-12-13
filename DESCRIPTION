@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Description: Generates preliminary Ecosystem and Socioeconomic Profiles for Northeast and Mid-Atlantic USA fishery stocks.
 License: file LICENSE
 Authors@R: c(person("Abigail", "Tyrell", email = "abigail.tyrell@noaa.gov", role = c("aut", "cre")),
-	     person("Ricky", "Tabandera", email = "ricky.tabandera@noaa.gov", role = "aut"))
+	     person("Stephanie", "Owen", email = "stephanie.owen@noaa.gov", role = "aut"))
 Imports:
     bookdown,
     DT,
@@ -17,7 +17,6 @@ Imports:
     nmfspalette,
     papeR,
     priceR,
-    rgeos,
     rnaturalearth,
     rnaturalearthhires,    
     viridis
