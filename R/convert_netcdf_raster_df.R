@@ -1,4 +1,4 @@
-## Convert netcdf to raster to data frame
+## Convert netcdf to raster
 
 #' Convert netcdf to raster
 #'
@@ -46,10 +46,3 @@ nc_to_raster <- function(nc,
   
   return(ne_data)
 }
-
-## Raster to raster stack and data frame
-#' @param brick list of output raster bricks
-
-stack <- raster::stack(brick)
-
-df <- as.data.frame(raster::rasterToPoints(stack,spatial = TRUE))
