@@ -1,0 +1,77 @@
+---
+title: "Black Sea Bass Bottom Temp. Update using EDABUtilities Package"
+author: "Stephanie Owen"
+date: "2024-12-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
+`%>%` <- magrittr::`%>%`
+```
+*****Previous code calculates monthly mean and winter mean for entire area*****
+
+## Data
+
+### Get data through 2019 from ERDDAP
+Pull the BT data from here: http://nefsctest.nmfs.local:8080/erddap/griddap/duPontavice_bottom_temp_local.html
+
+### Get 2020-present data from GLORYS
+Download here: https://data.marine.copernicus.eu/product/GLOBAL_MULTIYEAR_PHY_001_030/services 
+
+### Calculate monthly mean
+ @param data.in character vector. Bottom temperature input files (must be in .nc format)
+ @param output.files character vector. Output file names corresponding to each input file.
+ @param shp.file  string. Shape file = 'bsb_shape.shp'
+ @param var.name string. Variable name you wish to extract = 'sea_water_temperature_at_sea_floor'
+ @param area.names character vector. Names of shape file areas you want to summarize. 
+ @param statistic string. Which statistic to calculate = 'mean'
+ @param agg.time character. Time scale to calculate over = 'months'
+```{r}
+monthly_mean_bottomT <- function(...) { 
+  make_2d_summary_monthly_mean <- EDABUtilities::make_2d_summary_ts(...) 
+  df_monthly_mean <- make_2d_summary_monthly_mean %>%
+    terra::as.data.frame(na.rm = FALSE) 
+  monthly_mean_bottomT <- df_monthly_mean %>%
+    tidyr::drop_na() %>%
+  dplyr::mutate(dplyr::across(2:4, as.numeric),
+                dplyr::across(1, lubridate::as_date),
+                year = lubridate::year(time),
+                month = lubridate::month(time),
+                Units = c ('degC')) %>%
+  dplyr::rename(value = bottomT) 
+  
+  return(monthly_mean_bottomT)
+}
+```
+
+### Calculate winter mean
+ @param data.in character vector. Bottom temperature input files (must be in .nc format)
+ @param output.files character vector. Output file names corresponding to each input file.
+ @param shp.file  string. Shape file = 'bsb_shape.shp'
+ @param var.name string. Variable name you wish to extract = 'sea_water_temperature_at_sea_floor'
+ @param area.names character vector. Names of shape file areas you want to summarize. 
+ @param statistic string. Which statistic to calculate = 'mean'
+ @param agg.time character. Time scale to calculate over = 'season'
+```{r}
+winter_mean_bottomT <- function(...) { 
+  make_2d_summary_winter <- EDABUtilities::make_2d_summary_ts(...) 
+  df_winter <- make_2d_summary_winter %>%
+    terra::as.data.frame(na.rm = FALSE) 
+  winter_bottomT <- df_winter %>%
+    tidyr::drop_na() %>%
+  dplyr::mutate(dplyr::across(2:4, as.numeric),
+                dplyr::across(1, lubridate::as_date),
+                year = lubridate::year(time),
+                month = lubridate::month(time),
+                Units = c ('degC')) %>%
+  dplyr::filter(month %in% 1:3) %>%
+  dplyr::rename(value = bottomT)  
+  
+  return(winter_bottomT)
+}
+```
+ 
+ 
