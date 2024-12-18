@@ -5,7 +5,6 @@
 **/.Ruserdata
 **/.Renviron
 ^NEesp\.Rproj$
-docs
 .Rproj.user
 Regressions
 data-raw/MRIP/gitignore
