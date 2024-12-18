@@ -9,7 +9,7 @@ Authors@R: c(person("Abigail", "Tyrell", email = "abigail.tyrell@noaa.gov", role
 Maintainer: Abigail Tyrell <abigail.tyrell@noaa.gov>
 URL: https://nefsc.github.io/READ-EDAB-NEesp/
 BugReports: https://github.com/NEFSC/READ-EDAB-NEesp/issues
-Imports:
+Suggests:
     bookdown,
     deps,
     dplyr,
@@ -27,8 +27,6 @@ Imports:
     nmfspalette,
     rlang,
     rmarkdown,
-    rnaturalearth,
-    rnaturalearthhires,  
     scales,
     sf,
     stringr,
@@ -36,8 +34,7 @@ Imports:
     tidyquant,
     tidyr,
     utils,
-    viridis
-Suggests:
+    viridis,
     assessmentdata,
     FSA,
     ggrepel,
@@ -47,7 +44,6 @@ Suggests:
     testthat (>= 3.0.0),
     lintr
 Remotes:
-    ropensci/rnaturalearthhires,
     nmfs-general-modeling-tools/nmfspalette,
     NOAA-EDAB/ecodata,
     NOAA-EDAB/assessmentdata
@@ -56,7 +52,7 @@ VignetteBuilder:
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
 Depends: 
     R (>= 3.5.0)
 Config/testthat/edition: 3
+RoxygenNote: 7.2.3
